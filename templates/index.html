@@ -2,427 +2,495 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN DASHBOARD UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - NATIVE APP-LIKE FLAT DASHBOARD UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* 1. Scrolling Notice Bar */
-    .marquee-container {
-        overflow: hidden; white-space: nowrap; position: relative;
-        background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 999px;
-        padding: 6px 12px; display: flex; align-items: center;
-        box-shadow: 0 4px 20px -5px rgba(16, 185, 129, 0.08);
+    /* Flat Native App Card */
+    .flat-app-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 26px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
     }
-    .marquee-text {
-        display: inline-block; padding-left: 100%;
-        animation: marquee 16s linear infinite; font-weight: 600; color: #475569; font-size: 12px;
+    .flat-app-card:active {
+        transform: scale(0.98);
     }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-    /* ==========================================
-       🌟 ORIGINAL FINTECH BALANCE CARD 🌟
-    ========================================== */
-    .premium-balance-card {
-        background: linear-gradient(135deg, #065F46 0%, #047857 50%, #059669 100%);
-        border-radius: 32px;
-        padding: 26px;
-        color: #ffffff;
-        box-shadow: 0 20px 40px -10px rgba(5, 150, 105, 0.35), inset 0 1px 1px rgba(255,255,255,0.3);
+    /* 1. App-like Wallet Card */
+    .app-wallet-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 60%, #15376d 100%);
+        border-radius: 28px;
+        padding: 24px 20px;
+        color: #FFFFFF;
         position: relative;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1.5px solid rgba(193, 232, 255, 0.35);
+        box-shadow: 0 15px 35px -10px rgba(5, 38, 89, 0.35);
     }
-    .premium-balance-card::before {
-        content: ''; position: absolute; top: -40%; right: -20%; width: 260px; height: 260px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 65%);
+    .app-wallet-card::before {
+        content: ''; position: absolute; top: -30%; right: -20%; width: 200px; height: 200px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.18) 0%, transparent 65%);
         border-radius: 50%; pointer-events: none;
     }
-    .premium-balance-card::after {
-        content: ''; position: absolute; bottom: -40%; left: -20%; width: 220px; height: 220px;
-        background: radial-gradient(circle, rgba(52, 211, 153, 0.25) 0%, transparent 70%);
-        border-radius: 50%; pointer-events: none;
-    }
-    
-    .btn-pill {
-        background: rgba(255, 255, 255, 0.16);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 16px; padding: 12px 0;
-        font-size: 11px; font-weight: 700; color: #ffffff;
-        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px); flex: 1;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    }
-    .btn-pill i { font-size: 17px; color: #E6FFFA; transition: transform 0.2s ease; }
-    .btn-pill:hover { background: #FFFFFF; color: #047857; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-    .btn-pill:hover i { color: #047857; transform: scale(1.1); }
-    .btn-pill:active { transform: scale(0.96); }
 
-    /* 3. Soft Green Earning Zone Cards */
-    .bw-card {
-        background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 24px;
-        padding: 18px 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-        box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.03);
+    /* Wallet Quick Action Buttons */
+    .wallet-quick-btn {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(193, 232, 255, 0.25);
+        border-radius: 18px;
+        padding: 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        color: #FFFFFF;
+        transition: all 0.2s ease;
+        flex: 1;
+        backdrop-filter: blur(8px);
     }
-    .bw-card:hover { 
-        border-color: #6EE7B7; 
-        box-shadow: 0 14px 28px -6px rgba(16, 185, 129, 0.15); 
-        transform: translateY(-4px); 
-        background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
-    }
-    .icon-bw {
-        height: 48px; width: 48px; border-radius: 16px;
-        background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 20px; margin-bottom: 10px; transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.08);
-    }
-    .bw-card:hover .icon-bw { 
-        background: #059669; color: #FFFFFF; 
-        transform: scale(1.08) rotate(3deg);
-        box-shadow: 0 8px 18px rgba(5, 150, 105, 0.25);
-    }
+    .wallet-quick-btn i { font-size: 16px; color: #C1E8FF; }
+    .wallet-quick-btn span { font-size: 11px; font-weight: 700; letter-spacing: -0.2px; }
+    .wallet-quick-btn:hover { background: #FFFFFF; color: #052659; }
+    .wallet-quick-btn:hover i { color: #052659; }
+    .wallet-quick-btn:active { transform: scale(0.95); }
 
-    /* 4. Support Cards */
-    .support-card {
-        background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 20px;
-        padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-        transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+    /* 2. Native App Icon Grid */
+    .app-grid-item {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 24px;
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
     }
-    .support-card:hover { 
-        border-color: #A7F3D0; background: #F0FDF4; 
-        transform: translateX(4px); 
-        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.08);
+    .app-grid-item:hover {
+        border-color: #5483B3;
+        background: #F4F9FD;
+        transform: translateY(-3px);
     }
-    .support-icon {
-        height: 38px; width: 38px; border-radius: 12px; background: #F8FAFC; border: 1px solid #E2E8F0;
-        display: flex; align-items: center; justify-content: center; font-size: 16px; color: #059669;
+    .app-grid-item:active { transform: scale(0.95); }
+
+    .app-icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
         transition: all 0.25s ease;
     }
-    .support-card:hover .support-icon { background: #059669; color: #FFFFFF; border-color: #059669; }
 
-    /* ==========================================
-       🌟 DETAILED SITE AGE TIMER 🌟
-    ========================================== */
-    .timer-container {
-        background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 32px;
-        padding: 36px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        position: relative; overflow: hidden;
-        box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.06);
+    /* 3. Sleek Scrolling Notice Bar */
+    .flat-marquee {
+        overflow: hidden;
+        white-space: nowrap;
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 999px;
+        padding: 7px 14px;
+        display: flex;
+        align-items: center;
     }
-    .timer-bg-text {
-        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-        font-size: 64px; font-weight: 900; line-height: 0.9; text-align: center;
-        color: rgba(16, 185, 129, 0.035);
-        z-index: 1; letter-spacing: -2px; pointer-events: none;
+    .flat-marquee-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marqueeScroll 18s linear infinite;
+        font-weight: 700;
+        color: #052659;
+        font-size: 11.5px;
     }
-    
-    .time-block {
-        background: #F8FAFC; border: 1px solid #E2E8F0;
-        border-radius: 18px; padding: 12px 0; width: 68px;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        z-index: 10; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    }
-    .time-val { font-size: 24px; font-weight: 900; font-family: 'Plus Jakarta Sans', monospace; color: #0F172A; line-height: 1; }
-    .time-label { font-size: 9px; font-weight: 700; color: #64748B; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
-    .time-colon { font-size: 22px; font-weight: 800; color: #CBD5E1; margin: 0 3px; padding-bottom: 12px; z-index: 10; }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-    /* 6. Popup Modal */
+    /* 4. GORGEOUS WELCOME POPUP MODAL */
     #welcomePopup {
-        background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(8px);
-        z-index: 9999; opacity: 0; transition: opacity 0.3s ease;
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 16, 36, 0.85);
+        backdrop-filter: blur(14px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        transition: opacity 0.35s ease;
     }
-    #welcomePopup.show { opacity: 1; }
-    .popup-content {
-        transform: scale(0.92) translateY(15px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    #welcomePopup.show {
+        display: flex !important;
+        opacity: 1;
     }
-    #welcomePopup.show .popup-content { transform: scale(1) translateY(0); }
+    .gorgeous-modal-box {
+        background: #FFFFFF;
+        border: 2px solid #C1E8FF;
+        border-radius: 36px;
+        padding: 28px 22px;
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+        box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.5);
+        transform: scale(0.92);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+    }
+    #welcomePopup.show .gorgeous-modal-box {
+        transform: scale(1);
+    }
+
+    .modal-sunburst {
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.8) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
 </style>
 
-<!-- ==========================================
-         ⚠️ ACTIVATION / VERIFICATION WARNING BANNER
-    ========================================== -->
+<div class="max-w-md mx-auto space-y-4 fade-in-up pb-10 px-2 mt-1">
+
+    <!-- ===================================================
+         1. VERIFICATION ALERT (If required & unpaid)
+    =================================================== -->
     {% if settings.activation_required and not user.is_active and user.role != 'admin' %}
-    <div class="bg-gradient-to-r from-rose-500 to-red-600 rounded-3xl p-5 text-white shadow-lg shadow-rose-500/20 relative overflow-hidden animate-pulse">
-        <div class="flex items-center justify-between gap-3 relative z-10">
-            <div class="flex items-center gap-3.5">
-                <div class="h-11 w-11 bg-white text-rose-600 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 shadow-md">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div>
-                    <h3 class="font-black text-sm leading-tight">অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন!</h3>
-                    <p class="text-[11px] text-rose-100 font-medium mt-0.5 leading-snug">
-                        কাজে ঢুকতে ও ৫০ টাকা হলেই উইথড্র পেতে এখনই মেম্বার ভেরিফিকেশন ফি (৳৫০) পরিশোধ করুন।
-                    </p>
-                </div>
+    <div class="bg-gradient-to-r from-rose-500 to-red-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg flex-shrink-0">
+                <i class="fa-solid fa-user-shield"></i>
             </div>
-            <a href="/activate" class="bg-white text-rose-700 hover:bg-rose-50 px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm flex-shrink-0 active:scale-95 transition">
-                ভেরিফাই করুন
-            </a>
+            <div>
+                <h4 class="font-black text-xs leading-tight">অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন!</h4>
+                <p class="text-[10px] text-rose-100 mt-0.5">সব কাজ ও ৫০ টাকায় উইথড্র পেতে ভেরিফাই করুন।</p>
+            </div>
         </div>
+        <a href="/activate" class="bg-white text-rose-700 hover:bg-rose-50 px-3.5 py-2 rounded-xl font-black text-xs flex-shrink-0 active:scale-95 transition">
+            ভেরিফাই
+        </a>
     </div>
     {% endif %}
 
-<div class="max-w-2xl mx-auto space-y-7 fade-in-up pb-10 px-1 mt-2">
-
-    <!-- 1. SCROLLING NOTICE -->
-    {% if settings.notice_text %}
-    <div class="marquee-container">
-        <div class="bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest z-10 flex-shrink-0 flex items-center gap-1.5 shadow-sm shadow-emerald-500/20">
-            <span class="h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span> নোটিশ
-        </div>
-        <div class="marquee-text">{{ settings.notice_text }}</div>
-    </div>
-    {% endif %}
-
-    <!-- ==========================================
-         2. PREMIUM BALANCE CARD (ORIGINAL LOOK)
-    ========================================== -->
-    <div class="premium-balance-card">
-        <div class="relative z-10">
-            
-            <!-- Header: Avatar & Name -->
-            <div class="flex justify-between items-center mb-7">
-                <div class="flex items-center gap-3 bg-black/15 p-1.5 pr-4 rounded-full border border-white/20 backdrop-blur-md">
-                    {% if user.profile_pic %}
-                        <img src="{{ user.profile_pic }}" class="h-8 w-8 rounded-full object-cover border border-white/40">
-                    {% else %}
-                        <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center font-bold text-sm text-white border border-white/30">
-                            {{ user.email[0] | upper }}
-                        </div>
+    <!-- ===================================================
+         2. APP HEADER & USER PROFILE GREETING
+    =================================================== -->
+    <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic }}" class="h-11 w-11 rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-sm">
+                {% else %}
+                    <div class="h-11 w-11 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] text-white flex items-center justify-center font-black text-base border-2 border-[#C1E8FF] shadow-sm">
+                        {{ user.email[0] | upper }}
+                    </div>
+                {% endif %}
+                <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+                <div class="flex items-center gap-1.5">
+                    <h3 class="font-black text-sm text-[#021024] leading-tight">
+                        {{ user.full_name or user.email.split('@')[0] | title }}
+                    </h3>
+                    {% if user.current_level > 0 %}
+                        <span class="bg-amber-100 text-amber-800 text-[9px] font-black px-1.5 py-0.5 rounded border border-amber-300">
+                            VIP {{ user.current_level }}
+                        </span>
                     {% endif %}
-                    <h3 class="font-bold text-xs text-white tracking-wide">{{ user.full_name or user.email.split('@')[0] | title }}</h3>
                 </div>
-                <a href="/account" class="h-9 w-9 bg-white/15 hover:bg-white hover:text-emerald-700 rounded-full flex items-center justify-center text-white transition border border-white/25 shadow-sm active:scale-95">
-                    <i class="fa-solid fa-gear text-sm"></i>
-                </a>
+                <p class="text-[10px] text-[#7DA0CA] font-mono font-bold mt-0.5">
+                    ID: {{ user.referral_code or 'User' }}
+                </p>
             </div>
+        </div>
 
-            <!-- Balance Display -->
-            <div class="mb-7">
-                <div class="flex items-center gap-2 mb-2 cursor-pointer w-max text-emerald-100 bg-white/10 px-3 py-1 rounded-full border border-white/15 backdrop-blur-sm" onclick="toggleBalance()">
-                    <p class="text-[10px] font-bold uppercase tracking-widest">বর্তমান ব্যালেন্স</p>
-                    <i id="eyeIcon" class="fa-regular fa-eye-slash text-[11px]"></i>
-                </div>
-                <h1 class="text-5xl font-black tracking-tight font-mono flex items-center gap-2 leading-none text-white drop-shadow-sm">
-                    <span class="text-3xl text-emerald-200 font-sans">৳</span>
-                    <span id="balanceText" data-amount="{{ user.balance }}" class="blur-md transition-all duration-300">{{ user.balance }}</span>
-                </h1>
-            </div>
+        <a href="/account" class="h-10 w-10 bg-white rounded-2xl flex items-center justify-center text-[#052659] border border-[#C1E8FF] shadow-sm active:scale-95 transition">
+            <i class="fa-solid fa-sliders text-sm"></i>
+        </a>
+    </div>
 
-            <!-- Action Pills -->
-            <div class="flex gap-2.5 mb-1">
-                <a href="/withdraw" class="btn-pill">
-                    <i class="fa-solid fa-arrow-down"></i>
-                    <span>উত্তোলন</span>
-                </a>
-                <a href="/history" class="btn-pill">
-                    <i class="fa-regular fa-calendar-alt"></i>
-                    <span>হিস্টোরি</span>
-                </a>
-                <a href="/vip" class="btn-pill">
-                    <i class="fa-solid fa-crown"></i>
-                    <span>এলিট পাস</span>
-                </a>
+    <!-- ===================================================
+         3. SCROLLING NOTICE BAR
+    =================================================== -->
+    {% if settings.notice_text %}
+    <div class="flat-marquee">
+        <span class="bg-[#052659] text-white text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full flex-shrink-0 flex items-center gap-1 mr-2">
+            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> আপডেট
+        </span>
+        <div class="flat-marquee-text">{{ settings.notice_text }}</div>
+    </div>
+    {% endif %}
+
+    <!-- ===================================================
+         4. NATIVE FINTECH WALLET CARD
+    =================================================== -->
+    <div class="app-wallet-card">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2 cursor-pointer bg-white/10 px-3 py-1 rounded-full border border-white/15 backdrop-blur-sm" onclick="toggleBalance()">
+                <span class="text-[10px] font-bold text-[#C1E8FF] uppercase tracking-wider">টোটাল ব্যালেন্স</span>
+                <i id="eyeIcon" class="fa-regular fa-eye-slash text-xs text-[#C1E8FF]"></i>
             </div>
-            
+            <a href="/income" class="text-[10px] text-[#C1E8FF] font-bold hover:underline flex items-center gap-1">
+                হিসাব <i class="fa-solid fa-chevron-right text-[8px]"></i>
+            </a>
+        </div>
+
+        <!-- Big Balance Number -->
+        <div class="mb-6">
+            <h1 class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white flex items-baseline leading-none">
+                <span class="text-2xl text-[#C1E8FF] font-sans mr-1">৳</span>
+                <span id="balanceText" data-amount="{{ user.balance }}" class="blur-md transition-all duration-300">{{ user.balance }}</span>
+            </h1>
+        </div>
+
+        <!-- 4 Quick Wallet Action Buttons -->
+        <div class="flex items-center gap-2">
+            <a href="/withdraw" class="wallet-quick-btn">
+                <i class="fa-solid fa-arrow-down-long"></i>
+                <span>উত্তোলন</span>
+            </a>
+            <a href="/history" class="wallet-quick-btn">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>হিস্টোরি</span>
+            </a>
+            <a href="/vip" class="wallet-quick-btn">
+                <i class="fa-solid fa-crown text-amber-300"></i>
+                <span>এলিট VIP</span>
+            </a>
+            <a href="/game/v2" class="wallet-quick-btn">
+                <i class="fa-solid fa-gamepad text-cyan-300"></i>
+                <span>কয়েন গেম</span>
+            </a>
         </div>
     </div>
 
-    <!-- ==========================================
-         3. EARNING ZONE (SPIN REPLACED CAPTCHA)
-    ========================================== -->
+    <!-- ===================================================
+         5. TODAY PERFORMANCE METRICS (FLAT STRIP)
+    =================================================== -->
+    <div class="grid grid-cols-2 gap-2.5">
+        <div class="flat-app-card p-3.5 flex items-center justify-between">
+            <div>
+                <p class="text-[9px] font-black text-[#7DA0CA] uppercase tracking-wider mb-0.5">আজকের আয়</p>
+                <h4 class="text-xl font-black text-emerald-600 font-mono leading-none">+৳{{ today_income }}</h4>
+            </div>
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+        </div>
+
+        <div class="flat-app-card p-3.5 flex items-center justify-between">
+            <div>
+                <p class="text-[9px] font-black text-[#7DA0CA] uppercase tracking-wider mb-0.5">পেন্ডিং টাস্ক</p>
+                <h4 class="text-xl font-black text-[#021024] font-mono leading-none">৳{{ pending_income }}</h4>
+            </div>
+            <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         6. APP-LIKE EARNING GRID (MAIN SERVICES)
+    =================================================== -->
     <div>
-        <div class="flex items-center justify-between mb-4 px-1">
-            <h3 class="font-extrabold text-slate-800 text-sm tracking-tight flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> আর্নিং জোন
+        <div class="flex items-center justify-between px-1 mb-2.5">
+            <h3 class="font-black text-[#021024] text-sm tracking-tight flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#052659]"></span> আর্নিং সার্ভিসেস
             </h3>
-            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">কাজ শুরু করুন</span>
+            <span class="text-[10px] font-bold text-[#5483B3]">App Menu</span>
         </div>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            <a href="/tasks" class="bw-card group">
-                <div class="icon-bw"><i class="fa-solid fa-list-check"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-emerald-700 transition">মাইক্রো টাস্ক</h4>
-            </a>
-            <a href="/gmail-tasks" class="bw-card group">
-                <div class="icon-bw"><i class="fa-brands fa-google"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-emerald-700 transition">জিমেইল ফার্ম</h4>
-            </a>
-            <a href="/play" class="bw-card group">
-                <div class="icon-bw"><i class="fa-brands fa-google-play"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-emerald-700 transition">অ্যাপ রিভিউ</h4>
-            </a>
 
-            <!-- LUCKY SPIN (Replaced Captcha) -->
-            <a href="/spin" class="bw-card group">
-                <div class="icon-bw !text-amber-500 !bg-amber-50 !border-amber-100"><i class="fa-solid fa-dharmachakra group-hover:rotate-45 transition-transform"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-amber-600 transition">লাকি স্পিন</h4>
-            </a>
-
-            <a href="/referrals" class="bw-card group">
-                <div class="icon-bw"><i class="fa-solid fa-users"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-emerald-700 transition">রেফার</h4>
-            </a>
-            <a href="/premium-tasks" class="bw-card group">
-                <div class="icon-bw"><i class="fa-solid fa-gem"></i></div>
-                <h4 class="font-bold text-slate-800 text-xs group-hover:text-emerald-700 transition">Premium Tasks</h4>
-            </a>
+        <!-- 8 Essential App Modules -->
+        <div class="grid grid-cols-4 gap-2">
             
-            <!-- FULL WORK STATION BANNER -->
-            <a href="/work" class="bw-card group sm:col-span-2 md:col-span-2 !bg-gradient-to-r !from-emerald-50 !to-teal-50/60 !border-emerald-200">
-                <div class="icon-bw !h-8 !w-8 !text-sm !bg-emerald-600 !text-white !border-emerald-600"><i class="fa-solid fa-briefcase"></i></div>
-                <h4 class="font-black text-emerald-900 text-xs">সকল কাজ</h4>
-                <p class="text-[10px] text-emerald-700 mt-0.5 font-medium">Full Work Station</p>
+            <!-- 1. Micro Tasks -->
+            <a href="/tasks" class="app-grid-item">
+                <div class="app-icon-circle bg-[#C1E8FF] text-[#052659]">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">টাস্ক</span>
             </a>
+
+            <!-- 2. Gmail Farm -->
+            <a href="/gmail-tasks" class="app-grid-item">
+                <div class="app-icon-circle bg-emerald-50 text-emerald-600 border border-emerald-100">
+                    <i class="fa-brands fa-google"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">জিমেইল</span>
+            </a>
+
+            <!-- 3. App Review -->
+            <a href="/play" class="app-grid-item">
+                <div class="app-icon-circle bg-cyan-50 text-cyan-600 border border-cyan-100">
+                    <i class="fa-brands fa-google-play"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">রিভিউ</span>
+            </a>
+
+            <!-- 4. Coin Game v2 -->
+            <a href="/game/v2" class="app-grid-item bg-gradient-to-b from-white to-[#F4F9FD] border-[#5483B3]/40">
+                <div class="app-icon-circle bg-[#052659] text-amber-300 shadow-sm">
+                    <i class="fa-solid fa-gamepad animate-pulse"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#052659] leading-tight">কয়েন গেম</span>
+            </a>
+
+            <!-- 5. Lucky Spin -->
+            <a href="/spin" class="app-grid-item">
+                <div class="app-icon-circle bg-amber-50 text-amber-500 border border-amber-100">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">স্পিন</span>
+            </a>
+
+            <!-- 6. Drive Pack -->
+            <a href="/drive" class="app-grid-item">
+                <div class="app-icon-circle bg-sky-50 text-sky-600 border border-sky-100">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">ড্রাইভ</span>
+            </a>
+
+            <!-- 7. Refer -->
+            <a href="/referrals" class="app-grid-item">
+                <div class="app-icon-circle bg-indigo-50 text-indigo-600 border border-indigo-100">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">রেফার</span>
+            </a>
+
+            <!-- 8. All Work Station -->
+            <a href="/work" class="app-grid-item">
+                <div class="app-icon-circle bg-[#C1E8FF]/60 text-[#052659] border border-[#7DA0CA]/30">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">সব কাজ</span>
+            </a>
+
         </div>
     </div>
 
-    <!-- ==========================================
-         PROMO BANNER (App Features & Tutorial)
-    ========================================== -->
-    <div class="grid grid-cols-2 gap-3 mt-4 mb-2">
-        <!-- Why Work Here -->
-        <a href="/app" class="bg-white border border-slate-200 hover:border-emerald-300 p-4 rounded-2xl relative overflow-hidden group transition shadow-sm flex flex-col justify-between">
-            <i class="fa-solid fa-star absolute right-2 bottom-2 text-4xl text-emerald-500 opacity-10 group-hover:scale-125 transition"></i>
-            <div>
-                <p class="text-[9px] font-black uppercase tracking-widest text-emerald-600 mb-1">Earn Daily Perks</p>
-                <h4 class="font-bold text-slate-800 text-xs leading-snug">কেনো আমাদের প্ল্যাটফর্মে কাজ করবেন?</h4>
+    <!-- ===================================================
+         7. QUICK GAME V2 / SPECIAL REWARD BANNER
+    =================================================== -->
+    <a href="/game/v2" class="flat-app-card p-4 flex items-center justify-between bg-gradient-to-r from-white via-white to-[#F4F9FD] border-[#5483B3]/40">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-[#052659] text-amber-300 flex items-center justify-center text-2xl shadow-sm flex-shrink-0">
+                <i class="fa-solid fa-coins animate-bounce"></i>
             </div>
-            <span class="text-[10px] text-slate-500 font-bold uppercase mt-3 flex items-center gap-1 group-hover:text-emerald-600 transition">
-                Explore <i class="fa-solid fa-arrow-right text-[9px]"></i>
-            </span>
+            <div>
+                <span class="bg-[#C1E8FF] text-[#052659] text-[8px] font-black px-2 py-0.5 rounded-full uppercase">নতুন ফিচার</span>
+                <h4 class="font-black text-sm text-[#021024] mt-0.5">কয়েন গেম খেলে আয় করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold">১০০ কয়েন = ৳১.০০ (সরাসরি ব্যালেন্সে যোগ)</p>
+            </div>
+        </div>
+        <div class="h-8 w-8 rounded-full bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs flex-shrink-0">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
+    </a>
+
+    <!-- ===================================================
+         8. SUPPORT & NOTIFICATION QUICK TILES
+    =================================================== -->
+    <div class="grid grid-cols-2 gap-2.5">
+        <a href="https://t.me/takaearn_help" target="_blank" class="flat-app-card p-3.5 flex items-center gap-3 bg-[#F4F9FD] hover:border-[#5483B3]">
+            <div class="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div class="text-left overflow-hidden">
+                <h5 class="font-extrabold text-xs text-[#021024] truncate">লাইভ সাপোর্ট</h5>
+                <p class="text-[9px] text-[#5483B3] font-bold">@takaearn_help</p>
+            </div>
         </a>
 
-        <!-- Watch Video -->
-        <a href="/tutorial" class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-4 rounded-2xl relative overflow-hidden group transition shadow-md shadow-emerald-500/15 flex flex-col justify-between">
-            <i class="fa-brands fa-youtube absolute right-2 bottom-2 text-4xl text-white opacity-15 group-hover:scale-125 transition"></i>
-            <div>
-                <p class="text-[9px] font-black uppercase tracking-widest text-emerald-100 mb-1">Need Help?</p>
-                <h4 class="font-bold text-white text-xs leading-snug">কাজ না পারলে আমাদের ভিডিও দেখুন</h4>
+        <a href="https://t.me/takaearn_site" target="_blank" class="flat-app-card p-3.5 flex items-center gap-3 bg-[#F4F9FD] hover:border-[#5483B3]">
+            <div class="w-9 h-9 rounded-xl bg-[#052659] text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
+                <i class="fa-brands fa-telegram"></i>
             </div>
-            <span class="text-[10px] text-emerald-100 font-bold uppercase mt-3 flex items-center gap-1 group-hover:text-white transition">
-                <i class="fa-solid fa-play text-[9px]"></i> Watch Now
-            </span>
+            <div class="text-left overflow-hidden">
+                <h5 class="font-extrabold text-xs text-[#021024] truncate">অফিশিয়াল চ্যানেল</h5>
+                <p class="text-[9px] text-[#5483B3] font-bold">পেমেন্ট প্রুফ ও আপডেট</p>
+            </div>
         </a>
     </div>
-    
-    <!-- ==========================================
-         4. SUPPORT ZONE (WA REMOVED)
-    ========================================== -->
-    <div>
-        <h3 class="font-extrabold text-slate-800 text-sm tracking-tight mb-4 px-1 mt-6 flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-teal-500"></span> সাপোর্ট জোন
-        </h3>
-        <div class="grid sm:grid-cols-2 gap-3">
-            
-            <a href="https://t.me/earn_daily_on2" class="support-card group !bg-emerald-50/50 !border-emerald-200">
-                <div class="support-icon !bg-emerald-600 !text-white !border-emerald-600"><i class="fa-solid fa-headset"></i></div>
-                <div><h4 class="font-extrabold text-emerald-950 text-xs"> Live Desk</h4><p class="text-[10px] text-emerald-700 font-medium">ইনস্ট্যান্ট ২৪/৭ সাপোর্ট</p></div>
-            </a>
-            
-            <a href="/notice" class="support-card group">
-                <div class="support-icon"><i class="fa-solid fa-bell"></i></div>
-                <div><h4 class="font-bold text-slate-800 text-xs">Notice</h4><p class="text-[10px] text-slate-400">সাইট আপডেট</p></div>
-            </a>
-            
-            <a href="/tutorial" class="support-card group">
-                <div class="support-icon"><i class="fa-brands fa-youtube text-rose-500"></i></div>
-                <div><h4 class="font-bold text-slate-800 text-xs">Tutorial</h4><p class="text-[10px] text-slate-400">ভিডিও গাইড</p></div>
-            </a>
 
-            <a href="https://t.me/earndropzone" target="_blank" class="support-card group">
-                <div class="support-icon"><i class="fa-solid fa-bullhorn text-sky-500"></i></div>
-                <div><h4 class="font-bold text-slate-800 text-xs">TG Channel</h4><p class="text-[10px] text-slate-400">অফিশিয়াল চ্যানেল</p></div>
-            </a>
-
-            <a href="/reviews" class="support-card group">
-                <div class="support-icon"><i class="fa-solid fa-star text-amber-500"></i></div>
-                <div><h4 class="font-bold text-slate-800 text-xs">Reviews</h4><p class="text-[10px] text-slate-400">মতামত দেখুন</p></div>
-            </a>
-
-            <a href="/hire-us" class="support-card group sm:col-span-2 justify-center text-center !bg-gradient-to-r !from-emerald-500 !to-teal-600 !text-white !border-none shadow-md shadow-emerald-500/15">
-                <div class="support-icon !bg-white/20 !border-white/30 !text-white"><i class="fa-solid fa-rocket"></i></div>
-                <div class="text-left"><h4 class="font-black text-white text-xs">Promotion Hub</h4><p class="text-[10px] text-emerald-100">বিজ্ঞাপন দিন (B2B Client Services)</p></div>
-            </a>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         5. DETAILED SITE AGE TIMER
-    ========================================== -->
-    <div class="timer-container mt-8">
-        <div class="timer-bg-text">
-            EARN<br>DAILY
-        </div>
-        
-        <p class="text-[10px] font-black text-emerald-700 uppercase tracking-[0.25em] mb-4 relative z-10 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100 shadow-sm">
-            <i class="fa-solid fa-shield-halved mr-1 text-emerald-600"></i> Platform Lifetime
-        </p>
-
-        <div class="flex items-center justify-center gap-1 sm:gap-2.5 w-full relative z-10">
-            <!-- Days -->
-            <div class="time-block">
-                <span id="t-days" class="time-val">00</span>
-                <span class="time-label">Days</span>
-            </div>
-            <span class="time-colon">:</span>
-            <!-- Hours -->
-            <div class="time-block">
-                <span id="t-hours" class="time-val">00</span>
-                <span class="time-label">Hours</span>
-            </div>
-            <span class="time-colon">:</span>
-            <!-- Mins -->
-            <div class="time-block">
-                <span id="t-mins" class="time-val">00</span>
-                <span class="time-label">Mins</span>
-            </div>
-            <span class="time-colon">:</span>
-            <!-- Secs -->
-            <div class="time-block !border-emerald-300 !bg-emerald-50/50">
-                <span id="t-secs" class="time-val text-emerald-600">00</span>
-                <span class="time-label text-emerald-700">Secs</span>
-            </div>
-        </div>
-    </div>
 </div>
 
-<!-- ==========================================
-     4-HOUR WELCOME POPUP MODAL
-========================================== -->
-<div id="welcomePopup" class="fixed inset-0 hidden items-center justify-center z-[9999] px-4">
-    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeWelcomePopup()"></div>
-    
-    <div class="popup-content bg-white border border-slate-100 rounded-3xl p-7 w-full max-w-sm relative z-10 shadow-2xl text-center">
-        <button onclick="closeWelcomePopup()" class="absolute top-4 right-4 h-8 w-8 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition flex items-center justify-center text-xs">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+<!-- ===================================================
+     9. GORGEOUS WELCOME POPUP MODAL (REFINED DESIGN)
+=================================================== -->
+<div id="welcomePopup">
+    <div class="gorgeous-modal-box">
         
-        <div class="h-16 w-16 bg-gradient-to-tr from-emerald-500 to-teal-400 text-white rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg shadow-emerald-500/20">
+        <div class="modal-sunburst"></div>
+
+        <!-- Animated Badge -->
+        <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-[#052659] to-[#5483B3] text-white flex items-center justify-center text-3xl mx-auto mb-3 shadow-xl shadow-[#052659]/30 relative z-10 animate-bounce">
             <i class="fa-solid fa-hand-sparkles"></i>
         </div>
+
+        <span class="text-[10px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-3 py-1 rounded-full border border-[#7DA0CA]/50 inline-block mb-2 relative z-10">
+            Welcome Back!
+        </span>
+
+        <h3 class="text-xl font-black text-[#021024] tracking-tight relative z-10 mb-1">
+            স্বাগতম, {{ user.full_name.split(' ')[0] if user.full_name else user.email.split('@')[0] }}!
+        </h3>
         
-        <h2 class="text-xl font-black text-slate-800 mb-1.5">Welcome {{ user.full_name.split(' ')[0] if user.full_name else user.email.split('@')[0] }}!</h2>
-        <p class="text-xs text-slate-500 font-medium leading-relaxed mb-6">
-            আমাদের <b class="text-emerald-600 font-bold">Earn Daily</b> প্ল্যাটফর্মে স্বাগতম। কাজ সংক্রান্ত যেকোনো প্রয়োজনে সাপোর্টে মেসেজ দিন।
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4 relative z-10">
+            TakaEarn প্ল্যাটফর্মে কাজ করে প্রতিদিন নিশ্চিত ইনকাম বুঝে নিন।
         </p>
-        
-        <div class="space-y-2.5">
-            <a href="/notice" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider active:scale-95 transition shadow-md shadow-emerald-600/20">
-                <i class="fa-solid fa-bell mr-1.5"></i> আপডেট দেখুন
-            </a>
-            <a href="/tutorial" class="block w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider active:scale-95 transition">
-                <i class="fa-brands fa-youtube mr-1.5 text-rose-500"></i> কীভাবে কাজ করবেন দেখুন
+
+        <!-- Highlights Checklist -->
+        <div class="bg-[#F4F9FD] border border-[#C1E8FF] rounded-2xl p-3 text-left space-y-2 mb-5 relative z-10 text-xs">
+            <div class="flex items-center gap-2 font-bold text-[#021024]">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                <span>আজকের নতুন ফ্রেশ টাস্ক লাইভ আছে</span>
+            </div>
+            <div class="flex items-center gap-2 font-bold text-[#021024]">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                <span>কয়েন গেম খেলে প্রতিদিন এক্সট্রা টাকা</span>
+            </div>
+            <div class="flex items-center gap-2 font-bold text-[#021024]">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                <span>বিকাশ/নগদে সর্বনিম্ন ২০ টাকায় উইথড্র</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2 relative z-10">
+            <button onclick="closeWelcomePopup()" class="w-full bg-gradient-to-r from-[#052659] to-[#5483B3] text-white py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition">
+                <i class="fa-solid fa-briefcase mr-1"></i> কাজ শুরু করুন
+            </button>
+            
+            <a href="https://t.me/takaearn_site" target="_blank" class="block w-full bg-[#C1E8FF]/60 hover:bg-[#C1E8FF] text-[#052659] py-2.5 rounded-2xl font-bold text-xs transition">
+                <i class="fa-brands fa-telegram text-sky-500 mr-1"></i> চ্যানেলে যুক্ত হোন
             </a>
         </div>
+
     </div>
 </div>
 
+<!-- ===================================================
+     SCRIPTS
+=================================================== -->
 <script>
-    // 1. Balance Toggle Logic
+    // 1. Balance Show / Hide Eye Toggle
     function toggleBalance() {
         const balElement = document.getElementById("balanceText");
         const icon = document.getElementById("eyeIcon");
@@ -438,53 +506,24 @@
         }
     }
 
-    // 2. Site Lifetime Counter
-    (function() {
-        function updateSiteAge() {
-            const startDate = new Date("2025-01-01T00:00:00").getTime(); 
-            const now = new Date().getTime();
-            const diff = now - startDate;
-
-            if (diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const secs = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.getElementById("t-days").innerText = days < 10 ? '0' + days : days;
-                document.getElementById("t-hours").innerText = hours < 10 ? '0' + hours : hours;
-                document.getElementById("t-mins").innerText = mins < 10 ? '0' + mins : mins;
-                document.getElementById("t-secs").innerText = secs < 10 ? '0' + secs : secs;
-            }
-        }
-        setInterval(updateSiteAge, 1000);
-        updateSiteAge(); 
-    })();
-
-    // 3. 4-Hour Welcome Popup Logic
+    // 2. 4-Hour Welcome Popup Logic
     document.addEventListener("DOMContentLoaded", () => {
-        const popupInterval = 4 * 60 * 60 * 1000;
-        const lastPopupTime = localStorage.getItem('earndaily_last_popup');
+        const popupInterval = 4 * 60 * 60 * 1000; // 4 Hours
+        const lastPopupTime = localStorage.getItem('takaearn_welcome_popup');
         const now = Date.now();
 
-        if (!lastPopupTime || now - parseInt(lastPopupTime) > popupInterval) {
+        if (!lastPopupTime || (now - parseInt(lastPopupTime)) > popupInterval) {
             setTimeout(() => {
                 const popup = document.getElementById('welcomePopup');
-                popup.classList.remove('hidden');
-                popup.classList.add('flex');
-                setTimeout(() => popup.classList.add('show'), 10);
+                popup.classList.add('show');
             }, 500);
-            localStorage.setItem('earndaily_last_popup', now.toString());
+            localStorage.setItem('takaearn_welcome_popup', now.toString());
         }
     });
 
     function closeWelcomePopup() {
         const popup = document.getElementById('welcomePopup');
         popup.classList.remove('show');
-        setTimeout(() => {
-            popup.classList.add('hidden');
-            popup.classList.remove('flex');
-        }, 300);
     }
 </script>
 
