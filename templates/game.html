@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - COIN CATCHER GAME UI (FIXED)
+       TAKAEARN - ULTRA-ANIMATED COIN RUSH GAME UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -12,18 +12,18 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Game Canvas Container */
+    /* Game Canvas Viewport */
     .game-viewport {
         position: relative;
         width: 100%;
         max-width: 420px;
-        height: 480px;
+        height: 500px;
         margin: 0 auto;
         border-radius: 32px;
         overflow: hidden;
-        border: 3px solid #C1E8FF;
-        background: linear-gradient(180deg, #021024 0%, #052659 100%);
-        box-shadow: 0 20px 50px -10px rgba(5, 38, 89, 0.25);
+        border: 3.5px solid #C1E8FF;
+        background: radial-gradient(circle at 50% 10%, #052659 0%, #021024 100%);
+        box-shadow: 0 20px 50px -10px rgba(5, 38, 89, 0.3);
         touch-action: none;
     }
 
@@ -33,33 +33,63 @@
         height: 100%;
     }
 
-    /* Overlay Screen (Default display is None to prevent premature Game Over) */
+    /* Animated Overlays */
     .game-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(2, 16, 36, 0.88);
-        backdrop-filter: blur(8px);
-        display: none; /* ডিফল্টভাবে বন্ধ */
+        background: rgba(2, 16, 36, 0.9);
+        backdrop-filter: blur(10px);
+        display: none;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 24px;
+        padding: 20px;
         text-align: center;
         z-index: 30;
     }
-
-    /* শুধুমাত্র active থাকলেই দেখাবে */
     .game-overlay.active {
         display: flex !important;
+        animation: popModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes popModal {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Pop-up Card inside Game Over */
+    .gameover-popup-card {
+        background: #FFFFFF;
+        border: 2px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 20px;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 25px 60px -15px rgba(5, 38, 89, 0.4);
+        max-height: 94vh;
+        overflow-y: auto;
+    }
+    .gameover-popup-card::-webkit-scrollbar { width: 3px; }
+    .gameover-popup-card::-webkit-scrollbar-thumb { background: #C1E8FF; border-radius: 10px; }
+
+    /* Banner Ad Wrappers */
+    .ad-container-box {
+        background: #FFFFFF;
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 20px;
+        padding: 8px;
+        text-align: center;
+        overflow: hidden;
+        margin: 12px 0;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
 
     .btn-gradient {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF;
-        padding: 16px 32px;
+        padding: 15px 30px;
         border-radius: 18px;
         font-weight: 800;
-        font-size: 14px;
+        font-size: 13.5px;
         letter-spacing: 0.5px;
         transition: all 0.25s ease;
         display: inline-flex;
@@ -82,16 +112,42 @@
     }
 </style>
 
-<div class="max-w-md mx-auto space-y-6 fade-in-up pb-10 px-2 mt-2">
+<div class="max-w-md mx-auto space-y-4 fade-in-up pb-10 px-2 mt-1">
 
     <!-- Top Bar -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <a href="/work" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
             <i class="fa-solid fa-arrow-left text-sm"></i>
         </a>
-        <div class="text-right">
-            <h2 class="text-base font-black text-[#021024]">কয়েন ক্যাচার গেম</h2>
-            <p class="text-[10px] text-[#5483B3] font-bold">Play & Earn Taka</p>
+        <div class="text-right flex items-center gap-2">
+            <div>
+                <h2 class="text-base font-black text-[#021024] leading-tight">কয়েন রাশ গেম</h2>
+                <p class="text-[10px] text-[#5483B3] font-bold">Play, Win & Cashout</p>
+            </div>
+            <!-- Audio Toggle Button -->
+            <button onclick="toggleAudio()" id="audioBtn" class="h-9 w-9 bg-white border border-[#C1E8FF] text-[#052659] rounded-xl flex items-center justify-center text-xs shadow-sm hover:bg-[#C1E8FF]/40 transition">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         BANNER AD 1 (TOP 468x60 BANNER)
+    =================================================== -->
+    <div class="ad-container-box">
+        <span class="text-[9px] text-[#7DA0CA] font-bold uppercase tracking-widest block mb-1">Sponsored Advertisement</span>
+        <div class="flex justify-center items-center overflow-x-auto min-h-[60px]">
+            <!-- 468x60 Ad Banner Script -->
+            <script>
+              atOptions = {
+                'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            </script>
+            <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
         </div>
     </div>
 
@@ -127,16 +183,16 @@
 
     <!-- 2. GAME VIEWPORT (Canvas) -->
     <div class="game-viewport" id="gameBox">
-        <canvas id="gameCanvas" width="400" height="480"></canvas>
+        <canvas id="gameCanvas" width="400" height="500"></canvas>
 
-        <!-- Start Overlay (Initially Active) -->
+        <!-- Start Overlay -->
         <div class="game-overlay active" id="startOverlay">
-            <div class="w-16 h-16 rounded-3xl bg-[#C1E8FF] text-amber-400 flex items-center justify-center text-3xl mb-4 border border-white/20 shadow-lg">
+            <div class="w-16 h-16 rounded-3xl bg-[#C1E8FF] text-amber-400 flex items-center justify-center text-3xl mb-3 border border-white/20 shadow-lg animate-pulse">
                 <i class="fa-solid fa-coins"></i>
             </div>
             <h2 class="text-2xl font-black text-white mb-1 tracking-tight">Coin Rush!</h2>
-            <p class="text-xs text-[#C1E8FF] max-w-xs mb-5 font-medium leading-relaxed">
-                ঝুড়িটি আঙুল দিয়ে ডানে-বামে টেনে কয়েন ধরুন। <b>বোমা এড়িয়ে চলুন!</b> সময় ৩০ সেকেন্ড।
+            <p class="text-xs text-[#C1E8FF] max-w-xs mb-4 font-medium leading-relaxed">
+                সোনার কয়েন ও <b class="text-cyan-300">নীল হীরা (+৫)</b> ধরুন। <b class="text-rose-400">বোমা এড়িয়ে চলুন!</b> সময় ৩০ সেকেন্ড।
             </p>
             <div class="mb-5 bg-white/10 px-4 py-1.5 rounded-full border border-white/15 text-xs text-white font-bold">
                 আজকের বাকি গেম: <span class="text-amber-300 font-mono" id="remGames">{{ remaining_games }}</span> / 5
@@ -153,56 +209,156 @@
             {% endif %}
         </div>
 
-        <!-- Game Over Overlay (Hidden initially) -->
+        <!-- ===================================================
+             GAME OVER POPUP WITH INTEGRATED REWARD AD
+        =================================================== -->
         <div class="game-overlay" id="gameOverOverlay">
-            <div class="w-16 h-16 rounded-3xl bg-amber-400 text-[#021024] flex items-center justify-center text-3xl mb-3 shadow-lg">
-                <i class="fa-solid fa-trophy"></i>
-            </div>
-            <h3 class="text-xl font-black text-white mb-1">গেম শেষ!</h3>
-            <p class="text-xs text-[#7DA0CA] mb-2">আপনি অর্জন করেছেন</p>
-            <h1 class="text-5xl font-black text-amber-400 font-mono mb-4">+<span id="finalScore">0</span> <span class="text-sm font-sans text-white">কয়েন</span></h1>
+            <div class="gameover-popup-card">
+                
+                <div class="w-14 h-14 rounded-2xl bg-amber-400 text-[#021024] flex items-center justify-center text-2xl mx-auto mb-2 shadow-md">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="text-xl font-black text-[#021024] tracking-tight">গেম সম্পন্ন!</h3>
+                <p class="text-xs text-[#5483B3] font-semibold mb-2">আপনি কয়েন অর্জন করেছেন</p>
+                
+                <h1 class="text-4xl font-black text-amber-500 font-mono mb-3">
+                    +<span id="finalScore">0</span> <span class="text-xs font-sans text-slate-500">Coins</span>
+                </h1>
 
-            <button type="button" onclick="submitScore()" id="claimScoreBtn" class="btn-gradient w-full max-w-xs mb-2">
-                <i class="fa-solid fa-wallet"></i> কয়েন ওয়ালেটে জমা দিন
-            </button>
-            <button type="button" onclick="resetGame()" class="text-xs text-[#C1E8FF] hover:underline font-bold mt-2">
-                আবার খেলুন
-            </button>
+                <!-- ==========================================
+                     GAME OVER AD SCRIPT & CONTAINER
+                ========================================== -->
+                <div class="ad-container-box !p-2 !my-3 bg-[#F4F9FD]">
+                    <span class="text-[8px] text-[#7DA0CA] font-extrabold uppercase tracking-widest block mb-1">Sponsored Content</span>
+                    <!-- Provided Ad Script -->
+                    <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
+                    <div id="container-a5f8e93bb4382cac9093af57f6efd969" class="min-h-[50px] flex justify-center items-center"></div>
+                </div>
+
+                <div class="space-y-2 mt-3">
+                    <button type="button" onclick="submitScore()" id="claimScoreBtn" class="btn-gradient w-full py-3.5">
+                        <i class="fa-solid fa-wallet"></i> কয়েন ওয়ালেটে জমা দিন
+                    </button>
+                    <button type="button" onclick="resetGame()" class="w-full text-xs text-[#052659] bg-[#C1E8FF]/60 hover:bg-[#C1E8FF] py-2.5 rounded-xl font-black transition">
+                        আবার খেলুন
+                    </button>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <!-- Instruction Hints -->
-    <div class="p-4 rounded-2xl bg-white border border-[#C1E8FF] text-center text-xs text-[#5483B3] font-semibold space-y-1">
-        <p><i class="fa-solid fa-hand-pointer mr-1 text-[#052659]"></i> মোবাইলে আঙুল দিয়ে ঝুড়ি ডানে-বামে টানুন।</p>
-        <p><i class="fa-solid fa-triangle-exclamation mr-1 text-rose-500"></i> বোমায় লাগলে ৫ পয়েন্ট কাটা যাবে!</p>
+    <!-- Gameplay Features Bar -->
+    <div class="grid grid-cols-3 gap-2 text-center text-[10px] font-bold text-[#052659]">
+        <div class="p-2.5 rounded-xl bg-white border border-[#C1E8FF] shadow-sm">
+            <span class="block text-amber-500 text-xs font-black">🪙 কয়েন</span>
+            <span>+১ পয়েন্ট</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-[#C1E8FF] shadow-sm">
+            <span class="block text-cyan-500 text-xs font-black">💎 হীরা</span>
+            <span>+৫ বোনাস</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-[#C1E8FF] shadow-sm">
+            <span class="block text-rose-500 text-xs font-black">💣 বোমা</span>
+            <span>-৫ পয়েন্ট</span>
+        </div>
     </div>
 
 </div>
 
 <!-- ===================================================
-     GAME ENGINE SCRIPT
+     ANIMATED GAME ENGINE & SYNTHETIC AUDIO (Canvas)
 =================================================== -->
 <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
+    // Audio Engine (Web Audio API - 100% Native, No assets needed)
+    let audioCtx = null;
+    let isSoundOn = true;
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    function toggleAudio() {
+        isSoundOn = !isSoundOn;
+        const btn = document.getElementById("audioBtn");
+        btn.innerHTML = isSoundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark text-rose-500"></i>';
+    }
+
+    function playTone(freq, duration, type = "sine") {
+        if (!isSoundOn || !audioCtx) return;
+        try {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        } catch(e) {}
+    }
+
+    function playCoinSound() {
+        playTone(987.77, 0.12, "sine");
+        setTimeout(() => playTone(1318.51, 0.15, "sine"), 60);
+    }
+
+    function playGemSound() {
+        playTone(1046.50, 0.1, "triangle");
+        setTimeout(() => playTone(1318.51, 0.1, "triangle"), 80);
+        setTimeout(() => playTone(1567.98, 0.2, "triangle"), 160);
+    }
+
+    function playBombSound() {
+        playTone(150, 0.35, "sawtooth");
+    }
+
+    function playWinSound() {
+        playTone(523.25, 0.15);
+        setTimeout(() => playTone(659.25, 0.15), 150);
+        setTimeout(() => playTone(783.99, 0.25), 300);
+    }
+
+    // Game Variables
     let score = 0;
     let timeLeft = 30;
+    let combo = 0;
     let gameInterval = null;
     let timerInterval = null;
     let animationFrameId = null;
     let isPlaying = false;
+    let shakeDuration = 0;
 
-    // Basket Player
+    // Basket Object
     const basket = {
-        width: 80,
-        height: 22,
-        x: canvas.width / 2 - 40,
-        y: canvas.height - 35,
-        speed: 8
+        width: 84,
+        height: 24,
+        x: canvas.width / 2 - 42,
+        y: canvas.height - 40,
+        speed: 8.5
     };
 
     let items = [];
+    let particles = [];
+    let floatingTexts = [];
+    let backgroundStars = [];
+
+    // Initialize Starfield
+    for (let i = 0; i < 35; i++) {
+        backgroundStars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 1,
+            speed: Math.random() * 0.8 + 0.3
+        });
+    }
 
     // Touch & Mouse Control
     function moveBasket(clientX) {
@@ -234,37 +390,73 @@
         if (e.key === "ArrowRight") rightPressed = false;
     });
 
+    // Spawn Particles
+    function createParticles(x, y, color, count = 8) {
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x, y,
+                vx: (Math.random() - 0.5) * 6,
+                vy: (Math.random() - 0.5) * 6 - 2,
+                radius: Math.random() * 3 + 2,
+                color,
+                life: 1
+            });
+        }
+    }
+
+    function addFloatingText(text, x, y, color) {
+        floatingTexts.push({
+            text, x, y, color,
+            alpha: 1,
+            vy: -2
+        });
+    }
+
+    // Spawn falling coin, gem, or bomb
     function spawnItem() {
         if (!isPlaying) return;
-        const isBomb = Math.random() < 0.22;
+        const rand = Math.random();
+        let type = "coin"; // Default Gold Coin
+
+        if (rand < 0.20) {
+            type = "bomb";   // 20% Bomb
+        } else if (rand < 0.32) {
+            type = "gem";    // 12% Diamond Gem (+5)
+        }
+
         items.push({
-            x: Math.random() * (canvas.width - 28) + 14,
-            y: -10,
-            radius: isBomb ? 14 : 12,
+            x: Math.random() * (canvas.width - 34) + 17,
+            y: -15,
+            radius: type === "gem" ? 13 : (type === "bomb" ? 15 : 12),
             speed: Math.random() * 2 + 3.2,
-            isBomb: isBomb
+            type: type,
+            angle: 0
         });
     }
 
     function startGame() {
-        // UI Overlay Toggle (Fixed)
+        initAudio();
         document.getElementById("startOverlay").classList.remove("active");
         document.getElementById("gameOverOverlay").classList.remove("active");
         
         score = 0;
         timeLeft = 30;
+        combo = 0;
         items = [];
+        particles = [];
+        floatingTexts = [];
         isPlaying = true;
+        shakeDuration = 0;
         basket.x = canvas.width / 2 - basket.width / 2;
 
         clearInterval(gameInterval);
         clearInterval(timerInterval);
         cancelAnimationFrame(animationFrameId);
 
-        // Spawn timer
-        gameInterval = setInterval(spawnItem, 450);
+        // Spawn items
+        gameInterval = setInterval(spawnItem, 420);
 
-        // 30 Seconds Countdown
+        // Countdown timer
         timerInterval = setInterval(() => {
             timeLeft--;
             if (timeLeft <= 0) {
@@ -278,78 +470,208 @@
     function updateGame() {
         if (!isPlaying) return;
 
+        // Screen Shake Effect on Bomb Hit
+        ctx.save();
+        if (shakeDuration > 0) {
+            const dx = (Math.random() - 0.5) * 8;
+            const dy = (Math.random() - 0.5) * 8;
+            ctx.translate(dx, dy);
+            shakeDuration--;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Keyboard movement
+        // 1. Draw Starfield Background
+        ctx.fillStyle = "rgba(193, 232, 255, 0.5)";
+        backgroundStars.forEach(star => {
+            star.y += star.speed;
+            if (star.y > canvas.height) star.y = 0;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        // 2. Keyboard Control
         if (leftPressed) basket.x = Math.max(0, basket.x - basket.speed);
         if (rightPressed) basket.x = Math.min(canvas.width - basket.width, basket.x + basket.speed);
 
-        // Draw Basket
+        // 3. Draw Modern Glowing Basket
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#5483B3";
         ctx.fillStyle = "#5483B3";
         ctx.beginPath();
         ctx.roundRect(basket.x, basket.y, basket.width, basket.height, 10);
         ctx.fill();
 
+        ctx.shadowBlur = 0;
         ctx.fillStyle = "#C1E8FF";
         ctx.fillRect(basket.x + 8, basket.y + 4, basket.width - 16, 4);
 
-        // Draw and update falling coins & bombs
+        // Thruster glow underneath basket
+        ctx.fillStyle = "rgba(193, 232, 255, 0.4)";
+        ctx.beginPath();
+        ctx.ellipse(basket.x + basket.width / 2, basket.y + basket.height + 4, 18, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4. Update and Draw Falling Items
         for (let i = items.length - 1; i >= 0; i--) {
             const item = items[i];
             item.y += item.speed;
+            item.angle += 0.05;
 
-            // Collision detection with basket
+            // Collision Check with Basket
             if (
                 item.y + item.radius >= basket.y &&
                 item.y - item.radius <= basket.y + basket.height &&
-                item.x >= basket.x - 5 &&
-                item.x <= basket.x + basket.width + 5
+                item.x >= basket.x - 6 &&
+                item.x <= basket.x + basket.width + 6
             ) {
-                if (item.isBomb) {
+                if (item.type === "bomb") {
                     score = Math.max(0, score - 5);
+                    combo = 0;
+                    shakeDuration = 8;
+                    playBombSound();
+                    createParticles(item.x, item.y, "#F43F5E", 14);
+                    addFloatingText("-5 💥", item.x, item.y - 10, "#F43F5E");
+                } else if (item.type === "gem") {
+                    const bonus = combo >= 5 ? 10 : 5;
+                    score += bonus;
+                    combo++;
+                    playGemSound();
+                    createParticles(item.x, item.y, "#38BDF8", 12);
+                    addFloatingText(`+${bonus} 💎`, item.x, item.y - 10, "#38BDF8");
                 } else {
-                    score += 1;
+                    const points = combo >= 5 ? 2 : 1;
+                    score += points;
+                    combo++;
+                    playCoinSound();
+                    createParticles(item.x, item.y, "#F59E0B", 8);
+                    addFloatingText(combo >= 5 ? "+2 🔥" : "+1", item.x, item.y - 10, "#F59E0B");
                 }
+
                 items.splice(i, 1);
                 continue;
             }
 
-            // Draw Coin or Bomb
-            ctx.beginPath();
-            ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
-            if (item.isBomb) {
+            // Draw Item
+            ctx.save();
+            ctx.translate(item.x, item.y);
+
+            if (item.type === "bomb") {
+                // Bomb Graphic
                 ctx.fillStyle = "#F43F5E";
+                ctx.beginPath();
+                ctx.arc(0, 0, item.radius, 0, Math.PI * 2);
                 ctx.fill();
+
+                // Spark / Fuse
+                ctx.fillStyle = "#FEF08A";
+                ctx.fillRect(-2, -item.radius - 4, 4, 4);
+
+                ctx.fillStyle = "#FFFFFF";
+                ctx.font = "bold 13px sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("💣", 0, 4);
+            } else if (item.type === "gem") {
+                // Diamond Gem Graphic
+                ctx.rotate(item.angle);
+                ctx.fillStyle = "#38BDF8";
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "#38BDF8";
+                ctx.beginPath();
+                ctx.moveTo(0, -item.radius);
+                ctx.lineTo(item.radius, 0);
+                ctx.lineTo(0, item.radius);
+                ctx.lineTo(-item.radius, 0);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = "#E0F2FE";
+                ctx.beginPath();
+                ctx.arc(0, 0, item.radius / 2.5, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Gold Coin Graphic
+                ctx.fillStyle = "#F59E0B";
+                ctx.beginPath();
+                ctx.arc(0, 0, item.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = "#FEF3C7";
+                ctx.stroke();
+
                 ctx.fillStyle = "#FFFFFF";
                 ctx.font = "bold 12px sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("✕", item.x, item.y + 4);
-            } else {
-                ctx.fillStyle = "#F59E0B";
-                ctx.fill();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "#FEF3C7";
-                ctx.stroke();
-                ctx.fillStyle = "#FFFFFF";
-                ctx.font = "bold 11px sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText("৳", item.x, item.y + 4);
+                ctx.fillText("৳", 0, 4);
             }
+            ctx.restore();
 
-            if (item.y > canvas.height + 20) {
+            // Remove out of screen items
+            if (item.y > canvas.height + 25) {
+                if (item.type !== "bomb") combo = 0; // Combo breaks if you miss coin
                 items.splice(i, 1);
             }
         }
 
-        // Draw Top HUD
+        // 5. Update and Draw Particles
+        for (let p = particles.length - 1; p >= 0; p--) {
+            const pt = particles[p];
+            pt.x += pt.vx;
+            pt.y += pt.vy;
+            pt.life -= 0.035;
+
+            if (pt.life <= 0) {
+                particles.splice(p, 1);
+                continue;
+            }
+
+            ctx.globalAlpha = pt.life;
+            ctx.fillStyle = pt.color;
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        // 6. Floating Score Texts
+        for (let t = floatingTexts.length - 1; t >= 0; t--) {
+            const ft = floatingTexts[t];
+            ft.y += ft.vy;
+            ft.alpha -= 0.03;
+
+            if (ft.alpha <= 0) {
+                floatingTexts.splice(t, 1);
+                continue;
+            }
+
+            ctx.globalAlpha = ft.alpha;
+            ctx.fillStyle = ft.color;
+            ctx.font = "bold 15px 'Plus Jakarta Sans', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(ft.text, ft.x, ft.y);
+            ctx.globalAlpha = 1;
+        }
+
+        // 7. Draw HUD (Score, Timer, Combo)
         ctx.fillStyle = "#FFFFFF";
         ctx.font = "bold 14px 'Plus Jakarta Sans', sans-serif";
         ctx.textAlign = "left";
         ctx.fillText(`কয়েন: ${score}`, 16, 26);
 
+        if (combo >= 5) {
+            ctx.fillStyle = "#F59E0B";
+            ctx.font = "black 12px sans-serif";
+            ctx.fillText(`🔥 2X COMBO!`, 16, 44);
+        }
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "bold 14px 'Plus Jakarta Sans', sans-serif";
         ctx.textAlign = "right";
         ctx.fillText(`সময়: ${timeLeft}s`, canvas.width - 16, 26);
 
+        ctx.restore();
         animationFrameId = requestAnimationFrame(updateGame);
     }
 
@@ -359,6 +681,7 @@
         clearInterval(timerInterval);
         cancelAnimationFrame(animationFrameId);
 
+        playWinSound();
         document.getElementById("finalScore").innerText = score;
         document.getElementById("gameOverOverlay").classList.add("active");
     }
@@ -368,7 +691,7 @@
         startGame();
     }
 
-    // Submit score
+    // Submit earned score to server
     function submitScore() {
         const btn = document.getElementById("claimScoreBtn");
         btn.disabled = true;
