@@ -31,7 +31,7 @@ except Exception as e:
     print(f"Supabase connection warning: {e}")
     supabase = None
 
-# test
+
 
 TELEGRAM_BOT_TOKEN = "8328944739:AAHKC5c-FbafcP6f3KyHXqmU-NxbQoy4n34"
 TELEGRAM_CHANNEL_ID = "@earn_daily_on"
