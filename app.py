@@ -100,7 +100,7 @@ def login_required(f):
 def generate_ref_code():
     # TK + 4 Random Digits/Letters (Example: TK4A2B)
     chars = string.ascii_uppercase + string.digits
-    code = 'PR' + ''.join(random.choices(chars, k=4))
+    code = 'TE' + ''.join(random.choices(chars, k=4))
     return code
 
 # --- HELPER: SMART IMGBB UPLOAD (AUTO ROTATION) ---
