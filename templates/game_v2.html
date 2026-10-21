@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN GAME V2 - FINTECH & GAMING ARENA
+       TAKAEARN GAME V2 - FINTECH DASHBOARD & LAUNCHER
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -29,7 +29,7 @@
         box-shadow: 0 16px 35px -10px rgba(5, 38, 89, 0.12);
     }
 
-    /* Commercial Ad Wrapper */
+    /* Ad Container */
     .ad-banner-box {
         background: #FFFFFF;
         border: 1.5px dashed #C1E8FF;
@@ -41,25 +41,28 @@
     }
 
     /* Buttons */
-    .btn-v2-primary {
+    .btn-play-game {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF;
         padding: 16px 28px;
         border-radius: 20px;
         font-weight: 800;
-        font-size: 14px;
+        font-size: 15px;
         letter-spacing: 0.5px;
         transition: all 0.25s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 10px;
         box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
-        border: none;
-        cursor: pointer;
+        text-decoration: none;
     }
-    .btn-v2-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
-    .btn-v2-primary:active { transform: scale(0.97); }
+    .btn-play-game:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); 
+        color: #FFFFFF;
+    }
+    .btn-play-game:active { transform: scale(0.97); }
 
     .btn-convert-taka {
         background: linear-gradient(135deg, #047857 0%, #10B981 100%);
@@ -76,6 +79,7 @@
         cursor: pointer;
         transition: all 0.25s ease;
         border: none;
+        width: 100%;
     }
     .btn-convert-taka:hover { transform: translateY(-2px); box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.5); }
     .btn-convert-taka:active { transform: scale(0.97); }
@@ -113,24 +117,12 @@
         max-height: 94vh;
         overflow-y: auto;
     }
-
-    /* Embedded Arcade Screen */
-    .arcade-frame {
-        width: 100%;
-        height: 480px;
-        border-radius: 28px;
-        overflow: hidden;
-        border: 3px solid #C1E8FF;
-        background: radial-gradient(circle at 50% 10%, #052659 0%, #021024 100%);
-        position: relative;
-        touch-action: none;
-    }
 </style>
 
 <div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-12 px-2 mt-2">
 
     <!-- ===================================================
-         1. TOP NAVIGATION & HEADER
+         1. TOP NAVIGATION
     =================================================== -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
@@ -138,22 +130,22 @@
                 <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <h1 class="text-lg font-black text-[#021024] leading-tight">গেম জোন (V2)</h1>
+                <h1 class="text-lg font-black text-[#021024] leading-tight">গেম হাব (V2)</h1>
                 <p class="text-[10px] text-[#5483B3] font-bold">Play Games & Earn Money</p>
             </div>
         </div>
 
-        <a href="https://t.me/takaearn_help" target="_blank" class="bg-[#C1E8FF] text-[#052659] px-3 py-1.5 rounded-xl text-xs font-bold border border-[#7DA0CA]/40 flex items-center gap-1.5 hover:bg-[#052659] hover:text-white transition">
+        <a href="https://t.me/takaearn_help" target="_blank" class="bg-[#C1E8FF] text-[#052659] px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[#7DA0CA]/40 flex items-center gap-1.5 hover:bg-[#052659] hover:text-white transition">
             <i class="fa-solid fa-headset"></i> <span>সাপোর্ট</span>
         </a>
     </div>
 
     <!-- ===================================================
-         2. TOP SPONSORED BANNER AD (468x60)
+         2. TOP BANNER AD (468x60)
     =================================================== -->
     <div class="ad-banner-box">
-        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
-            <i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Sponsored Banner
+        <span class="text-[9px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
         </span>
         <div class="flex justify-center items-center min-h-[60px] overflow-x-auto">
             <!-- 468x60 Ad Banner Script -->
@@ -171,7 +163,7 @@
     </div>
 
     <!-- ===================================================
-         3. DASHBOARD STATS: COINS, LIMIT & CONVERT BUTTON
+         3. DASHBOARD STATS: COINS, TODAY LIMIT & CONVERT
     =================================================== -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         
@@ -204,18 +196,18 @@
             <div>
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-[10px] font-black uppercase text-[#7DA0CA] tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-gamepad text-[#052659]"></i> দৈনিক গেম লিমিট
+                        <i class="fa-solid fa-gamepad text-[#052659]"></i> আজকের লিমিট
                     </span>
-                    <span class="text-sm font-black font-mono text-[#052659]">{{ remaining_games }} / 5 বাকি</span>
+                    <span class="text-sm font-black font-mono text-[#052659]">{{ remaining_games }} / 5 বার বাকি</span>
                 </div>
                 <div class="w-full bg-[#F4F9FD] h-2.5 rounded-full overflow-hidden border border-[#C1E8FF] mb-4">
                     <div class="bg-gradient-to-r from-[#052659] to-[#5483B3] h-full rounded-full transition-all duration-500" style="width: {{ (remaining_games / 5) * 100 }}%"></div>
                 </div>
             </div>
 
-            <!-- CONVERT TO MONEY ACTION -->
-            <button onclick="requestCoinConversion()" id="convertActionBtn" class="btn-convert-taka w-full">
-                <i class="fa-solid fa-arrows-rotate animate-spin" style="animation-duration: 4s;"></i> 
+            <!-- CONVERT BUTTON -->
+            <button onclick="requestCoinConversion()" id="convertActionBtn" class="btn-convert-taka">
+                <i class="fa-solid fa-arrows-rotate animate-spin" style="animation-duration: 5s;"></i> 
                 <span>টাকায় কনভার্ট করুন (Convert)</span>
             </button>
         </div>
@@ -223,50 +215,29 @@
     </div>
 
     <!-- ===================================================
-         4. গেম খেলুন (PLAY GAME ARENA)
+         4. গেম খেলুন (PLAY GAME BUTTON LAUNCHER)
     =================================================== -->
-    <div class="v2-card !p-0 overflow-hidden border-2 border-[#C1E8FF]">
-        <div class="p-4 bg-gradient-to-r from-[#021024] to-[#052659] text-white flex justify-between items-center">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-amber-300">
-                    <i class="fa-solid fa-trophy"></i>
+    <div class="v2-card bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] text-white p-6 sm:p-7 shadow-xl">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-3xl text-amber-300 border border-white/20 shadow-inner flex-shrink-0">
+                    <i class="fa-solid fa-gamepad"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-black tracking-wide leading-tight">Coin Rush Arena</h3>
-                    <p class="text-[10px] text-[#C1E8FF]">৩০ সেকেন্ডে যত খুশি কয়েন ধরুন</p>
+                    <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block mb-1">
+                        ফুল-স্ক্রিন আরকেড
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-black text-white leading-tight">কয়েন রাশ গেম</h3>
+                    <p class="text-xs text-[#C1E8FF] mt-0.5 font-medium leading-relaxed">
+                        ঝুড়ি দিয়ে সোনার কয়েন ও নীল হীরা ধরে বেশি বেশি পয়েন্ট অর্জন করুন!
+                    </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2">
-                <span class="text-xs font-mono font-bold bg-white/10 px-2.5 py-1 rounded-lg border border-white/10" id="inGameTimer">30s</span>
-                <span class="text-xs font-mono font-bold bg-amber-400 text-[#021024] px-2.5 py-1 rounded-lg">🪙 <span id="inGameScore">0</span></span>
-            </div>
-        </div>
-
-        <!-- Canvas Container -->
-        <div class="arcade-frame" id="arcadeFrame">
-            <canvas id="gameCanvas" width="400" height="480"></canvas>
-
-            <!-- Pre-Start Screen -->
-            <div class="absolute inset-0 bg-[#021024]/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20" id="arenaStartScreen">
-                <div class="w-16 h-16 rounded-3xl bg-[#C1E8FF] text-amber-400 flex items-center justify-center text-3xl mb-3 shadow-lg animate-bounce">
-                    <i class="fa-solid fa-coins"></i>
-                </div>
-                <h3 class="text-2xl font-black text-white mb-1">কয়েন ক্যাচার গেম</h3>
-                <p class="text-xs text-[#C1E8FF] max-w-xs mb-5 font-medium leading-relaxed">
-                    ঝুড়ি টেনে কয়েন ও <b class="text-cyan-300">হীরা (+৫)</b> ধরুন। বোমায় লাগলে পয়েন্ট কাটা যাবে!
-                </p>
-
-                {% if remaining_games > 0 %}
-                <button onclick="startArcadeGame()" class="btn-v2-primary py-3.5 px-8">
-                    <i class="fa-solid fa-play"></i> গেম শুরু করুন
-                </button>
-                {% else %}
-                <button disabled class="btn-v2-primary py-3.5 px-8 opacity-50 cursor-not-allowed">
-                    আজকের ৫টি গেম সম্পন্ন
-                </button>
-                {% endif %}
-            </div>
+            <!-- BUTTON THAT REDIRECTS TO /game -->
+            <a href="/game" class="btn-play-game flex-shrink-0 w-full sm:w-auto">
+                <i class="fa-solid fa-play"></i> <span>গেম খেলুন</span>
+            </a>
         </div>
     </div>
 
@@ -283,7 +254,7 @@
                 <span class="w-7 h-7 rounded-xl bg-[#C1E8FF] text-[#052659] font-black flex items-center justify-center flex-shrink-0 text-sm">১</span>
                 <div>
                     <h4 class="font-extrabold text-[#021024] mb-0.5">গেম শুরু করুন</h4>
-                    <p class="text-[#5483B3] leading-relaxed">প্রতিদিন আপনি ৫ বার সম্পূর্ণ ফ্রিতে গেম খেলার সুযোগ পাবেন।</p>
+                    <p class="text-[#5483B3] leading-relaxed"><b>'গেম খেলুন'</b> বাটনে ক্লিক করে ফুল-স্ক্রিন কয়েন ক্যাচার গেম চালু করুন।</p>
                 </div>
             </div>
 
@@ -291,7 +262,7 @@
                 <span class="w-7 h-7 rounded-xl bg-[#C1E8FF] text-[#052659] font-black flex items-center justify-center flex-shrink-0 text-sm">২</span>
                 <div>
                     <h4 class="font-extrabold text-[#021024] mb-0.5">কয়েন ও হীরা সংগ্রহ</h4>
-                    <p class="text-[#5483B3] leading-relaxed">সোনার কয়েনে +১ এবং বিরল নীল হীরাতে +৫ বোনাস কয়েন পাবেন।</p>
+                    <p class="text-[#5483B3] leading-relaxed">সোনার কয়েনে +১ পয়েন্ট এবং স্পেশাল নীল হীরাতে +৫ পয়েন্ট পাবেন।</p>
                 </div>
             </div>
 
@@ -316,39 +287,7 @@
 </div>
 
 <!-- ===================================================
-     6. GAME OVER SCORE CLAIM POPUP (WITH AD)
-=================================================== -->
-<div class="v2-modal-overlay" id="gameOverModal">
-    <div class="modal-sheet-card">
-        
-        <div class="w-14 h-14 rounded-2xl bg-amber-400 text-[#021024] flex items-center justify-center text-3xl mx-auto mb-2 shadow-lg animate-bounce">
-            <i class="fa-solid fa-trophy"></i>
-        </div>
-
-        <h3 class="text-xl font-black text-[#021024]">গেম সম্পন্ন হয়েছে!</h3>
-        <p class="text-xs text-[#5483B3] font-semibold mb-2">আপনি কয়েন সংগ্রহ করেছেন</p>
-        
-        <h1 class="text-4xl font-black text-amber-500 font-mono mb-2">
-            +<span id="finalScoreVal">0</span> <span class="text-xs font-sans text-[#021024]">Coins</span>
-        </h1>
-
-        <!-- Popup Ad -->
-        <div class="p-2 my-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
-            <span class="text-[8px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded inline-block mb-1">
-                Sponsored Reward
-            </span>
-            <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
-            <div id="container-a5f8e93bb4382cac9093af57f6efd969" class="min-h-[50px] flex justify-center items-center overflow-hidden"></div>
-        </div>
-
-        <button onclick="claimGameCoins()" id="claimBtn" class="btn-v2-primary w-full py-3.5 mb-2">
-            <i class="fa-solid fa-wallet"></i> কয়েন একাউন্টে জমা দিন
-        </button>
-    </div>
-</div>
-
-<!-- ===================================================
-     7. CONVERT SUCCESS POPUP (WITH INTEGRATED AD)
+     6. CONVERT SUCCESS POPUP (WITH AD)
 =================================================== -->
 <div class="v2-modal-overlay" id="convertSuccessModal">
     <div class="modal-sheet-card">
@@ -358,234 +297,42 @@
         </div>
 
         <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block mb-2">
-            Conversion Success
+            কনভার্ট সফল
         </span>
 
-        <h3 class="text-2xl font-black text-[#021024] tracking-tight mb-1">টাকায় রূপান্তর সফল!</h3>
+        <h3 class="text-2xl font-black text-[#021024] tracking-tight mb-1">টাকায় রূপান্তর সফল হয়েছে!</h3>
         <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-3">
             আপনার কয়েনগুলো সফলভাবে ক্যাশ টাকায় রূপান্তর হয়ে সরাসরি মূল ব্যালেন্সে যোগ হয়েছে।
         </p>
 
-        <!-- Converted Taka Display -->
+        <!-- Converted Taka Amount Box -->
         <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 mb-3">
             <p class="text-[10px] font-black text-emerald-700 uppercase tracking-wider mb-0.5">মেইন ব্যালেন্সে যোগ হয়েছে</p>
             <h2 class="text-3xl font-black text-emerald-700 font-mono tracking-tight" id="convertedTakaAmount">+৳0.00</h2>
         </div>
 
         <!-- ===============================================
-             SUCCESS POPUP INTEGRATED AD
+             AD SLOT INSIDE POPUP (বিজ্ঞাপন)
         =============================================== -->
-        <div class="p-2 my-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
+        <div class="p-2.5 my-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
             <span class="text-[8px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded inline-block mb-1">
-                Verified Sponsor
+                বিজ্ঞাপন
             </span>
-            <!-- Ad container -->
+            <!-- Ad script & container -->
+            <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
             <div id="container-a5f8e93bb4382cac9093af57f6efd969" class="min-h-[50px] flex justify-center items-center overflow-hidden"></div>
         </div>
 
-        <button onclick="closeSuccessModal()" class="btn-v2-primary w-full py-3.5">
-            <i class="fa-solid fa-check"></i> ঠিক আছে
+        <button onclick="closeSuccessModal()" class="btn-play-game w-full py-3.5 mt-2">
+            <i class="fa-solid fa-check"></i> <span>ঠিক আছে</span>
         </button>
     </div>
 </div>
 
 <!-- ===================================================
-     GAME ENGINE SCRIPT
+     CONVERT SYSTEM JAVASCRIPT
 =================================================== -->
 <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-
-    let score = 0;
-    let timeLeft = 30;
-    let isPlaying = false;
-    let gameInterval = null;
-    let timerInterval = null;
-    let animationFrameId = null;
-
-    const basket = {
-        width: 80,
-        height: 22,
-        x: canvas.width / 2 - 40,
-        y: canvas.height - 35,
-        speed: 8
-    };
-
-    let items = [];
-
-    // Controls
-    function moveBasket(clientX) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const targetX = (clientX - rect.left) * scaleX - basket.width / 2;
-        basket.x = Math.max(0, Math.min(canvas.width - basket.width, targetX));
-    }
-
-    canvas.addEventListener("touchmove", (e) => {
-        if (!isPlaying) return;
-        moveBasket(e.touches[0].clientX);
-        e.preventDefault();
-    }, { passive: false });
-
-    canvas.addEventListener("mousemove", (e) => {
-        if (!isPlaying) return;
-        moveBasket(e.clientX);
-    });
-
-    function spawnItem() {
-        if (!isPlaying) return;
-        const rand = Math.random();
-        let type = "coin";
-        if (rand < 0.20) type = "bomb";
-        else if (rand < 0.35) type = "gem";
-
-        items.push({
-            x: Math.random() * (canvas.width - 28) + 14,
-            y: -10,
-            radius: type === "gem" ? 13 : (type === "bomb" ? 15 : 12),
-            speed: Math.random() * 2 + 3.2,
-            type: type
-        });
-    }
-
-    function startArcadeGame() {
-        document.getElementById("arenaStartScreen").style.display = "none";
-        document.getElementById("gameOverModal").classList.remove("show");
-        
-        score = 0;
-        timeLeft = 30;
-        items = [];
-        isPlaying = true;
-        basket.x = canvas.width / 2 - basket.width / 2;
-
-        document.getElementById("inGameScore").innerText = score;
-        document.getElementById("inGameTimer").innerText = timeLeft + "s";
-
-        clearInterval(gameInterval);
-        clearInterval(timerInterval);
-        cancelAnimationFrame(animationFrameId);
-
-        gameInterval = setInterval(spawnItem, 420);
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            document.getElementById("inGameTimer").innerText = timeLeft + "s";
-            if (timeLeft <= 0) endGameSession();
-        }, 1000);
-
-        updateArenaLoop();
-    }
-
-    function updateArenaLoop() {
-        if (!isPlaying) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw Basket
-        ctx.fillStyle = "#5483B3";
-        ctx.beginPath();
-        ctx.roundRect(basket.x, basket.y, basket.width, basket.height, 10);
-        ctx.fill();
-
-        ctx.fillStyle = "#C1E8FF";
-        ctx.fillRect(basket.x + 8, basket.y + 4, basket.width - 16, 4);
-
-        // Items Loop
-        for (let i = items.length - 1; i >= 0; i--) {
-            const item = items[i];
-            item.y += item.speed;
-
-            // Catch Collision
-            if (
-                item.y + item.radius >= basket.y &&
-                item.y - item.radius <= basket.y + basket.height &&
-                item.x >= basket.x - 5 &&
-                item.x <= basket.x + basket.width + 5
-            ) {
-                if (item.type === "bomb") {
-                    score = Math.max(0, score - 5);
-                } else if (item.type === "gem") {
-                    score += 5;
-                } else {
-                    score += 1;
-                }
-                document.getElementById("inGameScore").innerText = score;
-                items.splice(i, 1);
-                continue;
-            }
-
-            // Draw Item
-            ctx.beginPath();
-            ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
-            if (item.type === "bomb") {
-                ctx.fillStyle = "#F43F5E";
-                ctx.fill();
-                ctx.fillStyle = "#FFFFFF";
-                ctx.font = "bold 12px sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText("💣", item.x, item.y + 4);
-            } else if (item.type === "gem") {
-                ctx.fillStyle = "#38BDF8";
-                ctx.fill();
-                ctx.fillStyle = "#FFFFFF";
-                ctx.font = "bold 11px sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText("💎", item.x, item.y + 4);
-            } else {
-                ctx.fillStyle = "#F59E0B";
-                ctx.fill();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "#FEF3C7";
-                ctx.stroke();
-                ctx.fillStyle = "#FFFFFF";
-                ctx.font = "bold 11px sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText("৳", item.x, item.y + 4);
-            }
-
-            if (item.y > canvas.height + 20) items.splice(i, 1);
-        }
-
-        animationFrameId = requestAnimationFrame(updateArenaLoop);
-    }
-
-    function endGameSession() {
-        isPlaying = false;
-        clearInterval(gameInterval);
-        clearInterval(timerInterval);
-        cancelAnimationFrame(animationFrameId);
-
-        document.getElementById("finalScoreVal").innerText = score;
-        document.getElementById("gameOverModal").classList.add("show");
-    }
-
-    function claimGameCoins() {
-        const btn = document.getElementById("claimBtn");
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> জমা হচ্ছে...';
-
-        fetch('/api/game/save-score', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ score: score })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                alert(`✅ অভিনন্দন! ${data.added} কয়েন একাউন্টে জমা হয়েছে।`);
-                location.reload();
-            } else {
-                alert(data.message || 'Error occurred');
-                location.reload();
-            }
-        })
-        .catch(() => {
-            alert("Network error!");
-            location.reload();
-        });
-    }
-
-    // ===================================================
-    // CONVERT COINS & TRIGGER SUCCESS POPUP + AD
-    // ===================================================
     function requestCoinConversion() {
         const btn = document.getElementById("convertActionBtn");
         if (!confirm("আপনি কি জমানো কয়েনগুলোকে টাকায় রূপান্তর করতে চান?")) return;
@@ -604,22 +351,23 @@
                 document.getElementById("coinsCount").innerText = data.remaining_coins;
                 document.getElementById("takaVal").innerText = (data.remaining_coins / 100).toFixed(2);
                 
-                // কনভার্ট সাকসেস পপআপে টাকার পরিমাণ বসিয়ে দেখানো
-                document.getElementById("convertedTakaAmount").innerText = data.message.match(/৳[0-9.]+/)[0] || "+৳1.00";
+                // কনভার্ট সাকসেস পপআপে টাকার পরিমাণ বসানো এবং পপআপ শো করা
+                const takaMatch = data.message.match(/৳[0-9.]+/);
+                document.getElementById("convertedTakaAmount").innerText = takaMatch ? takaMatch[0] : "+৳1.00";
                 document.getElementById("convertSuccessModal").classList.add("show");
 
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate animate-spin" style="animation-duration: 5s;"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
             } else {
                 alert(data.message || 'কনভার্ট করতে সমস্যা হয়েছে');
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate animate-spin" style="animation-duration: 5s;"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
             }
         })
         .catch(() => {
             alert("নেটওয়ার্ক সমস্যা!");
             btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
+            btn.innerHTML = '<i class="fa-solid fa-arrows-rotate animate-spin" style="animation-duration: 5s;"></i> <span>টাকায় কনভার্ট করুন (Convert)</span>';
         });
     }
 
