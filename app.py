@@ -1603,6 +1603,37 @@ def ig_task():
     return render_template('ig_task.html', reward=IG_REWARD, my_subs=my_subs)
 
 
+
+
+          
+@app.route('/game/v2')
+@login_required
+def game_v2():
+    from datetime import datetime, timezone
+    today_date = str(datetime.now(timezone.utc).date())
+    
+    # ইউজার প্রোফাইল ডাটা আনা
+    user_data = supabase.table('profiles').select('coins, game_count, last_game_date, balance').eq('id', session['user_id']).single().execute().data
+    
+    # নতুন দিন হলে দৈনিক লিমিট রিসেট
+    if user_data.get('last_game_date') != today_date:
+        user_data['game_count'] = 0
+        supabase.table('profiles').update({'game_count': 0, 'last_game_date': today_date}).eq('id', session['user_id']).execute()
+        
+    remaining_games = max(0, MAX_DAILY_GAMES - (user_data.get('game_count') or 0))
+    user_coins = user_data.get('coins') or 0
+    taka_value = round(user_coins / COINS_PER_TAKA, 2)
+
+    return render_template('game_v2.html', 
+                           user=g.user, 
+                           coins=user_coins, 
+                           taka_value=taka_value, 
+                           remaining_games=remaining_games,
+                           rate=COINS_PER_TAKA)
+    
+
+
+
 # --- 2. ADMIN ROUTE: Review IG Accounts ---
 @app.route('/admin/ig-accounts')
 @login_required
