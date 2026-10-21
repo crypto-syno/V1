@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - COIN CATCHER GAME UI
+       TAKAEARN - COIN CATCHER GAME UI (FIXED)
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -33,19 +33,24 @@
         height: 100%;
     }
 
-    /* Overlay Screen (Start / Game Over) */
+    /* Overlay Screen (Default display is None to prevent premature Game Over) */
     .game-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(2, 16, 36, 0.85);
+        background: rgba(2, 16, 36, 0.88);
         backdrop-filter: blur(8px);
-        display: flex;
+        display: none; /* ডিফল্টভাবে বন্ধ */
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 24px;
         text-align: center;
-        z-index: 20;
+        z-index: 30;
+    }
+
+    /* শুধুমাত্র active থাকলেই দেখাবে */
+    .game-overlay.active {
+        display: flex !important;
     }
 
     .btn-gradient {
@@ -68,7 +73,6 @@
     .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
     .btn-gradient:active { transform: scale(0.97); }
 
-    /* Clean Convert Card */
     .stat-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
@@ -125,8 +129,8 @@
     <div class="game-viewport" id="gameBox">
         <canvas id="gameCanvas" width="400" height="480"></canvas>
 
-        <!-- Start Overlay -->
-        <div class="game-overlay" id="startOverlay">
+        <!-- Start Overlay (Initially Active) -->
+        <div class="game-overlay active" id="startOverlay">
             <div class="w-16 h-16 rounded-3xl bg-[#C1E8FF] text-amber-400 flex items-center justify-center text-3xl mb-4 border border-white/20 shadow-lg">
                 <i class="fa-solid fa-coins"></i>
             </div>
@@ -139,29 +143,29 @@
             </div>
 
             {% if remaining_games > 0 %}
-                <button onclick="startGame()" class="btn-gradient">
+                <button type="button" onclick="startGame()" class="btn-gradient">
                     <i class="fa-solid fa-play"></i> গেম শুরু করুন
                 </button>
             {% else %}
-                <button disabled class="btn-gradient opacity-60 cursor-not-allowed">
-                    আজকের লিমিট শেষ
+                <button disabled type="button" class="btn-gradient opacity-60 cursor-not-allowed">
+                    আজকের ৫টি গেম শেষ
                 </button>
             {% endif %}
         </div>
 
-        <!-- Game Over Overlay -->
-        <div class="game-overlay hidden" id="gameOverOverlay">
+        <!-- Game Over Overlay (Hidden initially) -->
+        <div class="game-overlay" id="gameOverOverlay">
             <div class="w-16 h-16 rounded-3xl bg-amber-400 text-[#021024] flex items-center justify-center text-3xl mb-3 shadow-lg">
                 <i class="fa-solid fa-trophy"></i>
             </div>
             <h3 class="text-xl font-black text-white mb-1">গেম শেষ!</h3>
-            <p class="text-xs text-[#7DA0CA] mb-3">আপনি অর্জন করেছেন</p>
+            <p class="text-xs text-[#7DA0CA] mb-2">আপনি অর্জন করেছেন</p>
             <h1 class="text-5xl font-black text-amber-400 font-mono mb-4">+<span id="finalScore">0</span> <span class="text-sm font-sans text-white">কয়েন</span></h1>
 
-            <button onclick="submitScore()" id="claimScoreBtn" class="btn-gradient w-full max-w-xs mb-2">
+            <button type="button" onclick="submitScore()" id="claimScoreBtn" class="btn-gradient w-full max-w-xs mb-2">
                 <i class="fa-solid fa-wallet"></i> কয়েন ওয়ালেটে জমা দিন
             </button>
-            <button onclick="resetGame()" class="text-xs text-[#C1E8FF] hover:underline font-bold mt-2">
+            <button type="button" onclick="resetGame()" class="text-xs text-[#C1E8FF] hover:underline font-bold mt-2">
                 আবার খেলুন
             </button>
         </div>
@@ -176,7 +180,7 @@
 </div>
 
 <!-- ===================================================
-     GAME ENGINE SCRIPT (HTML5 Canvas + Touch)
+     GAME ENGINE SCRIPT
 =================================================== -->
 <script>
     const canvas = document.getElementById("gameCanvas");
@@ -186,6 +190,7 @@
     let timeLeft = 30;
     let gameInterval = null;
     let timerInterval = null;
+    let animationFrameId = null;
     let isPlaying = false;
 
     // Basket Player
@@ -229,12 +234,11 @@
         if (e.key === "ArrowRight") rightPressed = false;
     });
 
-    // Spawn falling coin or bomb
     function spawnItem() {
         if (!isPlaying) return;
-        const isBomb = Math.random() < 0.22; // 22% chance bomb
+        const isBomb = Math.random() < 0.22;
         items.push({
-            x: Math.random() * (canvas.width - 24) + 12,
+            x: Math.random() * (canvas.width - 28) + 14,
             y: -10,
             radius: isBomb ? 14 : 12,
             speed: Math.random() * 2 + 3.2,
@@ -243,8 +247,10 @@
     }
 
     function startGame() {
-        document.getElementById("startOverlay").classList.add("hidden");
-        document.getElementById("gameOverOverlay").classList.add("hidden");
+        // UI Overlay Toggle (Fixed)
+        document.getElementById("startOverlay").classList.remove("active");
+        document.getElementById("gameOverOverlay").classList.remove("active");
+        
         score = 0;
         timeLeft = 30;
         items = [];
@@ -253,11 +259,12 @@
 
         clearInterval(gameInterval);
         clearInterval(timerInterval);
+        cancelAnimationFrame(animationFrameId);
 
         // Spawn timer
-        gameInterval = setInterval(spawnItem, 500);
+        gameInterval = setInterval(spawnItem, 450);
 
-        // 30s Countdown
+        // 30 Seconds Countdown
         timerInterval = setInterval(() => {
             timeLeft--;
             if (timeLeft <= 0) {
@@ -265,7 +272,7 @@
             }
         }, 1000);
 
-        requestAnimationFrame(updateGame);
+        updateGame();
     }
 
     function updateGame() {
@@ -286,12 +293,12 @@
         ctx.fillStyle = "#C1E8FF";
         ctx.fillRect(basket.x + 8, basket.y + 4, basket.width - 16, 4);
 
-        // Draw and update items
+        // Draw and update falling coins & bombs
         for (let i = items.length - 1; i >= 0; i--) {
             const item = items[i];
             item.y += item.speed;
 
-            // Collision with basket
+            // Collision detection with basket
             if (
                 item.y + item.radius >= basket.y &&
                 item.y - item.radius <= basket.y + basket.height &&
@@ -299,9 +306,9 @@
                 item.x <= basket.x + basket.width + 5
             ) {
                 if (item.isBomb) {
-                    score = Math.max(0, score - 5); // Bomb penalty
+                    score = Math.max(0, score - 5);
                 } else {
-                    score += 1; // Catch coin
+                    score += 1;
                 }
                 items.splice(i, 1);
                 continue;
@@ -311,14 +318,14 @@
             ctx.beginPath();
             ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
             if (item.isBomb) {
-                ctx.fillStyle = "#F43F5E"; // Red Bomb
+                ctx.fillStyle = "#F43F5E";
                 ctx.fill();
                 ctx.fillStyle = "#FFFFFF";
                 ctx.font = "bold 12px sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText("✕", item.x, item.y + 4);
             } else {
-                ctx.fillStyle = "#F59E0B"; // Gold Coin
+                ctx.fillStyle = "#F59E0B";
                 ctx.fill();
                 ctx.lineWidth = 2;
                 ctx.strokeStyle = "#FEF3C7";
@@ -329,13 +336,12 @@
                 ctx.fillText("৳", item.x, item.y + 4);
             }
 
-            // Remove fallen items
             if (item.y > canvas.height + 20) {
                 items.splice(i, 1);
             }
         }
 
-        // Draw In-game HUD
+        // Draw Top HUD
         ctx.fillStyle = "#FFFFFF";
         ctx.font = "bold 14px 'Plus Jakarta Sans', sans-serif";
         ctx.textAlign = "left";
@@ -344,22 +350,25 @@
         ctx.textAlign = "right";
         ctx.fillText(`সময়: ${timeLeft}s`, canvas.width - 16, 26);
 
-        requestAnimationFrame(updateGame);
+        animationFrameId = requestAnimationFrame(updateGame);
     }
 
     function endGame() {
         isPlaying = false;
         clearInterval(gameInterval);
         clearInterval(timerInterval);
+        cancelAnimationFrame(animationFrameId);
+
         document.getElementById("finalScore").innerText = score;
-        document.getElementById("gameOverOverlay").classList.remove("hidden");
+        document.getElementById("gameOverOverlay").classList.add("active");
     }
 
     function resetGame() {
+        document.getElementById("gameOverOverlay").classList.remove("active");
         startGame();
     }
 
-    // Submit earned score to server
+    // Submit score
     function submitScore() {
         const btn = document.getElementById("claimScoreBtn");
         btn.disabled = true;
@@ -373,7 +382,7 @@
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                alert(`✅ অভিনন্দন! ${data.added} কয়েন সফলভাবে যোগ হয়েছে।`);
+                alert(`✅ অভিনন্দন! ${data.added} কয়েন সফলভাবে ওয়ালেটে যোগ হয়েছে।`);
                 location.reload();
             } else {
                 alert(data.message || 'Error occurred');
@@ -387,7 +396,7 @@
         });
     }
 
-    // Convert Coins to Real Taka Balance
+    // Convert Coins
     function convertCoinsToTaka() {
         const btn = document.getElementById("convertBtn");
         if (!confirm("আপনি কি জমানো কয়েনগুলোকে টাকায় কনভার্ট করতে চান?")) return;
