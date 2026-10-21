@@ -5,144 +5,261 @@
 <script src="https://cdn.jsdelivr.net/npm/@thumbmarkjs/thumbmarkjs/dist/thumbmark.umd.js"></script>
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN SOFT LIGHT REGISTER UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+    /* ==========================================================
+       TAKAEARN - ULTRA-MINIMAL FLAT REGISTER UI
+       Palette:
+       --c-dark    : #021024
+       --c-navy    : #052659
+       --c-steel   : #5483B3
+       --c-soft    : #7DA0CA
+       --c-ice     : #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; 
+        transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Auth Card */
-    .auth-card {
-        background: #FFFFFF;
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: 32px;
-        box-shadow: 0 20px 45px -10px rgba(16, 185, 129, 0.08), 0 4px 12px rgba(15, 23, 42, 0.02);
+    /* Gorgeous Underline Input Fields */
+    .field-group {
         position: relative;
-        overflow: hidden;
+        margin-bottom: 22px;
     }
-    
-    /* Modern Input */
-    .input-group { position: relative; margin-bottom: 16px; }
-    .light-input {
-        width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0;
-        color: #0F172A; padding: 15px 16px 15px 46px; border-radius: 18px;
-        font-size: 13.5px; outline: none; transition: all 0.25s ease;
-        appearance: none;
-    }
-    .light-input:focus { 
-        border-color: #10B981; 
-        background: #FFFFFF; 
-        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); 
-    }
-    .light-input::placeholder { color: #94A3B8; }
-    
-    .light-input.error-border { 
-        border-color: #F43F5E !important; 
-        background: #FFF1F2 !important; 
-    }
-    
-    .input-icon { 
-        position: absolute; left: 18px; top: 50%; transform: translateY(-50%); 
-        color: #94A3B8; font-size: 14px; transition: color 0.25s ease; 
-    }
-    .light-input:focus ~ .input-icon { color: #059669; }
 
-    /* Button */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: #FFFFFF; width: 100%; padding: 16px;
-        border-radius: 18px; font-weight: 800; font-size: 13.5px;
-        letter-spacing: 0.3px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px;
-        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+    .clean-border-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1.5px solid #C1E8FF;
+        border-radius: 0;
+        padding: 12px 38px 10px 32px;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #021024;
+        outline: none;
+        transition: all 0.25s ease;
     }
-    .btn-emerald:hover {
-        box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.5);
+
+    .clean-border-input::placeholder {
+        color: #7DA0CA;
+        font-weight: 500;
+        font-size: 13px;
+    }
+
+    /* Animated expanding underline accent on focus */
+    .field-accent-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0%;
+        height: 2.5px;
+        background: linear-gradient(90deg, #052659, #5483B3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-50%);
+        border-radius: 2px;
+        pointer-events: none;
+    }
+
+    .clean-border-input:focus ~ .field-accent-line {
+        width: 100%;
+    }
+
+    .clean-border-input:focus {
+        background: linear-gradient(180deg, transparent 75%, rgba(193, 232, 255, 0.25) 100%);
+    }
+
+    .field-icon-left {
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #7DA0CA;
+        font-size: 14px;
+        transition: color 0.25s ease;
+    }
+
+    .clean-border-input:focus ~ .field-icon-left {
+        color: #052659;
+    }
+
+    /* Error line indicator */
+    .clean-border-input.error-line {
+        border-bottom-color: #F43F5E !important;
+    }
+
+    /* Primary Submit Button */
+    .btn-register-submit {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 15px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 13.5px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 8px 22px -4px rgba(5, 38, 89, 0.35);
+        border: none;
+        cursor: pointer;
+        margin-top: 26px;
+    }
+    .btn-register-submit:hover {
         transform: translateY(-2px);
+        box-shadow: 0 12px 28px -4px rgba(5, 38, 89, 0.45);
     }
-    .btn-emerald:active { transform: scale(0.96); }
+    .btn-register-submit:active { transform: scale(0.97); }
+
+    /* Hide standard bottom nav on auth page */
+    .premium-bottom-nav { display: none !important; }
 </style>
 
-<div class="flex flex-col items-center justify-center min-h-[85vh] py-6 px-2">
-    
-    <div class="w-full max-w-sm auth-card p-8 sm:p-10 fade-in-up">
+<div class="max-w-md mx-auto w-full pt-1 pb-12 px-2 fade-in-up">
 
-        <!-- Header -->
-        <div class="mb-6 text-center">
-            <div class="h-14 w-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-2xl mx-auto mb-3.5 shadow-lg shadow-emerald-500/25">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <h2 class="text-2xl font-black text-slate-800 tracking-tight mb-1">একাউন্ট তৈরি করুন</h2>
-            <p class="text-xs text-slate-500 font-medium"><b class="text-emerald-600 font-bold">Earn Daily</b> নেটওয়ার্কে যোগ দিন</p>
-        </div>
+    <!-- ===================================================
+         1. TOP BAR: [Logo (LEFT)] — [লগইন করুন (RIGHT)]
+    =================================================== -->
+    <div class="flex items-center justify-between pb-4 border-b border-[#C1E8FF]/70">
+        
+        <!-- LEFT: Logo & Brand Name -->
+        <a href="/" class="flex items-center gap-2.5 group">
+            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn" class="h-10 w-10 rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-sm group-hover:scale-105 transition-transform">
+            <span class="text-base font-black text-[#021024] tracking-tight">Taka<span class="text-[#052659]">Earn</span></span>
+        </a>
 
-        <!-- Security Warning Pill -->
-        <div class="bg-emerald-50/80 border border-emerald-100 p-3 mb-6 rounded-2xl text-center">
-            <p class="text-[10px] text-emerald-800 font-bold leading-tight uppercase tracking-wider">
-                <i class="fa-solid fa-shield-halved text-emerald-600 mr-1"></i> ১টি ডিভাইসে ১টির বেশি একাউন্ট নিষিদ্ধ
-            </p>
-        </div>
-
-        <!-- Register Form -->
-        <form id="registerForm" method="POST" action="/register">
-            
-            <input type="hidden" name="ref_code" value="{{ ref_code if ref_code else '' }}">
-            <input type="hidden" name="device_id" id="deviceIdInput" value="">
-
-            <!-- Name -->
-            <div class="input-group">
-                <input type="text" name="name" required class="light-input" placeholder="Full Name">
-                <i class="fa-regular fa-user input-icon"></i>
-            </div>
-
-            <!-- Phone -->
-            <div class="input-group">
-                <input type="tel" name="phone" id="phoneInput" required class="light-input font-mono tracking-wider" placeholder="017XXXXXXXX">
-                <i class="fa-solid fa-mobile-screen input-icon"></i>
-                <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="phoneError">সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন</p>
-            </div>
-
-            <!-- Email -->
-            <div class="input-group">
-                <input type="email" name="email" id="emailInput" required class="light-input font-mono" placeholder="yourmail@gmail.com">
-                <i class="fa-brands fa-google input-icon"></i>
-                <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="emailError">শুধুমাত্র @gmail.com গ্রহণযোগ্য</p>
-            </div>
-            
-            <!-- Password -->
-            <div class="input-group !mb-0">
-                <input type="password" name="password" required minlength="6" class="light-input font-mono tracking-wider" placeholder="Password (Min 6 chars)">
-                <i class="fa-solid fa-lock input-icon"></i>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" id="submitBtn" class="btn-emerald">
-                <span>রেজিস্ট্রেশন সম্পূর্ণ করুন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
-            </button>
-        </form>
-
-        <!-- Footer / Login Link -->
-        <div class="mt-7 pt-5 border-t border-slate-100 text-center">
-            <p class="text-xs font-medium text-slate-500">
-                ইতিমধ্যে একাউন্ট আছে? 
-                <a href="/login" class="text-emerald-600 font-extrabold hover:underline ml-1">লগইন করুন</a>
-            </p>
-        </div>
+        <!-- RIGHT: লগইন করুন -->
+        <a href="/login" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] border border-[#7DA0CA]/40 hover:bg-[#052659] hover:text-white transition shadow-sm active:scale-95">
+            <i class="fa-solid fa-right-to-bracket text-[10px]"></i>
+            <span>লগইন করুন</span>
+        </a>
 
     </div>
+
+    <!-- ===================================================
+         2. VIDEO GUIDE & SECURITY PILL
+    =================================================== -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 my-4">
+        <a href="/tutorial" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[#C1E8FF] hover:border-[#5483B3] text-[11px] font-bold text-[#052659] shadow-sm transition group backdrop-blur-sm">
+            <span class="w-4 h-4 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-[8px] group-hover:scale-110 transition flex-shrink-0">
+                <i class="fa-solid fa-play"></i>
+            </span>
+            <span>কীভাবে কাজ করবেন? <span class="underline decoration-[#7DA0CA] underline-offset-2">ভিডিও দেখুন</span></span>
+            <i class="fa-solid fa-arrow-right text-[7px] text-[#7DA0CA] group-hover:translate-x-0.5 transition"></i>
+        </a>
+
+        <span class="text-[10px] font-bold text-[#052659] bg-[#C1E8FF]/60 px-2.5 py-0.5 rounded-md border border-[#7DA0CA]/30">
+            <i class="fa-solid fa-shield-halved text-[9px] mr-1"></i> ১টি ডিভাইসে ১টি একাউন্ট
+        </span>
+    </div>
+
+    <!-- ===================================================
+         3. MINIMAL TITLE
+    =================================================== -->
+    <div class="mb-6">
+        <h1 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight leading-tight mb-1">
+            একাউন্ট তৈরি করুন
+        </h1>
+        <p class="text-xs font-semibold text-[#5483B3]">
+            সঠিক তথ্য দিয়ে রেজিস্ট্রেশন সম্পন্ন করুন
+        </p>
+    </div>
+
+    <!-- ===================================================
+         4. GORGEOUS UNDERLINE FORM
+    =================================================== -->
+    <form id="registerForm" method="POST" action="/register">
+        
+        <!-- Hidden Inputs for Ref & Device Fingerprint -->
+        <input type="hidden" name="ref_code" value="{{ ref_code if ref_code else '' }}">
+        <input type="hidden" name="device_id" id="deviceIdInput" value="">
+
+        <!-- Full Name Field -->
+        <div class="field-group">
+            <input type="text" name="name" required placeholder="আপনার পুরো নাম (Full Name)" class="clean-border-input">
+            <i class="fa-regular fa-user field-icon-left"></i>
+            <div class="field-accent-line"></div>
+        </div>
+
+        <!-- Phone Number Field -->
+        <div class="field-group">
+            <input type="tel" name="phone" id="phoneInput" required placeholder="১১ ডিজিটের মোবাইল নম্বর (01XXXXXXXXX)" class="clean-border-input font-mono tracking-wider">
+            <i class="fa-solid fa-mobile-screen field-icon-left"></i>
+            <div class="field-accent-line"></div>
+            <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="phoneError">
+                <i class="fa-solid fa-circle-exclamation mr-0.5"></i> সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন
+            </p>
+        </div>
+
+        <!-- Gmail Field -->
+        <div class="field-group">
+            <input type="email" name="email" id="emailInput" required placeholder="জিমেইল এড্রেস (yourmail@gmail.com)" class="clean-border-input font-mono">
+            <i class="fa-brands fa-google field-icon-left"></i>
+            <div class="field-accent-line"></div>
+            <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="emailError">
+                <i class="fa-solid fa-circle-exclamation mr-0.5"></i> শুধুমাত্র @gmail.com একাউন্ট গ্রহণযোগ্য
+            </p>
+        </div>
+
+        <!-- Password Field -->
+        <div class="field-group">
+            <input type="password" name="password" id="passInput" required minlength="6" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)" class="clean-border-input font-mono tracking-wider">
+            <i class="fa-solid fa-lock field-icon-left"></i>
+            
+            <!-- Eye Toggle Button -->
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2 top-1/2 -translate-y-1/2 text-[#7DA0CA] hover:text-[#052659] transition p-1">
+                <i id="eyeToggleIcon" class="fa-regular fa-eye-slash text-sm"></i>
+            </button>
+            <div class="field-accent-line"></div>
+        </div>
+
+        <!-- Referral Code Indicator (If available) -->
+        {% if ref_code %}
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#C1E8FF]/40 border border-[#C1E8FF] text-xs font-bold text-[#052659] mb-4">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gift text-amber-500"></i> রেফার কোড যুক্ত আছে:</span>
+            <span class="font-mono bg-white px-2 py-0.5 rounded border border-[#7DA0CA]/30">{{ ref_code }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-register-submit">
+            <span>রেজিস্ট্রেশন সম্পূর্ণ করুন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+
+    </form>
+
+    <!-- ===================================================
+         5. MINIMAL FOOTER
+    =================================================== -->
+    <div class="mt-8 pt-5 border-t border-[#C1E8FF]/60 text-center space-y-2.5">
+        <p class="text-xs font-medium text-[#5483B3]">
+            ইতিমধ্যে একটি একাউন্ট আছে? 
+            <a href="/login" class="text-[#052659] font-black hover:underline ml-1">লগইন করুন</a>
+        </p>
+
+        <p class="text-[11px] font-bold text-[#7DA0CA] flex items-center justify-center gap-1.5 pt-1">
+            <i class="fa-brands fa-telegram text-sky-500 text-sm"></i>
+            সহায়তা কেন্দ্র: <a href="https://t.me/takaearn_help" target="_blank" class="text-[#052659] font-black hover:underline">@takaearn_help</a>
+        </p>
+    </div>
+
 </div>
 
+<!-- Scripts -->
 <script>
-    // Live Input Validation (Only for Email & Phone)
+    // Live Real-Time Validation
     const emailInput = document.getElementById('emailInput');
     const emailError = document.getElementById('emailError');
     emailInput.addEventListener('input', function() {
-        if(this.value.length > 0 && !this.value.endsWith('@gmail.com')) {
+        if(this.value.length > 0 && !this.value.toLowerCase().endsWith('@gmail.com')) {
             emailError.classList.remove('hidden');
-            this.classList.add('error-border');
+            this.classList.add('error-line');
         } else {
             emailError.classList.add('hidden');
-            this.classList.remove('error-border');
+            this.classList.remove('error-line');
         }
     });
 
@@ -152,30 +269,67 @@
         const regex = /^01[3-9][0-9]{8}$/;
         if(this.value.length > 0 && !regex.test(this.value)) {
             phoneError.classList.remove('hidden');
-            this.classList.add('error-border');
+            this.classList.add('error-line');
         } else {
             phoneError.classList.add('hidden');
-            this.classList.remove('error-border');
+            this.classList.remove('error-line');
         }
     });
 
-    // ThumbmarkJS Submit (Device Tracking)
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+        const passField = document.getElementById('passInput');
+        const eyeIcon = document.getElementById('eyeToggleIcon');
+
+        if (passField.type === "password") {
+            passField.type = "text";
+            eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            eyeIcon.classList.add('text-[#052659]');
+        } else {
+            passField.type = "password";
+            eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            eyeIcon.classList.remove('text-[#052659]');
+        }
+    }
+
+    // Fingerprint & Secure Submit Handling
     document.getElementById('registerForm').addEventListener('submit', function(e) {
-        e.preventDefault(); 
-        
-        // Disable button with feedback
+        e.preventDefault();
+
+        // Extra client-side sanity check
+        const email = emailInput.value.trim().toLowerCase();
+        const phone = phoneInput.value.trim();
+        const phoneRegex = /^01[3-9][0-9]{8}$/;
+
+        if (!email.endsWith('@gmail.com')) {
+            alert('শুধুমাত্র @gmail.com একাউন্ট গ্রহণযোগ্য!');
+            emailInput.focus();
+            return;
+        }
+
+        if (!phoneRegex.test(phone)) {
+            alert('সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন!');
+            phoneInput.focus();
+            return;
+        }
+
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-lg"></i> <span class="ml-2">যাচাই করা হচ্ছে...</span>';
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">যাচাই করা হচ্ছে...</span>';
         btn.classList.add('opacity-80', 'cursor-not-allowed');
 
-        // Get Device Fingerprint & Submit
-        ThumbmarkJS.getFingerprint().then(function(fp) {
-            document.getElementById('deviceIdInput').value = fp;
+        // Fetch Thumbmark device fingerprint
+        if (typeof ThumbmarkJS !== 'undefined') {
+            ThumbmarkJS.getFingerprint().then(function(fp) {
+                document.getElementById('deviceIdInput').value = fp;
+                document.getElementById('registerForm').submit();
+            }).catch(function() {
+                document.getElementById('registerForm').submit();
+            });
+        } else {
             document.getElementById('registerForm').submit();
-        }).catch(function(err) {
-            document.getElementById('registerForm').submit();
-        });
+        }
     });
 </script>
+
 {% endblock %}
