@@ -2,25 +2,41 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       TAKAEARN - ULTRA-MODERN LIGHT BLUE LANDING UI
+    /* ==========================================================
+       TAKAEARN ULTRA-PREMIUM FINTECH LANDING UI
        Palette:
-       #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(25px); }
+       --c-dark    : #021024
+       --c-navy    : #052659
+       --c-steel   : #5483B3
+       --c-soft    : #7DA0CA
+       --c-ice     : #C1E8FF
+    ========================================================== */
+    :root {
+        --c-dark: #021024;
+        --c-navy: #052659;
+        --c-steel: #5483B3;
+        --c-soft: #7DA0CA;
+        --c-ice: #C1E8FF;
+    }
+
+    .fade-in-up { 
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; 
+        transform: translateY(24px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Ambient Soft Blue Radial Glows */
-    .glow-sphere-1 {
-        position: absolute; top: -5%; left: 50%; transform: translateX(-50%);
-        width: 700px; height: 700px;
-        background: radial-gradient(circle, rgba(193, 232, 255, 0.45) 0%, rgba(125, 160, 202, 0.12) 50%, transparent 70%);
-        z-index: -1; pointer-events: none; filter: blur(55px);
+    /* Ambient Soft Radial Glows */
+    .glow-sphere-top {
+        position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+        width: 750px; height: 750px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.55) 0%, rgba(125, 160, 202, 0.15) 50%, transparent 70%);
+        z-index: -1; pointer-events: none; filter: blur(60px);
     }
-    .glow-sphere-2 {
-        position: absolute; top: 45%; right: -10%;
-        width: 500px; height: 500px;
-        background: radial-gradient(circle, rgba(84, 131, 179, 0.15) 0%, transparent 65%);
+    .glow-sphere-mid {
+        position: absolute; top: 40%; right: -12%;
+        width: 550px; height: 550px;
+        background: radial-gradient(circle, rgba(84, 131, 179, 0.14) 0%, transparent 65%);
         z-index: -1; pointer-events: none; filter: blur(50px);
     }
 
@@ -28,157 +44,193 @@
     .float-app { animation: floating 5s ease-in-out infinite; }
     @keyframes floating { 
         0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-12px) rotate(0.6deg); }
+        50% { transform: translateY(-12px) rotate(0.4deg); }
     }
 
-    /* Soft Glow Glass Bento Cards */
-    .bento-card {
+    /* Glass Cards */
+    .te-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         border-radius: 28px;
-        padding: 26px;
         transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 30px -10px rgba(5, 38, 89, 0.04);
+        box-shadow: 0 10px 30px -10px rgba(5, 38, 89, 0.05);
     }
-    .bento-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 40px -10px rgba(5, 38, 89, 0.12);
+    .te-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.12);
         border-color: #7DA0CA;
         background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
     }
 
-    .icon-box {
-        width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
+    .icon-box-lg {
+        width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
         background: #C1E8FF; color: #052659; border: 1.5px solid rgba(125, 160, 202, 0.4);
-        border-radius: 18px; font-size: 22px; transition: all 0.3s ease;
+        border-radius: 18px; font-size: 24px; transition: all 0.3s ease;
         box-shadow: 0 4px 14px rgba(5, 38, 89, 0.08);
     }
-    .bento-card:hover .icon-box { 
+    .te-card:hover .icon-box-lg { 
         background: #052659; color: #FFFFFF; border-color: #052659;
         transform: scale(1.08) rotate(4deg);
-        box-shadow: 0 8px 20px rgba(5, 38, 89, 0.25);
+        box-shadow: 0 8px 22px rgba(5, 38, 89, 0.25);
     }
 
-    /* Primary & Secondary Buttons */
-    .btn-blue {
+    /* Buttons */
+    .btn-gradient {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF; padding: 18px 36px;
         border-radius: 20px; font-weight: 800; font-size: 14px;
         letter-spacing: 0.3px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex; align-items: center; justify-content: center; gap: 10px;
         box-shadow: 0 10px 28px -5px rgba(5, 38, 89, 0.35);
+        position: relative; overflow: hidden;
     }
-    .btn-blue:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 34px -4px rgba(5, 38, 89, 0.45);
+    .btn-gradient::after {
+        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transform: skewX(-20deg); animation: btnShimmer 3.5s infinite;
     }
-    .btn-blue:active { transform: scale(0.96); }
-    
-    .btn-light {
-        background: #FFFFFF; color: #021024; padding: 18px 36px;
+    @keyframes btnShimmer { 100% { left: 200%; } }
+    .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -4px rgba(5, 38, 89, 0.45); }
+    .btn-gradient:active { transform: scale(0.96); }
+
+    .btn-outline-te {
+        background: #FFFFFF; color: #021024; padding: 18px 32px;
         border-radius: 20px; font-weight: 700; font-size: 14px; border: 1.5px solid #C1E8FF;
         letter-spacing: 0.2px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         box-shadow: 0 4px 14px rgba(5, 38, 89, 0.03);
     }
-    .btn-light:hover { background: #F4F9FD; border-color: #7DA0CA; color: #052659; transform: translateY(-2px); }
-    .btn-light:active { transform: scale(0.96); }
+    .btn-outline-te:hover { background: #F4F9FD; border-color: #7DA0CA; color: #052659; transform: translateY(-2px); }
+    .btn-outline-te:active { transform: scale(0.96); }
+
+    /* Live Marquee Ticker */
+    .live-ticker-wrap {
+        overflow: hidden; white-space: nowrap;
+        background: #FFFFFF; border: 1.5px solid #C1E8FF; border-radius: 999px;
+        padding: 8px 18px; box-shadow: 0 4px 20px -5px rgba(5, 38, 89, 0.06);
+    }
+    .live-ticker-track {
+        display: inline-block; padding-left: 100%;
+        animation: tickerScroll 24s linear infinite;
+        font-weight: 700; color: #052659; font-size: 12px;
+    }
+    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
     /* Trust Pill */
     .trust-pill {
         background: #FFFFFF; border: 1.5px solid #C1E8FF;
-        padding: 6px 18px; border-radius: 999px;
-        box-shadow: 0 4px 20px rgba(5, 38, 89, 0.06);
+        padding: 7px 20px; border-radius: 999px;
+        box-shadow: 0 6px 20px rgba(5, 38, 89, 0.06);
     }
 
-    /* Hide Bottom Nav on Landing Page */
+    /* Hide standard bottom navigation on landing page */
     .premium-bottom-nav { display: none !important; }
 </style>
 
-<div class="relative z-10 pt-8 pb-24 px-4 overflow-hidden">
-    <div class="glow-sphere-1"></div>
-    <div class="glow-sphere-2"></div>
+<div class="relative z-10 pt-6 pb-24 px-4 overflow-hidden">
+    <div class="glow-sphere-top"></div>
+    <div class="glow-sphere-mid"></div>
 
     <!-- ==========================================
          1. HERO SECTION
     ========================================== -->
-    <div class="max-w-4xl mx-auto text-center fade-in-up mt-4">
+    <div class="max-w-4xl mx-auto text-center fade-in-up mt-2">
         
-        <!-- Trust Badge -->
-        <div class="inline-flex items-center gap-2 trust-pill mb-7">
+        <!-- Live Trust Badge -->
+        <div class="inline-flex items-center gap-2 trust-pill mb-6">
             <span class="flex h-2.5 w-2.5 relative">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5483B3] opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#052659]"></span>
             </span>
             <span class="text-[11px] font-extrabold text-[#052659] tracking-wider uppercase">
-                TakaEarn • বিশ্বস্ত মাইক্রো-টাস্ক প্ল্যাটফর্ম
+                TakaEarn • বাংলাদেশের বিশ্বস্ত মাইক্রো-টাস্ক প্ল্যাটফর্ম
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-[#021024] leading-[1.15] mb-6 tracking-tight">
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-[#021024] leading-[1.14] mb-6 tracking-tight">
             সহজ কাজ করে আয় করুন <br>
-            <span class="bg-gradient-to-r from-[#052659] via-[#5483B3] to-[#7DA0CA] bg-clip-text text-transparent">প্রতিদিন নিশ্চিত পেমেন্ট</span>
+            <span class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] bg-clip-text text-transparent">
+                বিকাশ ও নগদে ইনস্ট্যান্ট ক্যাশআউট
+            </span>
         </h1>
 
-        <p class="text-[#5483B3] text-sm sm:text-base mb-10 max-w-xl mx-auto leading-relaxed font-semibold">
-            সোশ্যাল মিডিয়া টাস্ক, জিমেইল তৈরি ও অ্যাপ রিভিউ দিয়ে ঘরে বসেই মোবাইল দিয়ে পার্ট-টাইম আয় করুন। কোনো জটিল শর্ত নেই, বিকাশ ও নগদে দ্রুত ক্যাশআউট।
+        <p class="text-[#5483B3] text-sm sm:text-base mb-8 max-w-xl mx-auto leading-relaxed font-semibold">
+            মোবাইল দিয়ে ইউটিউব দেখা, জিমেইল তৈরি, অ্যাপ রিভিউ এবং সোশ্যাল মিডিয়া টাস্ক সম্পন্ন করে প্রতিদিন নিশ্চিত আয় করুন। কোন জটিল শর্ত ছাড়া সর্বনিম্ন ২০ টাকা হলেই উইথড্র!
         </p>
 
         <!-- CTA Action Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-            <a href="/register" class="btn-blue w-full sm:w-auto">
-                <span>আজই শুরু করুন</span> <i class="fa-solid fa-arrow-right"></i>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <a href="/register" class="btn-gradient w-full sm:w-auto">
+                <span>আজই ফ্রি শুরু করুন</span> <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <a href="/login" class="btn-light w-full sm:w-auto">
-                <span>লগইন করুন</span> <i class="fa-solid fa-right-to-bracket text-[#7DA0CA]"></i>
+            <a href="/tutorial" class="btn-outline-te w-full sm:w-auto">
+                <i class="fa-solid fa-circle-play text-[#052659] text-base"></i> <span>ভিডিও টিউটোরিয়াল</span>
             </a>
         </div>
 
+        <!-- Social Proof Stats Pill -->
+        <div class="inline-flex items-center gap-3 bg-white/90 border border-[#C1E8FF] px-4 py-2 rounded-2xl shadow-sm mb-14 text-xs font-bold text-[#052659]">
+            <div class="flex -space-x-2">
+                <div class="w-6 h-6 rounded-full bg-[#052659] text-white flex items-center justify-center text-[10px] font-black border-2 border-white">T</div>
+                <div class="w-6 h-6 rounded-full bg-[#5483B3] text-white flex items-center justify-center text-[10px] font-black border-2 border-white">E</div>
+                <div class="w-6 h-6 rounded-full bg-[#7DA0CA] text-[#021024] flex items-center justify-center text-[10px] font-black border-2 border-white">✓</div>
+            </div>
+            <span>৪.৯/৫ স্টার রেটিং • ১৫,০০০+ সক্রিয় মেম্বার কাজ করছেন</span>
+        </div>
+
         <!-- ==========================================
-             FUTURISTIC PHONE MOCKUP (Light Blue Theme)
+             FUTURISTIC 3D APP MOCKUP
         ========================================== -->
-        <div class="relative mx-auto w-full max-w-[320px] sm:max-w-[360px] md:max-w-[620px] float-app">
+        <div class="relative mx-auto w-full max-w-[325px] sm:max-w-[370px] md:max-w-[620px] float-app">
             
-            <div class="relative bg-white rounded-[44px] p-2.5 border-[6px] border-[#C1E8FF] shadow-[0_30px_70px_-15px_rgba(5,38,89,0.18)] overflow-hidden">
+            <div class="relative bg-white rounded-[46px] p-3 border-[6px] border-[#C1E8FF] shadow-[0_30px_80px_-15px_rgba(5,38,89,0.22)] overflow-hidden">
                 
                 <!-- Mockup Screen Interior -->
-                <div class="bg-[#F4F9FD] h-[430px] w-full rounded-[34px] overflow-hidden p-6 relative flex flex-col border border-[#C1E8FF]">
+                <div class="bg-[#F4F9FD] h-[450px] w-full rounded-[36px] overflow-hidden p-6 relative flex flex-col border border-[#C1E8FF]">
                     
                     <!-- App Status Bar -->
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex justify-between items-center mb-5">
                         <div class="flex items-center gap-2.5">
-                            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn" class="h-8 w-8 rounded-xl object-cover border border-[#C1E8FF] shadow-sm">
-                            <span class="text-xs font-black text-[#021024] tracking-tight">TakaEarn</span>
+                            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn Logo" class="h-8 w-8 rounded-xl object-cover border border-[#C1E8FF] shadow-sm">
+                            <div>
+                                <span class="text-xs font-black text-[#021024] block leading-tight">TakaEarn Hub</span>
+                                <span class="text-[9px] text-[#7DA0CA] font-mono">v1.2 Active</span>
+                            </div>
                         </div>
-                        <span class="text-[10px] font-extrabold text-[#052659] bg-[#C1E8FF] px-2.5 py-0.5 rounded-full border border-[#7DA0CA]/40">● Online</span>
+                        <span class="text-[10px] font-extrabold text-[#052659] bg-[#C1E8FF] px-2.5 py-0.5 rounded-full border border-[#7DA0CA]/40 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#052659] animate-ping"></span> Live Bot
+                        </span>
                     </div>
                     
-                    <!-- Balance Card Simulation -->
-                    <div class="bg-gradient-to-tr from-[#052659] via-[#052659] to-[#5483B3] p-6 rounded-3xl w-full mb-5 text-center text-white shadow-xl shadow-[#052659]/25 relative overflow-hidden">
+                    <!-- Live Balance Card Simulation -->
+                    <div class="bg-gradient-to-tr from-[#021024] via-[#052659] to-[#5483B3] p-6 rounded-3xl w-full mb-4 text-center text-white shadow-xl shadow-[#052659]/30 relative overflow-hidden">
                         <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
                         <div class="relative z-10">
-                            <p class="text-[10px] uppercase tracking-widest text-[#C1E8FF] font-extrabold mb-1">Available Earning</p>
-                            <p class="text-4xl font-black font-mono tracking-tight text-white">
-                                <span class="text-2xl text-[#C1E8FF] font-sans">৳</span>3,480.00
+                            <p class="text-[10px] uppercase tracking-widest text-[#C1E8FF] font-extrabold mb-1">আপনার মোট আয় (Balance)</p>
+                            <p class="text-4xl font-black font-mono tracking-tight text-white mb-3">
+                                <span class="text-2xl text-[#C1E8FF] font-sans">৳</span>4,850.00
                             </p>
+                            <div class="flex justify-center gap-2">
+                                <span class="bg-white/20 text-[#C1E8FF] text-[10px] font-bold px-3 py-1 rounded-xl backdrop-blur-sm border border-white/20">উইথড্র রেডি</span>
+                                <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-3 py-1 rounded-xl">VIP সক্রিয়</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Recent Tasks Simulation -->
-                    <div class="space-y-2.5 mt-auto text-left">
+                    <!-- Live Task Queue Simulation -->
+                    <div class="space-y-2 mt-auto text-left">
                         <div class="bg-white p-3 rounded-2xl border border-[#C1E8FF] flex items-center justify-between shadow-sm">
                             <div class="flex items-center gap-3">
                                 <div class="h-8 w-8 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-xs"><i class="fa-brands fa-youtube"></i></div>
-                                <div><p class="text-xs font-bold text-[#021024]">YouTube Task</p><p class="text-[9px] text-[#7DA0CA]">Completed</p></div>
+                                <div><p class="text-xs font-bold text-[#021024]">YouTube Subscribe</p><p class="text-[9px] text-[#7DA0CA]">Instant Auto Review</p></div>
                             </div>
                             <span class="text-xs font-black text-[#052659] font-mono">+৳15.00</span>
                         </div>
                         <div class="bg-white p-3 rounded-2xl border border-[#C1E8FF] flex items-center justify-between shadow-sm">
                             <div class="flex items-center gap-3">
                                 <div class="h-8 w-8 rounded-xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs"><i class="fa-brands fa-google"></i></div>
-                                <div><p class="text-xs font-bold text-[#021024]">Gmail Farming</p><p class="text-[9px] text-[#7DA0CA]">Verified</p></div>
+                                <div><p class="text-xs font-bold text-[#021024]">Gmail Account Farm</p><p class="text-[9px] text-[#7DA0CA]">Verified Task</p></div>
                             </div>
                             <span class="text-xs font-black text-[#052659] font-mono">+৳10.00</span>
                         </div>
@@ -187,25 +239,27 @@
                 </div>
             </div>
             
-            <!-- Floating Payment Badge -->
-            <div class="absolute -right-4 sm:-right-8 top-1/4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#C1E8FF] shadow-xl hidden md:flex items-center gap-3.5 animate-bounce" style="animation-duration: 4s;">
-                <div class="h-10 w-10 bg-[#C1E8FF] text-[#052659] rounded-xl flex items-center justify-center text-lg border border-[#7DA0CA]/50">
-                    <i class="fa-solid fa-check-double"></i>
+            <!-- Floating Bubble 1: Instant Payout -->
+            <div class="absolute -right-4 sm:-right-8 top-1/4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#C1E8FF] shadow-2xl hidden md:flex items-center gap-3.5 animate-bounce" style="animation-duration: 4s;">
+                <div class="h-11 w-11 bg-[#C1E8FF] text-[#052659] rounded-xl flex items-center justify-center text-lg border border-[#7DA0CA]/50 flex-shrink-0">
+                    <i class="fa-solid fa-bolt-lightning"></i>
                 </div>
                 <div class="text-left">
-                    <p class="text-[9px] text-[#7DA0CA] font-black uppercase tracking-wider">bKash Cashout</p>
-                    <p class="text-sm font-black text-[#021024] font-mono">৳850 Received</p>
+                    <p class="text-[9px] text-[#7DA0CA] font-black uppercase tracking-wider">bKash Payout</p>
+                    <p class="text-sm font-black text-[#021024] font-mono">৳750 Received</p>
+                    <p class="text-[8px] text-emerald-600 font-bold">● Just Now</p>
                 </div>
             </div>
 
-            <!-- Floating 24/7 Support Badge -->
-            <div class="absolute -left-4 sm:-left-8 bottom-1/4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#C1E8FF] shadow-xl hidden md:flex items-center gap-3.5">
-                <div class="h-10 w-10 bg-[#C1E8FF] text-[#052659] rounded-xl flex items-center justify-center text-lg border border-[#7DA0CA]/50">
+            <!-- Floating Bubble 2: 24/7 AI Desk -->
+            <div class="absolute -left-4 sm:-left-8 bottom-1/4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-[#C1E8FF] shadow-2xl hidden md:flex items-center gap-3.5">
+                <div class="h-11 w-11 bg-[#C1E8FF] text-[#052659] rounded-xl flex items-center justify-center text-lg border border-[#7DA0CA]/50 flex-shrink-0">
                     <i class="fa-solid fa-headset"></i>
                 </div>
                 <div class="text-left">
-                    <p class="text-[9px] text-[#7DA0CA] font-black uppercase tracking-wider">Support Desk</p>
-                    <p class="text-xs font-black text-[#052659]">24/7 AI & Live Agent</p>
+                    <p class="text-[9px] text-[#7DA0CA] font-black uppercase tracking-wider">Official Support</p>
+                    <p class="text-xs font-black text-[#052659]">@takaearn_help</p>
+                    <p class="text-[8px] text-[#5483B3] font-bold">২৪/৭ সরাসরি সাহায্য</p>
                 </div>
             </div>
             
@@ -214,98 +268,179 @@
     </div>
 
     <!-- ==========================================
-         2. LIVE STATS / METRICS BANNER
+         2. LIVE PAYOUT TICKER MARQUEE
     ========================================== -->
-    <div class="max-w-4xl mx-auto my-20">
-        <div class="bg-white rounded-3xl p-8 border border-[#C1E8FF] shadow-sm grid grid-cols-3 gap-6 text-center divide-x divide-[#C1E8FF]">
-            <div>
-                <h3 class="text-2xl sm:text-4xl font-black text-[#021024] tracking-tight">15,000<span class="text-[#5483B3]">+</span></h3>
-                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1.5 font-bold uppercase tracking-wider">এক্টিভ মেম্বার</p>
-            </div>
-            <div>
-                <h3 class="text-2xl sm:text-4xl font-black text-[#021024] tracking-tight">1.5<span class="text-[#5483B3]">Y+</span></h3>
-                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1.5 font-bold uppercase tracking-wider">সফল পথচলা</p>
-            </div>
-            <div>
-                <h3 class="text-2xl sm:text-4xl font-black text-[#021024] tracking-tight">100<span class="text-[#5483B3]">%</span></h3>
-                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1.5 font-bold uppercase tracking-wider">নিরাপদ পেমেন্ট</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         3. WHY CHOOSE US (Bento Grid)
-    ========================================== -->
-    <div class="max-w-5xl mx-auto py-8">
-        <div class="text-center mb-14">
-            <span class="text-[#052659] font-extrabold text-[10px] tracking-widest uppercase bg-[#C1E8FF] px-4 py-1.5 rounded-full border border-[#7DA0CA]/50">
-                Core Advantages
+    <div class="max-w-4xl mx-auto my-12">
+        <div class="live-ticker-wrap flex items-center gap-3">
+            <span class="bg-[#052659] text-white text-[10px] font-black uppercase px-3 py-1 rounded-full flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-receipt mr-1"></i> লাইভ পেমেন্ট
             </span>
-            <h2 class="text-3xl sm:text-4xl font-black text-[#021024] mt-4 tracking-tight">
-                কেন TakaEarn সেরা প্ল্যাটফর্ম?
+            <div class="live-ticker-track">
+                🚀 মেম্বার 017***9420 কে ৳৭৫০ বিকাশ সফল • 🎁 মেম্বার 019***4812 জিমেইল কাজ শেষ করেছেন (+৳১০) • ⚡ মেম্বার 018***3310 নগদ ক্যাশআউট ৳১২০০ সম্পন্ন • 🌟 নতুন VIP লেভেল ৩ মেম্বারশিপ আপগ্রেড সম্পন্ন • 💸 মেম্বার 016***8891 প্লে-স্টোর রিভিউ সম্পন্ন (+৳২০) • 
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         3. PLATFORM METRICS BENTO
+    ========================================== -->
+    <div class="max-w-4xl mx-auto mb-20">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#C1E8FF] shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-[#C1E8FF]">
+            <div class="pt-4 md:pt-0">
+                <h3 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight font-mono">৳১২.৮M<span class="text-[#5483B3]">+</span></h3>
+                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1 font-bold uppercase tracking-wider">মোট বিতরণকৃত অর্থ</p>
+            </div>
+            <div class="pt-4 md:pt-0">
+                <h3 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight font-mono">১৫,০০০<span class="text-[#5483B3]">+</span></h3>
+                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1 font-bold uppercase tracking-wider">সক্রিয় ইউজার বেস</p>
+            </div>
+            <div class="pt-4 md:pt-0">
+                <h3 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight font-mono">৯৯.৮<span class="text-[#5483B3]">%</span></h3>
+                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1 font-bold uppercase tracking-wider">অটো-পে সাকসেস</p>
+            </div>
+            <div class="pt-4 md:pt-0">
+                <h3 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight font-mono">৫-৩০<span class="text-[#5483B3]">Mins</span></h3>
+                <p class="text-[10px] sm:text-xs text-[#7DA0CA] mt-1 font-bold uppercase tracking-wider">গড় উইথড্র সময়</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         4. CORE EARNING MODULES (ALL INCOME SOURCES)
+    ========================================== -->
+    <div class="max-w-5xl mx-auto py-6">
+        <div class="text-center mb-12">
+            <span class="text-[#052659] font-extrabold text-[10px] tracking-widest uppercase bg-[#C1E8FF] px-4 py-1.5 rounded-full border border-[#7DA0CA]/50">
+                Earning Streams
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-black text-[#021024] mt-3 tracking-tight">
+                TakaEarn-এ কীভাবে আয় করবেন?
             </h2>
+            <p class="text-xs text-[#5483B3] font-semibold mt-1 max-w-md mx-auto">
+                আমাদের প্রতিটি সেকশন থেকে আলাদা আলাদা কাজের সুযোগ এবং নিশ্চিত ইনকাম রয়েছে।
+            </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-bolt-lightning"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">ইনস্ট্যান্ট পেমেন্ট বট</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    অটোমেটেড সিস্টেমের মাধ্যমে উইথড্র দেওয়ার খুব অল্প সময়ের মধ্যেই বিকাশ ও নগদে সরাসরি টাকা পৌঁছে যায়।
-                </p>
+            <!-- Module 1: Micro Tasks -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-solid fa-list-check"></i></div>
+                        <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-1 rounded-lg">৳৫ - ৳২০ / টাস্ক</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">মাইক্রো সোশ্যাল টাস্ক</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        ইউটিউব ভিডিও দেখা ও সাবস্ক্রাইব, ফেসবুক ফলো ও পোস্ট শেয়ার করে দৈনিক আনলিমিটেড মাইক্রো ইনকাম।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>১০০% অটো রিভিউ বট</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-list-check"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">সহজ ও আনলিমিটেড কাজ</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    ইউটিউব সাবস্ক্রাইব, ফেসবুক ফলো, জিমেইল তৈরি ও প্লে-স্টোরে অ্যাপ রিভিউয়ের মতো সহজ কাজ প্রতিদিন নিয়মিত থাকে।
-                </p>
+            <!-- Module 2: Gmail Farming -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-brands fa-google"></i></div>
+                        <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-1 rounded-lg">৳৫ - ৳১০ / মেইল</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">জিমেইল ফার্মিং জব</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        আমাদের দেওয়া নির্দিষ্ট নাম দিয়ে আনলিমিটেড ফ্রেশ জিমেইল আইডি বানিয়ে সরাসরি জমা দিন এবং সাথে সাথে টাকা নিন।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>সহজ ও হাই-ডিমান্ড কাজ</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-crown"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">এলিট ভিআইপি পাস</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    কোনো প্রকার রেফার বা টাস্কের ঝামেলা ছাড়াই প্রতিদিন নিশ্চিত অটোমেটিক প্রফিট ক্লেইম করার দারুণ সুযোগ।
-                </p>
+            <!-- Module 3: PlayStore Reviews -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-brands fa-google-play"></i></div>
+                        <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-1 rounded-lg">৳১০ - ৳৩০ / অ্যাপ</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">প্লে-স্টোর অ্যাপ রিভিউ</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        প্লে-স্টোর থেকে সাধারণ কিছু অ্যাপ ইনস্টল করে ৫-স্টার পজিটিভ রিভিউ লিখে স্ক্রিনশট দিয়ে আয় করুন।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>১ মিনিটে সম্পন্ন</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-users"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">লাইফটাইম রেফার কমিশন</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    বন্ধুদের রেফার করে নিয়মিত কমিশন এবং ৫০ থেকে ১,০০০ রেফারেল অর্জনে আকর্ষণীয় মেগা বাউন্টি ক্যাশ বোনাস।
-                </p>
+            <!-- Module 4: Telecom Drive Packs -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-solid fa-wifi"></i></div>
+                        <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-1 rounded-lg">৩০% ক্যাশব্যাক</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">ড্রাইভ প্যাক ও রিচার্জ</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        GP, Robi, Banglalink, Airtel এর ইন্টারনেট ও মিনিট প্যাক সাশ্রয়ী পাইকারি রেটে কিনুন অথবা অন্যদের দিয়ে প্রফিট করুন।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>সকল সিমে সাপোর্ট</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-gamepad"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">দৈনিক ফ্রি মিনি গেমস</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    লাকি স্পিন, ক্যাপচা সলভ এবং স্ক্র্যাচ কার্ড ঘষে প্রতিদিন সম্পূর্ণ ফ্রিতে নিশ্চিত এক্সট্রা পকেটমানি ইনকাম।
-                </p>
+            <!-- Module 5: Free Mini Games -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-solid fa-gamepad"></i></div>
+                        <span class="bg-[#C1E8FF] text-[#052659] text-[10px] font-black px-2.5 py-1 rounded-lg">১০০% ফ্রি ডেইলি</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">স্পিন, ক্যাপচা ও স্ক্র্যাচ</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        দৈনিক লাকি স্পিন হুইল ঘুরিয়ে, কোড টাইপ করে এবং স্ক্র্যাচ কার্ড ঘষে সম্পূর্ণ ফ্রিতে পকেটমানি সংগ্রহ করুন।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>প্রতিদিন নিশ্চিত রিওয়ার্ড</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
-            <div class="bento-card">
-                <div class="icon-box mb-5"><i class="fa-solid fa-headset"></i></div>
-                <h3 class="text-lg font-bold text-[#021024] mb-2">২৪/৭ AI ও লাইভ সাপোর্ট</h3>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
-                    যেকোনো সমস্যায় ইনস্ট্যান্ট AI সহায়তা অথবা সাপোর্ট এজেন্টের সাথে সরাসরি টেলিগ্রাম ও ওয়েব সাপোর্টের সার্বক্ষণিক ব্যবস্থা।
-                </p>
+            <!-- Module 6: VIP Passive Income -->
+            <div class="te-card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="icon-box-lg"><i class="fa-solid fa-crown text-amber-500"></i></div>
+                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-lg">অটোমেটিক ক্লেইম</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#021024] mb-2">এলিট ভিআইপি মেম্বারশিপ</h3>
+                    <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+                        কোনো রেফারেল বা টাস্কের ঝামেলা ছাড়াই প্রতিদিন নিশ্চিত ফিক্সড লভ্যাংশ ক্লেইম করুন এবং ২০ টাকা হলেই তুলুন।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-[#C1E8FF] text-[11px] font-bold text-[#052659] flex items-center justify-between">
+                    <span>জিরো রেফার শর্ত</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
             </div>
 
         </div>
     </div>
 
     <!-- ==========================================
-         4. HOW IT WORKS (3 Simple Steps)
+         5. HOW IT WORKS (3 Simple Steps)
     ========================================== -->
-    <div class="max-w-5xl mx-auto bg-gradient-to-b from-white to-[#F4F9FD] rounded-[36px] border border-[#C1E8FF] py-16 px-6 my-16 shadow-sm text-center">
+    <div class="max-w-5xl mx-auto bg-gradient-to-b from-white to-[#F4F9FD] rounded-[36px] border border-[#C1E8FF] py-14 px-6 my-16 shadow-sm text-center">
         
         <h2 class="text-3xl font-black text-[#021024] mb-12 tracking-tight">
-            কাজ শুরু করার সহজ ৩টি ধাপ
+            ইনকাম শুরু করার সহজ ৩টি ধাপ
         </h2>
 
         <div class="grid sm:grid-cols-3 gap-8 px-4">
@@ -314,24 +449,24 @@
                 <div class="h-16 w-16 bg-white border-2 border-[#052659] text-[#052659] rounded-2xl flex items-center justify-center text-xl font-black mb-5 shadow-lg shadow-[#052659]/10">
                     ১
                 </div>
-                <h4 class="text-base font-bold text-[#021024] mb-2">একাউন্ট তৈরি করুন</h4>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">একটি সচল জিমেইল ও ফোন নাম্বার দিয়ে এক মিনিটেই ফ্রি একাউন্ট খুলুন।</p>
+                <h4 class="text-base font-bold text-[#021024] mb-2">ফ্রি একাউন্ট খুলুন</h4>
+                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">একটি সচল জিমেইল ও ফোন নাম্বার দিয়ে এক মিনিটেই একাউন্ট তৈরি করে নিন।</p>
             </div>
 
             <div class="flex flex-col items-center">
                 <div class="h-16 w-16 bg-white border-2 border-[#052659] text-[#052659] rounded-2xl flex items-center justify-center text-xl font-black mb-5 shadow-lg shadow-[#052659]/10">
                     ২
                 </div>
-                <h4 class="text-base font-bold text-[#021024] mb-2">টাস্ক সম্পন্ন করুন</h4>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">ড্যাশবোর্ড থেকে সহজ কাজগুলো নিয়ম অনুযায়ী করে সঠিক প্রুফ সাবমিট দিন।</p>
+                <h4 class="text-base font-bold text-[#021024] mb-2">পছন্দের কাজ বেছে নিন</h4>
+                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">ওয়ার্ক স্টেশন থেকে মাইক্রো টাস্ক, জিমেইল তৈরি বা অ্যাপ রিভিউ সঠিক নিয়মে জমা দিন।</p>
             </div>
 
             <div class="flex flex-col items-center">
                 <div class="h-16 w-16 bg-white border-2 border-[#052659] text-[#052659] rounded-2xl flex items-center justify-center text-xl font-black mb-5 shadow-lg shadow-[#052659]/10">
                     ৩
                 </div>
-                <h4 class="text-base font-bold text-[#021024] mb-2">পেমেন্ট গ্রহণ করুন</h4>
-                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">আপনার ব্যালেন্স বিকাশ, নগদ অথবা রকেটের মাধ্যমে দ্রুত উইথড্র করে নিন।</p>
+                <h4 class="text-base font-bold text-[#021024] mb-2">টাকা সরাসরি পকেটে নিন</h4>
+                <p class="text-xs text-[#5483B3] font-medium leading-relaxed">ব্যালেন্স জমা হলে বিকাশ, নগদ বা রকেটের মাধ্যমে মাত্র ২০ বা ৫০ টাকা হলেই ক্যাশআউট করুন।</p>
             </div>
 
         </div>
@@ -339,46 +474,123 @@
     </div>
 
     <!-- ==========================================
-         5. FINAL CALL TO ACTION (CTA BANNER)
+         6. OFFICIAL TELEGRAM COMMUNITY & SUPPORT
     ========================================== -->
-    <div class="max-w-4xl mx-auto py-12 px-6 text-center">
-        <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-[32px] p-10 sm:p-14 text-white shadow-xl shadow-[#052659]/25 relative overflow-hidden">
-            
+    <div class="max-w-4xl mx-auto my-12">
+        <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-[32px] p-8 sm:p-10 text-white shadow-xl shadow-[#052659]/25 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <div class="h-16 w-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl text-sky-300 border border-white/20 flex-shrink-0 shadow-inner">
+                    <i class="fa-brands fa-telegram"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] bg-sky-400 text-[#021024] font-black uppercase tracking-wider px-3 py-0.5 rounded-full inline-block mb-1">Official Channels</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">টেলিগ্রাম চ্যানেলে যুক্ত থাকুন!</h3>
+                    <p class="text-xs text-[#C1E8FF] mt-1 font-medium">প্রতিদিনের পেমেন্ট প্রুফ, নতুন টাস্ক ও লাইভ সহায়তার জন্য জয়েন করুন।</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                <a href="https://t.me/takaearn_site" target="_blank" class="w-full sm:w-auto bg-white text-[#052659] hover:bg-[#C1E8FF] px-6 py-3.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-md transition text-center flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bullhorn"></i> <span>টেলিগ্রাম চ্যানেল</span>
+                </a>
+                <a href="https://t.me/takaearn_help" target="_blank" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-400 text-white px-6 py-3.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-md transition text-center flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-headset"></i> <span>লাইভ হেল্প ডেস্ক</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         7. FREQUENTLY ASKED QUESTIONS (FAQ)
+    ========================================== -->
+    <div class="max-w-4xl mx-auto py-6">
+        <div class="text-center mb-10">
+            <h2 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight">
+                সাধারণ কিছু প্রশ্নোত্তর (FAQ)
+            </h2>
+            <p class="text-xs text-[#5483B3] font-semibold mt-1">কাজের শুরুতে আপনার মনে যেসব প্রশ্ন আসতে পারে</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-left">
+            <div class="bg-white p-5 rounded-2xl border border-[#C1E8FF] shadow-sm">
+                <h4 class="font-bold text-[#021024] text-sm mb-1.5 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-[#5483B3]"></i> একাউন্ট খুলতে কোনো টাকা লাগে?
+                </h4>
+                <p class="text-xs text-[#5483B3] leading-relaxed">
+                    না, TakaEarn-এ ১০০% ফ্রিতে একাউন্ট খোলা যায় এবং সাথে সাথে কাজ শুরু করা যায়।
+                </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-[#C1E8FF] shadow-sm">
+                <h4 class="font-bold text-[#021024] text-sm mb-1.5 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-[#5483B3]"></i> টাকা তুলতে কি রেফারেল বাধ্যতামূলক?
+                </h4>
+                <p class="text-xs text-[#5483B3] leading-relaxed">
+                    VIP মেম্বারদের জন্য কোনো রেফারেল শর্ত নেই। ফ্রি মেম্বারদের ক্ষেত্রে সামান্য কিছু শর্ত পূরণ করলেই সহজে টাকা তোলা যায়।
+                </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-[#C1E8FF] shadow-sm">
+                <h4 class="font-bold text-[#021024] text-sm mb-1.5 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-[#5483B3]"></i> উইথড্র দিলে কতক্ষণে টাকা আসে?
+                </h4>
+                <p class="text-xs text-[#5483B3] leading-relaxed">
+                    আমাদের ইনস্ট্যান্ট পেআউট বটের মাধ্যমে সর্বোচ্চ ৫ মিনিট থেকে কয়েক ঘণ্টার মধ্যে সরাসরি বিকাশ বা নগদে টাকা পৌঁছে যায়।
+                </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-[#C1E8FF] shadow-sm">
+                <h4 class="font-bold text-[#021024] text-sm mb-1.5 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-[#5483B3]"></i> কোনো সমস্যায় সাপোর্ট পাবো কীভাবে?
+                </h4>
+                <p class="text-xs text-[#5483B3] leading-relaxed">
+                    আমাদের অফিশিয়াল সাপোর্ট টেলিগ্রাম <b>@takaearn_help</b>-এ যেকোনো সময় মেসেজ দিলে সাথে সাথে লাইভ সহায়তা পাবেন।
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         8. FINAL CTA BANNER
+    ========================================== -->
+    <div class="max-w-4xl mx-auto py-12 px-2 text-center">
+        <div class="bg-gradient-to-r from-[#052659] to-[#5483B3] rounded-[32px] p-10 sm:p-14 text-white shadow-xl shadow-[#052659]/25 relative overflow-hidden">
             <div class="relative z-10 max-w-xl mx-auto">
                 <h2 class="text-3xl sm:text-4xl font-black mb-4 tracking-tight leading-tight">
-                    আজই যোগ দিন দেশের সেরা অনলাইন আর্নিং কমিউনিটিতে!
+                    ঘরে বসে মোবাইল দিয়ে আয় শুরু করুন এখনই!
                 </h2>
                 <p class="text-[#C1E8FF] text-sm font-medium mb-8">
-                    হাজারো মেম্বার প্রতিদিন নিয়মিত কাজ করে পেমেন্ট পাচ্ছেন। ঘরে বসে আয় শুরু করতে আর দেরি কেন?
+                    হাজারো মেম্বার প্রতিদিন কাজ করে নির্ভরযোগ্যভাবে পেমেন্ট পাচ্ছেন। আপনার সময়কে কাজে লাগান।
                 </p>
                 
                 <a href="/register" class="bg-white text-[#052659] hover:bg-[#C1E8FF] px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg active:scale-95 transition inline-flex items-center gap-2">
-                    <span>ফ্রি একাউন্ট খুলুন</span> <i class="fa-solid fa-arrow-right"></i>
+                    <span>ফ্রি রেজিস্ট্রেশন করুন</span> <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
-
         </div>
     </div>
 
     <!-- ==========================================
-         6. FOOTER
+         9. FOOTER
     ========================================== -->
     <footer class="pt-10 text-center border-t border-[#C1E8FF] mt-12 pb-8">
         <div class="flex justify-center gap-3 mb-6">
-            <a href="https://t.me/earndropzone" target="_blank" class="h-11 w-11 bg-white border border-[#C1E8FF] text-[#052659] hover:bg-[#C1E8FF] rounded-xl flex items-center justify-center transition shadow-sm">
+            <a href="https://t.me/takaearn_site" target="_blank" class="h-11 w-11 bg-white border border-[#C1E8FF] text-[#052659] hover:bg-[#C1E8FF] rounded-xl flex items-center justify-center transition shadow-sm" title="Telegram Channel">
                 <i class="fa-brands fa-telegram text-lg"></i>
             </a>
-            <a href="/tutorial" class="h-11 w-11 bg-white border border-[#C1E8FF] text-rose-500 hover:bg-rose-50 rounded-xl flex items-center justify-center transition shadow-sm">
-                <i class="fa-brands fa-youtube text-lg"></i>
-            </a>
-            <a href="/support-redirect" class="h-11 w-11 bg-white border border-[#C1E8FF] text-[#052659] hover:bg-[#C1E8FF] rounded-xl flex items-center justify-center transition shadow-sm">
+            <a href="https://t.me/takaearn_help" target="_blank" class="h-11 w-11 bg-white border border-[#C1E8FF] text-[#052659] hover:bg-[#C1E8FF] rounded-xl flex items-center justify-center transition shadow-sm" title="Telegram Support">
                 <i class="fa-solid fa-headset text-lg"></i>
+            </a>
+            <a href="/tutorial" class="h-11 w-11 bg-white border border-[#C1E8FF] text-rose-500 hover:bg-rose-50 rounded-xl flex items-center justify-center transition shadow-sm" title="Tutorials">
+                <i class="fa-brands fa-youtube text-lg"></i>
             </a>
         </div>
         <p class="text-xs font-bold text-[#021024] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-shield-check text-[#052659]"></i> TakaEarn Network © 2026
+            <i class="fa-solid fa-shield-check text-[#052659]"></i> TakaEarn Official Platform © 2026
         </p>
-        <p class="text-[11px] text-[#7DA0CA] font-medium">Built with trust for everyday earners</p>
+        <p class="text-[11px] text-[#7DA0CA] font-medium">
+            Support: @takaearn_help • Community: @takaearn_site
+        </p>
     </footer>
 
 </div>
