@@ -806,7 +806,121 @@ def update_profile():
         flash(f"Error updating profile: {str(e)}", "error")
         
     return redirect(url_for('account'))
+
+# ==========================================
+# 🎮 COIN CATCHER GAME & CONVERT SYSTEM
+# ==========================================
+
+COINS_PER_TAKA = 100  # ১০০ কয়েন = ১ টাকা
+MAX_DAILY_GAMES = 5   # দিনে সর্বোচ্চ ৫ বার খেলা যাবে
+
+@app.route('/game')
+@login_required
+def game_page():
+    from datetime import datetime, timezone
+    today_date = str(datetime.now(timezone.utc).date())
     
+    # ইউজার প্রোফাইল ডাটা আনা
+    user_data = supabase.table('profiles').select('coins, game_count, last_game_date, balance').eq('id', session['user_id']).single().execute().data
+    
+    # নতুন দিন হলে গেম লিমিট রিসেট
+    if user_data.get('last_game_date') != today_date:
+        user_data['game_count'] = 0
+        supabase.table('profiles').update({'game_count': 0, 'last_game_date': today_date}).eq('id', session['user_id']).execute()
+        
+    remaining_games = max(0, MAX_DAILY_GAMES - (user_data.get('game_count') or 0))
+    user_coins = user_data.get('coins') or 0
+    taka_value = round(user_coins / COINS_PER_TAKA, 2)
+
+    return render_template('game.html', 
+                           user=g.user, 
+                           coins=user_coins, 
+                           taka_value=taka_value, 
+                           remaining_games=remaining_games,
+                           rate=COINS_PER_TAKA)
+
+
+@app.route('/api/game/save-score', methods=['POST'])
+@login_required
+def save_game_score():
+    try:
+        from datetime import datetime, timezone
+        today_date = str(datetime.now(timezone.utc).date())
+        
+        user_data = supabase.table('profiles').select('coins, game_count, last_game_date').eq('id', session['user_id']).single().execute().data
+        
+        # দিন রিসেট চেক
+        game_count = user_data.get('game_count') or 0
+        if user_data.get('last_game_date') != today_date:
+            game_count = 0
+
+        if game_count >= MAX_DAILY_GAMES:
+            return jsonify({'success': False, 'message': 'আজকের ৫টি গেমের লিমিট শেষ! আগামীকাল আবার খেলুন।'}), 400
+
+        data = request.get_json() or {}
+        earned_coins = int(data.get('score', 0))
+        
+        # সিকিউরিটি: এক গেমে সর্বোচ্চ ৫০ কয়েনের বেশি নেওয়া যাবে না
+        if earned_coins > 50:
+            earned_coins = 50
+        if earned_coins < 0:
+            earned_coins = 0
+
+        current_coins = user_data.get('coins') or 0
+        new_coins = current_coins + earned_coins
+        new_count = game_count + 1
+
+        supabase.table('profiles').update({
+            'coins': new_coins,
+            'game_count': new_count,
+            'last_game_date': today_date
+        }).eq('id', session['user_id']).execute()
+
+        return jsonify({
+            'success': True, 
+            'added': earned_coins, 
+            'total_coins': new_coins, 
+            'remaining_games': MAX_DAILY_GAMES - new_count
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+@app.route('/api/game/convert-coins', methods=['POST'])
+@login_required
+def convert_coins():
+    try:
+        user_data = supabase.table('profiles').select('coins, balance').eq('id', session['user_id']).single().execute().data
+        current_coins = user_data.get('coins') or 0
+        
+        # মিনিমাম ১০০ কয়েন হতে হবে
+        if current_coins < COINS_PER_TAKA:
+            return jsonify({'success': False, 'message': f'কনভার্ট করতে কমপক্ষে {COINS_PER_TAKA} কয়েন প্রয়োজন!'}), 400
+
+        # কত টাকা পাবে এবং কয়েন কত কাটা যাবে
+        taka_to_add = current_coins // COINS_PER_TAKA  # রাউন্ড পূর্ণ টাকা (যেমন: ২৫০ কয়েন = ২ টাকা)
+        coins_to_deduct = taka_to_add * COINS_PER_TAKA
+        remaining_coins = current_coins - coins_to_deduct
+
+        new_balance = float(user_data.get('balance') or 0.0) + float(taka_to_add)
+
+        supabase.table('profiles').update({
+            'balance': new_balance,
+            'coins': remaining_coins
+        }).eq('id', session['user_id']).execute()
+
+        return jsonify({
+            'success': True,
+            'message': f'🎉 অভিনন্দন! {coins_to_deduct} কয়েন কনভার্ট হয়ে ৳{taka_to_add}.০০ ব্যালেন্সে যোগ হয়েছে!',
+            'new_balance': new_balance,
+            'remaining_coins': remaining_coins
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+        
+
     # ========================================
 # 🎟️ SCRATCH CARD SYSTEM (Daily 3)
 # ==========================================
