@@ -2,224 +2,450 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN SUBMIT TASK UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - ULTRA-MODERN TASK SUBMISSION UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Task Header Card */
-    .task-brief-card {
+    /* Surface Card */
+    .te-surface {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 32px;
-        padding: 26px;
-        box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.03);
+        border: 1.5px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 20px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
+    }
+
+    /* Terminal Box for Caption */
+    .terminal-box {
+        background: #F4F9FD;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 18px;
+        padding: 16px;
+        font-family: monospace;
+        color: #021024;
+        position: relative;
+    }
+
+    /* Animated Upload Dropzone */
+    .animated-dropzone {
+        border: 2px dashed #7DA0CA;
+        background: #F4F9FD;
+        border-radius: 22px;
+        min-height: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
         position: relative;
         overflow: hidden;
+        padding: 20px;
     }
-
-    /* Action Container Card */
-    .action-card {
+    .animated-dropzone:hover {
+        border-color: #052659;
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 28px;
-        padding: 24px;
-        box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.02);
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35);
+    }
+    .animated-dropzone.has-file {
+        border-style: solid;
+        border-color: #10B981;
+        background: #ECFDF5;
     }
 
-    /* Terminal Style Box for Copy Text */
-    .terminal-box {
-        background: #F8FAFC; 
-        border: 1.5px solid #E2E8F0; 
-        border-radius: 18px;
-        padding: 16px; 
-        font-family: monospace; 
-        color: #334155; 
-        position: relative;
+    /* Pulse upload icon animation */
+    .upload-icon-pulse {
+        animation: uploadPulse 2s infinite;
+    }
+    @keyframes uploadPulse {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(5, 38, 89, 0.2); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(5, 38, 89, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(5, 38, 89, 0); }
     }
 
     /* Buttons */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: #FFFFFF; width: 100%; padding: 18px;
-        border-radius: 20px; font-weight: 800; font-size: 14px;
-        text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4); border: none; cursor: pointer;
+    .btn-submit-action {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 17px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
     }
-    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.5); }
-    .btn-emerald:active { transform: scale(0.96); }
-    .btn-emerald:disabled { background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed; transform: none !important; }
+    .btn-submit-action:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+    .btn-submit-action:active { transform: scale(0.97); }
+    .btn-submit-action:disabled {
+        background: #E2E8F0 !important;
+        color: #94A3B8 !important;
+        box-shadow: none !important;
+        cursor: not-allowed;
+    }
 
-    .btn-link-action {
-        background: #ECFDF5; color: #047857; padding: 16px; border-radius: 18px;
-        font-weight: 800; font-size: 13px; text-transform: uppercase; border: 1.5px solid #A7F3D0;
-        letter-spacing: 0.5px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-decoration: none;
+    /* Success 3-Sec Modal Overlay */
+    .success-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 16, 36, 0.88);
+        backdrop-filter: blur(14px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 9999;
     }
-    .btn-link-action:hover { background: #059669; color: #FFFFFF; border-color: #059669; }
-    .btn-link-action:active { transform: scale(0.96); }
+    .success-modal-overlay.show {
+        display: flex !important;
+        animation: successPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes successPop {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+    }
 
-    /* Modern Dropzone */
-    .minimal-dropzone {
-        border: 2px dashed #CBD5E1; background: #F8FAFC; border-radius: 22px;
-        min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        transition: all 0.25s ease; cursor: pointer; position: relative; overflow: hidden; padding: 20px;
+    /* Banner Ad Box */
+    .task-ad-box {
+        background: #FFFFFF;
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 20px;
+        padding: 8px;
+        text-align: center;
+        overflow-x: auto;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
-    .minimal-dropzone:hover { border-color: #10B981; background: #F0FDF4; }
-    .minimal-dropzone.has-file { border-style: solid; border-color: #059669; background: #ECFDF5; }
 </style>
 
-<div class="max-w-xl mx-auto fade-in-up pb-10 px-1 mt-2 space-y-5">
+<div class="max-w-xl mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- Top Header -->
-    <div class="flex items-center justify-between px-2">
-        <a href="/tasks" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition border border-slate-200 shadow-sm active:scale-95">
-            <i class="fa-solid fa-chevron-left text-sm"></i>
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
+        <a href="/tasks" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+            <i class="fa-solid fa-arrow-left text-sm"></i>
         </a>
-        <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider">
+        <span class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3 py-1 rounded-full text-xs font-mono font-black uppercase tracking-wider">
             Task ID: #{{ task.id }}
         </span>
     </div>
 
-    <!-- 1. TASK BRIEF & DETAILS CARD -->
-    <div class="task-brief-card text-center">
-        <div class="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider mb-3">
+    <!-- 1. TASK BRIEF & REWARD CARD -->
+    <div class="te-surface text-center">
+        <div class="inline-block bg-[#F4F9FD] text-[#5483B3] border border-[#C1E8FF] px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider mb-2.5">
             {{ task.category }}
         </div>
         
-        <h1 class="text-2xl font-black text-slate-900 leading-tight mb-3 tracking-tight">
+        <h1 class="text-xl sm:text-2xl font-black text-[#021024] leading-tight mb-2.5 tracking-tight">
             {{ task.title }}
         </h1>
         
-        <p class="text-xs text-slate-500 font-medium leading-relaxed max-w-sm mx-auto mb-5">
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed max-w-sm mx-auto mb-4">
             {{ task.description }}
         </p>
         
-        <div class="inline-flex items-baseline gap-1 bg-emerald-50 border border-emerald-100 px-5 py-2.5 rounded-2xl">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">টাস্ক রিওয়ার্ড:</span>
-            <span class="text-3xl font-black text-emerald-600 font-mono leading-none">৳{{ task.reward }}</span>
+        <div class="inline-flex items-baseline gap-1 bg-[#F4F9FD] border border-[#C1E8FF] px-5 py-2 rounded-2xl">
+            <span class="text-[10px] font-extrabold text-[#7DA0CA] uppercase tracking-wider">রিওয়ার্ড:</span>
+            <span class="text-2xl font-black text-emerald-600 font-mono leading-none">৳{{ task.reward }}</span>
         </div>
     </div>
 
-    <!-- 2. TASK ACTIONS (Link / FB Post) -->
+    <!-- 2. TASK LINK / ACTION SECTION -->
     {% if task.task_type == 'screenshot' and task.link %}
-    <div class="action-card">
-        <h3 class="font-extrabold text-slate-800 text-sm mb-2 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-arrow-up-right-from-square text-emerald-600"></i> কাজের লিংক
+    <div class="te-surface space-y-3">
+        <h3 class="font-black text-[#021024] text-xs uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-arrow-up-right-from-square text-[#052659]"></i> কাজের মূল লিংক
         </h3>
-        <p class="text-xs text-slate-500 font-medium leading-relaxed mb-4">
-            নিচের বাটনে ক্লিক করে কাজের মূল লিংকে প্রবেশ করুন এবং কাজটি সঠিকভাবে সম্পন্ন করুন।
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
+            নিচের বাটনে ক্লিক করে লিংকে প্রবেশ করুন এবং কাজটি সঠিকভাবে সম্পন্ন করুন।
         </p>
-        <a href="{{ task.link }}" target="_blank" class="btn-link-action">
-            <span>টাস্ক লিংকে প্রবেশ করুন</span> <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        <a href="{{ task.link }}" target="_blank" class="w-full bg-[#F4F9FD] text-[#052659] hover:bg-[#052659] hover:text-white p-4 rounded-2xl border-1.5 border-[#C1E8FF] font-extrabold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-sm">
+            <span>টাস্ক লিংকে প্রবেশ করুন</span> <i class="fa-solid fa-external-link text-[10px]"></i>
         </a>
+
+        <!-- ===============================================
+             TASK LINK BANNER AD (বিজ্ঞাপন)
+        =============================================== -->
+        <div class="task-ad-box mt-3">
+            <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+                <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+            </span>
+            <div class="flex justify-center items-center min-h-[60px]">
+                <script>
+                  atOptions = {
+                    'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                  };
+                </script>
+                <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
+            </div>
+        </div>
     </div>
 
     {% elif task.task_type == 'fb_post' %}
-    <div class="action-card space-y-5">
-        <h3 class="font-extrabold text-slate-800 text-sm uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-brands fa-facebook text-blue-600 text-base"></i> পোস্টের উপাদান সংগ্রহ করুন
+    <div class="te-surface space-y-4">
+        <h3 class="font-black text-[#021024] text-xs uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-brands fa-facebook text-blue-600 text-sm"></i> ফেসবুক পোস্ট উপাদান
         </h3>
 
-        <!-- Image Download -->
         {% if task.image_url %}
         <div>
-            <p class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">পোস্টের ছবি ডাউনলোড করুন</p>
-            <div class="relative rounded-2xl overflow-hidden border border-slate-200 group">
-                <img src="{{ task.image_url }}" alt="Task Material" class="w-full h-44 object-cover">
-                <a href="{{ task.image_url }}" download="EarnDaily_Post.jpg" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition">
-                    <span class="bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-bold shadow-md"><i class="fa-solid fa-download mr-1"></i> ছবি সেভ করুন</span>
+            <p class="text-[10px] font-black text-[#7DA0CA] uppercase tracking-wider mb-2">পোস্টের ছবি</p>
+            <div class="relative rounded-2xl overflow-hidden border border-[#C1E8FF] group">
+                <img src="{{ task.image_url }}" alt="Task Material" class="w-full h-40 object-cover">
+                <a href="{{ task.image_url }}" download="TakaEarn_Post.jpg" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition">
+                    <span class="bg-white text-[#021024] px-4 py-2 rounded-xl text-xs font-bold shadow-md"><i class="fa-solid fa-download mr-1"></i> ছবি ডাউনলোড করুন</span>
                 </a>
             </div>
         </div>
         {% endif %}
 
-        <!-- Caption Copy -->
         {% if task.caption %}
         <div>
-            <p class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">ক্যাপশন কপি করুন</p>
+            <p class="text-[10px] font-black text-[#7DA0CA] uppercase tracking-wider mb-2">ক্যাপশন টেক্সট</p>
             <div class="terminal-box">
-                <p id="captionText" class="text-xs text-slate-700 font-sans leading-relaxed pr-10">{{ task.caption }}</p>
-                <button type="button" onclick="copyCaption(this)" class="absolute top-3 right-3 h-8 w-8 bg-white text-slate-600 rounded-xl border border-slate-200 flex items-center justify-center hover:text-emerald-600 hover:border-emerald-200 transition shadow-sm" title="Copy Caption">
-                    <i class="fa-regular fa-copy"></i>
+                <p id="captionText" class="text-xs font-sans leading-relaxed pr-10">{{ task.caption }}</p>
+                <button type="button" onclick="copyCaption(this)" class="absolute top-3 right-3 h-8 w-8 bg-white text-[#052659] rounded-xl border border-[#C1E8FF] flex items-center justify-center hover:bg-[#C1E8FF] transition shadow-sm" title="Copy">
+                    <i class="fa-regular fa-copy text-xs"></i>
                 </button>
             </div>
         </div>
         {% endif %}
+
+        <!-- Link Banner Ad -->
+        <div class="task-ad-box mt-3">
+            <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">বিজ্ঞাপন</span>
+            <div class="flex justify-center items-center min-h-[60px]">
+                <script>
+                  atOptions = { 'key' : '8e1d487cf678b04660b4acee435ed0f2', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+                </script>
+                <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
+            </div>
+        </div>
     </div>
     {% endif %}
 
-    <!-- 3. UPLOAD PROOF FORM -->
-    <div class="action-card">
-        <h3 class="font-extrabold text-slate-800 text-sm mb-1 uppercase tracking-wider flex items-center gap-2">
+    <!-- 3. PROOF UPLOAD & SUBMISSION FORM -->
+    <div class="te-surface">
+        <h3 class="font-black text-[#021024] text-xs uppercase tracking-wider mb-1 flex items-center gap-2">
             <i class="fa-solid fa-camera text-emerald-600"></i> কাজের স্ক্রিনশট প্রুফ জমা দিন
         </h3>
-        <p class="text-xs text-slate-500 font-medium leading-relaxed mb-4">
-            কাজ সম্পন্ন করার পর পরিষ্কার একটি স্ক্রিনশট নিয়ে নিচে আপলোড করুন।
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+            কাজ শেষে পরিষ্কার স্ক্রিনশট সিলেক্ট করুন (অটো কম্প্রেশন সক্রিয়)।
         </p>
 
-        <form method="POST" enctype="multipart/form-data" onsubmit="return submitFinalProof()">
-            <!-- Dropzone -->
+        <form id="submissionForm" method="POST" enctype="multipart/form-data" onsubmit="return handleClientCompressionAndSubmit(event)">
+            
+            <!-- Hidden compressed file container -->
+            <input type="file" name="screenshot" id="hiddenFileInput" required class="hidden" accept="image/*">
+
+            <!-- Animated Dropzone -->
             <div class="relative w-full cursor-pointer mb-5">
-                <input type="file" name="screenshot" id="fileInput" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" onchange="handleFileUpload(this)">
+                <input type="file" id="visibleFileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" onchange="compressAndPreviewImage(this)">
                 
-                <div id="uploadBox" class="minimal-dropzone">
-                    <div id="uploadIcon" class="h-12 w-12 bg-white text-slate-400 border border-slate-200 rounded-2xl flex items-center justify-center text-xl mb-2 transition-all shadow-sm">
+                <div id="dropzoneBox" class="animated-dropzone">
+                    <div id="dropzoneIcon" class="w-14 h-14 bg-white text-[#052659] border border-[#C1E8FF] rounded-2xl flex items-center justify-center text-xl mb-2.5 shadow-sm upload-icon-pulse">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                     </div>
-                    <p id="uploadText" class="text-xs font-bold text-slate-700 transition-colors">স্ক্রিনশট সিলেক্ট করতে এখানে ট্যাপ করুন</p>
-                    <p class="text-[10px] text-slate-400 mt-0.5">JPG, PNG ছবি সাপোর্টেড</p>
+                    <p id="dropzoneText" class="text-xs font-extrabold text-[#021024] transition-colors">স্ক্রিনশট আপলোড করতে ট্যাপ করুন</p>
+                    <p class="text-[10px] text-[#7DA0CA] mt-1 font-semibold" id="fileSizeHint">অটো-কম্প্রেস সিস্টেম সক্রিয় (ফাস্ট আপলোড)</p>
                 </div>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" id="submitBtn" class="btn-emerald">
-                <span>কাজ জমা দিন</span> <i class="fa-solid fa-paper-plane text-xs"></i>
+            <button type="submit" id="submitBtn" class="btn-submit-action">
+                <span>টাস্ক সাবমিট করুন</span> <i class="fa-solid fa-paper-plane text-xs"></i>
             </button>
         </form>
     </div>
 
 </div>
 
-<!-- 🚀 SCRIPTS -->
+<!-- ===================================================
+     4. SUCCESS POPUP WITH 3-SEC COUNTDOWN & NATIVE AD
+=================================================== -->
+<div class="success-modal-overlay" id="successModal">
+    <div class="bg-white border-2 border-[#C1E8FF] rounded-[36px] p-7 w-full max-w-sm text-center shadow-2xl relative overflow-hidden">
+        
+        <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-md animate-bounce">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block mb-2">
+            Success Submitted
+        </span>
+
+        <h3 class="text-xl font-black text-[#021024] tracking-tight mb-1">টাস্ক সফলভাবে জমা হয়েছে!</h3>
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-3">
+            এডমিন বা এআই বট যাচাই করার পর আপনার ব্যালেন্সে রিওয়ার্ড যোগ হয়ে যাবে।
+        </p>
+
+        <!-- Native Ad inside Success Popup -->
+        <div class="p-2.5 my-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF] text-center">
+            <span class="text-[8px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded inline-block mb-1">
+                বিজ্ঞাপন
+            </span>
+            <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
+            <div id="container-a5f8e93bb4382cac9093af57f6efd969" class="min-h-[50px] flex justify-center items-center overflow-hidden"></div>
+        </div>
+
+        <p class="text-xs font-bold text-[#7DA0CA] mt-2">
+            স্বয়ংক্রিয়ভাবে রিডাইরেক্ট হচ্ছে <span id="countdownSec" class="font-mono font-black text-[#052659]">3</span>s...
+        </p>
+    </div>
+</div>
+
+<!-- ===================================================
+     JAVASCRIPT (IMAGE COMPRESSION & MODAL FLOW)
+=================================================== -->
 <script>
-    // Copy FB Caption
+    // Copy Caption
     function copyCaption(btn) {
         const text = document.getElementById("captionText").innerText;
         navigator.clipboard.writeText(text).then(() => {
-            const originalHTML = btn.innerHTML;
+            const orig = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
-            btn.classList.add('bg-emerald-50', 'border-emerald-200');
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.classList.remove('bg-emerald-50', 'border-emerald-200');
-            }, 2000);
+            setTimeout(() => btn.innerHTML = orig, 1500);
         });
     }
 
-    // Smart File Upload Display
-    function handleFileUpload(input) {
-        const uploadBox = document.getElementById('uploadBox');
-        const uploadIcon = document.getElementById('uploadIcon');
-        const uploadText = document.getElementById('uploadText');
+    // Client-side Image Compression Script (Canvas Resize)
+    function compressAndPreviewImage(input) {
+        if (!input.files || !input.files[0]) return;
+        
+        const file = input.files[0];
+        const reader = new FileReader();
 
-        if (input.files && input.files[0]) {
-            uploadBox.classList.add('has-file');
-            uploadIcon.className = "h-12 w-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-xl mb-2 transition-all shadow-md";
-            uploadIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-            uploadText.textContent = "স্ক্রিনশট সংযুক্ত হয়েছে";
-            uploadText.className = "text-xs font-extrabold text-emerald-800";
+        const dropzoneBox = document.getElementById('dropzoneBox');
+        const dropzoneIcon = document.getElementById('dropzoneIcon');
+        const dropzoneText = document.getElementById('dropzoneText');
+        const fileSizeHint = document.getElementById('fileSizeHint');
+
+        dropzoneText.textContent = "ছবি প্রসেস ও কম্প্রেস হচ্ছে...";
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Max width/height limit for fast upload
+                const MAX_WIDTH = 1024;
+                const MAX_HEIGHT = 1024;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width = Math.round((width * MAX_HEIGHT) / height);
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Compress to JPEG with 0.75 quality (Huge size reduction)
+                canvas.toBlob(function (blob) {
+                    const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    });
+
+                    // Assign compressed file to hidden input for form submission
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(compressedFile);
+                    document.getElementById('hiddenFileInput').files = dataTransfer.files;
+
+                    // UI Success Feedback
+                    dropzoneBox.classList.add('has-file');
+                    dropzoneIcon.className = "w-14 h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-xl mb-2.5 shadow-md";
+                    dropzoneIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    dropzoneText.textContent = "স্ক্রিনশট সফলভাবে কম্প্রেস ও যুক্ত হয়েছে";
+                    
+                    const originalKb = (file.size / 1024).toFixed(0);
+                    const compressedKb = (compressedFile.size / 1024).toFixed(0);
+                    fileSizeHint.innerHTML = `<span class="text-emerald-700 font-bold">অরিজিনাল: ${originalKb}KB ➔ কম্প্রেসড: ${compressedKb}KB</span>`;
+
+                }, 'image/jpeg', 0.75);
+            }
         }
+        reader.readAsDataURL(file);
     }
 
-    // Submit Loader
-    function submitFinalProof() {
+    // Intercept form submit to show 3-sec success modal popup
+    function handleClientCompressionAndSubmit(event) {
+        event.preventDefault();
+
+        const hiddenInput = document.getElementById('hiddenFileInput');
+        if (!hiddenInput.files || !hiddenInput.files[0]) {
+            alert('প্রথমে স্ক্রিনশট আপলোড করুন!');
+            return false;
+        }
+
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-lg"></i> <span class="ml-2">সাবমিট হচ্ছে...</span>';
-        btn.classList.add('opacity-80');
-        return true;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">আপলোড হচ্ছে...</span>';
+
+        // Submit via Fetch to handle smooth popup
+        const formData = new FormData(document.getElementById('submissionForm'));
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => {
+            if (res.ok || res.redirected) {
+                // Show 3-Sec Success Modal Popup
+                document.getElementById('successModal').classList.add('show');
+                
+                let sec = 3;
+                const secSpan = document.getElementById('countdownSec');
+                const timer = setInterval(() => {
+                    sec--;
+                    secSpan.innerText = sec;
+                    if (sec <= 0) {
+                        clearInterval(timer);
+                        window.location.href = "/tasks";
+                    }
+                }, 1000);
+            } else {
+                alert('সাবমিট করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+                btn.disabled = false;
+                btn.innerHTML = '<span>টাস্ক সাবমিট করুন</span> <i class="fa-solid fa-paper-plane text-xs"></i>';
+            }
+        })
+        .catch(() => {
+            alert('নেটওয়ার্ক সমস্যা! আবার চেষ্টা করুন।');
+            btn.disabled = false;
+            btn.innerHTML = '<span>টাস্ক সাবমিট করুন</span> <i class="fa-solid fa-paper-plane text-xs"></i>';
+        });
+
+        return false;
     }
 </script>
 
