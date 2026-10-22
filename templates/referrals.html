@@ -2,169 +2,184 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN REFERRAL DASHBOARD UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - MODERN REFERRAL DASHBOARD UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Modern Light Panels */
-    .ref-card {
+    /* Modern Flat Panels (No Dark Borders) */
+    .ref-surface {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #C1E8FF;
         border-radius: 28px;
-        padding: 24px;
+        padding: 24px 20px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
+    }
+
+    /* Hero Campaign Card */
+    .campaign-hero-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
+        border-radius: 32px;
+        padding: 26px 22px;
+        color: #FFFFFF;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.03);
+        border: 2px solid #C1E8FF;
+        box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.3);
     }
-
-    /* Milestone Progress Bar */
-    .milestone-bar { 
-        background: #F1F5F9; height: 9px; border-radius: 999px; overflow: hidden; width: 100%; margin-top: 10px; 
+    .campaign-hero-card::after {
+        content: ''; position: absolute; right: -30px; bottom: -30px;
+        width: 150px; height: 150px; background: radial-gradient(circle, rgba(193, 232, 255, 0.2) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none;
     }
-    .milestone-fill { 
-        background: linear-gradient(90deg, #059669 0%, #10B981 100%); 
-        height: 100%; border-radius: 999px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); position: relative; 
-    }
-    .milestone-fill::after {
-        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-        animation: progressShine 2s infinite;
-    }
-    @keyframes progressShine { 100% { left: 200%; } }
-
-    /* Custom Scrollbar for Team List */
-    .team-scroll::-webkit-scrollbar { width: 4px; }
-    .team-scroll::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
 
     /* Copy Link Input Field */
-    .link-input {
-        background: #F8FAFC; border: 1.5px solid #E2E8F0; color: #0F172A;
-        outline: none; transition: all 0.25s ease;
+    .link-flat-input {
+        background: #F4F9FD;
+        border: 1.5px solid #C1E8FF;
+        color: #021024;
+        outline: none;
+        transition: all 0.25s ease;
     }
-    .link-input:focus { border-color: #10B981; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+    .link-flat-input:focus {
+        border-color: #052659;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35);
+    }
 
     /* Buttons */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: #FFFFFF; padding: 14px 24px;
-        border-radius: 16px; font-weight: 800; font-size: 13px; text-transform: uppercase;
-        letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.35);
+    .btn-ref-action {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        padding: 15px 24px;
+        border-radius: 18px;
+        font-weight: 800;
+        font-size: 13.5px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
+        border: none;
+        cursor: pointer;
     }
-    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.45); }
-    .btn-emerald:active { transform: scale(0.96); }
+    .btn-ref-action:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
+    .btn-ref-action:active { transform: scale(0.97); }
+
+    /* Team Members Scroll */
+    .team-scroll::-webkit-scrollbar { width: 4px; }
+    .team-scroll::-webkit-scrollbar-thumb { background: #C1E8FF; border-radius: 10px; }
 
     /* Status Badges */
     .badge-success { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
     .badge-pending { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
+
+    /* Ad Container */
+    .ref-ad-box {
+        background: #FFFFFF;
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 22px;
+        padding: 10px 6px;
+        text-align: center;
+        overflow-x: auto;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
+        margin-top: 20px;
+    }
 </style>
 
-<div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- 1. HEADER -->
-    <div class="flex items-center justify-between mb-2 px-2">
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
-            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition border border-slate-200 shadow-sm active:scale-95">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
+            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <h2 class="text-base font-extrabold text-slate-800 tracking-tight leading-none">আমার টিম ও রেফারেল</h2>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">Partnership & Bounty Network</p>
+                <h1 class="text-base font-black text-[#021024] leading-tight">রেফারেল প্রোগ্রাম</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Earn ৳12.00 Per Referral</p>
             </div>
         </div>
-        <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5">
-            <i class="fa-solid fa-users text-emerald-600"></i>
+
+        <div class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-users text-[#052659]"></i>
             <span>{{ total_count }} জন সদস্য</span>
         </div>
     </div>
 
-    <!-- 2. REFERRAL LINK TICKET (Modern Ticket Style) -->
-    <div class="ref-card bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent border-emerald-200">
-        <div class="flex items-center justify-between mb-2">
-            <h3 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
-                <i class="fa-solid fa-share-nodes text-emerald-600"></i> আপনার পার্টনারশিপ লিংক
-            </h3>
-            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-md">১০ টাকা ইনস্ট্যান্ট</span>
+    <!-- ===================================================
+         1. NEW HERO CAMPAIGN (48 Hours 150+ Refs = 3000 BDT)
+    =================================================== -->
+    <div class="campaign-hero-card">
+        <div class="relative z-10">
+            <div class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md text-amber-300 border border-white/25 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 shadow-sm">
+                <i class="fa-solid fa-bolt"></i> মেগা ক্যাশ বাউন্টি ক্যাম্পেইন
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">
+                ৪৮ ঘণ্টায় ১৫০+ রেফার = ৳৩,০০০ বোনাস!
+            </h2>
+
+            <p class="text-xs text-[#C1E8FF] font-medium leading-relaxed mb-4 max-w-md">
+                আগামী ৪৮ ঘণ্টার মধ্যে আপনার লিংকে ১৫০ জনের বেশি সক্রিয় মেম্বার যুক্ত করতে পারলে মূল কমিশনের পাশাপাশি পাবেন ৩০০০ টাকা অতিরিক্ত ক্যাশ বোনাস।
+            </p>
+
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3.5 rounded-2xl flex items-center gap-2.5 text-xs font-bold text-white">
+                <i class="fa-solid fa-triangle-exclamation text-amber-300 text-sm"></i>
+                <span>শর্ত: বোনাস পাওয়ার জন্য ইউজারদের ন্যূনতম <b>১২০ জন সক্রিয়ভাবে কাজ</b> করতে হবে।</span>
+            </div>
         </div>
-        <p class="text-xs text-slate-500 font-medium mb-4 leading-relaxed">বন্ধুরা এই লিংকে যোগ দিলে আপনি আজীবন রেফার কমিশন এবং বিশেষ বাউন্টি বোনাস পাবেন।</p>
+    </div>
+
+    <!-- ===================================================
+         2. REFERRAL LINK TICKET (12 Taka Per Refer)
+    =================================================== -->
+    <div class="ref-surface">
+        <div class="flex items-center justify-between mb-2">
+            <h3 class="font-black text-[#021024] text-sm flex items-center gap-2">
+                <i class="fa-solid fa-share-nodes text-[#052659]"></i> আপনার পার্টনারশিপ লিংক
+            </h3>
+            <span class="text-[10px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-2.5 py-0.5 rounded-md border border-[#7DA0CA]/40">
+                প্রতি রেফারে ৳১২.০০
+            </span>
+        </div>
+        <p class="text-xs text-[#5483B3] font-medium mb-4 leading-relaxed">
+            এই লিংকটি কপি করে সোশ্যাল মিডিয়া বা বন্ধুদের মাঝে শেয়ার করুন। প্রতি সফল রেজিস্ট্রেসনে আপনার একাউন্টে ১২ টাকা যোগ হবে।
+        </p>
         
         <div class="flex flex-col sm:flex-row items-center gap-2.5">
             <div class="relative w-full">
-                <input type="text" id="refLink" value="..." class="link-input w-full pl-4 pr-10 py-3.5 rounded-2xl font-mono text-xs font-bold" readonly>
-                <i class="fa-solid fa-link absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="refLink" value="..." class="link-flat-input w-full pl-4 pr-10 py-3.5 rounded-2xl font-mono text-xs font-bold" readonly>
+                <i class="fa-solid fa-link absolute right-4 top-1/2 transform -translate-y-1/2 text-[#7DA0CA]"></i>
             </div>
-            <button onclick="copyRef(this)" class="btn-emerald w-full sm:w-auto flex-shrink-0">
+            <button onclick="copyRef(this)" class="btn-ref-action w-full sm:w-auto flex-shrink-0">
                 <i class="fa-regular fa-copy"></i> <span>কপি করুন</span>
             </button>
         </div>
     </div>
 
-    <!-- 3. MEGA CASH BOUNTY (Milestones) -->
-    <div class="ref-card">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-extrabold text-slate-800 text-sm flex items-center gap-2 uppercase tracking-wider">
-                <i class="fa-solid fa-gift text-amber-500"></i> মেগা রেফারেল বাউন্টি বোনাস
+    <!-- ===================================================
+         3. TEAM MEMBERS LIST (NO DARK BORDERS)
+    =================================================== -->
+    <div class="ref-surface !p-0 overflow-hidden">
+        <div class="p-5 border-b border-[#C1E8FF] flex items-center justify-between bg-[#F4F9FD]">
+            <h3 class="font-black text-[#021024] text-sm uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-users-viewfinder text-[#052659]"></i> টিম মেম্বারদের তালিকা
             </h3>
-            <span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-[11px] font-black border border-emerald-100">
-                সক্রিয় মেম্বার: {{ active_count }}
-            </span>
+            <span class="text-xs text-[#5483B3] font-bold">মোট: {{ total_count }} জন</span>
         </div>
 
-        <div class="space-y-3.5">
-            <!-- Milestone 1: 50 Referrals -->
-            <div class="bg-slate-50 border border-slate-200/80 p-4 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-end mb-1">
-                    <div>
-                        <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mb-0.5">মাইলস্টোন ১</p>
-                        <h4 class="text-sm font-extrabold text-slate-800">৫০ জন মেম্বার = <span class="text-emerald-600 font-mono">৳১,০০০ নগদ</span></h4>
-                    </div>
-                    {% if active_count >= 50 %}
-                        <span class="text-[10px] bg-emerald-600 text-white px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider shadow-sm"><i class="fa-solid fa-check mr-0.5"></i> সম্পন্ন</span>
-                    {% else %}
-                        <span class="text-xs text-slate-500 font-mono font-bold">{{ active_count }} / 50</span>
-                    {% endif %}
-                </div>
-                <div class="milestone-bar">
-                    <div class="milestone-fill" style="width: {{ (active_count / 50) * 100 if active_count < 50 else 100 }}%"></div>
-                </div>
-            </div>
-
-            <!-- Milestone 2: 1000 Referrals -->
-            <div class="bg-slate-50 border border-slate-200/80 p-4 rounded-2xl relative overflow-hidden">
-                <div class="flex justify-between items-end mb-1">
-                    <div>
-                        <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mb-0.5">মাইলস্টোন ২</p>
-                        <h4 class="text-sm font-extrabold text-slate-800">১,০০০ জন মেম্বার = <span class="text-emerald-600 font-mono">৳২,০০০ নগদ</span></h4>
-                    </div>
-                    {% if active_count >= 1000 %}
-                        <span class="text-[10px] bg-emerald-600 text-white px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider shadow-sm"><i class="fa-solid fa-check mr-0.5"></i> সম্পন্ন</span>
-                    {% else %}
-                        <span class="text-xs text-slate-500 font-mono font-bold">{{ active_count }} / 1000</span>
-                    {% endif %}
-                </div>
-                <div class="milestone-bar">
-                    <div class="milestone-fill" style="width: {{ (active_count / 1000) * 100 if active_count < 1000 else 100 }}%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. TEAM MEMBERS LIST (With Dynamic Activation Status) -->
-    <div class="ref-card !p-0">
-        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="font-extrabold text-slate-800 text-sm uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-users-viewfinder text-emerald-600"></i> টিম মেম্বারদের তালিকা
-            </h3>
-            <span class="text-xs text-slate-400 font-bold">মোট: {{ total_count }} জন</span>
-        </div>
-
-        <!-- Scrollable Team Members -->
         <div class="overflow-y-auto team-scroll" style="max-height: 480px;">
             {% for ref in referrals %}
-            <div class="flex items-center justify-between p-4 border-b border-slate-100 hover:bg-slate-50 transition">
+            <div class="flex items-center justify-between p-4 border-b border-[#E2E8F0] hover:bg-[#F4F9FD] transition">
                 
                 <div class="flex items-center gap-3.5">
                     <div class="h-10 w-10 rounded-2xl flex items-center justify-center text-sm font-bold border transition-colors
@@ -172,27 +187,23 @@
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-extrabold text-slate-800 truncate w-36 sm:w-48">{{ ref.email.split('@')[0] }}</p>
-                        <p class="text-[10px] text-slate-400 font-mono mt-0.5">{{ ref.created_at[:10] }}</p>
+                        <p class="text-sm font-extrabold text-[#021024] truncate w-36 sm:w-48">{{ ref.email.split('@')[0] }}</p>
+                        <p class="text-[10px] text-[#7DA0CA] font-mono mt-0.5">{{ ref.created_at[:10] }}</p>
                     </div>
                 </div>
                 
-                <!-- Dynamic Status Logic: If activation_required is OFF, shows SUCCESS/ACTIVE -->
                 <div class="text-right flex flex-col items-end">
                     {% if not settings.activation_required %}
-                        <!-- Activation is OFF: Direct Success -->
                         <span class="text-[9.5px] font-black badge-success px-2.5 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
                             <i class="fa-solid fa-check"></i> Success
                         </span>
-                        <p class="text-xs text-emerald-600 font-extrabold mt-1 font-mono">+৳10.00</p>
-
+                        <p class="text-xs text-emerald-600 font-extrabold mt-1 font-mono">+৳12.00</p>
                     {% else %}
-                        <!-- Activation is ON: Checks is_active -->
                         {% if ref.is_active %}
                             <span class="text-[9.5px] font-black badge-success px-2.5 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
                                 <i class="fa-solid fa-check"></i> Verified
                             </span>
-                            <p class="text-xs text-emerald-600 font-extrabold mt-1 font-mono">+৳10.00</p>
+                            <p class="text-xs text-emerald-600 font-extrabold mt-1 font-mono">+৳12.00</p>
                         {% else %}
                             <span class="text-[9.5px] font-bold badge-pending px-2.5 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
                                 <i class="fa-solid fa-hourglass-half text-[8px]"></i> Pending
@@ -203,15 +214,36 @@
                 </div>
             </div>
             {% else %}
-            <!-- Empty State -->
             <div class="text-center py-16">
-                <div class="h-16 w-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl border border-slate-100">
+                <div class="h-16 w-16 bg-[#F4F9FD] text-[#7DA0CA] rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl border border-[#C1E8FF]">
                     <i class="fa-solid fa-user-plus"></i>
                 </div>
-                <p class="text-sm font-bold text-slate-700">কোনো টিম মেম্বার নেই</p>
-                <p class="text-xs text-slate-400 mt-1">আপনার পার্টনারশিপ লিংকটি শেয়ার করে বন্ধুদের যুক্ত করুন।</p>
+                <p class="text-sm font-bold text-[#021024]">কোনো টিম মেম্বার নেই</p>
+                <p class="text-xs text-[#5483B3] mt-1">আপনার লিংকটি শেয়ার করে বন্ধুদের যুক্ত করুন।</p>
             </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <!-- ===================================================
+         4. BANNER AD (বিজ্ঞাপন)
+    =================================================== -->
+    <div class="ref-ad-box">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="flex justify-center items-center min-h-[60px] overflow-x-auto">
+            <!-- 468x60 Ad Banner Script -->
+            <script>
+              atOptions = {
+                'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            </script>
+            <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
         </div>
     </div>
 
@@ -219,7 +251,6 @@
 
 <!-- Scripts -->
 <script>
-    // Generate Dynamic Ref Link
     document.addEventListener('DOMContentLoaded', () => {
         const domain = window.location.origin;
         const uniqueCode = "{{ user.referral_code if user.referral_code else 'GenerateID' }}";
@@ -231,7 +262,6 @@
         }
     });
 
-    // Copy Link Logic
     function copyRef(btnElement) {
         const copyText = document.getElementById("refLink");
         copyText.select();
