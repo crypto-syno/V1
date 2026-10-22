@@ -168,49 +168,121 @@
     <!-- ===================================================
          3. REDESIGNED RESPONSIVE HERO BANNER CARD
     =================================================== -->
-    <div class="plus-hero-card p-6 sm:p-9 text-center relative overflow-hidden">
-        
-        <!-- Top Badge -->
-        <div class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md text-[#C1E8FF] border border-white/20 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 shadow-sm">
-            <i class="fa-solid fa-crown text-amber-300"></i> প্রিমিয়াম মেম্বারশিপ ক্লাব
+    <style>
+    /* Glowing Animated Aurora Pulse for Hero */
+    @keyframes heroGlowPulse {
+        0% { box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.35), inset 0 0 15px rgba(193, 232, 255, 0.2); }
+        50% { box-shadow: 0 25px 60px -5px rgba(84, 131, 179, 0.6), inset 0 0 30px rgba(193, 232, 255, 0.5); }
+        100% { box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.35), inset 0 0 15px rgba(193, 232, 255, 0.2); }
+    }
+
+    @keyframes floatBadge {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-6px); }
+    }
+
+    .plus-hero-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 50%, #5483B3 100%);
+        border-radius: 32px;
+        position: relative;
+        overflow: hidden;
+        color: #FFFFFF;
+        border: 2.5px solid #C1E8FF;
+        animation: heroGlowPulse 4s infinite ease-in-out;
+    }
+    
+    /* Background Shimmer Waves */
+    .plus-hero-card::before {
+        content: ''; position: absolute; top: -60%; right: -30%; width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.4) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none;
+        animation: waveMove 6s infinite alternate ease-in-out;
+    }
+    @keyframes waveMove {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(-30px, 30px) scale(1.2); }
+    }
+
+    .hero-badge-float {
+        animation: floatBadge 3s infinite ease-in-out;
+    }
+
+    /* Light Glowing Button */
+    .btn-light-glow {
+        background: #FFFFFF;
+        color: #052659;
+        width: 100%;
+        padding: 18px;
+        border-radius: 20px;
+        font-weight: 900;
+        font-size: 14.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 0 25px rgba(193, 232, 255, 0.6), 0 10px 25px rgba(2, 16, 36, 0.3);
+        border: 2px solid #FFFFFF;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .btn-light-glow:hover {
+        background: #C1E8FF;
+        color: #021024;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 35px rgba(193, 232, 255, 0.9), 0 15px 30px rgba(2, 16, 36, 0.4);
+    }
+    .btn-light-glow:active { transform: scale(0.97); }
+</style>
+
+<!-- ===================================================
+     RESPONSIVE GLOWING HERO BANNER CARD
+=================================================== -->
+<div class="plus-hero-card p-6 sm:p-10 text-center relative overflow-hidden">
+    
+    <!-- Top Floating Badge -->
+    <div class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md text-[#C1E8FF] border border-white/30 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 shadow-sm hero-badge-float">
+        <i class="fa-solid fa-crown text-amber-300"></i> প্রিমিয়াম মেম্বারশিপ ক্লাব
+    </div>
+
+    <!-- Glowing Logo Badge -->
+    <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-3xl overflow-hidden border-4 border-white shadow-[0_0_30px_rgba(193,232,255,0.6)] mb-4 bg-white transform hover:scale-105 transition duration-300">
+        <img src="https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png" alt="TakaEarn Plus" class="w-full h-full object-cover">
+    </div>
+
+    <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-2 drop-shadow-md">TakaEarn Plus পাস</h2>
+    <p class="text-xs sm:text-sm text-[#C1E8FF] font-medium max-w-sm mx-auto leading-relaxed mb-6">
+        মাত্র <b class="text-white underline decoration-amber-300">৳১০০ টাকায়</b> ৩০ দিনের জন্য কিনে নিন এবং নিচের ১৫+ প্রিমিয়াম সুবিধা উপভোগ করুন।
+    </p>
+
+    <!-- Responsive Clean Pricing Box -->
+    <div class="max-w-xs mx-auto bg-white/10 backdrop-blur-md border border-white/25 rounded-2xl p-4 mb-7 flex items-center justify-around shadow-inner">
+        <div class="text-center">
+            <span class="text-[9px] text-[#7DA0CA] font-extrabold uppercase tracking-widest block">নিয়মিত মূল্য</span>
+            <span class="text-base font-bold text-slate-300 line-through font-mono">৳৪০০</span>
         </div>
-
-        <!-- Logo Badge -->
-        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl overflow-hidden border-3 border-white shadow-xl mb-3 bg-white">
-            <img src="https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png" alt="TakaEarn Plus" class="w-full h-full object-cover">
+        <div class="w-px h-8 bg-white/20"></div>
+        <div class="text-center">
+            <span class="text-[9px] text-amber-300 font-extrabold uppercase tracking-widest block">অফার মূল্য</span>
+            <span class="text-2xl font-black text-white font-mono">৳১০০</span>
         </div>
-
-        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-1.5">TakaEarn Plus পাস</h2>
-        <p class="text-xs sm:text-sm text-[#C1E8FF] font-medium max-w-sm mx-auto leading-relaxed mb-5">
-            মাত্র <b class="text-white underline">৳১০০ টাকায়</b> ৩০ দিনের জন্য কিনে নিন এবং নিচের ১৫+ প্রিমিয়াম সুবিধা উপভোগ করুন।
-        </p>
-
-        <!-- Responsive Clean Pricing Box -->
-        <div class="max-w-xs mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 mb-6 flex items-center justify-around">
-            <div class="text-center">
-                <span class="text-[9px] text-[#7DA0CA] font-extrabold uppercase tracking-widest block">নিয়মিত মূল্য</span>
-                <span class="text-base font-bold text-slate-300 line-through font-mono">৳৪০০</span>
-            </div>
-            <div class="w-px h-8 bg-white/20"></div>
-            <div class="text-center">
-                <span class="text-[9px] text-amber-300 font-extrabold uppercase tracking-widest block">অফার মূল্য</span>
-                <span class="text-2xl font-black text-white font-mono">৳১০০</span>
-            </div>
-            <div class="w-px h-8 bg-white/20"></div>
-            <div class="text-center">
-                <span class="text-[9px] text-emerald-300 font-extrabold uppercase tracking-widest block">ডিসকাউন্ট</span>
-                <span class="text-xs font-black text-emerald-300 uppercase">৭৫% ছাড়</span>
-            </div>
-        </div>
-
-        <!-- Direct CTA -->
-        <div class="max-w-xs mx-auto">
-            <a href="/vip/buy/1" class="btn-plus-action !bg-white !text-[#052659] hover:!bg-[#C1E8FF]">
-                <span>এখনই পাসটি নিন (৳১০০)</span> <i class="fa-solid fa-arrow-right text-xs"></i>
-            </a>
+        <div class="w-px h-8 bg-white/20"></div>
+        <div class="text-center">
+            <span class="text-[9px] text-emerald-300 font-extrabold uppercase tracking-widest block">ডিসকাউন্ট</span>
+            <span class="text-xs font-black text-emerald-300 uppercase">৭৫% ছাড়</span>
         </div>
     </div>
 
+    <!-- Light Glowing CTA Direct Buy -->
+    <div class="max-w-xs mx-auto">
+        <a href="/vip/buy/1" class="btn-light-glow">
+            <span>এখনই পাসটি নিন (৳১০০)</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+    </div>
+</div>
+    
     <!-- ===================================================
          4. INFOGRAPHIC 15+ FACILITIES GRID (RESPONSIVE)
     =================================================== -->
