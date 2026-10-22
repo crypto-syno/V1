@@ -66,22 +66,30 @@
     .btn-acc-primary:active { transform: scale(0.97); }
 
     /* ==========================================
-       SHAREABLE PROFILE CARD DESIGN (NO BORDER, GLOW & SHADOW)
+       SHAREABLE PROFILE CARD DESIGN (FIXED CSS)
     ========================================== */
     #downloadableCardWrapper {
-        position: fixed; left: -9999px; top: -9999px;
+        position: fixed; left: -9999px; top: -9999px; z-index: -1000;
     }
     .share-card-canvas {
-        width: 420px;
+        width: 360px; /* Fixed width to prevent wrapping */
+        height: 480px; /* Fixed height */
         background: linear-gradient(145deg, #021024 0%, #052659 60%, #5483B3 100%);
         border-radius: 36px;
-        padding: 40px 28px;
+        padding: 40px 24px;
         color: #FFFFFF;
         text-align: center;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 30px 70px rgba(2, 16, 36, 0.5), inset 0 0 40px rgba(193, 232, 255, 0.25);
+        border: 3px solid #C1E8FF;
         font-family: 'Plus Jakarta Sans', sans-serif;
+        box-sizing: border-box;
+    }
+    .card-watermark {
+        position: absolute; top: -30px; right: -30px; 
+        width: 150px; height: 150px; 
+        background: rgba(193,232,255,0.1); 
+        border-radius: 50%; filter: blur(15px);
     }
 </style>
 
@@ -109,8 +117,7 @@
             <h3 class="font-black text-sm text-[#021024] uppercase tracking-wider">প্রোফাইল তথ্য আপডেট করুন</h3>
         </div>
 
-        <div id="timeWarning" class="hidden bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold p-3 rounded-2xl mb-4 leading-relaxed">
-        </div>
+        <div id="timeWarning" class="hidden bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold p-3 rounded-2xl mb-4 leading-relaxed"></div>
 
         <form method="POST" action="/update-profile" enctype="multipart/form-data" class="space-y-4">
             
@@ -140,7 +147,7 @@
     </div>
 
     <!-- ===================================================
-         2. SHARE PROFILE CARD DOWNLOAD TRIGGER TILE
+         2. SHARE PROFILE CARD TRIGGER
     =================================================== -->
     <div class="acc-surface bg-gradient-to-r from-[#021024] to-[#052659] text-white flex items-center justify-between cursor-pointer hover:opacity-95 transition" onclick="generateAndDownloadCard()">
         <div class="flex items-center gap-3.5">
@@ -237,30 +244,31 @@
 </div>
 
 <!-- ===================================================
-     HIDDEN SHAREABLE PROFILE CARD (CLEAN GLOW DESIGN)
+     HIDDEN PROFILE CARD (STRUCTURE FIXED FOR HTML2CANVAS)
 =================================================== -->
 <div id="downloadableCardWrapper">
     <div id="profileShareCard" class="share-card-canvas">
-        <div style="position: absolute; top: -30px; right: -30px; width: 140px; height: 140px; background: rgba(193,232,255,0.12); border-radius: 50%; filter: blur(10px);"></div>
+        <div class="card-watermark"></div>
         
-        <div style="margin-bottom: 20px;">
-            <span style="font-size: 11px; font-weight: 900; color: #C1E8FF; text-transform: uppercase; letter-spacing: 2px; background: rgba(255,255,255,0.12); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+        <div style="margin-bottom: 25px; display: flex; flex-direction: column; items-center; justify-content: center;">
+            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" crossorigin="anonymous" style="width: 56px; height: 56px; border-radius: 16px; object-fit: cover; border: 2px solid #C1E8FF; margin: 0 auto 12px auto;">
+            <span style="font-size: 12px; font-weight: 900; color: #C1E8FF; text-transform: uppercase; letter-spacing: 2px; background: rgba(255,255,255,0.12); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); display: inline-block; margin: 0 auto;">
                 TakaEarn Verified Partner
             </span>
         </div>
 
-        <div style="width: 84px; height: 84px; margin: 0 auto 14px auto; border-radius: 28px; overflow: hidden; border: 3px solid #C1E8FF; background: #021024; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+        <div style="width: 96px; height: 96px; margin: 0 auto 18px auto; border-radius: 30px; overflow: hidden; border: 4px solid #C1E8FF; background: #052659; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
             {% if user.profile_pic %}
                 <img src="{{ user.profile_pic }}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover;">
             {% else %}
-                <span style="font-size: 32px; font-weight: 900; color: #FFFFFF;">{{ user.email[0] | upper }}</span>
+                <span style="font-size: 36px; font-weight: 900; color: #FFFFFF;">{{ user.email[0] | upper }}</span>
             {% endif %}
         </div>
 
-        <h3 style="font-size: 22px; font-weight: 900; margin: 0 0 4px 0; color: #FFFFFF; letter-spacing: -0.5px;">{{ user.full_name or user.email.split('@')[0] | title }}</h3>
-        <p style="font-size: 12px; color: #C1E8FF; margin: 0 0 20px 0; font-family: monospace; font-weight: bold;">UID: {{ user.referral_code or 'N/A' }}</p>
+        <h3 style="font-size: 24px; font-weight: 900; margin: 0 0 6px 0; color: #FFFFFF; letter-spacing: -0.5px;">{{ user.full_name or user.email.split('@')[0] | title }}</h3>
+        <p style="font-size: 13px; color: #C1E8FF; margin: 0 0 25px 0; font-family: monospace; font-weight: bold;">UID: {{ user.referral_code or 'N/A' }}</p>
 
-        <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 10px; font-size: 11px; font-weight: 700;">
+        <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 14px; font-size: 12px; font-weight: 700; color: #FFFFFF;">
             <span>Official Earning Community • Secure Pass</span>
         </div>
     </div>
@@ -309,44 +317,56 @@
         }
     }
 
-    // Generate Profile Card as Image (Clean Glow & Shadow, No outer harsh border)
+    // Fixed Image Generation Logic
     function generateAndDownloadCard() {
+        const cardWrapper = document.getElementById('downloadableCardWrapper');
         const cardElement = document.getElementById('profileShareCard');
         
-        cardElement.style.position = 'fixed';
-        cardElement.style.left = '50%';
-        cardElement.style.top = '50%';
-        cardElement.style.transform = 'translate(-50%, -50%)';
-        cardElement.style.zIndex = '99999';
+        // Ensure wrapper is placed at top 0 left 0 but hidden beneath everything
+        cardWrapper.style.position = 'fixed';
+        cardWrapper.style.left = '0';
+        cardWrapper.style.top = '0';
+        cardWrapper.style.zIndex = '-1000';
+        cardWrapper.style.opacity = '1';
 
+        // Add a beautiful loading backdrop to user screen
         const backdrop = document.createElement('div');
         backdrop.style.position = 'fixed';
         backdrop.style.inset = '0';
-        backdrop.style.background = 'rgba(2, 16, 36, 0.85)';
+        backdrop.style.background = 'rgba(2, 16, 36, 0.9)';
         backdrop.style.backdropFilter = 'blur(10px)';
         backdrop.style.zIndex = '99998';
         backdrop.id = 'renderBackdrop';
+        backdrop.innerHTML = '<div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C1E8FF;"><i class="fa-solid fa-circle-notch fa-spin text-4xl mb-3"></i><p class="font-bold text-sm">প্রোফাইল কার্ড তৈরি হচ্ছে...</p></div>';
         document.body.appendChild(backdrop);
 
         setTimeout(() => {
-            html2canvas(cardElement, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: null }).then(canvas => {
-                cardElement.style.position = 'fixed';
-                cardElement.style.left = '-9999px';
-                cardElement.style.top = '-9999px';
-                if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
+            // Scroll to top is crucial for html2canvas to not crop
+            window.scrollTo(0, 0); 
 
+            html2canvas(cardElement, { 
+                scale: 3, // High Quality Export
+                useCORS: true, 
+                allowTaint: true, 
+                backgroundColor: null 
+            }).then(canvas => {
+                // Reset wrapper position
+                cardWrapper.style.left = '-9999px';
+                cardWrapper.style.top = '-9999px';
+                document.getElementById('renderBackdrop').remove();
+
+                // Trigger Download
                 const link = document.createElement('a');
                 link.download = 'TakaEarn_Profile_Card.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
-                alert("কার্ড ডাউনলোড করতে সমস্যা হয়েছে!");
-                cardElement.style.position = 'fixed';
-                cardElement.style.left = '-9999px';
-                cardElement.style.top = '-9999px';
+                alert("কার্ড তৈরি করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
+                cardWrapper.style.left = '-9999px';
+                cardWrapper.style.top = '-9999px';
                 if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
             });
-        }, 400);
+        }, 600);
     }
 </script>
 
