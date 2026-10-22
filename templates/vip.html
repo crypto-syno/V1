@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - TAKAEARN PLUS MEMBERSHIP STORE UI
+       TAKAEARN PLUS - ULTRA-MODERN INFOGRAPHIC MEMBERSHIP UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -14,57 +14,76 @@
 
     /* Ambient Soft Glow */
     .glow-bg-plus {
-        position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
-        width: 500px; height: 500px;
-        background: radial-gradient(circle, rgba(193, 232, 255, 0.45) 0%, rgba(84, 131, 179, 0.1) 50%, transparent 70%);
-        z-index: -1; pointer-events: none; filter: blur(50px);
+        position: absolute; top: 5%; left: 50%; transform: translateX(-50%);
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.5) 0%, rgba(84, 131, 179, 0.12) 50%, transparent 70%);
+        z-index: -1; pointer-events: none; filter: blur(60px);
     }
 
-    /* Plus Membership Showcase Card */
-    .plus-store-card {
-        background: #FFFFFF; 
-        border: 2px solid #052659; 
+    /* Hero Glass Card */
+    .plus-hero-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 50%, #5483B3 100%);
         border-radius: 36px;
-        position: relative; 
-        overflow: hidden; 
-        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex; 
-        flex-direction: column;
-        box-shadow: 0 20px 50px -12px rgba(5, 38, 89, 0.18);
-        max-width: 440px;
-        margin: 0 auto;
-    }
-    .plus-store-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 60px -10px rgba(5, 38, 89, 0.25);
-    }
-
-    /* Shimmer Effect Header */
-    .plus-card-header {
-        background: linear-gradient(135deg, #021024 0%, #052659 60%, #5483B3 100%);
-        color: #FFFFFF;
-        padding: 32px 24px;
-        text-align: center;
         position: relative;
         overflow: hidden;
+        color: #FFFFFF;
+        box-shadow: 0 25px 50px -12px rgba(5, 38, 89, 0.35);
+        border: 2px solid #C1E8FF;
+    }
+    .plus-hero-card::before {
+        content: ''; position: absolute; top: -50%; right: -30%; width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, transparent 65%);
+        border-radius: 50%; pointer-events: none;
     }
 
-    /* Feature List Styling */
-    .facility-list li {
-        display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;
-        font-size: 13.5px; color: #021024; font-weight: 600; line-height: 1.5;
+    /* Infographic Facility Card (Animated Hover) */
+    .info-facility-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 24px;
+        padding: 20px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
     }
-    .facility-list li i { 
-        color: #059669; font-size: 16px; margin-top: 2px; flex-shrink: 0;
+    .info-facility-card:hover {
+        transform: translateY(-5px);
+        border-color: #5483B3;
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
+        box-shadow: 0 16px 30px -8px rgba(5, 38, 89, 0.12);
     }
 
-    /* Buttons */
+    .facility-icon-wrap {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: #C1E8FF;
+        color: #052659;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+        border: 1px solid rgba(125, 160, 202, 0.4);
+        transition: all 0.3s ease;
+    }
+    .info-facility-card:hover .facility-icon-wrap {
+        background: #052659;
+        color: #FFFFFF;
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Action Button */
     .btn-plus-action {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF; width: 100%; padding: 18px;
-        border-radius: 20px; font-weight: 800; font-size: 14px; text-transform: uppercase;
+        border-radius: 20px; font-weight: 800; font-size: 15px; text-transform: uppercase;
         letter-spacing: 0.5px; transition: all 0.25s ease; 
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
         box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
         border: none; cursor: pointer; text-decoration: none;
     }
@@ -72,11 +91,11 @@
     .btn-plus-action:active { transform: scale(0.97); }
 </style>
 
-<div class="max-w-4xl mx-auto space-y-8 fade-in-up pb-14 px-2 mt-2 relative">
+<div class="max-w-4xl mx-auto space-y-8 fade-in-up pb-16 px-2 mt-2 relative">
     <div class="glow-bg-plus"></div>
 
     <!-- ===================================================
-         1. TOP HEADER & NAVIGATION
+         1. TOP NAVIGATION
     =================================================== -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
@@ -147,75 +166,201 @@
     {% endif %}
 
     <!-- ===================================================
-         3. TAKAEARN PLUS SHOWCASE STORE CARD
+         3. HERO BANNER CARD (TAKAEARN PLUS)
     =================================================== -->
-    <div class="plus-store-card">
+    <div class="plus-hero-card p-8 sm:p-10 text-center relative overflow-hidden">
         
-        <!-- Header with Custom Image -->
-        <div class="plus-card-header">
-            <div class="absolute inset-0 bg-white/5 backdrop-blur-[1px]"></div>
-            
-            <div class="relative z-10">
-                <div class="inline-flex items-center gap-1.5 bg-white/20 text-[#C1E8FF] border border-white/30 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 shadow-sm">
-                    <i class="fa-solid fa-star text-amber-300"></i> 75% OFF Special Offer
-                </div>
-
-                <!-- Taka Earn Image Badge -->
-                <div class="w-24 h-24 mx-auto rounded-3xl overflow-hidden border-3 border-white shadow-2xl mb-3 bg-white">
-                    <img src="https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png" alt="TakaEarn Plus" class="w-full h-full object-cover">
-                </div>
-
-                <h2 class="text-3xl font-black text-white tracking-tight mb-1">TakaEarn Plus</h2>
-                <p class="text-xs text-[#C1E8FF] font-medium">৩০ দিনের প্রিমিয়াম মেম্বারশিপ পাস</p>
-            </div>
+        <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-[#C1E8FF] border border-white/20 px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest mb-4 shadow-sm">
+            <i class="fa-solid fa-crown text-amber-300"></i> প্রিমিয়াম মেম্বারশিপ ক্লাব
         </div>
 
-        <!-- Body & Pricing -->
-        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between bg-white">
+        <!-- TakaEarn Image Logo Badge -->
+        <div class="w-28 h-28 mx-auto rounded-3xl overflow-hidden border-4 border-white shadow-2xl mb-4 bg-white transform hover:scale-105 transition duration-300">
+            <img src="https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png" alt="TakaEarn Plus" class="w-full h-full object-cover">
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2">TakaEarn Plus পাস</h2>
+        <p class="text-xs sm:text-sm text-[#C1E8FF] font-medium max-w-md mx-auto leading-relaxed mb-6">
+            মাত্র <b class="text-white underline">৳১০০ টাকায়</b> ৩০ দিনের জন্য কিনে নিন এবং নিচের ১৫+ প্রিমিয়াম সুবিধা উপভোগ করুন।
+        </p>
+
+        <!-- Pricing Tag -->
+        <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl mb-8">
+            <span class="text-sm font-bold text-[#7DA0CA] line-through font-mono">৳৪০০</span>
+            <span class="text-3xl font-black text-white font-mono">৳১০০ <span class="text-xs font-sans text-amber-300 font-extrabold">(৭৫% ছাড়)</span></span>
+        </div>
+
+        <!-- Direct Buy CTA -->
+        <div class="max-w-xs mx-auto">
+            <a href="/vip/buy/1" class="btn-plus-action !bg-white !text-[#052659] hover:!bg-[#C1E8FF]">
+                <span>এখনই পাসটি নিন (৳১০০)</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         4. INFOGRAPHIC 15+ FACILITIES GRID (LANDING UI)
+    =================================================== -->
+    <div>
+        <div class="text-center mb-8">
+            <span class="text-[#052659] font-extrabold text-[10px] tracking-widest uppercase bg-[#C1E8FF] px-4 py-1.5 rounded-full border border-[#7DA0CA]/50">
+                VIP Privileges & Benefits
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black text-[#021024] mt-3 tracking-tight">
+                প্লাস মেম্বারদের বিশেষ ১৫+ সুবিধাসমূহ
+            </h3>
+            <p class="text-xs text-[#5483B3] font-semibold mt-1">
+                একবার পাস একটিভ করলেই নিচের সব সুবিধাগুলো আপনার একাউন্টে আজীবনের মতো যুক্ত হয়ে যাবে।
+            </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
             
-            <div>
-                <!-- Price Box -->
-                <div class="mb-6 p-5 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF] text-center">
-                    <div class="flex items-center justify-center gap-2 mb-1">
-                        <span class="text-sm font-bold text-slate-400 line-through font-mono">৳{{ TAKAEARN_PLUS_PLAN.regular_price }}</span>
-                        <span class="bg-rose-100 text-rose-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">{{ TAKAEARN_PLUS_PLAN.discount_text }}</span>
-                    </div>
-                    
-                    <div class="flex items-baseline justify-center gap-1 text-[#021024]">
-                        <span class="text-2xl font-black text-[#052659]">৳</span>
-                        <h2 class="text-5xl font-black font-mono tracking-tight">{{ TAKAEARN_PLUS_PLAN.price }}</h2>
-                        <span class="text-xs text-[#5483B3] font-bold ml-1">/ একবার</span>
-                    </div>
-
-                    <div class="flex items-center justify-between text-xs mt-3 pt-3 border-t border-[#C1E8FF] font-bold">
-                        <span class="text-[#5483B3]">দৈনিক গ্যারান্টেড প্রফিট:</span>
-                        <span class="text-emerald-600 font-black font-mono text-sm">+৳{{ TAKAEARN_PLUS_PLAN.daily_profit }}</span>
-                    </div>
+            <!-- Facility 1 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-ban"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">জিরো রেফারেল শর্ত (No Referral)</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">টাকা তোলার জন্য কোনো প্রকার রেফার বা মেম্বার যোগ করার ঝামেলা নেই।</p>
                 </div>
-
-                <!-- Facilities Checklist -->
-                <h4 class="text-xs font-black text-[#021024] uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check text-[#052659]"></i> মেম্বারশিপ সুবিধাসমূহ:
-                </h4>
-
-                <ul class="facility-list mb-6">
-                    {% for facility in TAKAEARN_PLUS_PLAN.facilities %}
-                    <li>
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>{{ facility }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
             </div>
 
-            <!-- Buy Action Button -->
-            <div class="pt-4 border-t border-[#C1E8FF]">
-                <a href="/vip/buy/1" class="btn-plus-action">
-                    <span>মাত্র ৳১০০ দিয়ে পাসটি নিন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
-                </a>
+            <!-- Facility 2 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-wallet"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">মিনিমাম ক্যাশআউট মাত্র ৳২০</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">বিকাশ ও নগদে মাত্র ২০ টাকা হলেই ইনস্ট্যান্ট উইথড্র দিতে পারবেন।</p>
+                </div>
+            </div>
+
+            <!-- Facility 3 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-percent"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">০% ট্রানজেকশন চার্জ (ফ্রি)</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">উইথড্র করার সময় কোনো ফি কাটা হবে না, সম্পূর্ণ টাকা পকেটে পাবেন।</p>
+                </div>
+            </div>
+
+            <!-- Facility 4 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-gem"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">প্রিমিয়াম ওয়ার্ক বোর্ড আনলক</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">বেশি টাকার এক্সক্লুসিভ ও হাই-পেইং টাস্কগুলোতে সরাসরি কাজ করতে পারবেন।</p>
+                </div>
+            </div>
+
+            <!-- Facility 5 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-rectangle-ad"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">জিরো অ্যাড এক্সপেরিয়েন্স (No Ads)</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">সাইট ব্রাউজ করার সময় কোনো বিরক্তিকর পপআপ বা স্পন্সরড অ্যাড দেখাবে না।</p>
+                </div>
+            </div>
+
+            <!-- Facility 6 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-headset"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">প্রিমিয়াম লাইভ সাপোর্ট</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">সাপোর্ট ডেস্কে ভিআইপি প্রায়োরিটি পাবেন এবং সবার আগে সমাধান পাবেন।</p>
+                </div>
+            </div>
+
+            <!-- Facility 7 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-bolt-lightning"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">১০-৩০ মিনিটে প্রায়োরিটি পেমেন্ট</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">আপনার উইথড্র রিকোয়েস্ট সবার আগে অটো-বট દ્વારા ক্লিয়ার করা হবে।</p>
+                </div>
+            </div>
+
+            <!-- Facility 8 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-dharmachakra"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">লাকি স্পিনে ডাবল রিওয়ার্ড (2X)</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">লাকি স্পিন ও গেম খেলে অর্জিত পয়েন্ট ও কয়েন দ্বিগুণ হয়ে যাবে।</p>
+                </div>
+            </div>
+
+            <!-- Facility 9 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-user-shield"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">২৪/৭ ডেডিকেটেড ভিআইপি এজেন্ট</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">আপনার একাউন্ট পরিচালনার জন্য স্পেশাল ম্যানেজার অ্যাসাইন থাকবে।</p>
+                </div>
+            </div>
+
+            <!-- Facility 10 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-shield-heart"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">জরিমানা মওকুফ প্রটেকশন</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">টাস্কে কোনো কারণে সাময়িক ভুল হলে জরিমানা বা পেনাল্টি থেকে সুরক্ষা পাবেন।</p>
+                </div>
+            </div>
+
+            <!-- Facility 11 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-users-rays"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">ফ্রি টিম রেফারেল বোনাস</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">সিস্টেম অটো-ম্যাচিংয়ের মাধ্যমে আপনার টিমে ফ্রি রেফারেল যুক্ত হতে পারে।</p>
+                </div>
+            </div>
+
+            <!-- Facility 12 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-wifi"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">ড্রাইভ প্যাকে অতিরিক্ত ১০% ছাড়</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">টেলিকম ড্রাইভ প্যাক (ইন্টারনেট ও মিনিট) ক্রয়ে বাড়তি ১০% ক্যাশব্যাক।</p>
+                </div>
+            </div>
+
+            <!-- Facility 13 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-handshake-angle"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">৫০% ডাইরেক্ট এজেন্সি পার্টনারশিপ</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">ব্যবসায়িক ক্লায়েন্ট অর্ডারে সরাসরি বড় অংকের কমিশন পার্টনারশিপ।</p>
+                </div>
+            </div>
+
+            <!-- Facility 14 -->
+            <div class="info-facility-card">
+                <div class="facility-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">আনলিমিটেড ডেইলি প্রফিট ক্লেইম</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">প্রতিদিন নিয়মমাফিক অটো প্রফিট আপনার এলিট ওয়ালেটে যোগ হবে।</p>
+                </div>
+            </div>
+
+            <!-- Facility 15 -->
+            <div class="info-facility-card sm:col-span-2 bg-gradient-to-r from-white to-[#F4F9FD] border-2 border-[#5483B3]/40">
+                <div class="facility-icon-wrap bg-[#052659] text-white"><i class="fa-solid fa-infinity"></i></div>
+                <div>
+                    <h4 class="font-black text-[#021024] text-sm mb-1">And More (আরও অনেক প্রিমিয়াম সুবিধা)</h4>
+                    <p class="text-xs text-[#5483B3] leading-relaxed">নিয়মিত আপডেটে প্লাস মেম্বারদের জন্য আরও দারুণ সব ফিচার যুক্ত করা হয়।</p>
+                </div>
             </div>
 
         </div>
+    </div>
+
+    <!-- ===================================================
+         5. BOTTOM CTA BUTTON
+    =================================================== -->
+    <div class="pt-4 max-w-md mx-auto">
+        <a href="/vip/buy/1" class="btn-plus-action">
+            <span>মাত্র ৳১০০ দিয়ে পাসটি নিন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
     </div>
 
 </div>
