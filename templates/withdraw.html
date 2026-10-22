@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - NEXT-GEN FINTECH CASHOUT UI
+       TAKAEARN - NEXT-GEN FLAT CASHOUT UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -35,7 +35,7 @@
         flex: 1;
         padding: 12px 10px;
         border-radius: 16px;
-        font-size: 12.5px;
+        font-size: 12px;
         font-weight: 800;
         text-align: center;
         color: #5483B3;
@@ -47,6 +47,7 @@
         gap: 2px;
         border: none;
         background: transparent;
+        text-decoration: none;
     }
     .segmented-btn.active {
         background: #FFFFFF;
@@ -54,21 +55,18 @@
         box-shadow: 0 4px 15px rgba(5, 38, 89, 0.08);
         border: 1px solid #C1E8FF;
     }
-    .segmented-btn:disabled {
-        opacity: 0.45;
-        cursor: not-allowed;
-    }
 
-    /* Minimal Big Amount Display */
-    .amount-hero-box {
+    /* Unique Flat Input Box: Only Border-Bottom */
+    .flat-amount-group {
+        position: relative;
         background: #F4F9FD;
         border: 1.5px solid #C1E8FF;
         border-radius: 24px;
-        padding: 20px 16px;
+        padding: 18px;
         text-align: center;
         transition: all 0.25s ease;
     }
-    .amount-hero-box:focus-within {
+    .flat-amount-group:focus-within {
         border-color: #052659;
         background: #FFFFFF;
         box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35);
@@ -76,18 +74,23 @@
     .amount-numeric-input {
         background: transparent;
         border: none;
+        border-bottom: 2px solid #C1E8FF;
         outline: none;
-        font-size: 42px;
+        font-size: 40px;
         font-weight: 900;
         font-family: 'Plus Jakarta Sans', monospace;
         color: #021024;
         text-align: center;
         width: 100%;
+        padding-bottom: 5px;
         letter-spacing: -1px;
     }
-    .amount-numeric-input::placeholder { color: #7DA0CA; opacity: 0.7; }
+    .amount-numeric-input:focus {
+        border-bottom-color: #052659;
+    }
+    .amount-numeric-input::placeholder { color: #7DA0CA; opacity: 0.6; }
 
-    /* Quick Preset Chips */
+    /* Quick Amount Chips */
     .amount-chip {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
@@ -100,10 +103,7 @@
         transition: all 0.2s ease;
         cursor: pointer;
     }
-    .amount-chip:hover {
-        background: #C1E8FF;
-        border-color: #5483B3;
-    }
+    .amount-chip:hover { background: #C1E8FF; border-color: #5483B3; }
     .amount-chip:active { transform: scale(0.95); }
 
     /* Clearance Condition Item */
@@ -115,16 +115,9 @@
         border-radius: 18px;
         border: 1.5px solid #E2E8F0;
         background: #FFFFFF;
-        transition: all 0.2s;
     }
-    .condition-tile.passed {
-        background: #ECFDF5;
-        border-color: #A7F3D0;
-    }
-    .condition-tile.pending {
-        background: #FFF1F2;
-        border-color: #FECDD3;
-    }
+    .condition-tile.passed { background: #ECFDF5; border-color: #A7F3D0; }
+    .condition-tile.pending { background: #FFF1F2; border-color: #FECDD3; }
 
     /* Main Submit Button */
     .btn-cashout-submit {
@@ -145,25 +138,48 @@
         border: none;
         cursor: pointer;
     }
-    .btn-cashout-submit:hover { 
-        transform: translateY(-2px); 
-        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); 
-    }
+    .btn-cashout-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
     .btn-cashout-submit:active { transform: scale(0.97); }
     .btn-cashout-submit:disabled {
-        background: #E2E8F0 !important;
-        color: #94A3B8 !important;
-        box-shadow: none !important;
-        cursor: not-allowed;
-        transform: none !important;
+        background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed;
+    }
+
+    /* Success 2px Border Popup */
+    .success-popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 16, 36, 0.88);
+        backdrop-filter: blur(12px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 9999;
+    }
+    .success-popup-overlay.show {
+        display: flex !important;
+        animation: popUpAnim 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes popUpAnim {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .success-sheet-card {
+        background: #FFFFFF;
+        border: 2px solid #052659;
+        border-radius: 34px;
+        padding: 28px 22px;
+        width: 100%;
+        max-width: 390px;
+        text-align: center;
+        box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.5);
     }
 </style>
 
-<div class="max-w-md mx-auto space-y-5 fade-in-up pb-10 px-2 mt-1">
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- ===================================================
-         1. TOP NAVIGATION & DESTINATION
-    =================================================== -->
+    <!-- Top Navigation -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
             <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
@@ -180,9 +196,7 @@
         </a>
     </div>
 
-    <!-- ===================================================
-         2. PAYOUT DESTINATION TICKET
-    =================================================== -->
+    <!-- Payout Destination Ticket -->
     <div class="cashout-surface !p-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-lg border border-[#7DA0CA]/30 flex-shrink-0">
@@ -213,50 +227,46 @@
     </div>
 
     <!-- ===================================================
-         3. CASHOUT FORM
+         CASHOUT FORM
     =================================================== -->
-    <form method="POST" action="/withdraw" id="withdrawForm" onsubmit="return handleWithdrawSubmit(this)">
+    <form method="POST" action="/withdraw" id="withdrawForm" onsubmit="return handleWithdrawSubmit(event)">
         
-        <!-- Hidden input for selected wallet type -->
         <input type="hidden" name="wallet_type" id="walletTypeInput" value="main">
 
-        <!-- 3A. Modern Segmented Wallet Switcher -->
+        <!-- Wallet Switcher: TakaPass Plus (Instead of Elite) -->
         <div class="mb-4">
             <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1">
                 ওয়ালেট নির্বাচন করুন
             </label>
 
             <div class="segmented-switch-wrap">
-                <!-- Main Wallet Tab -->
+                <!-- Main Wallet -->
                 <button type="button" class="segmented-btn active" id="btnTabMain" onclick="selectWalletType('main')">
                     <span class="text-[10px] uppercase font-bold tracking-wider">মেইন ব্যালেন্স</span>
                     <span class="text-base font-black font-mono">৳{{ user.balance }}</span>
                 </button>
 
-                <!-- VIP Wallet Tab -->
-                <button type="button" class="segmented-btn" id="btnTabVip" onclick="selectWalletType('vip')" {{ 'disabled' if user.current_level == 0 }}>
-                    <span class="text-[10px] uppercase font-bold tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-crown text-amber-500"></i> এলিট VIP
+                <!-- TakaPass Plus Wallet (Redirects to /vip on click) -->
+                <a href="/vip" class="segmented-btn justify-center">
+                    <span class="text-[10px] uppercase font-black tracking-wider flex items-center gap-1 text-amber-600">
+                        <i class="fa-solid fa-crown"></i> TakaPass Plus
                     </span>
                     <span class="text-base font-black font-mono">৳{{ user.vip_balance or 0 }}</span>
-                </button>
+                </a>
             </div>
         </div>
 
-        <!-- 3B. Big Amount Numeric Input -->
+        <!-- Unique Flat Amount Input Box -->
         <div class="mb-4">
             <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1 text-center">
                 উত্তোলনের পরিমাণ লিখুন
             </label>
 
-            <div class="amount-hero-box">
-                <div class="flex items-center justify-center">
-                    <span class="text-2xl font-black text-[#5483B3] font-sans mr-1">৳</span>
-                    <input type="number" name="amount" id="amountField" required placeholder="0" class="amount-numeric-input">
-                </div>
+            <div class="flat-amount-group">
+                <input type="number" name="amount" id="amountField" required placeholder="0" class="amount-numeric-input">
             </div>
 
-            <!-- Quick Amount Chips (Preset selection) -->
+            <!-- Quick Preset Chips -->
             <div class="flex items-center justify-center gap-2 mt-2.5 flex-wrap" id="presetChipsWrap">
                 <button type="button" class="amount-chip" onclick="setPresetAmount(370)">৳৩৭০</button>
                 <button type="button" class="amount-chip" onclick="setPresetAmount(500)">৳৫০০</button>
@@ -265,42 +275,35 @@
             </div>
         </div>
 
-        <!-- ===================================================
-             4. WITHDRAWAL CONDITIONS CLEARANCE (৫টি রেফার & ৩৭০ টাকা)
-        =================================================== -->
+        <!-- Clearance Conditions (5 Referrals & 370 Taka) -->
         {% set is_vip = (user.current_level > 0) %}
         {% set current_bal = user.balance | float %}
         
         <div class="cashout-surface mb-5">
-            
             <div class="flex items-center justify-between mb-3 border-b border-[#C1E8FF] pb-2">
                 <span class="text-[11px] font-black uppercase text-[#021024] tracking-wider flex items-center gap-1.5">
                     <i class="fa-solid fa-shield-check text-[#052659]"></i> ক্লিয়ারেন্স শর্তাবলী
                 </span>
                 {% if is_vip %}
-                    <span class="text-[9px] font-black bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full uppercase">VIP Privilege</span>
+                    <span class="text-[9px] font-black bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full uppercase">Plus Active</span>
                 {% else %}
                     <span class="text-[9px] font-black bg-[#C1E8FF] text-[#052659] px-2 py-0.5 rounded-full uppercase">Free Member</span>
                 {% endif %}
             </div>
 
             {% if is_vip %}
-                <!-- VIP Privilege: Zero Referral & 20 Taka Min -->
                 <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs">
                     <p class="font-extrabold text-amber-950 flex items-center gap-1.5 mb-1">
-                        <i class="fa-solid fa-crown text-amber-500"></i> কোনো রেফার লাগবে না!
+                        <i class="fa-solid fa-crown text-amber-500"></i> TakaPass Plus সুবিধা সক্রিয়!
                     </p>
                     <p class="text-[#5483B3] leading-relaxed">
-                        আপনি এলিট ভিআইপি মেম্বার। আপনার একাউন্টে <b>কোনো রেফারেল শর্ত নেই</b> এবং মাত্র <b>৳২০</b> হলেই ক্যাশআউট করতে পারবেন।
+                        আপনার কোনো রেফার শর্ত নেই এবং মাত্র <b>৳২০</b> হলেই ক্যাশআউট করতে পারবেন।
                     </p>
                 </div>
                 {% set can_submit = (current_bal >= 20) %}
-
             {% else %}
-                <!-- Free Member Conditions: 5 Refers, 370 Taka Min, 24h Account -->
                 <div class="space-y-2 text-xs">
-                    
-                    <!-- Condition 1: 5 Referrals -->
+                    <!-- 5 Referrals -->
                     <div class="condition-tile {{ 'passed' if ref_count >= 5 else 'pending' }}">
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid {{ 'fa-circle-check text-emerald-600' if ref_count >= 5 else 'fa-circle-xmark text-rose-500' }} text-base"></i>
@@ -314,7 +317,7 @@
                         </span>
                     </div>
 
-                    <!-- Condition 2: Minimum 370 Balance -->
+                    <!-- Min 370 Balance -->
                     <div class="condition-tile {{ 'passed' if current_bal >= 370 else 'pending' }}">
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid {{ 'fa-circle-check text-emerald-600' if current_bal >= 370 else 'fa-circle-xmark text-rose-500' }} text-base"></i>
@@ -328,7 +331,7 @@
                         </span>
                     </div>
 
-                    <!-- Condition 3: Account Age 24 Hours -->
+                    <!-- Account 24 Hours -->
                     <div class="condition-tile {{ 'passed' if account_hours >= 24 else 'pending' }}">
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid {{ 'fa-circle-check text-emerald-600' if account_hours >= 24 else 'fa-circle-xmark text-rose-500' }} text-base"></i>
@@ -341,15 +344,12 @@
                             {{ "%.0f"|format(account_hours) if account_hours < 24 else 24 }} / 24 ঘণ্টা
                         </span>
                     </div>
-
                 </div>
-
                 {% set can_submit = (ref_count >= 5 and current_bal >= 370 and account_hours >= 24) %}
             {% endif %}
-
         </div>
 
-        <!-- 5. SUBMIT ACTION BUTTON -->
+        <!-- Submit Button -->
         <div>
             {% if is_vip or can_submit %}
                 <button type="submit" id="submitBtn" class="btn-cashout-submit">
@@ -362,90 +362,118 @@
             {% endif %}
 
             <p class="text-center text-[10px] font-bold text-[#7DA0CA] mt-3 flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-bolt text-amber-500"></i> অটোমেটেড পেমেন্ট বট দ্বারা ৫-৩০ মিনিটে ক্যাশআউট সম্পন্ন হয়
+                <i class="fa-solid fa-bolt text-amber-500"></i> অটোমেটেড পেমেন্ট বট দ্বারা দ্রুত ক্যাশআউট সম্পন্ন হয়
             </p>
         </div>
 
     </form>
+</div>
 
+<!-- ===================================================
+     SUCCESS POPUP WITH 2PX BORDER & MASKED NUMBER
+=================================================== -->
+<div class="success-popup-overlay" id="successPopupModal">
+    <div class="success-sheet-card">
+        
+        <!-- 2px Sleek Badge -->
+        <div class="inline-block border-2 border-[#052659] text-[#052659] px-4 py-1 rounded-full text-[11px] font-black uppercase tracking-wider mb-4 shadow-sm">
+            Submitted Successful
+        </div>
+
+        <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-md animate-bounce">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h3 class="text-2xl font-black text-[#021024] tracking-tight mb-1">উইথড্র রিকোয়েস্ট সফল!</h3>
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-4">
+            আপনার পেমেন্ট রিকোয়েস্টটি সফলভাবে পেন্ডিং কিউতে জমা হয়েছে।
+        </p>
+
+        <!-- Masked Number Display Box -->
+        <div class="p-4 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF] mb-5 text-center">
+            <span class="text-[9px] font-black text-[#7DA0CA] uppercase tracking-widest block mb-1">প্রেরিত নম্বর (Masked)</span>
+            <span class="text-xl font-black font-mono text-[#021024]" id="popupMaskedNum">017****1234</span>
+        </div>
+
+        <button onclick="closeSuccessAndRedirect()" class="btn-cashout-submit">
+            <i class="fa-solid fa-check"></i> ঠিক আছে (হিস্টোরি দেখুন)
+        </button>
+    </div>
 </div>
 
 <!-- ===================================================
      FRONTEND JAVASCRIPT LOGIC
 =================================================== -->
 <script>
-    let activeWallet = 'main';
     const mainBalance = {{ user.balance | float }};
-    const vipBalance = {{ (user.vip_balance or 0) | float }};
-    const isVipUser = {{ 'true' if user.current_level > 0 else 'false' }};
+    const userWalletNumber = "{{ user.wallet_number or '' }}";
 
-    // Wallet Type Selector
-    function selectWalletType(type) {
-        activeWallet = type;
-        document.getElementById('walletTypeInput').value = type;
-
-        const btnMain = document.getElementById('btnTabMain');
-        const btnVip = document.getElementById('btnTabVip');
-        const chipsWrap = document.getElementById('presetChipsWrap');
-
-        if (type === 'main') {
-            btnMain.classList.add('active');
-            btnVip.classList.remove('active');
-            // Update preset chips for main
-            if (!isVipUser) {
-                chipsWrap.innerHTML = `
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(370)">৳৩৭০</button>
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(500)">৳৫০০</button>
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(1000)">৳১০০০</button>
-                    <button type="button" class="amount-chip !bg-[#C1E8FF]" onclick="setPresetAmount('all')">সব ব্যালেন্স</button>
-                `;
-            } else {
-                chipsWrap.innerHTML = `
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(20)">৳২০</button>
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(100)">৳১০০</button>
-                    <button type="button" class="amount-chip" onclick="setPresetAmount(500)">৳৫০০</button>
-                    <button type="button" class="amount-chip !bg-[#C1E8FF]" onclick="setPresetAmount('all')">সব ব্যালেন্স</button>
-                `;
-            }
-        } else {
-            btnVip.classList.add('active');
-            btnMain.classList.remove('active');
-            // Update preset chips for VIP Wallet (Min 20)
-            chipsWrap.innerHTML = `
-                <button type="button" class="amount-chip" onclick="setPresetAmount(20)">৳২০</button>
-                <button type="button" class="amount-chip" onclick="setPresetAmount(50)">৳৫০</button>
-                <button type="button" class="amount-chip" onclick="setPresetAmount(100)">৳১০০</button>
-                <button type="button" class="amount-chip !bg-[#C1E8FF]" onclick="setPresetAmount('all')">সব ব্যালেন্স</button>
-            `;
-        }
-    }
-
-    // Preset Amount Chips Handler
     function setPresetAmount(val) {
         const input = document.getElementById('amountField');
         if (val === 'all') {
-            const currentBal = (activeWallet === 'main') ? mainBalance : vipBalance;
-            input.value = Math.floor(currentBal);
+            input.value = Math.floor(mainBalance);
         } else {
             input.value = val;
         }
     }
 
-    // Submit Loading State
-    function handleWithdrawSubmit(form) {
-        if (!form.checkValidity()) return false;
+    // Mask phone number for popup (e.g. 01712345678 -> 017****5678)
+    function getMaskedNumber(num) {
+        if (!num || num.length < 10) return "017****0000";
+        return num.slice(0, 3) + "****" + num.slice(-4);
+    }
 
-        const amount = parseFloat(document.getElementById('amountField').value);
+    // Intercept form submit to show gorgeous masked success popup
+    function handleWithdrawSubmit(event) {
+        event.preventDefault();
+
+        const amountInput = document.getElementById('amountField').value;
+        const amount = parseFloat(amountInput);
+
         if (!amount || amount <= 0) {
             alert('সঠিক টাকার পরিমাণ লিখুন!');
             return false;
         }
 
+        if (amount > mainBalance) {
+            alert('আপনার মেইন ব্যালেন্সে পর্যাপ্ত টাকা নেই!');
+            return false;
+        }
+
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">রিকোয়েস্ট প্রসেস হচ্ছে...</span>';
-        btn.classList.add('opacity-80', 'cursor-not-allowed');
-        return true;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">প্রসেসিং...</span>';
+
+        const form = document.getElementById('withdrawForm');
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => {
+            if (res.ok || res.redirected) {
+                // Set Masked Number in Popup
+                document.getElementById('popupMaskedNum').innerText = getMaskedNumber(userWalletNumber);
+                // Show Success 2px Popup
+                document.getElementById('successPopupModal').classList.add('show');
+            } else {
+                alert('উইথড্র রিকোয়েস্ট সাবমিট করতে সমস্যা হয়েছে।');
+                btn.disabled = false;
+                btn.innerHTML = '<span>ক্যাশআউট রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
+            }
+        })
+        .catch(() => {
+            alert('নেটওয়ার্ক সমস্যা! আবার চেষ্টা করুন।');
+            btn.disabled = false;
+            btn.innerHTML = '<span>ক্যাশআউট রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
+        });
+
+        return false;
+    }
+
+    function closeSuccessAndRedirect() {
+        window.location.href = "/history";
     }
 </script>
 
