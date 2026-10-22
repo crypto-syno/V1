@@ -2394,37 +2394,29 @@ def vip_page():
         print(f"VIP Fetch Error: {e}")
 
     return render_template('vip.html', user=g.user, plans=VIP_PLANS, my_vips=my_vips, today_date=today_str)
-# --- BUY VIP (SUBMIT PROOF) ---
-# --- BUY VIP (SUBMIT PROOF WITH TRX ID CHECK) ---
+# --- BUY VIP (TAKAEARN PLUS) ---
 @app.route('/vip/buy/<int:level_id>', methods=['GET', 'POST'])
 @login_required
 def vip_buy(level_id):
-    plan = VIP_PLANS.get(level_id)
-    if not plan:
-        flash("ভুল প্যাকেজ আইডি!", "error")
-        return redirect(url_for('vip_page'))
+    plan = TAKAEARN_PLUS_PLAN # Always points to Plus
     
     if request.method == 'POST':
         method = request.form.get('method')
         number = request.form.get('sender')
-        trx_id = request.form.get('trx_id', '').strip() # Space রিমুভ করা
+        trx_id = request.form.get('trx_id', '').strip()
         
-        # ১. [NEW] TrxID ডুপ্লিকেট চেক করা
         try:
-            # চেক করো এই TrxID দিয়ে আগে কোনো রিকোয়েস্ট আছে কিনা (যেকোনো ইউজারের)
             existing_trx = supabase.table('vip_requests').select('id').eq('trx_id', trx_id).execute()
-            
             if existing_trx.data and len(existing_trx.data) > 0:
-                flash("❌ এই TrxID টি ইতিমধ্যে ব্যবহার করা হয়েছে! ভুয়া তথ্য দিলে একাউন্ট ব্যান করা হবে।", "error")
+                flash("❌ এই TrxID টি ইতিমধ্যে ব্যবহার করা হয়েছে!", "error")
                 return redirect(request.url)
         except Exception as e:
             print(f"Trx Check Error: {e}")
 
-        # ২. নতুন রিকোয়েস্ট সেভ করা
         try:
             supabase.table('vip_requests').insert({
                 'user_id': session['user_id'],
-                'level_id': level_id,
+                'level_id': 1, # Level 1 = TakaEarn Plus
                 'amount': plan['price'],
                 'method': method,
                 'number': number,
@@ -2432,12 +2424,13 @@ def vip_buy(level_id):
                 'status': 'pending'
             }).execute()
             
-            flash("✅ রিকোয়েস্ট জমা হয়েছে! এডমিন চেক করে আপগ্রেড করে দিবে।", "success")
+            flash("✅ রিকোয়েস্ট জমা হয়েছে! এডমিন চেক করে একাউন্ট আপগ্রেড করে দিবে।", "success")
             return redirect(url_for('vip_page'))
         except Exception as e:
             flash(f"Error submitting request: {e}", "error")
 
     return render_template('vip_buy.html', plan=plan)
+    
     # --- ADMIN: VIP REQUESTS ---
 @app.route('/admin/vip')
 @login_required
