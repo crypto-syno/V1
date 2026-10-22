@@ -75,15 +75,30 @@ AD_LINKS = [
     {'id': 8, 'url': 'https://shrinkme.click/Test53773'}
 ]
 
-# --- VIP LEVEL CONFIGURATION ---
-# --- VIP LEVEL CONFIGURATION ---
-VIP_PLANS = {
-    1: {'name': 'Earn Starter', 'price': 100, 'daily_profit': 15, 'days': 15, 'min_withdraw': 20},
-    2: {'name': 'Daily Booster', 'price': 200, 'daily_profit': 25, 'days': 19, 'min_withdraw': 20},
-    3: {'name': 'Smart Earner', 'price': 500, 'daily_profit': 40, 'days': 50, 'min_withdraw': 20},
-    4: {'name': 'Pro Master', 'price': 1000, 'daily_profit': 70, 'days': 60, 'min_withdraw': 20},
-    5: {'name': 'Business Elite', 'price': 5000, 'daily_profit': 370, 'days': 100, 'min_withdraw': 20}
+# ==========================================
+# 💎 TAKAEARN PLUS MEMBERSHIP CONFIGURATION
+# ==========================================
+TAKAEARN_PLUS_PLAN = {
+    'name': 'TakaEarn Plus',
+    'badge_image': 'https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png',
+    'regular_price': 400,
+    'price': 100,  # 75% OFF
+    'discount_text': '৭৫% ছাড় (৭৫% OFF)',
+    'daily_profit': 25,
+    'days': 30,
+    'min_withdraw': 20,
+    'facilities': [
+        'প্রতিদিন নিশ্চিত ফিক্সড অটো প্রফিট (ডেইলি বোনাস)',
+        'টাকা তোলার জন্য কোনো প্রকার রেফারেল শর্ত লাগবে না',
+        'মিনিমাম ক্যাশআউট মাত্র ২০ টাকা (বিকাশ/নগদ)',
+        'উইথড্রতে ০% ট্রানজেকশন ফি (ফ্রি ক্যাশআউট)',
+        'প্রিমিয়াম ওয়ার্ক বোর্ডের হাই-পেইং কাজগুলোর আনলক এক্সেস',
+        'উইথড্র রিকোয়েস্টে ১০-৩০ মিনিটে প্রায়োরিটি পেমেন্ট',
+        'লাকি স্পিন ও ক্যাপচাতে দ্বিগুণ (2X) রিওয়ার্ড পয়েন্ট',
+        '২৪/৭ ডেডিকেটেড প্রিমিয়াম ভিআইপি সাপোর্ট এজেন্ট সুবিধা'
+    ]
 }
+
 
 # -------------------------------------------------------------------
 # 3. HELPER DECORATORS
