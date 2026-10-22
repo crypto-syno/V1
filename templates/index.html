@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - PREMIUM GLOWING DASHBOARD UI
+       TAKAEARN - PREMIUM GLOWING DASHBOARD UI (V3)
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -24,52 +24,54 @@
     }
     .glowing-card:active { transform: scale(0.98); }
 
-    /* 1. App-like Wallet Card */
+    /* 1. Ultra Premium Wallet Card */
     .app-wallet-card {
-        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
-        border-radius: 28px;
-        padding: 24px 20px;
+        background: linear-gradient(135deg, #021024 0%, #052659 50%, #5483B3 100%);
+        border-radius: 32px;
+        padding: 24px;
         color: #FFFFFF;
         position: relative;
         overflow: hidden;
-        border: 1px solid rgba(193, 232, 255, 0.3);
-        box-shadow: 0 15px 40px -10px rgba(5, 38, 89, 0.4);
+        border: 1.5px solid rgba(193, 232, 255, 0.4);
+        box-shadow: inset 0 0 30px rgba(193, 232, 255, 0.15), 0 20px 45px -12px rgba(5, 38, 89, 0.45);
     }
     .app-wallet-card::before {
-        content: ''; position: absolute; top: -40%; right: -20%; width: 250px; height: 250px;
+        content: ''; position: absolute; top: -50%; right: -20%; width: 280px; height: 280px;
         background: radial-gradient(circle, rgba(193, 232, 255, 0.25) 0%, transparent 65%);
         border-radius: 50%; pointer-events: none;
         animation: pulseGlow 4s infinite alternate;
     }
-    @keyframes pulseGlow { 100% { transform: scale(1.1); opacity: 0.8; } }
+    @keyframes pulseGlow { 100% { transform: scale(1.15) rotate(5deg); opacity: 0.9; } }
 
+    /* Cute Smaller Action Buttons inside Wallet */
     .wallet-quick-btn {
-        background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 20px;
-        padding: 14px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 10px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 4px;
         color: #FFFFFF;
         transition: all 0.2s ease;
         flex: 1;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-decoration: none;
     }
-    .wallet-quick-btn i { font-size: 20px; color: #C1E8FF; }
-    .wallet-quick-btn span { font-size: 13px; font-weight: 800; letter-spacing: 0.5px; }
-    .wallet-quick-btn:hover { background: #FFFFFF; color: #052659; transform: translateY(-2px); }
-    .wallet-quick-btn:hover i { color: #052659; }
+    .wallet-quick-btn i { font-size: 16px; color: #C1E8FF; transition: transform 0.2s ease; }
+    .wallet-quick-btn span { font-size: 10.5px; font-weight: 800; letter-spacing: 0.5px; }
+    .wallet-quick-btn:hover { background: #FFFFFF; color: #052659; transform: translateY(-3px); }
+    .wallet-quick-btn:hover i { color: #052659; transform: scale(1.1); }
 
     /* 2. Native App Icon Grid */
     .app-grid-item {
         background: #FFFFFF;
         border: 1px solid #C1E8FF;
-        border-radius: 24px;
-        padding: 16px 12px;
+        border-radius: 20px;
+        padding: 14px 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -78,38 +80,38 @@
         gap: 8px;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
-        box-shadow: 0 4px 15px rgba(84, 131, 179, 0.05);
+        box-shadow: 0 4px 12px rgba(84, 131, 179, 0.04);
     }
     .app-grid-item:hover {
-        border-color: #7DA0CA;
+        border-color: #5483B3;
         background: #F4F9FD;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(5, 38, 89, 0.1);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(5, 38, 89, 0.08);
     }
 
     .app-icon-circle {
-        width: 48px; height: 48px; border-radius: 16px;
+        width: 42px; height: 42px; border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 20px; transition: all 0.25s ease;
+        font-size: 18px; transition: all 0.25s ease;
     }
 
     /* 3. CTA Banners */
     .cta-banner {
         background: #FFFFFF;
-        border: 1px solid #C1E8FF;
+        border: 1.5px solid #C1E8FF;
         border-radius: 24px;
-        padding: 18px;
+        padding: 16px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        box-shadow: 0 8px 25px -8px rgba(84, 131, 179, 0.15);
+        box-shadow: 0 6px 20px -6px rgba(84, 131, 179, 0.12);
         transition: all 0.3s ease;
         text-decoration: none;
         position: relative;
         overflow: hidden;
     }
-    .cta-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(5, 38, 89, 0.2); }
+    .cta-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 25px -8px rgba(5, 38, 89, 0.18); }
 
     /* 4. Global Notice Popup Modal */
     .v2-modal-overlay {
@@ -120,7 +122,7 @@
     .v2-modal-overlay.show { display: flex !important; opacity: 1; }
     
     .gorgeous-modal-box {
-        background: #FFFFFF; border: 1.5px solid #C1E8FF; border-radius: 36px;
+        background: #FFFFFF; border: 2px solid #C1E8FF; border-radius: 36px;
         padding: 28px 22px; width: 100%; max-width: 380px; text-align: center;
         box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.4);
         transform: scale(0.92) translateY(10px); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -130,11 +132,11 @@
 
     /* 5. Live Countdown Timer */
     .timer-block {
-        background: #F4F9FD; border: 1px solid #C1E8FF; border-radius: 18px;
-        padding: 12px 8px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        background: #F4F9FD; border: 1.5px solid #C1E8FF; border-radius: 16px;
+        padding: 10px 6px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
         box-shadow: 0 4px 10px rgba(125, 160, 202, 0.05);
     }
-    .timer-val { font-size: 22px; font-weight: 900; font-family: 'Plus Jakarta Sans', monospace; color: #052659; line-height: 1; }
+    .timer-val { font-size: 20px; font-weight: 900; font-family: 'Plus Jakarta Sans', monospace; color: #052659; line-height: 1; }
     .timer-label { font-size: 9px; font-weight: 800; color: #7DA0CA; text-transform: uppercase; margin-top: 4px; }
 </style>
 
@@ -171,13 +173,13 @@
         <div class="flex items-center gap-3">
             <div class="relative">
                 {% if user.profile_pic %}
-                    <img src="{{ user.profile_pic }}" class="h-12 w-12 rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-sm">
+                    <img src="{{ user.profile_pic }}" class="h-11 w-11 rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-sm">
                 {% else %}
-                    <div class="h-12 w-12 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] text-white flex items-center justify-center font-black text-xl border-2 border-[#C1E8FF] shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] text-white flex items-center justify-center font-black text-xl border-2 border-[#C1E8FF] shadow-sm">
                         {{ user.email[0] | upper }}
                     </div>
                 {% endif %}
-                <span class="absolute -bottom-1 -right-1 h-4 w-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+                <span class="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
             </div>
             <div>
                 <h3 class="font-black text-[15px] text-[#021024] leading-tight">
@@ -195,34 +197,38 @@
     </div>
 
     <!-- ===================================================
-         2. NATIVE FINTECH WALLET CARD
+         2. NATIVE FINTECH WALLET CARD (Redesigned)
     =================================================== -->
     <div class="app-wallet-card">
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2 cursor-pointer bg-white/10 px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-sm" onclick="toggleBalance()">
+        <div class="flex items-center justify-between mb-3 relative z-10">
+            <div class="flex items-center gap-2 cursor-pointer bg-white/10 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-sm" onclick="toggleBalance()">
                 <span class="text-[10px] font-bold text-white uppercase tracking-wider">মেইন ব্যালেন্স</span>
                 <i id="eyeIcon" class="fa-regular fa-eye-slash text-xs text-white"></i>
             </div>
             {% if user.current_level > 0 %}
-                <span class="text-[10px] font-black text-amber-300 bg-white/10 border border-amber-300/30 px-2 py-1 rounded-lg flex items-center gap-1"><i class="fa-solid fa-crown"></i> Plus</span>
+                <span class="text-[10px] font-black text-amber-300 bg-white/10 border border-amber-300/30 px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm"><i class="fa-solid fa-crown"></i> Plus</span>
             {% else %}
-                <span class="text-[10px] font-bold text-[#C1E8FF] bg-white/10 border border-white/20 px-2 py-1 rounded-lg">Standard</span>
+                <span class="text-[10px] font-bold text-[#C1E8FF] bg-white/10 border border-white/20 px-2 py-1 rounded-lg shadow-sm">Standard</span>
             {% endif %}
         </div>
 
         <!-- Big Balance Number -->
-        <div class="mb-6">
+        <div class="mb-5 relative z-10">
             <h1 class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white flex items-baseline leading-none">
                 <span class="text-2xl text-[#C1E8FF] font-sans mr-1">৳</span>
                 <span id="balanceText" data-amount="{{ user.balance }}" class="blur-md transition-all duration-300">{{ user.balance }}</span>
             </h1>
         </div>
 
-        <!-- Wallet Quick Actions (Only Withdraw & History) -->
-        <div class="flex items-center gap-3">
+        <!-- 3 Cute & Small Wallet Action Buttons -->
+        <div class="flex items-center gap-2 relative z-10">
+            <a href="/income" class="wallet-quick-btn">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>হিসাব</span>
+            </a>
             <a href="/withdraw" class="wallet-quick-btn">
                 <i class="fa-solid fa-arrow-down-long"></i>
-                <span>উত্তোলন করুন</span>
+                <span>উত্তোলন</span>
             </a>
             <a href="/history" class="wallet-quick-btn">
                 <i class="fa-solid fa-clock-rotate-left"></i>
@@ -232,112 +238,74 @@
     </div>
 
     <!-- ===================================================
-         3. APP INSTALL CTA (Hidden by default, shown if not installed)
-    =================================================== -->
-    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden cursor-pointer">
-        <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-[#052659] text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
-                <i class="fa-brands fa-google-play"></i>
-            </div>
-            <div>
-                <h4 class="font-black text-[#021024] text-sm">TakaEarn অ্যাপ ইন্সটল করুন</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">১ ক্লিকে অ্যাপে প্রবেশ করতে স্ক্রিনে অ্যাড করুন</p>
-            </div>
-        </div>
-        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3 rounded-xl text-xs font-bold shadow-sm">
-            Install
-        </button>
-    </div>
-
-    <!-- ===================================================
-         4. VIDEO TUTORIAL CTA
+         3. VIDEO TUTORIAL CTA (Moved Up)
     =================================================== -->
     <a href="/tutorial" class="cta-banner bg-gradient-to-r from-rose-50 to-white border-rose-100">
         <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-xl shadow-md shadow-rose-500/20 flex-shrink-0">
+            <div class="w-11 h-11 rounded-[14px] bg-rose-500 text-white flex items-center justify-center text-lg shadow-md shadow-rose-500/20 flex-shrink-0">
                 <i class="fa-brands fa-youtube"></i>
             </div>
             <div>
                 <span class="text-[8px] font-black uppercase text-rose-500 tracking-widest block mb-0.5">নতুনদের জন্য</span>
-                <h4 class="font-black text-[#021024] text-sm">কীভাবে কাজ করবেন?</h4>
+                <h4 class="font-black text-[#021024] text-[13px]">কীভাবে কাজ করবেন?</h4>
                 <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">সঠিক নিয়মে কাজ করতে ভিডিও দেখুন</p>
             </div>
         </div>
-        <div class="h-8 w-8 bg-white border border-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs shadow-sm">
-            <i class="fa-solid fa-play"></i>
+        <div class="h-8 w-8 bg-white border border-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs shadow-sm flex-shrink-0">
+            <i class="fa-solid fa-play ml-0.5"></i>
         </div>
     </a>
 
     <!-- ===================================================
-         5. DRIVE PACK CTA
+         4. APP-LIKE EARNING GRID (3 Columns, No Gmail)
     =================================================== -->
-    <a href="/drive" class="cta-banner bg-gradient-to-r from-sky-50 to-white border-sky-200">
-        <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center text-xl shadow-md shadow-sky-500/20 flex-shrink-0">
-                <i class="fa-solid fa-wifi"></i>
-            </div>
-            <div>
-                <span class="text-[8px] font-black uppercase text-sky-600 tracking-widest block mb-0.5">৩০% পর্যন্ত ছাড়</span>
-                <h4 class="font-black text-[#021024] text-sm">টেলিকম ড্রাইভ প্যাক</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">সকল সিমে কম দামে ইন্টারনেট ও মিনিট</p>
-            </div>
-        </div>
-        <div class="h-8 w-8 bg-white border border-sky-200 text-sky-500 rounded-full flex items-center justify-center text-xs shadow-sm">
-            <i class="fa-solid fa-arrow-right"></i>
-        </div>
-    </a>
-
-    <!-- ===================================================
-         6. APP-LIKE EARNING GRID (REMOVED PLAY STORE)
-    =================================================== -->
-    <div>
-        <div class="flex items-center justify-between px-1 mb-3">
+    <div class="pt-1">
+        <div class="flex items-center justify-between px-1 mb-2">
             <h3 class="font-black text-[#021024] text-sm tracking-tight flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-[#052659]"></span> আর্নিং সার্ভিসেস
             </h3>
             <span class="text-[10px] font-bold text-[#5483B3]">App Menu</span>
         </div>
 
-        <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
-            
+        <div class="grid grid-cols-3 gap-2.5">
             <!-- 1. Micro Tasks -->
             <a href="/tasks" class="app-grid-item">
                 <div class="app-icon-circle bg-[#C1E8FF]/60 text-[#052659]">
                     <i class="fa-solid fa-list-check"></i>
                 </div>
-                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">মাইক্রো টাস্ক</span>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">টাস্ক</span>
             </a>
 
-            <!-- 2. Gmail Farm -->
-            <a href="/gmail-tasks" class="app-grid-item">
-                <div class="app-icon-circle bg-emerald-50 text-emerald-600 border border-emerald-100">
-                    <i class="fa-brands fa-google"></i>
-                </div>
-                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">জিমেইল ফার্ম</span>
-            </a>
-
-            <!-- 3. Coin Game v2 -->
-            <a href="/game/v2" class="app-grid-item border-[#5483B3]/40 shadow-md">
-                <div class="app-icon-circle bg-[#052659] text-amber-300">
+            <!-- 2. Coin Game v2 -->
+            <a href="/game/v2" class="app-grid-item">
+                <div class="app-icon-circle bg-amber-50 text-amber-500 border border-amber-100 shadow-sm">
                     <i class="fa-solid fa-gamepad"></i>
                 </div>
-                <span class="text-[11px] font-extrabold text-[#052659] leading-tight">কয়েন গেম</span>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">গেম জোন</span>
             </a>
 
-            <!-- 4. Lucky Spin -->
+            <!-- 3. Lucky Spin -->
             <a href="/spin" class="app-grid-item">
-                <div class="app-icon-circle bg-amber-50 text-amber-500 border border-amber-100">
+                <div class="app-icon-circle bg-rose-50 text-rose-500 border border-rose-100">
                     <i class="fa-solid fa-dharmachakra"></i>
                 </div>
-                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">লাকি স্পিন</span>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">স্পিন</span>
             </a>
 
-            <!-- 5. Refer -->
+            <!-- 4. Refer -->
             <a href="/referrals" class="app-grid-item">
                 <div class="app-icon-circle bg-indigo-50 text-indigo-600 border border-indigo-100">
                     <i class="fa-solid fa-users"></i>
                 </div>
-                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">রেফার করুন</span>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">রেফার</span>
+            </a>
+
+            <!-- 5. Drive Pack -->
+            <a href="/drive" class="app-grid-item">
+                <div class="app-icon-circle bg-sky-50 text-sky-600 border border-sky-100">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#021024] leading-tight">ড্রাইভ</span>
             </a>
 
             <!-- 6. All Work Station -->
@@ -347,24 +315,85 @@
                 </div>
                 <span class="text-[11px] font-extrabold text-[#021024] leading-tight">সব কাজ</span>
             </a>
-
         </div>
     </div>
 
     <!-- ===================================================
-         7. PLATFORM LIFETIME (LIVE COUNTDOWN)
+         5. APP INSTALL CTA (Moved Below Grid)
     =================================================== -->
-    <div class="glowing-card p-5 mt-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-black text-sm text-[#021024] flex items-center gap-2">
+    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden cursor-pointer">
+        <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-[14px] bg-[#052659] text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
+                <i class="fa-brands fa-google-play"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-[#021024] text-[13px]">TakaEarn অ্যাপ ইন্সটল করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">১ ক্লিকে অ্যাপে প্রবেশ করতে স্ক্রিনে অ্যাড করুন</p>
+            </div>
+        </div>
+        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3.5 rounded-[10px] text-[11px] font-bold shadow-sm uppercase tracking-wider flex-shrink-0">
+            Install
+        </button>
+    </div>
+
+    <!-- ===================================================
+         6. QUICK GAME V2 / SPECIAL REWARD BANNER
+    =================================================== -->
+    <a href="/game/v2" class="glowing-card p-4 flex items-center justify-between bg-gradient-to-r from-white via-white to-[#F4F9FD] border-[#C1E8FF]">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-[14px] bg-gradient-to-tr from-[#021024] to-[#052659] text-amber-300 flex items-center justify-center text-2xl shadow-sm flex-shrink-0 border border-[#C1E8FF]">
+                <i class="fa-solid fa-coins animate-pulse"></i>
+            </div>
+            <div>
+                <span class="bg-[#C1E8FF] text-[#052659] text-[8px] font-black px-2 py-0.5 rounded border border-[#7DA0CA]/30 uppercase">Play & Earn</span>
+                <h4 class="font-black text-[13px] text-[#021024] mt-0.5">কয়েন গেম খেলে আয় করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold">১০০ কয়েন = ৳১.০০ (সরাসরি ব্যালেন্সে)</p>
+            </div>
+        </div>
+        <div class="h-8 w-8 rounded-full bg-[#F4F9FD] border border-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs flex-shrink-0">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
+    </a>
+
+    <!-- ===================================================
+         7. SUPPORT QUICK TILES
+    =================================================== -->
+    <div class="grid grid-cols-2 gap-2.5">
+        <a href="https://t.me/takaearn_help" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3]">
+            <div class="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div class="text-left overflow-hidden">
+                <h5 class="font-extrabold text-[11px] text-[#021024] truncate">লাইভ সাপোর্ট</h5>
+                <p class="text-[9px] text-[#5483B3] font-bold">@takaearn_help</p>
+            </div>
+        </a>
+
+        <a href="https://t.me/takaearn_site" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3]">
+            <div class="w-9 h-9 rounded-xl bg-[#052659] text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div class="text-left overflow-hidden">
+                <h5 class="font-extrabold text-[11px] text-[#021024] truncate">অফিশিয়াল চ্যানেল</h5>
+                <p class="text-[9px] text-[#5483B3] font-bold">পেমেন্ট প্রুফ ও আপডেট</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         8. PLATFORM LIFETIME (LIVE COUNTDOWN)
+    =================================================== -->
+    <div class="glowing-card p-5 mt-4 border-[#C1E8FF]">
+        <div class="flex items-center justify-between mb-4 border-b border-[#C1E8FF]/60 pb-3">
+            <h3 class="font-black text-[13px] text-[#021024] flex items-center gap-2 uppercase tracking-wider">
                 <i class="fa-solid fa-shield-halved text-[#052659]"></i> TakaEarn Journey
             </h3>
-            <span class="text-[9px] font-black uppercase text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            <span class="text-[8px] font-black uppercase text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                 Live Server
             </span>
         </div>
         
-        <p class="text-[10px] text-[#5483B3] font-bold text-center mb-3">আমরা বিশ্বস্ততার সাথে সার্ভিস দিচ্ছি</p>
+        <p class="text-[10px] text-[#5483B3] font-bold text-center mb-3">আমাদের বিশ্বস্ততার সাথে পথচলার সময়</p>
 
         <div class="flex items-center justify-between gap-1.5 w-full">
             <!-- Months -->
@@ -395,6 +424,25 @@
         </div>
     </div>
 
+    <!-- ===================================================
+         9. DRIVE PACK CTA (MOVED TO BOTTOM)
+    =================================================== -->
+    <a href="/drive" class="cta-banner bg-gradient-to-r from-sky-50 to-white border-sky-200 mt-5">
+        <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center text-xl shadow-md shadow-sky-500/20 flex-shrink-0">
+                <i class="fa-solid fa-wifi"></i>
+            </div>
+            <div>
+                <span class="text-[8px] font-black uppercase text-sky-600 tracking-widest block mb-0.5">৩০% পর্যন্ত ছাড়</span>
+                <h4 class="font-black text-[#021024] text-sm">টেলিকম ড্রাইভ প্যাক</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">সকল সিমে কম দামে ইন্টারনেট ও মিনিট</p>
+            </div>
+        </div>
+        <div class="h-8 w-8 bg-white border border-sky-200 text-sky-500 rounded-full flex items-center justify-center text-xs shadow-sm flex-shrink-0">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
+    </a>
+
 </div>
 
 <!-- ===================================================
@@ -417,11 +465,10 @@
         }
     }
 
-    // 2. Global Notice Popup Logic (Session Based)
+    // 2. Global Notice Popup Logic
     document.addEventListener("DOMContentLoaded", () => {
         const noticePopup = document.getElementById('globalNoticePopup');
         if (noticePopup) {
-            // Show notice once per session to avoid annoying users on every load
             const hasSeenNotice = sessionStorage.getItem('takaearn_notice_seen');
             if (!hasSeenNotice) {
                 setTimeout(() => {
@@ -442,8 +489,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        
-        // Check if not running as standalone PWA
         if (!window.matchMedia('(display-mode: standalone)').matches) {
             document.getElementById('installAppCta').style.display = 'flex';
         }
@@ -465,28 +510,21 @@
 
     // 4. Live Site Age Countdown (Starts from Feb 25, 2026)
     (function() {
-        // Target Start Date: Feb 25, 2026 (Month is 0-indexed, so 1 = Feb)
-        const startDate = new Date(2026, 1, 25, 0, 0, 0);
+        const startDate = new Date(2026, 1, 25, 0, 0, 0); // Month is 0-indexed (1 = Feb)
 
         function updateSiteAge() {
             const now = new Date();
-            
-            // If current date is before start date, show all zeros
-            if (now < startDate) {
-                return;
-            }
+            if (now < startDate) return; // Show zeros if before start date
 
-            // Calculate total months difference
             let months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
             let tempDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, startDate.getDate());
             
-            // Adjust if the day of month hasn't passed yet
             if (now < tempDate) {
                 months--;
                 tempDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, startDate.getDate());
             }
 
-            let diff = now - tempDate; // remaining milliseconds
+            let diff = now - tempDate;
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             diff -= days * (1000 * 60 * 60 * 24);
@@ -499,7 +537,6 @@
             
             const secs = Math.floor(diff / 1000);
 
-            // Update DOM safely
             const eM = document.getElementById("c-months");
             const eD = document.getElementById("c-days");
             const eH = document.getElementById("c-hours");
