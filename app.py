@@ -2341,7 +2341,7 @@ def aw_result():
         final_data = []
 
     return render_template('aw_result.html', submissions=final_data)
-    # --- VIP PAGE (MULTIPLE PLANS & CLAIM LOGIC) ---
+    # --- VIP PAGE (TAKAEARN PLUS CLAIM & STORE) ---
 @app.route('/vip', methods=['GET', 'POST'])
 @login_required
 def vip_page():
@@ -2386,14 +2386,17 @@ def vip_page():
             return redirect(url_for('vip_page'))
 
     # GET Method: ইউজারের সব 'active' প্যাকেজগুলো আনা
-    my_vips =[]
+    my_vips = []
     try:
         res = supabase.table('user_vips').select('*').eq('user_id', session['user_id']).eq('status', 'active').order('created_at', desc=False).execute()
         my_vips = res.data
     except Exception as e:
         print(f"VIP Fetch Error: {e}")
 
-    return render_template('vip.html', user=g.user, plans=VIP_PLANS, my_vips=my_vips, today_date=today_str)
+    # এখানে VIP_PLANS এর বদলে TAKAEARN_PLUS_PLAN পাস করা হচ্ছে
+    return render_template('vip.html', user=g.user, TAKAEARN_PLUS_PLAN=TAKAEARN_PLUS_PLAN, my_vips=my_vips, today_date=today_str)
+
+
 # --- BUY VIP (TAKAEARN PLUS) ---
 @app.route('/vip/buy/<int:level_id>', methods=['GET', 'POST'])
 @login_required
