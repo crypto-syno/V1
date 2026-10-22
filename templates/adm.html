@@ -2,198 +2,305 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN PAYMENT SETTINGS UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - MODERN FLAT MFS ACCOUNT BINDING UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Method Selection Cards */
-    .method-card {
-        background: #FFFFFF; 
-        border: 2px solid #E2E8F0; 
-        border-radius: 22px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-        position: relative; 
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
-    }
-    .method-card:hover { 
-        border-color: #A7F3D0; 
-        background: #F0FDF4; 
-        transform: translateY(-2px);
+    /* Surface Card */
+    .te-surface {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 20px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
     }
 
-    /* Checked State */
-    input[type="radio"]:checked + .method-card {
-        border-color: #10B981; 
-        background: linear-gradient(180deg, #FFFFFF 0%, #ECFDF5 100%);
-        box-shadow: 0 10px 24px -5px rgba(16, 185, 129, 0.18);
+    /* MFS Gateway Selection Cards (Flat) */
+    .mfs-radio-card {
+        background: #F4F9FD;
+        border: 2px solid #C1E8FF;
+        border-radius: 22px;
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        position: relative;
     }
-    input[type="radio"]:checked + .method-card .icon-circle {
-        background: #059669; 
-        color: #FFFFFF; 
-        border-color: #059669;
-        transform: scale(1.05);
+    .mfs-radio-card:hover {
+        border-color: #5483B3;
+        background: #FFFFFF;
     }
-    
-    .icon-circle {
-        height: 44px; width: 44px; border-radius: 14px;
-        background: #F8FAFC; border: 1px solid #E2E8F0; color: #475569;
-        display: flex; align-items: center; justify-content: center; font-size: 19px; 
+
+    /* Selected State */
+    input[type="radio"]:checked + .mfs-radio-card {
+        border-color: #052659;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 3px rgba(5, 38, 89, 0.15);
+    }
+    input[type="radio"]:checked + .mfs-radio-card::after {
+        content: '\f00c';
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        width: 20px;
+        height: 20px;
+        background: #052659;
+        color: #FFFFFF;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Gateway Logo Image */
+    .mfs-logo-img {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* Unique Flat Input Box: Only Border-Bottom */
+    .flat-input-group {
+        position: relative;
+        margin-bottom: 24px;
+    }
+
+    .flat-border-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #C1E8FF;
+        border-radius: 0;
+        padding: 14px 16px 10px 48px;
+        font-size: 18px;
+        font-weight: 800;
+        font-family: 'Plus Jakarta Sans', monospace;
+        color: #021024;
+        outline: none;
+        letter-spacing: 1px;
         transition: all 0.25s ease;
     }
-
-    /* Check Indicator */
-    .check-indicator {
-        position: absolute; top: 10px; right: 10px;
-        height: 18px; width: 18px; border-radius: 50%; border: 1.5px solid #CBD5E1;
-        display: flex; align-items: center; justify-content: center; transition: all 0.25s;
+    .flat-border-input:focus {
+        border-bottom-color: #052659;
+        background: linear-gradient(180deg, transparent 80%, rgba(193, 232, 255, 0.2) 100%);
     }
-    input:checked + .method-card .check-indicator {
-        background: #059669; border-color: #059669;
-    }
-    input:checked + .method-card .check-indicator::after {
-        content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900;
-        font-size: 9px; color: #FFFFFF;
+    .flat-border-input::placeholder {
+        color: #7DA0CA;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: normal;
     }
 
-    /* Large Number Input */
-    .light-input-large {
-        width: 100%; background: #F8FAFC; border: 2px solid #E2E8F0; color: #0F172A;
-        padding: 18px 18px 18px 64px; border-radius: 20px; outline: none; 
-        font-size: 18px; font-weight: 800; letter-spacing: 1.5px; transition: all 0.25s ease;
+    .flat-input-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #7DA0CA;
+        font-size: 16px;
+        transition: color 0.25s ease;
     }
-    .light-input-large:focus { 
-        border-color: #10B981; 
+    .flat-border-input:focus ~ .flat-input-icon {
+        color: #052659;
+    }
+
+    /* Action Button */
+    .btn-flat-action {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 17px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
+    }
+    .btn-flat-action:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+    .btn-flat-action:active { transform: scale(0.97); }
+
+    /* Footer Ad Box */
+    .footer-ad-container {
         background: #FFFFFF;
-        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); 
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 22px;
+        padding: 10px 6px;
+        text-align: center;
+        overflow-x: auto;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
+        margin-top: 20px;
     }
-    .light-input-large::placeholder { color: #CBD5E1; }
-
-    /* Button */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: #FFFFFF; width: 100%; padding: 18px;
-        border-radius: 20px; font-weight: 800; font-size: 14px; text-transform: uppercase;
-        letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-        display: flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
-    }
-    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.5); }
-    .btn-emerald:active { transform: scale(0.96); }
-    .btn-emerald:disabled { background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed; transform: none !important; }
 </style>
 
-<div class="max-w-md mx-auto space-y-6 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- 1. HEADER -->
-    <div class="flex items-center justify-between mb-4 px-2">
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
-            <a href="/account" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition border border-slate-200 shadow-sm active:scale-95">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
+            <a href="/account" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <h2 class="text-base font-extrabold text-slate-800 tracking-tight leading-none">পেমেন্ট মেথড সেটিংস</h2>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">Withdrawal Gateway Setup</p>
+                <h1 class="text-base font-black text-[#021024] leading-tight">পেমেন্ট একাউন্ট বাইন্ডিং</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">MFS Wallet Setup</p>
             </div>
         </div>
+        <span class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3 py-1 rounded-full text-xs font-mono font-black uppercase">
+            Secure Bind
+        </span>
     </div>
 
-    <!-- 2. ACTIVE WALLET TICKET (If Set) -->
+    <!-- Active Bound Ticket Preview (If available) -->
     {% if user.wallet_number and user.wallet_method %}
-    <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-[26px] p-6 text-white shadow-lg shadow-emerald-600/20 relative overflow-hidden">
-        <div class="flex justify-between items-start mb-3 relative z-10">
-            <div>
-                <p class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-200">Active Receiver Gateway</p>
-                <h3 class="text-2xl font-black font-mono tracking-wider mt-1">{{ user.wallet_number }}</h3>
-            </div>
-            <div class="bg-white text-emerald-800 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-sm">
-                {{ user.wallet_method }}
-            </div>
+    <div class="bg-gradient-to-r from-[#021024] to-[#052659] rounded-3xl p-5 text-white shadow-lg flex items-center justify-between relative overflow-hidden">
+        <div>
+            <span class="text-[9px] font-black uppercase tracking-widest text-[#C1E8FF] block mb-0.5">সংযুক্ত পারসোনাল নম্বর</span>
+            <h3 class="text-xl font-black font-mono tracking-wider">{{ user.wallet_number }}</h3>
         </div>
-        <div class="flex items-center gap-1.5 text-emerald-100 text-[11px] font-bold border-t border-white/20 pt-3 relative z-10">
-            <i class="fa-solid fa-circle-check text-emerald-300"></i> Verified Cashout Destination
+        <div class="bg-[#C1E8FF] text-[#052659] px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider">
+            {{ user.wallet_method }}
         </div>
     </div>
     {% endif %}
 
-    <!-- 3. FORM CONTAINER -->
-    <div class="bg-white p-6 sm:p-7 rounded-[28px] border border-slate-200/90 shadow-sm">
-        <form method="POST" action="/adm" class="space-y-6" onsubmit="return showLoading()">
+    <!-- ===================================================
+         MAIN BINDING FORM (FLAT DESIGN)
+    =================================================== -->
+    <div class="te-surface">
+        
+        <!-- Instructional Content -->
+        <div class="mb-6 space-y-1.5">
+            <h2 class="text-lg font-black text-[#021024] tracking-tight">আপনার পেমেন্ট মেথড সেট করুন</h2>
+            <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
+                পেমেন্ট পেতে আপনার সঠিক **বিকাশ, নগদ বা রকেট পারসোনাল নাম্বার** নিচে প্রদান করুন। ভুল নাম্বার দিলে পেমেন্ট ব্যর্থ হতে পারে।
+            </p>
+        </div>
+
+        <form method="POST" action="/adm" class="space-y-6" onsubmit="return handleAdmSubmit(this)">
             
-            <!-- Step 1: Select Method -->
-            <div class="space-y-3">
-                <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">১. মেথড নির্বাচন করুন</label>
-                
+            <!-- Step 1: Gateway Selection (Images included) -->
+            <div>
+                <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2.5 ml-1">
+                    ১. পেমেন্ট মাধ্যম সিলেক্ট করুন
+                </label>
+
                 <div class="grid grid-cols-3 gap-3">
+                    
                     <!-- bKash -->
-                    <label class="relative">
-                        <input type="radio" name="method" value="bKash" class="sr-only" {{ 'checked' if user.wallet_method == 'bKash' }} required>
-                        <div class="method-card p-3.5 flex flex-col items-center justify-center gap-2">
-                            <div class="check-indicator"></div>
-                            <div class="icon-circle"><i class="fa-solid fa-bolt text-[#E2136E]"></i></div>
-                            <span class="text-xs font-bold text-slate-700">bKash</span>
+                    <label class="relative block">
+                        <input type="radio" name="method" value="bKash" class="peer sr-only" {{ 'checked' if user.wallet_method == 'bKash' }} required>
+                        <div class="mfs-radio-card">
+                            <img src="https://media.licdn.com/dms/image/v2/C510BAQFYQ12drExNfw/company-logo_200_200/company-logo_200_200/0/1630630387614/bkash_limited_logo?e=2147483647&v=beta&t=_Js1e5ohbiSDQCHc8H7HjjHMejD_AwwKO5ThmmxH1ow" alt="bKash" class="mfs-logo-img">
+                            <span class="text-xs font-extrabold text-[#021024]">bKash</span>
                         </div>
                     </label>
 
                     <!-- Nagad -->
-                    <label class="relative">
-                        <input type="radio" name="method" value="Nagad" class="sr-only" {{ 'checked' if user.wallet_method == 'Nagad' }} required>
-                        <div class="method-card p-3.5 flex flex-col items-center justify-center gap-2">
-                            <div class="check-indicator"></div>
-                            <div class="icon-circle"><i class="fa-solid fa-fire-flame-curved text-[#F97316]"></i></div>
-                            <span class="text-xs font-bold text-slate-700">Nagad</span>
+                    <label class="relative block">
+                        <input type="radio" name="method" value="Nagad" class="peer sr-only" {{ 'checked' if user.wallet_method == 'Nagad' }} required>
+                        <div class="mfs-radio-card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPjWfnY18KJaVHEPjH_yiVByx3tIOxmOMWkME8GZ7BSGFIGXU_i6R0eUyl&s=10" alt="Nagad" class="mfs-logo-img">
+                            <span class="text-xs font-extrabold text-[#021024]">Nagad</span>
                         </div>
                     </label>
 
                     <!-- Rocket -->
-                    <label class="relative">
-                        <input type="radio" name="method" value="Rocket" class="sr-only" {{ 'checked' if user.wallet_method == 'Rocket' }} required>
-                        <div class="method-card p-3.5 flex flex-col items-center justify-center gap-2">
-                            <div class="check-indicator"></div>
-                            <div class="icon-circle"><i class="fa-solid fa-rocket text-[#8B5CF6]"></i></div>
-                            <span class="text-xs font-bold text-slate-700">Rocket</span>
+                    <label class="relative block">
+                        <input type="radio" name="method" value="Rocket" class="peer sr-only" {{ 'checked' if user.wallet_method == 'Rocket' }} required>
+                        <div class="mfs-radio-card">
+                            <img src="https://banglatech24.com/wp-content/uploads/2021/08/rocket-dbbl.jpg" alt="Rocket" class="mfs-logo-img">
+                            <span class="text-xs font-extrabold text-[#021024]">Rocket</span>
                         </div>
                     </label>
+
                 </div>
             </div>
 
-            <!-- Step 2: Number Input -->
-            <div class="space-y-2">
-                <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">২. অ্যাকাউন্ট নাম্বার দিন</label>
-                <div class="relative">
-                    <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-extrabold font-mono text-sm">+88</span>
-                    <input type="tel" name="number" required pattern="01[3-9][0-9]{8}" placeholder="01700000000" value="{{ user.wallet_number or '' }}" class="light-input-large font-mono">
-                </div>
-            </div>
+            <!-- Step 2: Unique Flat Input Box (Border-Bottom) -->
+            <div>
+                <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1">
+                    ২. পারসোনাল একাউন্ট নম্বর দিন
+                </label>
 
-            <!-- Warning Alert Box -->
-            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex gap-3 text-amber-900">
-                <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
-                <p class="text-xs leading-relaxed font-medium">
-                    নিশ্চিত করুন নম্বরটি সম্পূর্ণ ব্যক্তিগত এবং সঠিক। ভুল নম্বরে টাকা চলে গেলে বা পেমেন্ট আটকে গেলে প্ল্যাটফর্ম দায়ী থাকবে না।
+                <div class="flat-input-group !mb-0">
+                    <input type="tel" name="number" required pattern="01[3-9][0-9]{8}" placeholder="01700000000" value="{{ user.wallet_number or '' }}" class="flat-border-input font-mono">
+                    <i class="fa-solid fa-mobile-screen-button flat-input-icon"></i>
+                </div>
+                <p class="text-[10px] text-[#7DA0CA] font-semibold mt-1.5 ml-1">
+                    *শুধুমাত্র ১১ ডিজিটের পারসোনাল (Personal) নম্বর গ্রহণযোগ্য।
                 </p>
             </div>
 
-            <!-- Submit -->
-            <button type="submit" id="submitBtn" class="btn-emerald">
-                <span>সেভ ও আপডেট করুন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            <!-- Notice Box -->
+            <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-xs text-amber-900 font-medium leading-relaxed flex items-start gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 flex-shrink-0"></i>
+                <span>এজেন্ট (Agent) নম্বর দিলে পেমেন্ট সাকসেসফুল হবে না। দয়া করে আপনার নিজস্ব পারসোনাল অ্যাকাউন্ট দিন।</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" class="btn-flat-action">
+                <span>তথ্য সেভ ও বাইন্ড করুন</span> <i class="fa-solid fa-shield-halved text-xs"></i>
             </button>
 
         </form>
     </div>
 
+    <!-- ===================================================
+         AKDOM SESHE BANNER AD (বিজ্ঞাপন)
+    =================================================== -->
+    <div class="footer-ad-container">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="flex justify-center items-center min-h-[60px] overflow-x-auto">
+            <!-- 468x60 Ad Banner Script -->
+            <script>
+              atOptions = {
+                'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            </script>
+            <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
+        </div>
+    </div>
+
 </div>
 
+<!-- Scripts -->
 <script>
-    function showLoading() {
-        const form = document.querySelector('form');
+    function handleAdmSubmit(form) {
         if (form.checkValidity()) {
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-lg"></i> <span class="ml-2">আপডেট হচ্ছে...</span>';
-            btn.classList.add('opacity-80');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">সংরক্ষণ হচ্ছে...</span>';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
             return true;
         }
         return false;
