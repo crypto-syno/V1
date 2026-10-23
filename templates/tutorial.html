@@ -3,327 +3,408 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - ULTRA-MODERN TUTORIAL & ACADEMY UI
-       Palette:
-       --c-dark    : #021024
-       --c-navy    : #052659
-       --c-steel   : #5483B3
-       --c-soft    : #7DA0CA
-       --c-ice     : #C1E8FF
+       TAKAEARN - MINIMAL TUTORIAL & FULLSCREEN VIDEO UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        opacity: 0; 
-        transform: translateY(16px); 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Futuristic Smartphone Video Mockup */
-    .phone-mockup {
-        background: #FFFFFF;
-        border-radius: 44px;
-        padding: 10px;
-        border: 4px solid #C1E8FF;
-        position: relative;
-        box-shadow: 0 25px 60px -15px rgba(5, 38, 89, 0.2), 0 0 0 1px rgba(125, 160, 202, 0.2);
-        max-width: 360px;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .phone-screen {
-        border-radius: 34px;
-        overflow: hidden;
-        background: #021024;
-        position: relative;
-        height: 620px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Modern Bento Step Card */
-    .te-step-card {
+    /* Surface Card */
+    .te-surface {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         border-radius: 26px;
-        padding: 22px;
+        padding: 22px 18px;
+        box-shadow: 0 6px 25px -8px rgba(5, 38, 89, 0.05);
         position: relative;
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 0 6px 20px -5px rgba(5, 38, 89, 0.04);
-    }
-    .te-step-card:hover {
-        transform: translateY(-4px);
-        border-color: #7DA0CA;
-        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
-        box-shadow: 0 16px 30px -8px rgba(5, 38, 89, 0.1);
     }
 
-    .step-badge {
-        position: absolute; right: 14px; top: 14px;
-        font-size: 40px; font-weight: 900; line-height: 1;
-        color: rgba(193, 232, 255, 0.6);
+    /* 4-Step Card */
+    .step-item-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 20px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 14px -4px rgba(5, 38, 89, 0.03);
+    }
+    .step-item-card:hover {
+        border-color: #5483B3;
+        background: #F4F9FD;
+        transform: translateY(-2px);
+    }
+    .step-num-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #052659;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-black: 900;
         font-family: 'Plus Jakarta Sans', monospace;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(5, 38, 89, 0.25);
+    }
+
+    /* Fullscreen Auto Video Overlay */
+    .fullscreen-video-modal {
+        position: fixed;
+        inset: 0;
+        background: #021024;
+        z-index: 99999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        touch-action: none;
+    }
+    .fullscreen-video-modal.active {
+        display: flex !important;
+    }
+
+    /* Fixed Top Right 'X' Close Button */
+    .fixed-close-btn {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        z-index: 100000;
+        transition: all 0.2s ease;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+    .fixed-close-btn:hover {
+        background: #F43F5E;
+        border-color: #F43F5E;
+        transform: scale(1.08);
+    }
+    .fixed-close-btn:active { transform: scale(0.92); }
+
+    /* Video Frame: Masking FB Page Name */
+    .video-frame-container {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        height: 100dvh;
+        max-height: 820px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000000;
+    }
+    /* Top Masking Strip: Hides FB Avatar & Page Name */
+    .fb-header-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 65px;
+        background: linear-gradient(180deg, #000000 70%, transparent 100%);
+        z-index: 20;
         pointer-events: none;
     }
-    .te-step-card:hover .step-badge {
-        color: rgba(125, 160, 202, 0.5);
+
+    /* Ad Container */
+    .ad-banner-box {
+        background: #FFFFFF;
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 20px;
+        padding: 10px 6px;
+        text-align: center;
+        overflow-x: auto;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
 
     /* Buttons */
-    .btn-gradient {
+    .btn-gradient-play {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
-        color: #FFFFFF; padding: 16px 28px;
-        border-radius: 18px; font-weight: 800; font-size: 13.5px;
-        letter-spacing: 0.3px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 16px;
+        border-radius: 18px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
     }
-    .btn-gradient:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45);
-    }
-    .btn-gradient:active { transform: scale(0.97); }
-
-    .btn-outline-te {
-        background: #FFFFFF; color: #021024; padding: 16px 26px;
-        border-radius: 18px; font-weight: 700; font-size: 13.5px; border: 1.5px solid #C1E8FF;
-        transition: all 0.2s ease;
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 4px 12px rgba(5, 38, 89, 0.03);
-    }
-    .btn-outline-te:hover { background: #F4F9FD; border-color: #7DA0CA; color: #052659; }
+    .btn-gradient-play:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+    .btn-gradient-play:active { transform: scale(0.97); }
 </style>
 
-<div class="max-w-3xl mx-auto space-y-7 fade-in-up pb-10 px-2 mt-2">
+<!-- ===================================================
+     1. FULLSCREEN VIDEO MODAL WITH FIXED 'X' BUTTON
+=================================================== -->
+<div id="fullscreenVideoModal" class="fullscreen-video-modal">
+    <!-- Fixed 'X' Icon Button on Top-Right -->
+    <button type="button" onclick="closeFullscreenVideo()" class="fixed-close-btn" title="ভিডিও বন্ধ করুন">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
 
-    <!-- ===================================================
-         1. TOP BAR: [Back (LEFT)] — [TakaEarn Logo (RIGHT)]
-    =================================================== -->
+    <div class="video-frame-container">
+        <!-- Masking Layer to Hide FB Page Header / Name -->
+        <div class="fb-header-mask"></div>
+
+        <!-- Video Loading Spinner -->
+        <div id="videoLoader" class="absolute inset-0 flex flex-col items-center justify-center bg-[#021024] z-0">
+            <i class="fa-solid fa-circle-notch fa-spin text-[#C1E8FF] text-3xl mb-3"></i>
+            <span class="text-xs text-[#7DA0CA] font-bold">ভিডিও লোড হচ্ছে...</span>
+        </div>
+
+        <!-- Video Iframe -->
+        <iframe 
+            id="tutorialIframe"
+            src="" 
+            data-src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1000980702734268%2F%3Fapp%3Dfbl&width=500&show_text=false&height=700&appId" 
+            class="w-full h-full border-none relative z-10" 
+            scrolling="no" 
+            frameborder="0" 
+            allowfullscreen="true" 
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+        </iframe>
+
+        <!-- Video Error Fallback Notice -->
+        <div id="videoErrorNotice" class="hidden absolute inset-0 bg-[#021024] flex-col items-center justify-center p-6 text-center z-30">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-3 border border-amber-500/30">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <h4 class="text-white font-black text-base mb-1">ভিডিওটি তৈরি হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন</h4>
+            <p class="text-xs text-[#C1E8FF] max-w-xs">খুব শীঘ্রই সম্পূর্ণ নতুন আপডেটেড ভিডিও এখানে যুক্ত করা হবে।</p>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-14 px-2 mt-1">
+
+    <!-- Top Navigation -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
-        <a href="/" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+        <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
             <i class="fa-solid fa-arrow-left text-sm"></i>
         </a>
-
-        <div class="flex items-center gap-2">
-            <span class="text-xs font-black uppercase tracking-wider text-[#052659]">TakaEarn Academy</span>
-            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn Logo" class="h-8 w-8 rounded-xl object-cover border border-[#C1E8FF] shadow-sm">
+        <div class="text-right">
+            <h1 class="text-base font-black text-[#021024] leading-tight">কাজের টিউটোরিয়াল</h1>
+            <p class="text-[10px] text-[#5483B3] font-bold">Official User Guide</p>
         </div>
     </div>
 
     <!-- ===================================================
-         2. HERO HEADLINE
+         2. TOP BANNER AD (468x60)
     =================================================== -->
-    <div class="text-center pt-2 pb-1">
-        <div class="inline-flex items-center gap-2 bg-[#C1E8FF] text-[#052659] px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider mb-3 border border-[#7DA0CA]/50 shadow-sm">
-            <i class="fa-solid fa-graduation-cap text-sm"></i> অফিসিয়াল কাজের গাইডলাইন
+    <div class="ad-banner-box">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="flex justify-center items-center min-h-[60px] overflow-x-auto">
+            <script>
+              atOptions = {
+                'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            </script>
+            <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
         </div>
-        <h1 class="text-2xl sm:text-4xl font-black text-[#021024] tracking-tight leading-snug mb-2">
-            ভিডিও দেখে কাজ শিখুন <br>
-            <span class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] bg-clip-text text-transparent">
-                সহজ নিয়মে নিশ্চিত ইনকাম
-            </span>
-        </h1>
-        <p class="text-xs sm:text-sm text-[#5483B3] font-semibold max-w-md mx-auto leading-relaxed">
-            কাজ শুরুর আগে নিচের সম্পূর্ণ ভিডিওটি এক নজরে দেখে নিন। সঠিক নিয়ম জানলে আপনার কোনো টাস্ক কখনো বাতিল হবে না!
+    </div>
+
+    <!-- ===================================================
+         3. "ভিডিও দেখুন" (WATCH VIDEO) ACTION BUTTON
+    =================================================== -->
+    <div class="te-surface text-center">
+        <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mx-auto mb-3 border border-rose-100 shadow-sm animate-bounce" style="animation-duration: 3s;">
+            <i class="fa-brands fa-youtube"></i>
+        </div>
+        <h3 class="text-lg font-black text-[#021024] mb-1">সঠিক নিয়মে কাজ শিখুন</h3>
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed max-w-xs mx-auto mb-5">
+            কাজ শুরু করার আগে নিচের বাটনে চাপ দিয়ে ১ মিনিটের ফুল-স্ক্রিন ভিডিওটি দেখে নিন।
         </p>
+
+        <button type="button" onclick="openFullscreenVideo()" class="btn-gradient-play">
+            <i class="fa-solid fa-circle-play text-lg"></i> <span>ভিডিও দেখুন</span>
+        </button>
     </div>
 
     <!-- ===================================================
-         3. SMARTPHONE MOCKUP VIDEO PLAYER
+         4. ৪টি সহজ কাজের ধাপ (4 STEPS TO WORK WITH US)
     =================================================== -->
-    <div class="flex justify-center px-1">
-        <div class="phone-mockup">
-            
-            <!-- Top Speaker & Sensor Notch -->
-            <div class="absolute top-3.5 left-1/2 transform -translate-x-1/2 w-24 h-4 bg-slate-200 rounded-full z-30 opacity-70"></div>
-
-            <div class="phone-screen">
-                <!-- Fallback Loading Indicator -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#021024] z-0">
-                    <i class="fa-solid fa-circle-notch fa-spin text-[#C1E8FF] text-3xl mb-3"></i>
-                    <span class="text-[10px] font-bold text-[#7DA0CA] uppercase tracking-widest">ভিডিও লোড হচ্ছে...</span>
-                </div>
-
-                <!-- Facebook Embedded Reel / Video Player -->
-                <iframe 
-                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1000980702734268%2F%3Fapp%3Dfbl&width=500&show_text=false&height=700&appId" 
-                    class="absolute top-0 left-0 w-full h-full z-10" 
-                    style="border:none;overflow:hidden" 
-                    scrolling="no" 
-                    frameborder="0" 
-                    allowfullscreen="true" 
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                </iframe>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Sound Activation Hint -->
-    <div class="text-center -mt-2">
-        <p class="text-[11px] text-[#052659] font-bold bg-white px-4 py-2 rounded-full inline-flex items-center gap-2 border border-[#C1E8FF] shadow-sm">
-            <i class="fa-solid fa-volume-high text-[#5483B3] animate-pulse"></i> 
-            সাউন্ড শুনতে ভিডিওর ওপর একবার ট্যাপ করুন
-        </p>
-    </div>
-
-    <!-- ===================================================
-         4. VIDEO KEY HIGHLIGHTS (TIMESTAMPS)
-    =================================================== -->
-    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#C1E8FF] shadow-sm">
-        <h3 class="text-xs font-black text-[#021024] uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-list-ol text-[#052659]"></i> ভিডিওর মূল অংশসমূহ (Highlights)
-        </h3>
-        <div class="grid grid-cols-2 gap-3 text-xs font-bold text-[#052659]">
-            <div class="flex items-center gap-2.5 p-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
-                <span class="w-6 h-6 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center font-mono text-[10px]">১</span>
-                <span>একাউন্ট রেজিস্ট্রেশন</span>
-            </div>
-            <div class="flex items-center gap-2.5 p-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
-                <span class="w-6 h-6 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center font-mono text-[10px]">২</span>
-                <span>টাস্ক বাছাই ও নিয়মাবলী</span>
-            </div>
-            <div class="flex items-center gap-2.5 p-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
-                <span class="w-6 h-6 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center font-mono text-[10px]">৩</span>
-                <span>সঠিক স্ক্রিনশট প্রুফ জমা</span>
-            </div>
-            <div class="flex items-center gap-2.5 p-3 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF]">
-                <span class="w-6 h-6 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center font-mono text-[10px]">৪</span>
-                <span>বিকাশ/নগদে টাকা উইথড্র</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================================================
-         5. 4-STEP VISUAL EARNING GUIDE
-    =================================================== -->
-    <div>
-        <div class="flex items-center justify-between mb-4 px-1">
-            <h3 class="font-black text-[#021024] text-base tracking-tight flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-[#052659]"></span> সহজ ৪টি ধাপে ইনকাম শুরু
+    <div class="space-y-2.5">
+        <div class="flex items-center justify-between px-1 mb-1">
+            <h3 class="font-black text-[#021024] text-sm tracking-tight flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#052659]"></span> কাজ করার ৪টি সহজ ধাপ
             </h3>
-            <span class="text-[10px] font-bold text-[#7DA0CA] uppercase tracking-wider">Step by Step</span>
+            <span class="text-[10px] font-bold text-[#7DA0CA] uppercase">Step by Step</span>
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-4">
-            
-            <!-- Step 1 -->
-            <div class="te-step-card">
-                <div class="step-badge">01</div>
-                <div class="w-10 h-10 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-lg mb-3 border border-[#7DA0CA]/40">
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
-                <h4 class="text-sm font-extrabold text-[#021024] mb-1">ফ্রি একাউন্ট তৈরি</h4>
-                <p class="text-xs text-[#5483B3] leading-relaxed font-medium">
-                    সঠিক জিমেইল ও ১১ ডিজিটের মোবাইল নম্বর দিয়ে ১ মিনিটে ফ্রিতে আপনার একাউন্ট খুলুন।
-                </p>
+        <!-- Step 1 -->
+        <div class="step-item-card">
+            <div class="step-num-badge">১</div>
+            <div>
+                <h4 class="font-extrabold text-[#021024] text-xs mb-0.5">ফ্রি একাউন্ট তৈরি ও লগইন</h4>
+                <p class="text-[11px] text-[#5483B3] leading-snug">সঠিক জিমেইল ও ফোন নম্বর দিয়ে রেজিস্ট্রেশন সম্পন্ন করে লগইন করুন।</p>
             </div>
+        </div>
 
-            <!-- Step 2 -->
-            <div class="te-step-card">
-                <div class="step-badge">02</div>
-                <div class="w-10 h-10 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-lg mb-3 border border-[#7DA0CA]/40">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <h4 class="text-sm font-extrabold text-[#021024] mb-1">কাজ সম্পন্ন করুন</h4>
-                <p class="text-xs text-[#5483B3] leading-relaxed font-medium">
-                    ওয়ার্ক হাব থেকে ইউটিউব সাবস্ক্রাইব, জিমেইল ফার্মিং বা প্লে-স্টোর অ্যাপ রিভিউয়ের কাজ করুন।
-                </p>
+        <!-- Step 2 -->
+        <div class="step-item-card">
+            <div class="step-num-badge">২</div>
+            <div>
+                <h4 class="font-extrabold text-[#021024] text-xs mb-0.5">সহজ কাজ নির্বাচন ও সম্পন্ন</h4>
+                <p class="text-[11px] text-[#5483B3] leading-snug">টাস্ক বোর্ড থেকে সোশ্যাল মিডিয়া কাজ, জিমেইল তৈরি বা কয়েন গেম খেলুন।</p>
             </div>
+        </div>
 
-            <!-- Step 3 -->
-            <div class="te-step-card">
-                <div class="step-badge">03</div>
-                <div class="w-10 h-10 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-lg mb-3 border border-[#7DA0CA]/40">
-                    <i class="fa-solid fa-camera"></i>
-                </div>
-                <h4 class="text-sm font-extrabold text-[#021024] mb-1">পরিষ্কার প্রুফ সাবমিট</h4>
-                <p class="text-xs text-[#5483B3] leading-relaxed font-medium">
-                    কাজ শেষে প্রুফ হিসেবে পরিষ্কার স্ক্রিনশট আপলোড দিন। এআই ও এডমিন তা দ্রুত ভেরিফাই করবে।
-                </p>
+        <!-- Step 3 -->
+        <div class="step-item-card">
+            <div class="step-num-badge">৩</div>
+            <div>
+                <h4 class="font-extrabold text-[#021024] text-xs mb-0.5">পরিষ্কার স্ক্রিনশট প্রুফ সাবমিট</h4>
+                <p class="text-[11px] text-[#5483B3] leading-snug">কাজ শেষ করে পরিষ্কার স্ক্রিনশট আপলোড দিন, অটো-বট দ্রুত ভেরিফাই করবে।</p>
             </div>
+        </div>
 
-            <!-- Step 4 -->
-            <div class="te-step-card">
-                <div class="step-badge">04</div>
-                <div class="w-10 h-10 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-lg mb-3 border border-[#7DA0CA]/40">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <h4 class="text-sm font-extrabold text-[#021024] mb-1">দ্রুত ক্যাশআউট</h4>
-                <p class="text-xs text-[#5483B3] leading-relaxed font-medium">
-                    ব্যালেন্স জমা হলে বিকাশ, নগদ বা রকেটের মাধ্যমে মাত্র ২০ বা ৫০ টাকা হলেই টাকা পকেটে নিন।
-                </p>
+        <!-- Step 4 -->
+        <div class="step-item-card">
+            <div class="step-num-badge">৪</div>
+            <div>
+                <h4 class="font-extrabold text-[#021024] text-xs mb-0.5">বিকাশ/নগদে ৫-৩০ মিনিটে ক্যাশআউট</h4>
+                <p class="text-[11px] text-[#5483B3] leading-snug">ব্যালেন্স জমা হলে আপনার বিকাশ বা নগদ পারসোনাল নম্বরে টাকা তুলে নিন।</p>
             </div>
-
         </div>
     </div>
 
     <!-- ===================================================
-         6. CRITICAL APPROVAL TIPS (ALERT BOX)
+         5. SUPPORT & CHANNEL CTA
     =================================================== -->
-    <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200/80 rounded-3xl p-5 text-amber-950 space-y-2">
-        <div class="flex items-center gap-2 font-black text-xs uppercase tracking-wider text-amber-900">
-            <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
-            <span>টাস্ক ১০০% সফল হওয়ার জরুরী টিপস:</span>
-        </div>
-        <ul class="text-xs space-y-1.5 text-amber-900 font-semibold leading-relaxed pl-1">
-            <li class="flex items-start gap-2">
-                <i class="fa-solid fa-check text-emerald-600 text-[11px] mt-1"></i>
-                <span>জিমেইল তৈরির ক্ষেত্রে জন্মতারিখ সাল অবশ্যই <b>২০০০ (Year: 2000)</b> দিবেন।</span>
-            </li>
-            <li class="flex items-start gap-2">
-                <i class="fa-solid fa-check text-emerald-600 text-[11px] mt-1"></i>
-                <span>কোনো প্রকার ভিপিএন (VPN) ব্যবহার করবেন না।</span>
-            </li>
-            <li class="flex items-start gap-2">
-                <i class="fa-solid fa-check text-emerald-600 text-[11px] mt-1"></i>
-                <span>অন্য কারও বা ইন্টারনেট থেকে নেওয়া ভুয়া স্ক্রিনশট দিলে একাউন্ট স্থগিত হতে পারে।</span>
-            </li>
-        </ul>
-    </div>
-
-    <!-- ===================================================
-         7. TELEGRAM SUPPORT & COMMUNITY CARD
-    =================================================== -->
-    <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-3xl p-6 sm:p-7 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5">
-        <div class="flex items-center gap-3.5 text-center sm:text-left">
-            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-2xl text-sky-300 border border-white/20 flex-shrink-0">
+    <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-3xl p-5 text-white shadow-lg space-y-4">
+        <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center text-2xl text-sky-300 border border-white/20 flex-shrink-0">
                 <i class="fa-brands fa-telegram"></i>
             </div>
             <div>
-                <h4 class="font-black text-base leading-tight">বুঝতে কোথাও সমস্যা হচ্ছে?</h4>
-                <p class="text-xs text-[#C1E8FF] mt-0.5 font-medium">আমাদের সাপোর্ট টিম ও অফিশিয়াল কমিউনিটিতে জয়েন করুন</p>
+                <h4 class="font-black text-sm text-white leading-tight">অফিসিয়াল টেলিগ্রাম সাপোর্ট</h4>
+                <p class="text-[10px] text-[#C1E8FF] mt-0.5">পেমেন্ট আপডেট ও সহায়তার জন্য এখনই যুক্ত হোন</p>
             </div>
         </div>
 
-        <div class="flex gap-2.5 w-full sm:w-auto">
-            <a href="https://t.me/takaearn_help" target="_blank" class="flex-1 sm:flex-initial bg-sky-500 hover:bg-sky-400 text-white px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition text-center shadow-sm">
-                <i class="fa-solid fa-headset mr-1"></i> হেল্প ডেস্ক
+        <div class="grid grid-cols-2 gap-2.5">
+            <a href="https://t.me/takaearn_site" target="_blank" class="bg-white text-[#052659] hover:bg-[#C1E8FF] py-3 rounded-xl font-black text-xs uppercase tracking-wider transition text-center shadow-sm flex items-center justify-center gap-1.5 text-decoration-none">
+                <i class="fa-solid fa-bullhorn text-xs"></i> <span>টেলিগ্রাম চ্যানেল</span>
             </a>
-            <a href="https://t.me/takaearn_site" target="_blank" class="flex-1 sm:flex-initial bg-white text-[#052659] hover:bg-[#C1E8FF] px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition text-center shadow-sm">
-                <i class="fa-solid fa-bullhorn mr-1"></i> চ্যানেল
+            <a href="https://t.me/takaearn_help" target="_blank" class="bg-sky-500 hover:bg-sky-400 text-white py-3 rounded-xl font-black text-xs uppercase tracking-wider transition text-center shadow-sm flex items-center justify-center gap-1.5 text-decoration-none">
+                <i class="fa-solid fa-headset text-xs"></i> <span>লাইভ হেল্প ডেস্ক</span>
             </a>
         </div>
     </div>
 
     <!-- ===================================================
-         8. FINAL ACTION BUTTONS
+         6. BOTTOM AD CONTAINER
     =================================================== -->
-    <div class="pt-4 border-t border-[#C1E8FF]/80 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/" class="btn-outline-te w-full sm:w-auto">
-            <i class="fa-solid fa-house text-[#7DA0CA]"></i> <span>হোমপেজ</span>
-        </a>
-
-        {% if session.get('user_id') %}
-        <a href="/work" class="btn-gradient w-full sm:w-auto">
-            <span>কাজের পেজে যান</span> <i class="fa-solid fa-arrow-right text-xs"></i>
-        </a>
-        {% else %}
-        <a href="/register" class="btn-gradient w-full sm:w-auto">
-            <span>ফ্রি একাউন্ট খুলুন</span> <i class="fa-solid fa-user-plus text-xs"></i>
-        </a>
-        {% endif %}
+    <div class="ad-banner-box">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="min-h-[50px] flex justify-center items-center overflow-hidden">
+            <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
+            <div id="container-a5f8e93bb4382cac9093af57f6efd969"></div>
+        </div>
     </div>
 
 </div>
+
+<!-- ===================================================
+     SCRIPTS: AUTO-OPEN LOGIC & ERROR HANDLING
+=================================================== -->
+<script>
+    const modal = document.getElementById('fullscreenVideoModal');
+    const iframe = document.getElementById('tutorialIframe');
+    const errorNotice = document.getElementById('videoErrorNotice');
+    const loader = document.getElementById('videoLoader');
+
+    function openFullscreenVideo() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Lazy load iframe source
+        if (!iframe.src || iframe.src === "about:blank" || iframe.src === window.location.href) {
+            iframe.src = iframe.getAttribute('data-src');
+        }
+
+        // 7-second timeout for video error fallback
+        const loadTimer = setTimeout(() => {
+            try {
+                // If iframe contentWindow didn't load properly
+                if (!iframe.complete && !iframe.contentDocument) {
+                    showVideoError();
+                }
+            } catch (e) {
+                // Cross-origin load usually fires here if loaded
+            }
+        }, 7000);
+
+        iframe.onload = () => {
+            clearTimeout(loadTimer);
+            if (loader) loader.style.display = 'none';
+        };
+
+        iframe.onerror = () => {
+            showVideoError();
+        };
+    }
+
+    function showVideoError() {
+        if (loader) loader.style.display = 'none';
+        if (errorNotice) errorNotice.classList.remove('hidden');
+    }
+
+    function closeFullscreenVideo() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        // Reset iframe to stop video audio
+        iframe.src = "about:blank";
+    }
+
+    // Auto-detect redirect from /login, /signup, /telegram, /dashboard
+    document.addEventListener("DOMContentLoaded", () => {
+        const referrer = document.referrer.toLowerCase();
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromParam = (urlParams.get('from') || urlParams.get('src') || '').toLowerCase();
+
+        const triggerSources = ['login', 'signup', 'register', 'telegram', 'dashboard'];
+        const shouldAutoPlay = triggerSources.some(source => referrer.includes(source) || fromParam.includes(source));
+
+        if (shouldAutoPlay) {
+            // Small 300ms delay for smooth DOM render
+            setTimeout(() => {
+                openFullscreenVideo();
+            }, 300);
+        }
+    });
+</script>
 
 {% endblock %}
