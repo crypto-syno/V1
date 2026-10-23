@@ -2,239 +2,259 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN NOTICE BOARD UI
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - OFFICIAL STATEMENT & NOTICE BOARD UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Modern Notice Card */
-    .notice-card {
-        background: #FFFFFF; 
-        border: 1px solid #E2E8F0; 
-        border-radius: 28px;
-        padding: 24px; 
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        position: relative; 
+    /* Official Statement Letter Card */
+    .official-letter-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 32px;
+        padding: 30px 24px;
+        box-shadow: 0 10px 35px -10px rgba(5, 38, 89, 0.06);
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.03);
+        margin-bottom: 20px;
     }
-    .notice-card:hover { 
-        border-color: #A7F3D0; 
-        box-shadow: 0 12px 30px -8px rgba(16, 185, 129, 0.12);
-        transform: translateY(-3px); 
+    
+    /* Official Header Stamp Line */
+    .official-letter-card::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+        background: linear-gradient(90deg, #021024, #052659, #5483B3);
     }
 
-    /* Content Clamping (Read More / Less) */
-    .notice-content-wrapper { position: relative; overflow: hidden; transition: max-height 0.4s ease; }
-    .notice-clamped { max-height: 85px; }
-    .fade-overlay {
-        position: absolute; bottom: 0; left: 0; right: 0; height: 45px;
-        background: linear-gradient(transparent, #FFFFFF); pointer-events: none; transition: opacity 0.3s ease;
+    /* Watermark Logo Stamp inside Statement */
+    .statement-watermark {
+        position: absolute; right: 15px; bottom: 15px;
+        font-size: 80px; font-weight: 900; color: rgba(193, 232, 255, 0.12);
+        line-height: 1; pointer-events: none; z-index: 0; font-family: monospace;
     }
-    .notice-expanded .fade-overlay { opacity: 0; }
 
-    /* Image Wrap with Zoom Effect */
-    .notice-img-wrap { 
-        overflow: hidden; border-radius: 20px; margin-bottom: 18px; 
-        border: 1px solid #E2E8F0; cursor: pointer; position: relative;
+    /* Content Typography */
+    .statement-body {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #334155;
+        font-weight: 500;
+        white-space: pre-line;
     }
-    .notice-img-wrap img { width: 100%; max-height: 320px; object-fit: cover; transition: transform 0.4s ease; }
-    .notice-img-wrap:hover img { transform: scale(1.03); }
-    
-    /* Clean Light Inputs */
-    .light-input {
-        width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0;
-        color: #0F172A; padding: 15px 18px; border-radius: 18px; outline: none; font-size: 13.5px; transition: all 0.25s ease;
-    }
-    .light-input:focus { border-color: #10B981; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
-    .light-input::placeholder { color: #94A3B8; }
-    
-    /* Buttons */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: #FFFFFF; padding: 14px 24px;
-        border-radius: 16px; font-weight: 800; font-size: 12.5px; text-transform: uppercase;
-        letter-spacing: 0.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.35);
-    }
-    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.45); }
-    .btn-emerald:active { transform: scale(0.96); }
-    
-    .btn-light-outline {
-        background: #F8FAFC; color: #475569; border: 1px solid #E2E8F0; padding: 10px 18px;
-        border-radius: 14px; font-weight: 700; font-size: 11.5px; transition: all 0.2s;
-        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .btn-light-outline:hover { background: #ECFDF5; border-color: #A7F3D0; color: #047857; }
-    .btn-light-outline:active { transform: scale(0.96); }
 
-    /* Modal Backdrop */
+    /* Notice Image */
+    .notice-img-frame {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1.5px solid #C1E8FF;
+        margin: 16px 0;
+        background: #F4F9FD;
+    }
+    .notice-img-frame img {
+        width: 100%;
+        max-height: 340px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    .notice-img-frame:hover img { transform: scale(1.02); }
+
+    /* Admin Flat Inputs */
+    .notice-flat-input {
+        width: 100%; background: #F4F9FD; border: 1.5px solid #C1E8FF; color: #021024;
+        padding: 15px 18px; border-radius: 18px; outline: none; font-size: 13.5px; font-weight: 600; transition: all 0.25s;
+    }
+    .notice-flat-input:focus { border-color: #052659; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); }
+
+    .btn-notice-action {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF; width: 100%; padding: 16px;
+        border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
+        letter-spacing: 0.4px; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4); border: none; cursor: pointer;
+    }
+    .btn-notice-action:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+
+    .btn-action-outline {
+        background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF; padding: 10px 16px;
+        border-radius: 14px; font-weight: 800; font-size: 11.5px; transition: all 0.2s;
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;
+    }
+    .btn-action-outline:hover { background: #C1E8FF; border-color: #5483B3; }
+
+    /* Lightbox Modal */
     .modal-backdrop {
-        position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px);
+        position: fixed; inset: 0; background: rgba(2, 16, 36, 0.85); backdrop-filter: blur(12px);
         display: flex; align-items: center; justify-content: center; z-index: 9999;
         opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .modal-backdrop.show { opacity: 1; pointer-events: auto; }
 </style>
 
-<div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-xl mx-auto space-y-6 fade-in-up pb-14 px-2 mt-1">
 
-    <!-- 1. HEADER -->
-    <div class="flex items-center justify-between mb-4 px-2">
+    <!-- ===================================================
+         1. TOP NAVIGATION & VIEW COUNTER
+    =================================================== -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
-            <a href="/menu" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition border border-slate-200 shadow-sm active:scale-95">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
+            <a href="/menu" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <h2 class="text-base font-extrabold text-slate-800 tracking-tight leading-none">অফিসিয়াল নোটিশ বোর্ড</h2>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">Announcements & Updates</p>
+                <h1 class="text-base font-black text-[#021024] leading-tight">অফিসিয়াল নোটিশ বোর্ড</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Official Statements & Press Releases</p>
             </div>
         </div>
-        <div class="bg-white border border-slate-200 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
-            <i class="fa-regular fa-eye text-emerald-600 text-xs"></i>
-            <span class="text-slate-700 text-xs font-mono font-bold">{{ views }}</span>
+
+        <div class="bg-white border border-[#C1E8FF] px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+            <i class="fa-regular fa-eye text-[#052659] text-xs"></i>
+            <span class="text-[#021024] text-xs font-mono font-black">{{ views }} views</span>
         </div>
     </div>
 
-    <!-- 2. ADMIN POST FORM (For Admins Only) -->
+    <!-- ===================================================
+         2. ADMIN POST FORM (For Admins Only)
+    ========================================== -->
     {% if user and user.role == 'admin' %}
-    <div class="bg-white p-6 sm:p-7 rounded-[28px] border border-slate-200 shadow-md shadow-emerald-500/5 mb-6">
-        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-            <h3 class="font-extrabold text-slate-800 text-sm uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-pen-nib text-emerald-600"></i> নতুন নোটিশ পোস্ট করুন
+    <div class="official-letter-card !p-6 mb-6">
+        <div class="flex items-center justify-between mb-4 border-b border-[#C1E8FF] pb-3">
+            <h3 class="font-black text-[#021024] text-sm uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn text-[#052659]"></i> নতুন অফিসিয়াল স্টেটমেন্ট প্রকাশ
             </h3>
-            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">Admin</span>
+            <span class="text-[10px] bg-[#052659] text-white px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">Admin Portal</span>
         </div>
 
-        <div id="imagePreviewBox" class="hidden mb-4 bg-emerald-50/70 p-3 rounded-2xl border border-emerald-100 flex items-center justify-between">
+        <div id="imagePreviewBox" class="hidden mb-4 bg-[#F4F9FD] p-3 rounded-2xl border border-[#C1E8FF] flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img id="previewImg" src="" class="h-11 w-11 object-cover rounded-xl border border-emerald-200">
-                <span class="text-xs font-bold text-emerald-800">ছবি সংযুক্ত হয়েছে</span>
+                <img id="previewImg" src="" class="h-11 w-11 object-cover rounded-xl border border-[#C1E8FF]">
+                <span class="text-xs font-bold text-[#052659]">ছবি সংযুক্ত হয়েছে</span>
             </div>
-            <button type="button" onclick="removeImage()" class="h-8 w-8 bg-white text-rose-500 rounded-full flex items-center justify-center hover:bg-rose-50 transition border border-slate-200"><i class="fa-solid fa-xmark text-xs"></i></button>
+            <button type="button" onclick="removeImage()" class="h-8 w-8 bg-white text-rose-500 rounded-full flex items-center justify-center transition border border-[#C1E8FF]"><i class="fa-solid fa-xmark text-xs"></i></button>
         </div>
 
         <form method="POST" action="/notice" enctype="multipart/form-data" class="space-y-4" onsubmit="showPublishLoader()">
-            <input type="text" name="title" required placeholder="নোটিশ টাইটেল লিখুন..." class="light-input font-bold text-slate-800">
-            <textarea name="content" required rows="3" placeholder="নোটিশের বিস্তারিত বিবরণ লিখুন..." class="light-input resize-y"></textarea>
+            <input type="text" name="title" required placeholder="স্টেটমেন্ট বা নোটিশের শিরোনাম..." class="notice-flat-input font-bold text-[#021024]">
+            <textarea name="content" required rows="4" placeholder="অফিসিয়াল ঘোষণা বা বিস্তারিত বিবরণ এখানে লিখুন..." class="notice-flat-input resize-y"></textarea>
             
             <div class="flex flex-col sm:flex-row gap-3 pt-1">
-                <label class="btn-light-outline flex-1 cursor-pointer">
-                    <i class="fa-solid fa-image text-emerald-600"></i> ছবি সিলেক্ট করুন
+                <label class="btn-action-outline flex-1 cursor-pointer justify-center">
+                    <i class="fa-solid fa-image text-[#052659]"></i> ছবি বা ব্যানার যুক্ত করুন
                     <input type="file" name="image" id="imageInput" class="hidden" accept="image/*" onchange="previewImage(this)">
                 </label>
-                <button type="submit" id="publishBtn" class="btn-emerald flex-1">
-                    <span>নোটিশ পাবলিশ করুন</span> <i class="fa-solid fa-paper-plane text-xs"></i>
+                <button type="submit" id="publishBtn" class="btn-notice-action flex-1">
+                    <span>পাবলিশ ও ব্রডকাস্ট</span> <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
             </div>
         </form>
     </div>
     {% endif %}
 
-    <!-- 3. NOTICE FEED -->
-    <div class="space-y-4">
+    <!-- ===================================================
+         3. OFFICIAL STATEMENT FEED (LETTERS)
+    ========================================== -->
+    <div class="space-y-5">
         {% for notice in notices %}
-        <div class="notice-card">
+        <div class="official-letter-card">
             
-            <!-- Date & Admin Delete Action -->
-            <div class="flex justify-between items-start mb-3">
-                <span class="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-lg text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar-check"></i> {{ notice.created_at[:10] }}
-                </span>
+            <div class="statement-watermark">TE</div>
+
+            <!-- Letterhead Meta -->
+            <div class="flex justify-between items-start mb-4 relative z-10 border-b border-[#C1E8FF]/60 pb-3">
+                <div>
+                    <span class="text-[9px] font-black uppercase tracking-widest text-[#5483B3] block mb-0.5">TakaEarn Head Office</span>
+                    <h4 class="text-xs font-bold text-[#021024] font-mono">Ref: TE-OFFICIAL-{{ notice.id }}-2026</h4>
+                </div>
                 
-                {% if user and user.role == 'admin' %}
-                <a href="/notice/delete/{{ notice.id }}" onclick="return confirm('এই নোটিশটি মুছে ফেলতে চান?')" class="h-8 w-8 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-lg flex items-center justify-center transition border border-rose-100" title="Delete Notice">
-                    <i class="fa-solid fa-trash-can text-xs"></i>
-                </a>
-                {% endif %}
+                <div class="text-right">
+                    <span class="bg-[#F4F9FD] text-[#052659] border border-[#C1E8FF] px-3 py-1 rounded-lg text-[10px] font-black font-mono uppercase tracking-wider inline-block">
+                        <i class="fa-regular fa-calendar-check mr-1 text-[#5483B3]"></i> {{ notice.created_at[:10] }}
+                    </span>
+                    
+                    {% if user and user.role == 'admin' %}
+                    <a href="/notice/delete/{{ notice.id }}" onclick="return confirm('এই নোটিশটি মুছে ফেলতে চান?')" class="ml-2 h-7 w-7 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-lg inline-flex items-center justify-center transition border border-rose-200" title="Delete">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
 
-            <!-- Title -->
-            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug mb-3 tracking-tight">{{ notice.title }}</h3>
+            <!-- Statement Title -->
+            <h2 class="text-lg sm:text-xl font-black text-[#021024] leading-snug mb-3 tracking-tight relative z-10">
+                {{ notice.title }}
+            </h2>
             
-            <!-- Image (If present) -->
+            <!-- Optional Statement Image / Banner -->
             {% if notice.image_url %}
-            <div class="notice-img-wrap" onclick="openImageModal('{{ notice.image_url }}')">
-                <img src="{{ notice.image_url }}" alt="Notice Image">
+            <div class="notice-img-frame relative z-10" onclick="openImageModal('{{ notice.image_url }}')">
+                <img src="{{ notice.image_url }}" alt="Official Notice Banner" crossorigin="anonymous">
             </div>
             {% endif %}
 
-            <!-- Notice Content (Read More Logic) -->
-            <div class="relative mb-2">
-                <div id="wrapper-{{ notice.id }}" class="notice-content-wrapper {% if notice.content|length > 160 %}notice-clamped{% endif %}">
-                    <div class="text-slate-600 text-sm leading-relaxed whitespace-pre-line font-medium" id="text-{{ notice.id }}">{{ notice.content }}</div>
-                    {% if notice.content|length > 160 %}
-                    <div class="fade-overlay"></div>
-                    {% endif %}
-                </div>
-                
-                {% if notice.content|length > 160 %}
-                <button id="btn-{{ notice.id }}" onclick="toggleNoticeContent('{{ notice.id }}')" class="text-xs font-bold text-emerald-600 uppercase tracking-wider mt-2 hover:underline focus:outline-none flex items-center gap-1">
-                    <span>Read More</span> <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                </button>
-                {% endif %}
+            <!-- Statement Body Content -->
+            <div class="statement-body relative z-10 mb-6" id="text-{{ notice.id }}">
+                {{ notice.content }}
             </div>
 
-            <!-- Copy & Share Actions -->
-            <div class="flex items-center gap-2 pt-4 border-t border-slate-100 mt-4">
-                <button onclick="copyNotice('text-{{ notice.id }}', this)" class="btn-light-outline flex-1">
-                    <i class="fa-regular fa-copy"></i> কপি করুন
-                </button>
-                <a href="whatsapp://send?text=*{{ notice.title }}*%0A{{ notice.content }}" class="btn-light-outline flex-1">
-                    <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i> শেয়ার
-                </a>
+            <!-- Signature & Action Footer -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-[#C1E8FF]/60 relative z-10">
+                
+                <!-- Authority Sign-off -->
+                <div>
+                    <p class="text-[10px] font-extrabold text-[#7DA0CA] uppercase tracking-wider">অনুমতিক্রমে,</p>
+                    <p class="text-xs font-black text-[#021024] mt-0.5">ব্যবস্থাপনা কর্তৃপক্ষ • TakaEarn Network</p>
+                </div>
+
+                <!-- Copy & Share Buttons -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button onclick="copyNotice('text-{{ notice.id }}', this)" class="btn-action-outline flex-1 sm:flex-initial">
+                        <i class="fa-regular fa-copy text-[#052659]"></i> কপি
+                    </button>
+                    <a href="https://t.me/share/url?url=https://takaearn.com&text={{ notice.title | urlencode }}" target="_blank" class="btn-action-outline flex-1 sm:flex-initial">
+                        <i class="fa-brands fa-telegram text-sky-500 text-sm"></i> শেয়ার
+                    </a>
+                </div>
+
             </div>
+
         </div>
         {% else %}
         <!-- Empty State -->
-        <div class="text-center py-20 bg-white rounded-[28px] border border-slate-200">
-            <div class="h-16 w-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl border border-slate-100">
+        <div class="text-center py-20 bg-white rounded-[32px] border border-[#C1E8FF] shadow-sm p-6">
+            <div class="w-16 h-16 bg-[#F4F9FD] text-[#7DA0CA] rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl border border-[#C1E8FF]">
                 <i class="fa-regular fa-bell-slash"></i>
             </div>
-            <h3 class="text-sm font-bold text-slate-700">কোনো নোটিশ নেই</h3>
-            <p class="text-xs text-slate-400 mt-1">নতুন আপডেট আসলে এখানে দেখতে পাবেন।</p>
+            <h3 class="text-sm font-bold text-[#021024]">কোনো অফিসিয়াল নোটিশ নেই</h3>
+            <p class="text-xs text-[#5483B3] mt-1">নতুন কোনো ঘোষণা আসলে এখানে দেখতে পাবেন।</p>
         </div>
         {% endfor %}
     </div>
+
 </div>
 
-<!-- ==========================================
-     IMAGE MODAL (Lightbox)
-========================================== -->
+<!-- ===================================================
+     LIGHTBOX MODAL FOR IMAGES
+=================================================== -->
 <div id="imageModal" class="modal-backdrop" onclick="closeModal()">
     <div class="w-full max-w-lg p-4 relative" onclick="event.stopPropagation()">
-        <button onclick="closeModal()" class="absolute -top-10 right-4 h-9 w-9 text-white bg-slate-900/80 hover:bg-slate-900 rounded-full flex items-center justify-center transition border border-white/20">
+        <button onclick="closeModal()" class="absolute -top-12 right-4 h-10 w-10 text-white bg-[#021024] hover:bg-[#052659] rounded-full flex items-center justify-center transition border border-white/20 shadow-lg">
             <i class="fa-solid fa-xmark text-sm"></i>
         </button>
-        <img id="modalImg" src="" class="w-full h-auto max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/20">
+        <img id="modalImg" src="" class="w-full h-auto max-h-[80vh] object-contain rounded-3xl shadow-2xl border-2 border-white/20">
     </div>
 </div>
 
+<!-- Scripts -->
 <script>
-    // Expand / Collapse Notice
-    function toggleNoticeContent(id) {
-        const wrapper = document.getElementById('wrapper-' + id);
-        const btn = document.getElementById('btn-' + id);
-        if (wrapper.classList.contains('notice-clamped')) {
-            wrapper.classList.remove('notice-clamped');
-            wrapper.classList.add('notice-expanded');
-            wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
-            btn.innerHTML = `<span>Show Less</span> <i class="fa-solid fa-chevron-up text-[10px]"></i>`;
-        } else {
-            wrapper.classList.add('notice-clamped');
-            wrapper.classList.remove('notice-expanded');
-            wrapper.style.maxHeight = '85px';
-            btn.innerHTML = `<span>Read More</span> <i class="fa-solid fa-chevron-down text-[10px]"></i>`;
-        }
-    }
-
-    // Copy Text Logic
+    // Copy Statement Text
     function copyNotice(elementId, btn) {
         const text = document.getElementById(elementId).innerText;
         navigator.clipboard.writeText(text).then(() => {
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i> কপি হয়েছে!';
+            btn.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i> কপিড!';
             btn.classList.add('bg-emerald-50', 'border-emerald-200');
             setTimeout(() => {
                 btn.innerHTML = originalHTML;
@@ -243,7 +263,7 @@
         });
     }
 
-    // Lightbox Modal Logic
+    // Lightbox Modal
     function openImageModal(url) {
         document.getElementById('modalImg').src = url;
         document.getElementById('imageModal').classList.add('show');
@@ -271,7 +291,7 @@
     function showPublishLoader() {
         const btn = document.getElementById('publishBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span class="ml-1">পাবলিশ হচ্ছে...</span>';
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span class="ml-1">পাবলিশ ও ব্রডকাস্ট হচ্ছে...</span>';
         btn.classList.add('opacity-80');
     }
 </script>
