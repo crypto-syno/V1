@@ -166,23 +166,6 @@
 
 <div class="max-w-md mx-auto space-y-4 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- ===================================================
-         1. APP INSTALL CTA (Fixed: Auto-hides if standalone app installed)
-    =================================================== -->
-    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden">
-        <div class="flex items-center gap-3 min-w-0 pr-2">
-            <div class="w-11 h-11 rounded-[14px] bg-[#052659] text-white flex items-center justify-center text-lg shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
-                <i class="fa-brands fa-google-play"></i>
-            </div>
-            <div class="min-w-0">
-                <h4 class="font-black text-[#021024] text-xs truncate">TakaEarn অ্যাপ ইন্সটল করুন</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5 truncate">হোমস্ক্রিনে অ্যাড করুন</p>
-            </div>
-        </div>
-        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3 rounded-[10px] text-[11px] font-bold shadow-sm uppercase tracking-wider flex-shrink-0 active:scale-95 transition">
-            Install
-        </button>
-    </div>
 
     <!-- ===================================================
          2. APP HEADER & USER GREETING
@@ -422,6 +405,23 @@
                 <span class="timer-label text-[#052659]">Secs</span>
             </div>
         </div>
+    </div>
+    <!-- ===================================================
+         1. APP INSTALL CTA (Fixed: Auto-hides if standalone app installed)
+    =================================================== -->
+    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden">
+        <div class="flex items-center gap-3 min-w-0 pr-2">
+            <div class="w-11 h-11 rounded-[14px] bg-[#052659] text-white flex items-center justify-center text-lg shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
+                <i class="fa-brands fa-google-play"></i>
+            </div>
+            <div class="min-w-0">
+                <h4 class="font-black text-[#021024] text-xs truncate">TakaEarn অ্যাপ ইন্সটল করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5 truncate">হোমস্ক্রিনে অ্যাড করুন</p>
+            </div>
+        </div>
+        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3 rounded-[10px] text-[11px] font-bold shadow-sm uppercase tracking-wider flex-shrink-0 active:scale-95 transition">
+            Install
+        </button>
     </div>
 
     <!-- ===================================================
