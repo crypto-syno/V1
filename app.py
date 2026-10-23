@@ -826,7 +826,7 @@ def update_profile():
 # 🎮 COIN CATCHER GAME & CONVERT SYSTEM
 # ==========================================
 
-COINS_PER_TAKA = 100  # ১০০ কয়েন = ১ টাকা
+COINS_PER_TAKA = 30  # ১০০ কয়েন = ১ টাকা
 MAX_DAILY_GAMES = 5   # দিনে সর্বোচ্চ ৫ বার খেলা যাবে
 
 @app.route('/game')
