@@ -2,220 +2,238 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN HIRE US / B2B UI (SOFT LIGHT)
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - SOFT & MINIMAL B2B PROMOTION HUB UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Value Cards */
-    .b2b-card {
+    /* Soft Value Cards */
+    .soft-b2b-card {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 26px;
-        padding: 24px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1.5px solid #C1E8FF;
+        border-radius: 24px;
+        padding: 20px;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 18px -4px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
-    .b2b-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px -8px rgba(16, 185, 129, 0.12);
-        border-color: #A7F3D0;
-        background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+    .soft-b2b-card:hover {
+        border-color: #5483B3;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 28px -6px rgba(5, 38, 89, 0.1);
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
     }
 
-    .icon-box {
-        width: 48px; height: 48px; border-radius: 16px;
-        background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5;
+    .soft-icon-box {
+        width: 44px; height: 44px; border-radius: 14px;
+        background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF;
         display: flex; align-items: center; justify-content: center;
-        font-size: 20px; margin-bottom: 14px; transition: all 0.25s ease;
-        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.06);
+        font-size: 18px; margin-bottom: 12px; transition: all 0.25s ease;
     }
-    .b2b-card:hover .icon-box { background: #059669; color: #FFFFFF; transform: scale(1.06); }
-
-    /* Service Grid Cards */
-    .service-card {
-        background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 22px;
-        padding: 20px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex; flex-direction: column; height: 100%;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
-    }
-    .service-card:hover { 
-        border-color: #6EE7B7; 
-        background: #F0FDF4; 
-        transform: translateY(-3px); 
-        box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.1); 
-    }
-    .service-card.selected { 
-        border-color: #059669 !important; 
-        background: #ECFDF5 !important; 
-        box-shadow: 0 8px 25px -4px rgba(16, 185, 129, 0.2) !important;
+    .soft-b2b-card:hover .soft-icon-box { 
+        background: #052659; color: #FFFFFF; border-color: #052659; 
     }
 
-    /* Clean Inputs */
-    .input-group { position: relative; margin-bottom: 16px; }
-    .light-input {
-        width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0;
-        color: #0F172A; padding: 15px 16px 15px 46px; border-radius: 18px;
+    /* Soft Service Grid Cards */
+    .soft-service-card {
+        background: #FFFFFF; border: 1.5px solid #C1E8FF; border-radius: 20px;
+        padding: 16px; cursor: pointer; transition: all 0.25s ease;
+        display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+        box-shadow: 0 2px 8px rgba(5, 38, 89, 0.02);
+    }
+    .soft-service-card:hover { 
+        border-color: #5483B3; 
+        background: #F4F9FD; 
+        transform: translateY(-2px); 
+        box-shadow: 0 8px 20px -4px rgba(5, 38, 89, 0.08); 
+    }
+    .soft-service-card.selected { 
+        border-color: #052659 !important; 
+        background: #E6FFFA !important; 
+        box-shadow: 0 8px 22px -4px rgba(5, 38, 89, 0.15) !important;
+    }
+
+    /* Soft Flat Inputs */
+    .soft-input-group { position: relative; margin-bottom: 14px; }
+    .soft-flat-input {
+        width: 100%; background: #F4F9FD; border: 1.5px solid #C1E8FF;
+        color: #021024; padding: 14px 16px 14px 44px; border-radius: 16px;
         font-size: 13.5px; outline: none; transition: all 0.25s ease;
     }
-    .light-input:focus { border-color: #10B981; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
-    .light-input::placeholder { color: #94A3B8; }
+    .soft-flat-input:focus { border-color: #052659; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); }
+    .soft-flat-input::placeholder { color: #7DA0CA; font-weight: 500; }
     
-    .input-icon { position: absolute; left: 18px; top: 16px; color: #94A3B8; font-size: 14px; transition: color 0.25s ease; }
-    .light-input:focus ~ .input-icon { color: #059669; }
+    .soft-input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #7DA0CA; font-size: 14px; transition: color 0.25s ease; }
+    .soft-flat-input:focus ~ .soft-input-icon { color: #052659; }
 
-    /* Button */
-    .btn-emerald {
-        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+    /* Action Button */
+    .btn-b2b-primary {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF; width: 100%; padding: 16px;
-        border-radius: 18px; font-weight: 800; font-size: 14px;
-        text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 18px; font-weight: 800; font-size: 13.5px;
+        text-transform: uppercase; letter-spacing: 0.4px; transition: all 0.25s ease;
         display: flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35); border: none; cursor: pointer;
     }
-    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.5); }
-    .btn-emerald:active { transform: scale(0.96); }
-    .btn-emerald:disabled { background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed; transform: none !important; }
+    .btn-b2b-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
+    .btn-b2b-primary:active { transform: scale(0.97); }
 </style>
 
-<div class="max-w-4xl mx-auto space-y-9 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-3xl mx-auto space-y-7 fade-in-up pb-14 px-2 mt-1">
 
-    <!-- ==========================================
-         1. HERO HEADER
-    ========================================== -->
-    <div class="text-center pt-4 pb-2 relative">
-        <div class="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-1.5 rounded-full mb-4 shadow-sm">
-            <span class="flex h-2 w-2 relative">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span class="text-[10px] font-extrabold text-emerald-800 tracking-wider uppercase">Earn Daily Official Promotion Hub</span>
+    <!-- ===================================================
+         1. TOP NAVIGATION
+    =================================================== -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
+        <div class="flex items-center gap-3">
+            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
+            <div>
+                <h1 class="text-base font-black text-[#021024] leading-tight">প্রোমোশন হাব (B2B)</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Client Growth & Marketing Services</p>
+            </div>
+        </div>
+        <span class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3 py-1 rounded-full text-xs font-black shadow-sm">
+            B2B Hub
+        </span>
+    </div>
+
+    <!-- ===================================================
+         2. HERO BANNER
+    =================================================== -->
+    <div class="text-center pt-2 pb-1 relative">
+        <div class="inline-flex items-center gap-2 bg-[#C1E8FF]/50 border border-[#C1E8FF] px-3.5 py-1 rounded-full mb-3 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#052659] animate-ping"></span>
+            <span class="text-[10px] font-extrabold text-[#052659] uppercase tracking-wider">TakaEarn Enterprise Growth</span>
         </div>
         
-        <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-3 leading-tight tracking-tight">
+        <h2 class="text-2xl sm:text-4xl font-black text-[#021024] mb-2 leading-tight tracking-tight">
             আপনার ব্যবসাকে ছড়িয়ে দিন <br>
-            <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">হাজারো রিয়েল মানুষের মাঝে</span>
-        </h1>
+            <span class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] bg-clip-text text-transparent">হাজারো রিয়েল মানুষের মাঝে</span>
+        </h2>
         
-        <p class="text-xs md:text-sm text-slate-500 font-medium leading-relaxed max-w-xl mx-auto">
-            আমাদের ১৫ হাজারেরও বেশি এক্টিভ মেম্বারদের মাধ্যমে আপনার সোশ্যাল মিডিয়া, ওয়েবসাইট বা মোবাইল অ্যাপের অর্গানিক গ্রোথ নিশ্চিত করুন। ১০০% নিরাপদ ও দ্রুত ডেলিভারি।
+        <p class="text-xs sm:text-sm text-[#5483B3] font-semibold leading-relaxed max-w-lg mx-auto">
+            আমাদের ১৫ হাজারেরও বেশি এক্টিভ মেম্বারদের মাধ্যমে আপনার সোশ্যাল মিডিয়া, ওয়েবসাইট বা মোবাইল অ্যাপের অর্গানিক গ্রোথ নিশ্চিত করুন।
         </p>
     </div>
 
-    <!-- ==========================================
-         2. VALUE PROPOSITIONS (Why choose us?)
-    ========================================== -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="b2b-card">
-            <div class="icon-box"><i class="fa-solid fa-bolt-lightning"></i></div>
-            <h3 class="text-base font-extrabold text-slate-800 mb-1.5">দ্রুত ডেলিভারি</h3>
-            <p class="text-xs text-slate-500 font-medium leading-relaxed">হাজার হাজার সক্রিয় মানুষের কাছে আপনার কন্টেন্ট বা অ্যাপ পৌঁছে দিন মুহূর্তের মধ্যেই।</p>
+    <!-- ===================================================
+         3. VALUE PROPOSITIONS (Soft Cards)
+    =================================================== -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+        <div class="soft-b2b-card">
+            <div class="soft-icon-box"><i class="fa-solid fa-bolt-lightning"></i></div>
+            <h3 class="text-sm font-extrabold text-[#021024] mb-1">দ্রুত ডেলিভারি</h3>
+            <p class="text-xs text-[#5483B3] font-medium leading-relaxed">হাজার হাজার সক্রিয় মানুষের কাছে আপনার কন্টেন্ট বা অ্যাপ পৌঁছে দিন মুহূর্তের মধ্যে।</p>
         </div>
-        <div class="b2b-card">
-            <div class="icon-box"><i class="fa-solid fa-users-viewfinder"></i></div>
-            <h3 class="text-base font-extrabold text-slate-800 mb-1.5">১০০% রিয়েল ইউজার</h3>
-            <p class="text-xs text-slate-500 font-medium leading-relaxed">কোনো বট বা সফটওয়্যার নয়, আমাদের রিয়েল মেম্বাররা সরাসরি আপনার দেওয়া কাজে অংশ নেবে।</p>
+        <div class="soft-b2b-card">
+            <div class="soft-icon-box"><i class="fa-solid fa-users-viewfinder"></i></div>
+            <h3 class="text-sm font-extrabold text-[#021024] mb-1">১০০% রিয়েল ইউজার</h3>
+            <p class="text-xs text-[#5483B3] font-medium leading-relaxed">কোনো বট বা ফেক অ্যাকাউন্ট নয়, রিয়েল মেম্বাররা সরাসরি আপনার কাজে অংশ নেবে।</p>
         </div>
-        <div class="b2b-card">
-            <div class="icon-box"><i class="fa-solid fa-shield-check"></i></div>
-            <h3 class="text-base font-extrabold text-slate-800 mb-1.5">নিরাপদ পেমেন্ট ও সাপোর্ট</h3>
-            <p class="text-xs text-slate-500 font-medium leading-relaxed">বিকাশ ও নগদের মাধ্যমে সহজ পেমেন্ট সুবিধা এবং ডেডিকেটেড সাপোর্ট টিম দ্বারা মনিটরিং।</p>
+        <div class="soft-b2b-card">
+            <div class="soft-icon-box"><i class="fa-solid fa-shield-check"></i></div>
+            <h3 class="text-sm font-extrabold text-[#021024] mb-1">নিরাপদ ও ডেডিকেটেড সাপোর্ট</h3>
+            <p class="text-xs text-[#5483B3] font-medium leading-relaxed">বিকাশ ও নগদের মাধ্যমে সহজ পেমেন্ট এবং ডেডিকেটেড টিম দ্বারা প্রজেক্ট মনিটরিং।</p>
         </div>
     </div>
 
-    <!-- ==========================================
-         3. SERVICES GRID
+    <!-- ===================================================
+         4. SERVICES GRID
     ========================================== -->
     <div>
-        <div class="flex items-center justify-between mb-5 border-b border-slate-200/80 pb-3.5 px-1">
-            <div>
-                <h2 class="text-base font-black text-slate-800 tracking-tight uppercase">প্রোমোশন প্যাকেজসমূহ</h2>
-                <p class="text-xs text-slate-400 font-medium">নিচ থেকে আপনার কাঙ্ক্ষিত সার্ভিসটি সিলেক্ট করুন</p>
-            </div>
-            <span class="px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider">Select One</span>
+        <div class="flex items-center justify-between mb-3 px-1">
+            <h3 class="font-black text-[#021024] text-sm tracking-tight flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#052659]"></span> প্রোমোশন প্যাকেজসমূহ (সিলেক্ট করুন)
+            </h3>
+            <span class="text-[10px] font-bold text-[#7DA0CA] uppercase">16 Services</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {% for srv in services %}
-            <div class="service-card group" onclick="selectService('{{ srv.title }}', this)">
-                <div class="flex justify-between items-start mb-3">
-                    <div class="h-11 w-11 rounded-2xl flex items-center justify-center text-xl bg-slate-50 border border-slate-200 text-slate-700 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 transition">
+            <div class="soft-service-card group" onclick="selectService('{{ srv.title }}', this)">
+                <div class="flex justify-between items-start mb-2.5">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-base bg-[#F4F9FD] border border-[#C1E8FF] text-[#052659] group-hover:bg-[#052659] group-hover:text-white transition">
                         <i class="fa-brands {{ srv.icon }}"></i>
                     </div>
-                    <i class="fa-solid fa-circle-check text-slate-200 text-xl transition check-icon"></i>
+                    <i class="fa-solid fa-circle-check text-[#C1E8FF] text-base transition check-icon"></i>
                 </div>
-                <h4 class="font-extrabold text-slate-800 text-sm mb-1 leading-tight">{{ srv.title }}</h4>
-                <p class="text-xs text-slate-500 font-medium leading-relaxed">{{ srv.desc }}</p>
+                <h4 class="font-extrabold text-[#021024] text-xs mb-1 leading-tight">{{ srv.title }}</h4>
+                <p class="text-[11px] text-[#5483B3] font-medium leading-snug">{{ srv.desc }}</p>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <!-- ==========================================
-         4. PROPOSAL ORDER FORM
-    ========================================== -->
-    <div id="hireForm" class="bg-white rounded-[32px] p-6 sm:p-9 border border-slate-200/90 shadow-xl shadow-emerald-500/5 relative overflow-hidden mt-8">
+    <!-- ===================================================
+         5. PROPOSAL ORDER FORM
+    =================================================== -->
+    <div class="bg-white rounded-[28px] p-6 sm:p-7 border-1.5 border-[#C1E8FF] shadow-md relative overflow-hidden mt-6">
         
-        <div class="mb-6">
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">B2B Custom Proposal</span>
-            <h2 class="text-2xl font-black text-slate-800 mt-2 mb-1 tracking-tight">আপনার রিকোয়েস্ট পাঠান</h2>
-            <p class="text-slate-500 text-xs font-medium">নিচের ফর্মটি পূরণ করুন, আমাদের বিজনেস সাপোর্ট টিম অতি দ্রুত আপনার সাথে যোগাযোগ করবে।</p>
+        <div class="mb-5">
+            <span class="text-[9px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-2.5 py-0.5 rounded-md">B2B Custom Proposal</span>
+            <h3 class="text-xl font-black text-[#021024] mt-2 mb-0.5 tracking-tight">আপনার রিকোয়েস্ট পাঠান</h3>
+            <p class="text-xs text-[#5483B3] font-medium">ফর্মটি পূরণ করুন, আমাদের বিজনেস টিম অতি দ্রুত আপনার সাথে যোগাযোগ করবে।</p>
         </div>
 
-        <form method="POST" action="/hire-us" class="space-y-4" onsubmit="return showLoadingBtn()">
+        <form method="POST" action="/hire-us" class="space-y-3.5" onsubmit="return showLoadingBtn()">
             
             <div class="grid sm:grid-cols-2 gap-3.5">
                 <!-- Name -->
-                <div class="input-group !mb-0">
-                    <input type="text" name="name" required class="light-input" placeholder="আপনার নাম অথবা কোম্পানির নাম">
-                    <i class="fa-regular fa-user input-icon"></i>
+                <div class="soft-input-group !mb-0">
+                    <input type="text" name="name" required class="soft-flat-input" placeholder="আপনার নাম / কোম্পানির নাম">
+                    <i class="fa-regular fa-user soft-input-icon"></i>
                 </div>
 
                 <!-- Contact Method -->
-                <div class="input-group !mb-0">
-                    <select name="contact_method" required class="light-input">
+                <div class="soft-input-group !mb-0">
+                    <select name="contact_method" required class="soft-flat-input font-bold text-[#021024]">
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Telegram">Telegram</option>
                         <option value="Direct Call">Direct Phone Call</option>
                     </select>
-                    <i class="fa-solid fa-headset input-icon"></i>
+                    <i class="fa-solid fa-headset soft-input-icon"></i>
                 </div>
 
                 <!-- Number / ID -->
-                <div class="input-group !mb-0">
-                    <input type="text" name="phone" required class="light-input font-mono" placeholder="হোয়াটসঅ্যাপ নম্বর অথবা টেলিগ্রাম ইউজারনেম">
-                    <i class="fa-solid fa-link input-icon"></i>
+                <div class="soft-input-group !mb-0">
+                    <input type="text" name="phone" required class="soft-flat-input font-mono" placeholder="নম্বর বা টেলিগ্রাম ইউজারনেম">
+                    <i class="fa-solid fa-link soft-input-icon"></i>
                 </div>
 
                 <!-- Service Selection -->
-                <div class="input-group !mb-0">
-                    <select name="service" id="serviceSelect" required class="light-input font-bold text-slate-800">
-                        <option value="" disabled selected class="text-slate-400">সার্ভিস নির্বাচন করুন</option>
+                <div class="soft-input-group !mb-0">
+                    <select name="service" id="serviceSelect" required class="soft-flat-input font-bold text-[#021024]">
+                        <option value="" disabled selected class="text-[#7DA0CA]">সার্ভিস নির্বাচন করুন</option>
                         {% for srv in services %}
                             <option value="{{ srv.title }}">{{ srv.title }}</option>
                         {% endfor %}
                         <option value="Custom">অন্যান্য কাস্টম প্রজেক্ট</option>
                     </select>
-                    <i class="fa-solid fa-layer-group input-icon"></i>
+                    <i class="fa-solid fa-layer-group soft-input-icon"></i>
                 </div>
             </div>
 
             <!-- Details -->
-            <div class="input-group !mb-0 pt-2">
-                <textarea name="details" rows="3" required class="light-input resize-none" placeholder="কাজের বিস্তারিত বিবরণ, লিংক এবং আনুমানিক বাজেট লিখুন..."></textarea>
-                <i class="fa-solid fa-pen-nib input-icon"></i>
+            <div class="soft-input-group !mb-0 pt-1">
+                <textarea name="details" rows="3" required class="soft-flat-input resize-none" placeholder="কাজের বিস্তারিত বিবরণ, লিংক এবং আনুমানিক বাজেট লিখুন..."></textarea>
+                <i class="fa-solid fa-pen-nib soft-input-icon top-5"></i>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" id="submitReqBtn" class="btn-emerald mt-5">
+            <button type="submit" id="submitReqBtn" class="btn-b2b-primary mt-2">
                 <span>প্রপোজাল সাবমিট করুন</span> <i class="fa-solid fa-paper-plane text-xs"></i>
             </button>
             
             <div class="text-center mt-3">
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1.5">
+                <p class="text-[10px] text-[#7DA0CA] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-shield-check text-emerald-600"></i> ১০০% সিকিউর ও প্রাইভেট ট্রান্সমিশন
                 </p>
             </div>
@@ -225,35 +243,31 @@
 </div>
 
 <script>
-    // Service Selection Interaction Logic
     function selectService(serviceName, cardElement) {
         const select = document.getElementById('serviceSelect');
         select.value = serviceName;
         
-        document.querySelectorAll('.service-card').forEach(card => {
+        document.querySelectorAll('.soft-service-card').forEach(card => {
             card.classList.remove('selected');
             const icon = card.querySelector('.check-icon');
             if (icon) {
-                icon.classList.remove('text-emerald-600');
-                icon.classList.add('text-slate-200');
+                icon.classList.remove('text-[#052659]');
+                icon.classList.add('text-[#C1E8FF]');
             }
         });
         
         cardElement.classList.add('selected');
         const activeIcon = cardElement.querySelector('.check-icon');
         if (activeIcon) {
-            activeIcon.classList.remove('text-slate-200');
-            activeIcon.classList.add('text-emerald-600');
+            activeIcon.classList.remove('text-[#C1E8FF]');
+            activeIcon.classList.add('text-[#052659]');
         }
-        
-        document.getElementById('hireForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
-    // Submit Button Loading Feedback
     function showLoadingBtn() {
         const btn = document.getElementById('submitReqBtn');
         btn.disabled = true;
-        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-lg"></i> <span class="ml-2">সাবমিট হচ্ছে...</span>`;
+        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">সাবমিট হচ্ছে...</span>`;
         btn.classList.add('opacity-80');
         return true;
     }
