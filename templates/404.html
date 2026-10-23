@@ -3,79 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#F8FAFC">
-    <title>Page Not Found (404) | Earn Daily</title>
-    
+    <meta name="theme-color" content="#F4F9FD">
+    <title>404 - পেজ পাওয়া যায়নি | TakaEarn</title>
+
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Nd7D48N4/7526.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           EARN DAILY - MODERN 404 LIGHT UI
-        ========================================== */
+        /* ==========================================================
+           TAKAEARN - 404 LIGHT THEME
+           Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+        ========================================================== */
         body { 
             font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; 
-            background-color: #F8FAFC; 
-            color: #0F172A;
-            overflow: hidden; 
+            background-color: #F4F9FD; 
+            color: #021024;
             display: flex; 
             align-items: center; 
             justify-content: center; 
             min-height: 100vh;
+            margin: 0;
+            padding: 16px;
+            overflow-x: hidden;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(52, 211, 153, 0.05) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(193, 232, 255, 0.45) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 55%);
+            background-attachment: fixed;
         }
-        
+
         .fade-in-up { 
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
             opacity: 0; transform: translateY(20px); 
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Modern 404 Backdrop Watermark */
+        /* Floating 404 Watermark */
         .watermark-404 { 
             font-size: 140px; font-weight: 900; line-height: 1; 
-            color: rgba(16, 185, 129, 0.06); 
+            color: rgba(193, 232, 255, 0.55); 
             position: absolute; z-index: 0; 
             user-select: none; pointer-events: none;
-            letter-spacing: -5px;
+            letter-spacing: -6px;
+            font-family: 'Plus Jakarta Sans', monospace;
         }
 
-        /* Glassmorphism Card */
+        /* Surface Card */
         .error-card { 
             background: #FFFFFF; 
             border-radius: 36px; 
-            border: 1px solid #E2E8F0; 
-            box-shadow: 0 20px 45px -10px rgba(16, 185, 129, 0.1), 0 4px 15px rgba(15, 23, 42, 0.03); 
+            border: 1.5px solid #C1E8FF; 
+            box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.08), 0 4px 15px rgba(15, 23, 42, 0.02); 
             position: relative; 
             z-index: 10; 
-            padding: 38px 28px; 
+            padding: 38px 26px; 
             text-align: center; 
             max-width: 420px; 
-            width: 90%; 
+            width: 100%; 
         }
 
         /* Buttons */
-        .btn-emerald {
-            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-            color: #FFFFFF; width: 100%; padding: 15px;
+        .btn-gradient {
+            background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+            color: #FFFFFF; width: 100%; padding: 16px;
             border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
-            letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            letter-spacing: 0.4px; transition: all 0.25s ease; 
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
+            text-decoration: none;
         }
-        .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.5); }
-        .btn-emerald:active { transform: scale(0.96); }
+        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
+        .btn-gradient:active { transform: scale(0.97); }
 
         .btn-light-outline {
-            background: #F8FAFC; color: #334155; border: 1.5px solid #E2E8F0; width: 100%; padding: 14px;
-            border-radius: 18px; font-weight: 700; font-size: 13px; text-transform: uppercase;
-            letter-spacing: 0.5px; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF; width: 100%; padding: 15px;
+            border-radius: 18px; font-weight: 800; font-size: 13px; text-transform: uppercase;
+            letter-spacing: 0.4px; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none;
         }
-        .btn-light-outline:hover { background: #ECFDF5; border-color: #A7F3D0; color: #047857; }
-        .btn-light-outline:active { transform: scale(0.96); }
+        .btn-light-outline:hover { background: #C1E8FF; border-color: #7DA0CA; }
+        .btn-light-outline:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
@@ -83,22 +91,23 @@
     <div class="watermark-404">404</div>
 
     <div class="error-card fade-in-up">
+        
         <!-- Icon -->
-        <div class="h-20 w-20 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-sm border border-emerald-100">
+        <div class="h-20 w-20 bg-[#F4F9FD] text-[#052659] border border-[#C1E8FF] rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm">
             <i class="fa-solid fa-compass-drafting"></i>
         </div>
         
-        <span class="text-[10px] font-black uppercase tracking-widest text-emerald-800 bg-emerald-100/70 border border-emerald-200 px-3 py-1 rounded-full mb-3 inline-block">
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-3.5 py-1 rounded-full mb-3 inline-block border border-[#7DA0CA]/40">
             Error 404 • Page Missing
         </span>
 
-        <h1 class="text-2xl font-black text-slate-800 tracking-tight mb-2">পেজটি খুঁজে পাওয়া যায়নি!</h1>
-        <p class="text-xs text-slate-500 font-medium leading-relaxed mb-7 max-w-xs mx-auto">
-            আপনি যে লিংকটি খুঁজছেন সেটি হয়তো পরিবর্তন করা হয়েছে বা মুছে ফেলা হয়েছে। অনুগ্রহ করে সঠিক পেজে ফিরে যান।
+        <h1 class="text-2xl font-black text-[#021024] tracking-tight mb-2">পেজটি খুঁজে পাওয়া যায়নি!</h1>
+        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-7 max-w-xs mx-auto">
+            আপনি যে লিংকটিতে প্রবেশ করতে চাচ্ছেন সেটি হয়তো পরিবর্তিত হয়েছে বা মুছে ফেলা হয়েছে।
         </p>
         
         <div class="flex flex-col gap-2.5">
-            <a href="/" class="btn-emerald">
+            <a href="/" class="btn-gradient">
                 <i class="fa-solid fa-house text-xs"></i> <span>হোমপেজে ফিরে যান</span>
             </a>
             <a href="javascript:history.back()" class="btn-light-outline">
@@ -106,9 +115,9 @@
             </a>
         </div>
 
-        <div class="mt-7 pt-4 border-t border-slate-100 text-center">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-shield-check text-emerald-600"></i> Earn Daily Automated Routing
+        <div class="mt-7 pt-4 border-t border-[#C1E8FF]/80 text-center">
+            <p class="text-[10px] font-bold text-[#7DA0CA] uppercase tracking-wider flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-shield-check text-[#052659]"></i> TakaEarn Platform Security
             </p>
         </div>
     </div>
