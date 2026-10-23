@@ -35,15 +35,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           TAKAEARN - MODERN LIGHT BLUE PALETTE THEME
-           Palette Reference:
+        /* ==========================================================
+           TAKAEARN - MODERN FINTECH LIGHT BLUE PALETTE THEME
+           Palette:
            --c-deepest : #021024
            --c-navy    : #052659
            --c-steel   : #5483B3
            --c-soft    : #7DA0CA
            --c-ice     : #C1E8FF
-        ========================================== */
+        ========================================================== */
         :root {
             --bg-base: #F4F9FD;
             --c-deepest: #021024;
@@ -69,17 +69,17 @@
         /* Adjusted Main Content Spacing */
         main {
             padding-top: 76px !important;
-            padding-bottom: 110px !important; 
+            padding-bottom: 115px !important; 
         }
 
         /* ==========================================
            1. MODERN FROSTED HEADER (64px)
         ========================================== */
         .top-header {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(193, 232, 255, 0.7);
+            border-bottom: 1px solid rgba(193, 232, 255, 0.75);
             box-shadow: 0 4px 20px -5px rgba(5, 38, 89, 0.05);
             z-index: 50;
             height: 64px !important;
@@ -91,44 +91,44 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 14px; font-weight: 800; color: #052659; object-fit: cover;
             border: 2px solid #FFFFFF;
-            box-shadow: 0 4px 10px rgba(5, 38, 89, 0.15);
+            box-shadow: 0 4px 10px rgba(5, 38, 89, 0.12);
         }
 
         /* ==========================================
-           2. PREMIUM ICE-BLUE BOTTOM NAVIGATION
+           2. UPGRADED NATIVE APP-LIKE BOTTOM NAV
         ========================================== */
         .premium-bottom-nav {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border-top: 1px solid rgba(193, 232, 255, 0.9);
+            border-top: 1.5px solid #C1E8FF;
             border-radius: 28px 28px 0 0;
-            box-shadow: 0 -10px 35px -5px rgba(5, 38, 89, 0.07), 0 -1px 3px rgba(84, 131, 179, 0.06);
+            box-shadow: 0 -10px 35px -5px rgba(5, 38, 89, 0.08);
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 50;
         }
         
         .nav-item {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #7DA0CA; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; gap: 2px;
-            width: 60px; position: relative;
+            color: #7DA0CA; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; gap: 3px;
+            padding: 6px 10px; border-radius: 18px; text-decoration: none; position: relative;
         }
-        .nav-item i { font-size: 19px; transition: all 0.25s ease; color: #7DA0CA; }
-        .nav-item span { font-size: 10.5px; font-weight: 700; letter-spacing: -0.2px; }
+        .nav-item i { font-size: 18px; transition: all 0.25s ease; color: #7DA0CA; }
+        .nav-item span { font-size: 10px; font-weight: 800; letter-spacing: -0.2px; transition: color 0.2s ease; }
         
-        .nav-item.active { color: #052659; }
-        .nav-item.active i { 
-            transform: translateY(-2px); 
+        /* Active Capsule Pill */
+        .nav-item.active {
             color: #052659;
-            filter: drop-shadow(0 4px 8px rgba(5, 38, 89, 0.25)); 
+            background: #C1E8FF;
+            box-shadow: 0 4px 12px rgba(193, 232, 255, 0.8);
         }
-
-        .indicator-dot {
-            width: 4px; height: 4px; background: #052659; border-radius: 50%;
-            opacity: 0; transition: all 0.3s; margin: 1px auto 0;
-            box-shadow: 0 0 8px #5483B3;
+        .nav-item.active i { 
+            transform: translateY(-1px) scale(1.1); 
+            color: #052659;
         }
-        .nav-item.active .indicator-dot { opacity: 1; transform: scale(1.2); }
+        .nav-item.active span {
+            color: #052659;
+        }
 
         /* ==========================================
            3. MODERN SIDEBAR
@@ -172,26 +172,69 @@
         .side-menu-item:hover i, .side-menu-item.active i { color: #052659; }
 
         /* ==========================================
-           4. FLOATING TELEGRAM BUTTON
+           4. FLOATING SUPPORT BUTTON & PRE-TEXT WIDGET
         ========================================== */
-        #support-widget { pointer-events: none; }
+        #support-widget { 
+            pointer-events: none; 
+            z-index: 40;
+        }
+
+        /* Animated Pre-Text Speech Bubble */
+        .support-speech-bubble {
+            pointer-events: auto;
+            background: #FFFFFF;
+            border: 1.5px solid #C1E8FF;
+            border-radius: 20px;
+            padding: 8px 14px;
+            box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.15);
+            animation: bubbleFloat 3s infinite ease-in-out;
+            position: relative;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+        .support-speech-bubble:hover {
+            transform: scale(1.05);
+            border-color: #5483B3;
+            background: #F4F9FD;
+        }
+        .support-speech-bubble:active {
+            transform: scale(0.96);
+        }
+        .bubble-arrow {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            background: #FFFFFF;
+            border-right: 1.5px solid #C1E8FF;
+            border-top: 1.5px solid #C1E8FF;
+        }
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* Telegram Action Button */
         .support-fab {
             pointer-events: auto;
-            height: 50px; width: 50px; border-radius: 50%;
+            height: 48px; width: 48px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: white; font-size: 22px; cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid #FFFFFF;
+            border: 2.5px solid #FFFFFF;
             animation: floatGlow 3s infinite alternate ease-in-out;
             background: linear-gradient(135deg, #052659 0%, #5483B3 100%); 
             box-shadow: 0 8px 25px rgba(5, 38, 89, 0.35); 
+            flex-shrink: 0;
         }
-        .support-fab:hover { transform: scale(1.1) translateY(-4px); }
+        .support-fab:hover { transform: scale(1.1) translateY(-3px); }
         .support-fab:active { transform: scale(0.92); }
 
         @keyframes floatGlow {
             0% { transform: translateY(0); filter: drop-shadow(0 4px 8px rgba(5, 38, 89, 0.2)); }
-            100% { transform: translateY(-6px); filter: drop-shadow(0 12px 20px rgba(84, 131, 179, 0.35)); }
+            100% { transform: translateY(-5px); filter: drop-shadow(0 10px 18px rgba(84, 131, 179, 0.35)); }
         }
 
         /* ==========================================
@@ -332,8 +375,8 @@
             <a href="/work" class="side-menu-item {{ 'active' if request.endpoint == 'work' }}">
                 <i class="fa-solid fa-briefcase"></i> সকল কাজ (Work Hub)
             </a>
-            <a href="/gmail-tasks" class="side-menu-item {{ 'active' if request.endpoint == 'gmail_tasks' }}">
-                <i class="fa-brands fa-google"></i> জিমেইল ফার্ম
+            <a href="/game/v2" class="side-menu-item {{ 'active' if request.endpoint == 'game_v2' or request.endpoint == 'game_page' }}">
+                <i class="fa-solid fa-gamepad"></i> কয়েন গেম জোন
             </a>
             <a href="/withdraw" class="side-menu-item {{ 'active' if request.endpoint == 'withdraw' }}">
                 <i class="fa-solid fa-wallet"></i> উত্তোলন (Cashout)
@@ -350,9 +393,14 @@
             <a href="/notice" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
                 <i class="fa-regular fa-bell"></i> নোটিশ বোর্ড
             </a>
+
+            <!-- REVIEWS MENU LINK HIDDEN VIA COMMENT AS REQUESTED -->
+            <!-- 
             <a href="/reviews" class="side-menu-item {{ 'active' if request.endpoint == 'reviews' }}">
                 <i class="fa-solid fa-star"></i> ইউজার রিভিউ
             </a>
+            -->
+
             <a href="/menu" class="side-menu-item {{ 'active' if request.endpoint == 'menu' }}">
                 <i class="fa-solid fa-bars"></i> অল মেনু
             </a>
@@ -373,17 +421,26 @@
         </div>
     </div>
 
-    <!-- ==========================================
-         3. DIRECT FLOATING TELEGRAM BUTTON
-    ========================================== -->
-    <div id="support-widget" class="fixed right-4 bottom-[90px] z-40 flex flex-col gap-3">
-        <div class="relative group">
-            <div class="absolute right-14 top-2 bg-[#021024] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition duration-200 shadow-xl whitespace-nowrap pointer-events-none">
-                Telegram Support
-            </div>
-            <div onclick="goToTelegram()" class="support-fab">
-                <i class="fa-brands fa-telegram"></i>
-            </div>
+    <!-- ===================================================
+         3. FLOATING TELEGRAM BUTTON WITH ANIMATED PRE-TEXT WIDGET
+    =================================================== -->
+    <div id="support-widget" class="fixed right-3 bottom-[82px] z-40 flex items-center gap-2">
+        
+        <!-- Animated Pre-Text Speech Bubble -->
+        <div onclick="goToTelegram()" class="support-speech-bubble flex items-center gap-2">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="text-[11px] font-black tracking-tight text-[#052659] whitespace-nowrap">
+                লাইভ সাহায্য লাগবে? <span class="text-[#5483B3]">মেসেজ দিন</span>
+            </span>
+            <div class="bubble-arrow"></div>
+        </div>
+
+        <!-- Floating Telegram Icon Button -->
+        <div onclick="goToTelegram()" class="support-fab" title="Telegram Support">
+            <i class="fa-brands fa-telegram"></i>
         </div>
     </div>
 
@@ -425,45 +482,45 @@
     <!-- ==========================================
          5. MAIN CONTENT AREA
     ========================================== -->
-    <main class="flex-grow w-full max-w-2xl mx-auto px-4 relative z-10">
+    <main class="flex-grow w-full max-w-2xl mx-auto px-3 relative z-10">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- ==========================================
-         6. PREMIUM BOTTOM NAVIGATION
-    ========================================== -->
+    <!-- ===================================================
+         6. UPGRADED NATIVE APP-LIKE BOTTOM NAVIGATION
+    =================================================== -->
     {% if session.get('user_id') %}
     <div class="premium-bottom-nav fixed bottom-0 left-0 w-full">
-        <div class="max-w-md mx-auto flex justify-between items-center h-[70px] px-5">
+        <div class="max-w-md mx-auto flex justify-around items-center h-[68px] px-2">
             
+            <!-- 1. Dashboard -->
             <a href="/dashboard" class="nav-item {{ 'active' if request.endpoint == 'dashboard' }}">
                 <i class="fa-solid fa-house"></i>
-                <span>Dashboard</span>
-                <div class="indicator-dot"></div>
+                <span>হোম</span>
             </a>
 
+            <!-- 2. History -->
             <a href="/history" class="nav-item {{ 'active' if request.endpoint == 'history' }}">
                 <i class="fa-solid fa-clock-rotate-left"></i>
-                <span>History</span>
-                <div class="indicator-dot"></div>
+                <span>হিস্টোরি</span>
             </a>
 
+            <!-- 3. Work -->
             <a href="/work" class="nav-item {{ 'active' if request.endpoint == 'work' or request.endpoint == 'tasks' }}">
                 <i class="fa-solid fa-briefcase"></i>
-                <span>Work</span>
-                <div class="indicator-dot"></div>
+                <span>কাজ</span>
             </a>
 
+            <!-- 4. Withdraw -->
             <a href="/withdraw" class="nav-item {{ 'active' if request.endpoint == 'withdraw' }}">
                 <i class="fa-solid fa-wallet"></i>
-                <span>Withdraw</span>
-                <div class="indicator-dot"></div>
+                <span>উত্তোলন</span>
             </a>
 
+            <!-- 5. Menu -->
             <a href="/menu" class="nav-item {{ 'active' if request.endpoint == 'account' or request.endpoint == 'menu' }}">
                 <i class="fa-solid fa-bars"></i>
-                <span>Menu</span>
-                <div class="indicator-dot"></div>
+                <span>মেনু</span>
             </a>
 
         </div>
@@ -486,14 +543,14 @@
             }
         }
 
-        // --- 2. Direct Telegram Support ---
+        // --- 2. Direct Telegram Support (@takaearn_help) ---
         function goToTelegram() {
             const uName = "{{ user.full_name or (user.email.split('@')[0] if user and user.email else 'Guest') }}";
             const uId = "{{ user.referral_code if user else 'N/A' }}";
-            const rawMessage = `Hlw TakaEarn, আমি ${uName} 🤗\nআমার ID : ${uId},\n\nআমার সমস্যাগুলো দেখুন!`;
+            const rawMessage = `Hlw TakaEarn, আমি ${uName} 🤗\nআমার ID : ${uId},\n\nআমার সহায়তা প্রয়োজন!`;
             const encodedMessage = encodeURIComponent(rawMessage);
             
-            const tgLink = `https://t.me/earn_daily_on2?text=${encodedMessage}`;
+            const tgLink = `https://t.me/takaearn_help?text=${encodedMessage}`;
             window.open(tgLink, '_blank');
         }
 
