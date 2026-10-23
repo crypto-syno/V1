@@ -2,240 +2,325 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN APP DOWNLOAD UI (SOFT LIGHT)
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - LANDING SHOWCASE & DETAILS UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(16px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Compact App Hero Card */
-    .app-card {
-        background: linear-gradient(135deg, #065F46 0%, #047857 50%, #059669 100%);
-        border-radius: 32px;
-        padding: 26px;
-        color: #FFFFFF;
-        display: flex; align-items: center; justify-content: space-between;
-        position: relative; overflow: hidden; 
-        box-shadow: 0 20px 45px -10px rgba(5, 150, 105, 0.35);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Ambient Soft Radial Glow */
+    .ambient-glow {
+        position: absolute; top: -5%; left: 50%; transform: translateX(-50%);
+        width: 650px; height: 650px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.45) 0%, rgba(84, 131, 179, 0.1) 50%, transparent 70%);
+        z-index: -1; pointer-events: none; filter: blur(55px);
     }
-    .app-card::after {
-        content: ''; position: absolute; right: -20px; bottom: -20px;
-        width: 160px; height: 160px; background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);
+
+    /* 1. Re-designed High-Impact Hero */
+    .hero-landing-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
+        border-radius: 36px;
+        padding: 32px 24px;
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid #C1E8FF;
+        box-shadow: 0 25px 60px -15px rgba(5, 38, 89, 0.35);
+        text-align: center;
+    }
+    .hero-landing-card::before {
+        content: ''; position: absolute; top: -40%; right: -20%; width: 260px; height: 260px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.22) 0%, transparent 65%);
         border-radius: 50%; pointer-events: none;
     }
 
-    /* Floating Download Icon */
-    .float-icon { animation: floatIcon 3s ease-in-out infinite; }
-    @keyframes floatIcon {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-6px); }
+    /* 2. Structured Detail Section Card */
+    .detail-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 22px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    .detail-card:hover {
+        border-color: #5483B3;
+        box-shadow: 0 16px 35px -10px rgba(5, 38, 89, 0.12);
+        transform: translateY(-3px);
     }
 
-    /* Buttons */
-    .btn-action {
-        background: #FFFFFF; color: #065F46; padding: 14px 24px;
-        border-radius: 16px; font-weight: 800; font-size: 12px;
-        text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        flex-shrink: 0; position: relative; z-index: 10; cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .btn-action:hover { background: #ECFDF5; transform: scale(1.02); }
-    .btn-action:active { transform: scale(0.96); }
-    .btn-action.installed { background: #10B981; color: #FFFFFF; pointer-events: none; }
-
-    /* Bento Feature Cards */
-    .feature-card {
-        background: #FFFFFF; 
-        border: 1px solid #E2E8F0; 
-        border-radius: 24px;
-        padding: 20px; 
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex; flex-direction: column; justify-content: flex-start;
-        box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.02);
-    }
-    .feature-card:hover { 
-        transform: translateY(-4px); 
-        border-color: #A7F3D0; 
-        background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%); 
-        box-shadow: 0 12px 25px -5px rgba(16, 185, 129, 0.1);
-    }
-    
-    .icon-box {
-        width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-        background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5;
-        border-radius: 14px; font-size: 18px; margin-bottom: 14px; transition: all 0.25s ease;
-        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.06);
-    }
-    .feature-card:hover .icon-box { 
-        background: #059669; color: #FFFFFF; border-color: #059669; 
-        transform: scale(1.06);
+    .detail-icon-wrap {
+        width: 52px; height: 52px; border-radius: 18px;
+        background: #C1E8FF; color: #052659;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; flex-shrink: 0;
+        border: 1.5px solid rgba(125, 160, 202, 0.35);
     }
 
-    /* Highlighted Cards */
-    .highlight-card { 
-        border-color: #A7F3D0 !important; 
-        background: #F0FDF4/60 !important; 
+    /* Primary Action Buttons */
+    .btn-action-primary {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        padding: 16px 30px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
     }
+    .btn-action-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5);
+        color: #FFFFFF;
+    }
+    .btn-action-primary:active { transform: scale(0.97); }
 
-    .sec-title {
-        font-size: 11.5px; font-weight: 800; color: #475569;
-        text-transform: uppercase; letter-spacing: 0.5px;
-        margin: 28px 0 14px 4px; display: flex; align-items: center; gap: 8px;
+    .btn-action-light {
+        background: #FFFFFF;
+        color: #052659;
+        padding: 15px 26px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 13.5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1.5px solid #C1E8FF;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(5, 38, 89, 0.04);
+    }
+    .btn-action-light:hover { background: #C1E8FF; }
+
+    /* Number Step Badges */
+    .step-indicator {
+        width: 32px; height: 32px; border-radius: 12px;
+        background: #052659; color: #FFFFFF;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 900; font-size: 13px; font-mono: monospace;
+        flex-shrink: 0;
     }
 </style>
 
-<div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-2xl mx-auto space-y-6 fade-in-up pb-14 px-2 mt-1 relative">
+    <div class="ambient-glow"></div>
 
-    <!-- 1. HEADER -->
-    <div class="flex items-center justify-between mb-2 px-2">
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
-            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition border border-slate-200 shadow-sm active:scale-95">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
+            <a href="/work" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
             <div>
-                <h2 class="text-base font-extrabold text-slate-800 tracking-tight leading-none">আমাদের অ্যাপ ও সুবিধা</h2>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">Official Mobile App & Platform Perks</p>
+                <h1 class="text-base font-black text-[#021024] leading-tight">আমাদের সম্পর্কে</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">About TakaEarn & Official App</p>
+            </div>
+        </div>
+
+        <a href="https://t.me/takaearn_help" target="_blank" class="bg-[#C1E8FF] text-[#052659] px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[#7DA0CA]/40 flex items-center gap-1.5 hover:bg-[#052659] hover:text-white transition">
+            <i class="fa-solid fa-headset"></i> <span>সাপোর্ট</span>
+        </a>
+    </div>
+
+    <!-- ===================================================
+         1. NEW REDESIGNED CINEMATIC HERO
+    =================================================== -->
+    <div class="hero-landing-card">
+        <div class="relative z-10">
+            <!-- Floating Pill -->
+            <div class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md text-[#C1E8FF] border border-white/25 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 shadow-sm">
+                <i class="fa-solid fa-certificate text-amber-300"></i> ১.৫+ বছরের বিশ্বস্ত আর্নিং নেটওয়ার্ক
+            </div>
+
+            <!-- Brand Icon -->
+            <div class="w-20 h-20 mx-auto rounded-3xl overflow-hidden border-3 border-white shadow-xl mb-4 bg-white flex items-center justify-center">
+                <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn Logo" class="w-full h-full object-cover">
+            </div>
+
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
+                সহজ প্রযুক্তি, নিশ্চিত ইনকাম
+            </h2>
+
+            <p class="text-xs sm:text-sm text-[#C1E8FF] font-medium leading-relaxed max-w-md mx-auto mb-6">
+                <b>TakaEarn</b> বাংলাদেশের একটি শীর্ষস্থানীয় মাইক্রো-টাস্ক প্ল্যাটফর্ম—যেখানে সাধারণ মানুষ ঘরে বসেই মোবাইল দিয়ে কাজ করে নির্ভরযোগ্যভাবে প্রতিদিন পেমেন্ট পেয়ে থাকে।
+            </p>
+
+            <!-- Install / Start Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
+                <button onclick="triggerInstall()" id="installPwaBtn" class="btn-action-primary w-full sm:w-auto !bg-white !text-[#052659] hover:!bg-[#C1E8FF]">
+                    <i class="fa-solid fa-download"></i> <span>অ্যাপ ইনস্টল করুন</span>
+                </button>
+                <a href="/work" class="btn-action-light w-full sm:w-auto !bg-white/10 !text-white !border-white/30 hover:!bg-white/20">
+                    <i class="fa-solid fa-briefcase"></i> <span>কাজ শুরু করুন</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         2. COMPACT APP DOWNLOAD CARD
-    ========================================== -->
-    <div class="app-card mb-8">
-        <div class="flex items-center gap-4 relative z-10">
-            <div class="h-14 w-14 bg-white/15 backdrop-blur-md border border-white/25 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg float-icon flex-shrink-0">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
+    <!-- ===================================================
+         2. DETAIL STORY 1: আমাদের মিশন ও পথচলা (Our Mission)
+    =================================================== -->
+    <div class="detail-card">
+        <div class="flex items-start gap-4 mb-3">
+            <div class="detail-icon-wrap">
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
             <div>
-                <h3 class="font-black text-white text-lg leading-tight mb-1">Earn Daily App</h3>
-                <p class="text-xs text-emerald-100 font-medium leading-relaxed">১ ক্লিকে অ্যাপটি ইনস্টল করে সহজে কাজ করুন।</p>
-                <div class="flex gap-1.5 mt-2">
-                    <span class="text-[9px] bg-white/20 backdrop-blur-sm text-white px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider border border-white/20">Android</span>
-                    <span class="text-[9px] bg-white/20 backdrop-blur-sm text-white px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider border border-white/20">iOS PWA</span>
+                <span class="text-[9px] font-black uppercase tracking-wider text-[#7DA0CA] block">The Story Behind TakaEarn</span>
+                <h3 class="text-lg font-black text-[#021024]">আমাদের লক্ষ্য ও নির্ভরযোগ্যতা</h3>
+            </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-[#5483B3] font-medium leading-relaxed mb-4">
+            অনলাইনে আয়ের ক্ষেত্রে সাধারণ মানুষের সবচেয়ে বড় ভয় থাকে ভুয়া সাইট বা পেমেন্ট না পাওয়া। এই সমস্যা দূর করতেই <b>TakaEarn</b> প্রতিষ্ঠা করা হয়। বিগত দেড় বছর ধরে প্রতিদিন হাজারো ইউজারের পেমেন্ট সফলভাবে বিকাশ ও নগদে পরিশোধ করে আমরা একটি আস্থার সম্পর্ক তৈরি করেছি।
+        </p>
+
+        <div class="p-3.5 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF] flex items-center justify-between text-xs font-bold text-[#052659]">
+            <span><i class="fa-solid fa-users mr-1 text-[#5483B3]"></i> ১৫,০০০+ নিবন্ধিত সদস্য</span>
+            <span><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> ১০০% নিরাপদ লেনদেন</span>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         3. DETAIL STORY 2: কোর টেকনোলজি ও সুবিধা (Pillars)
+    =================================================== -->
+    <div class="space-y-3.5">
+        <div class="px-1">
+            <span class="text-[10px] font-black uppercase tracking-widest text-[#7DA0CA] block">Core Technology</span>
+            <h3 class="text-lg font-black text-[#021024]">যে কারণে TakaEarn অনন্য</h3>
+        </div>
+
+        <!-- Detail Item 1: Instant Bot -->
+        <div class="detail-card">
+            <div class="flex items-start gap-4 mb-2">
+                <div class="detail-icon-wrap bg-emerald-50 text-emerald-600 border-emerald-200">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <div>
+                    <h4 class="text-base font-black text-[#021024]">স্বয়ংক্রিয় এআই পেমেন্ট বট</h4>
+                    <p class="text-[11px] text-[#7DA0CA] font-bold">Instant Payout Engine</p>
+                </div>
+            </div>
+            <p class="text-xs text-[#5483B3] leading-relaxed font-medium pl-1">
+                ম্যানুয়াল পেমেন্টের জন্য আপনাকে দিনের পর দিন অপেক্ষা করতে হবে না। আমাদের স্বয়ংক্রিয় বট সিস্টেম উইথড্র দেওয়ার পর সর্বোচ্চ ৫ থেকে ৩০ মিনিটের মধ্যে আপনার বিকাশ বা নগদ নম্বরে টাকা সেটেল করে দেয়।
+            </p>
+        </div>
+
+        <!-- Detail Item 2: Zero Investment -->
+        <div class="detail-card">
+            <div class="flex items-start gap-4 mb-2">
+                <div class="detail-icon-wrap bg-amber-50 text-amber-500 border-amber-200">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <div>
+                    <h4 class="text-base font-black text-[#021024]">সম্পূর্ণ ইনভেস্টমেন্ট-মুক্ত ফ্রি প্ল্যাটফর্ম</h4>
+                    <p class="text-[11px] text-[#7DA0CA] font-bold">Zero Risk • 100% Free</p>
+                </div>
+            </div>
+            <p class="text-xs text-[#5483B3] leading-relaxed font-medium pl-1">
+                এখানে কাজ করার জন্য কোনো টাকা ডিপোজিট করতে হয় না। কোনো ডিপোজিট স্ক্যাম ছাড়াই রিয়েল সোশ্যাল কাজ করে সৎভাবে টাকা উপার্জন করতে পারবেন।
+            </p>
+        </div>
+
+        <!-- Detail Item 3: Multiple Earning Streams -->
+        <div class="detail-card">
+            <div class="flex items-start gap-4 mb-2">
+                <div class="detail-icon-wrap bg-[#C1E8FF] text-[#052659] border-[#7DA0CA]/30">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <h4 class="text-base font-black text-[#021024]">বহুমুখী উপার্জনের সুযোগ</h4>
+                    <p class="text-[11px] text-[#7DA0CA] font-bold">Diverse Income Ecosystem</p>
+                </div>
+            </div>
+            <p class="text-xs text-[#5483B3] leading-relaxed font-medium pl-1">
+                শুধু একটি কাজের ওপর নির্ভর না করে এখানে রয়েছে মাইক্রো টাস্ক, কয়েন আরকেড গেম, ফ্রি লাকি স্পিন, ড্রাইভ প্যাক ডিসকাউন্ট এবং আনলিমিটেড রেফারেল ক্যাশ বাউন্টি।
+            </p>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         4. DETAIL STORY 3: অ্যাপ ব্যবহারের সহজ ৩টি নিয়ম (How-To)
+    =================================================== -->
+    <div class="detail-card">
+        <div class="mb-5 border-b border-[#C1E8FF] pb-3">
+            <span class="text-[9px] font-black uppercase tracking-wider text-[#7DA0CA] block">Quick Start Guide</span>
+            <h3 class="text-lg font-black text-[#021024]">সহজে কাজ পরিচালনার নিয়ম</h3>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-start gap-3.5">
+                <div class="step-indicator">১</div>
+                <div>
+                    <h5 class="text-xs font-black text-[#021024]">অ্যাপ হোমস্ক্রিনে অ্যাড করুন</h5>
+                    <p class="text-xs text-[#5483B3] leading-relaxed mt-0.5 font-medium">উপরে থাকা "অ্যাপ ইনস্টল করুন" বাটনে ক্লিক করে মোবাইলের হোমস্ক্রিনে শর্টকাট অ্যাপ বানিয়ে নিন।</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3.5">
+                <div class="step-indicator">২</div>
+                <div>
+                    <h5 class="text-xs font-black text-[#021024]">কাজের নিয়ম মেনে প্রুফ দিন</h5>
+                    <p class="text-xs text-[#5483B3] leading-relaxed mt-0.5 font-medium">প্রতিটি কাজের বিবরণ পড়ে পরিষ্কার স্ক্রিনশট আপলোড করুন। আমাদের এআই বট দ্রুত কাজ ভেরিফাই করবে।</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3.5">
+                <div class="step-indicator">৩</div>
+                <div>
+                    <h5 class="text-xs font-black text-[#021024]">বিকাশ বা নগদে ক্যাশআউট</h5>
+                    <p class="text-xs text-[#5483B3] leading-relaxed mt-0.5 font-medium">ব্যালেন্স জমা হলে উইথড্র পেজে গিয়ে আপনার সঠিক পার্সোনাল নম্বরে ক্যাশআউট রিকোয়েস্ট পাঠান।</p>
                 </div>
             </div>
         </div>
-
-        <button onclick="triggerInstall()" id="heroInstallBtn" class="btn-action">
-            <i class="fa-solid fa-download"></i> <span class="hidden sm:inline">ইনস্টল</span>
-        </button>
     </div>
 
-    <!-- ==========================================
-         3. FEATURES GRID (Why Choose Us?)
-    ========================================== -->
-    <h3 class="sec-title"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> কেনো আমাদের প্ল্যাটফর্মে কাজ করবেন?</h3>
-
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5">
-        
-        <!-- Highlight Feature 1 -->
-        <div class="feature-card highlight-card md:col-span-2">
-            <div class="icon-box"><i class="fa-solid fa-bolt-lightning"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">অটো পেমেন্ট বট (Instant Cashout)</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">উইথড্র দেওয়ার সর্বোচ্চ ৫ ঘণ্টার মধ্যেই আমাদের স্বয়ংক্রিয় সিস্টেমের মাধ্যমে বিকাশ ও নগদে টাকা পেয়ে যাবেন।</p>
+    <!-- ===================================================
+         5. OFFICIAL SUPPORT & COMMUNITY CARD
+    =================================================== -->
+    <div class="bg-gradient-to-r from-[#021024] to-[#052659] text-white p-6 sm:p-7 rounded-[32px] border border-[#C1E8FF] shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+        <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl text-sky-300 border border-white/20 flex-shrink-0">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-base">২৪/৭ অফিসিয়াল সহায়তা</h4>
+                <p class="text-xs text-[#C1E8FF] mt-0.5 font-medium">যেকোনো প্রশ্ন বা পেমেন্ট সংক্রান্ত বিষয়ে সরাসরি যোগাযোগ করুন</p>
+            </div>
         </div>
 
-        <!-- Highlight Feature 2 -->
-        <div class="feature-card highlight-card">
-            <div class="icon-box"><i class="fa-solid fa-calendar-check"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">দীর্ঘস্থায়ী বিশ্বস্ততা</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">আমাদের ওয়েবসাইটটি প্রায় দেড় বছরেরও বেশি সময় ধরে সফলভাবে সেবা দিচ্ছে।</p>
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+            <a href="https://t.me/takaearn_help" target="_blank" class="flex-1 sm:flex-initial bg-sky-500 hover:bg-sky-400 text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition text-center shadow-sm">
+                <i class="fa-solid fa-headset mr-1"></i> হেল্প ডেস্ক
+            </a>
+            <a href="https://t.me/takaearn_site" target="_blank" class="flex-1 sm:flex-initial bg-white text-[#052659] hover:bg-[#C1E8FF] px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition text-center shadow-sm">
+                <i class="fa-solid fa-bullhorn mr-1"></i> চ্যানেল
+            </a>
         </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-list-check"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">অসংখ্য সহজ কাজ</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">সহজ সোশ্যাল মিডিয়া কাজগুলো ঘরে বসেই মোবাইল দিয়ে করে ফেলতে পারবেন।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-users"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">বিশাল কমিউনিটি</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">আমাদের প্ল্যাটফর্মে বর্তমানে ১৫ হাজারেরও বেশি একটিভ মেম্বার নিয়মিত কাজ করছে।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">১০০% নিরাপদ</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">আপনার পরিশ্রমের ইনকাম এবং তথ্যের সর্বোচ্চ সুরক্ষা নিশ্চিত করে Earn Daily।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">সহজ উইথড্রয়াল</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">বিকাশ, নগদ ও রকেটের মাধ্যমে দেশের যেকোনো প্রান্ত থেকে সহজে ক্যাশআউট।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-headset"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">২৪/৭ AI ও লাইভ সাপোর্ট</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">যেকোনো জটিলতায় আমাদের এআই হেল্পডেস্ক ও সরাসরি টেলিগ্রাম সহায়তা।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-gift"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">রেফারেল ক্যাশ বাউন্টি</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">লাইফটাইম কমিশন ছাড়াও ৫০ থেকে ১,০০০ রেফারে ১,০০০ থেকে ২,০০০ টাকা বোনাস।</p>
-        </div>
-
-        <div class="feature-card md:col-span-2">
-            <div class="icon-box"><i class="fa-solid fa-gem"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">প্রিমিয়াম এলিট পাস (VIP)</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">কোনো প্রকার রেফার বা কাজের ঝামেলা ছাড়াই প্রতিদিন নিশ্চিত অটোমেটিক প্রফিট ক্লেইম করার দারুণ সুযোগ।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-brands fa-google"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">হাই-পেইং টাস্ক</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">জিমেইল ফার্মিং ও স্পেশাল টাস্ক সম্পন্ন করে দ্রুত ব্যালেন্স বাড়ানোর সুযোগ।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-gamepad"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">দৈনিক ফ্রি গেমস</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">লাকি স্পিন, ক্যাপচা এবং স্ক্র্যাচ কার্ড ঘষে প্রতিদিন সম্পূর্ণ ফ্রিতে এক্সট্রা আয়।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-wifi"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">ডিসকাউন্টে ড্রাইভ প্যাক</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">সকল সিমে ৩০% পর্যন্ত সাশ্রয়ী মূল্যে ডাটা ও মিনিট কেনার সুযোগ।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-star"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">লাইভ ইউজার রিভিউ</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">আমাদের প্ল্যাটফর্ম নিয়ে অন্যান্য মেম্বারদের সরাসরি মতামত দেখার ব্যবস্থা।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-solid fa-bullhorn"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">ইনস্ট্যান্ট নোটিশ</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">সাইটের কাজের গুরুত্বপূর্ণ আপডেট ড্যাশবোর্ডে লাইভ দেখতে পাবেন।</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon-box"><i class="fa-brands fa-youtube"></i></div>
-            <h4 class="font-extrabold text-slate-900 text-sm mb-1">ভিডিও গাইডলাইন</h4>
-            <p class="text-xs text-slate-500 leading-relaxed font-medium">নতুন মেম্বারদের সুবিধার্থে কাজের সম্পূর্ণ নিয়ম নিয়ে বিস্তারিত ভিডিও টিউটোরিয়াল।</p>
-        </div>
-    </div>
-    
-    <div class="mt-8 text-center border-t border-slate-200 pt-6 pb-4">
-        <p class="text-xs text-slate-400 font-extrabold uppercase tracking-wider">
-            এছাড়াও নিয়মিত যুক্ত হচ্ছে আরও নতুন নতুন আয়ের পথ!
-        </p>
     </div>
 
 </div>
 
-<!-- PWA Install Script -->
+<!-- ===================================================
+     PWA APP INSTALLATION LOGIC
+=================================================== -->
 <script>
     let deferredPrompt;
-    
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -246,20 +331,20 @@
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
+                    console.log('User accepted install prompt');
                 }
                 deferredPrompt = null;
             });
         } else {
-            alert("⚠️ অ্যাপটি ইনস্টল করার সরাসরি অপশন আপনার ব্রাউজারে পাওয়া যায়নি।\n\nসম্ভাব্য কারণ:\n১. আপনি ইতিমধ্যে অ্যাপটি ইনস্টল করেছেন।\n২. আপনি Chrome ব্রাউজার ব্যবহার করছেন না।\n\nদয়া করে Chrome ব্রাউজারের Menu (৩টি ডট) > 'Install app' বা 'Add to Home screen' এ ক্লিক করে ইনস্টল করুন।");
+            alert("📱 অ্যাপটি ইন্সটল করতে:\n\n১. ব্রাউজারের ওপরের ৩টি ডট (Menu) আইকনে চাপ দিন।\n২. 'Install app' বা 'Add to Home screen' অপশনে ক্লিক করুন।");
         }
     }
 
     window.addEventListener('appinstalled', (evt) => {
-        alert("✅ অভিনন্দন! Earn Daily অ্যাপটি সফলভাবে আপনার মোবাইলে ইনস্টল হয়েছে।");
-        const btn = document.getElementById('heroInstallBtn');
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> <span class="hidden sm:inline">ইনস্টলড</span>';
-        btn.classList.add('installed');
+        alert("✅ অভিনন্দন! TakaEarn অ্যাপটি সফলভাবে আপনার মোবাইলে ইনস্টল হয়েছে।");
+        const btn = document.getElementById('installPwaBtn');
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>ইনস্টল সম্পন্ন</span>';
+        btn.disabled = true;
     });
 </script>
 
