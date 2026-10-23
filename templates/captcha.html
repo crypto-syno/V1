@@ -2,94 +2,261 @@
 {% block content %}
 
 <style>
-    body { background-color: #000000 !important; color: #ffffff !important; }
-    .fade-in-up { animation: fadeInUp 0.5s forwards; opacity: 0; transform: translateY(15px); }
+    /* ==========================================================
+       TAKAEARN - MODERN CAPTCHA ENTRY UI (WITH ADS)
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Captcha Box (Unreadable for bots, dark for users) */
-    .captcha-box {
-        background-color: #0A0A0A;
-        background-image: radial-gradient(#333333 2px, transparent 2px), radial-gradient(#222222 2px, transparent 2px);
-        background-size: 20px 20px; background-position: 0 0, 10px 10px;
-        user-select: none; border: 1px solid #1C1C1E;
+    /* Surface Card */
+    .captcha-surface-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 20px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
     }
 
-    .dark-input {
-        width: 100%; background: #111111; border: 1px solid #222222;
-        color: #ffffff; padding: 20px; border-radius: 16px; text-align: center;
-        font-size: 20px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;
-        outline: none; transition: all 0.3s ease;
+    /* Modern Captcha Display Box */
+    .captcha-code-box {
+        background: linear-gradient(135deg, #F4F9FD 0%, #C1E8FF 100%);
+        border: 2px dashed #7DA0CA;
+        border-radius: 22px;
+        padding: 24px 16px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+        box-shadow: inset 0 2px 6px rgba(5, 38, 89, 0.05);
     }
-    .dark-input:focus { border-color: #ffffff; background: #000000; }
+    .captcha-code-text {
+        font-size: 34px;
+        font-weight: 900;
+        font-family: 'Plus Jakarta Sans', monospace;
+        letter-spacing: 0.35em;
+        color: #052659;
+        font-style: italic;
+        text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.9);
+        display: inline-block;
+    }
+    /* Strikethrough security line */
+    .captcha-line {
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 120%;
+        height: 2px;
+        background: rgba(5, 38, 89, 0.35);
+        transform: rotate(-6deg);
+        pointer-events: none;
+    }
 
-    .btn-white {
-        background: #ffffff; color: #000000; width: 100%; padding: 18px;
-        border-radius: 16px; font-weight: 800; font-size: 13px; text-transform: uppercase;
-        letter-spacing: 1px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+    /* Unique Flat Input: Only Border-Bottom */
+    .captcha-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #C1E8FF;
+        border-radius: 0;
+        padding: 12px 10px;
+        font-size: 20px;
+        font-weight: 900;
+        font-family: 'Plus Jakarta Sans', monospace;
+        color: #021024;
+        text-align: center;
+        letter-spacing: 4px;
+        outline: none;
+        transition: all 0.25s ease;
     }
-    .btn-white:active { transform: scale(0.96); background: #e5e5e5; }
-    .btn-white:disabled { background: #222222; color: #666666; cursor: not-allowed; transform: none; }
+    .captcha-input:focus {
+        border-bottom-color: #052659;
+        background: linear-gradient(180deg, transparent 80%, rgba(193, 232, 255, 0.25) 100%);
+    }
+    .captcha-input::placeholder {
+        color: #7DA0CA;
+        font-size: 13.5px;
+        letter-spacing: normal;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+    }
+
+    /* Submit Button */
+    .btn-verify-action {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 16px;
+        border-radius: 18px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
+    }
+    .btn-verify-action:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+    .btn-verify-action:active { transform: scale(0.97); }
+    .btn-verify-action:disabled {
+        background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed;
+    }
+
+    /* Ad Container */
+    .ad-banner-box {
+        background: #FFFFFF;
+        border: 1.5px dashed #C1E8FF;
+        border-radius: 22px;
+        padding: 10px 6px;
+        text-align: center;
+        overflow-x: auto;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
+    }
 </style>
 
-<div class="max-w-md mx-auto space-y-6 fade-in-up pb-10 px-2 mt-4">
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-8">
-        <a href="/work" class="h-10 w-10 bg-[#111111] rounded-full flex items-center justify-center text-white hover:bg-[#1A1A1A] transition border border-[#1C1C1E]">
-            <i class="fa-solid fa-chevron-left text-sm"></i>
-        </a>
-        <h2 class="text-lg font-bold text-white tracking-wide">ক্যাপচা</h2>
-        <div class="w-10"></div> 
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
+        <div class="flex items-center gap-3">
+            <a href="/work" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
+            <div>
+                <h1 class="text-base font-black text-[#021024] leading-tight">ক্যাপচা এন্ট্রি</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Type & Earn Daily Taka</p>
+            </div>
+        </div>
+
+        <div class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3 py-1 rounded-full text-xs font-black font-mono">
+            {{ count }} / 10 সম্পন্ন
+        </div>
     </div>
 
-    <!-- Status -->
-    <div class="bg-[#0A0A0A] border border-[#1C1C1E] rounded-3xl p-6 flex items-center justify-between">
-        <div>
-            <p class="text-[10px] text-[#888888] font-bold uppercase tracking-widest mb-1">Daily Target</p>
-            <p class="text-xs font-medium text-white">কোড লিখুন এবং ১ টাকা পান</p>
+    <!-- ===================================================
+         1. TOP SPONSORED BANNER AD (468x60)
+    =================================================== -->
+    <div class="ad-banner-box">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="flex justify-center items-center min-h-[60px] overflow-x-auto">
+            <!-- 468x60 Ad Banner Script -->
+            <script>
+              atOptions = {
+                'key' : '8e1d487cf678b04660b4acee435ed0f2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+              };
+            </script>
+            <script src="https://bauval.org/22/8e1d487cf678b04660b4acee435ed0f2"></script>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         2. DAILY TARGET STATUS CARD
+    =================================================== -->
+    <div class="captcha-surface-card !p-4 flex items-center justify-between bg-gradient-to-br from-white to-[#F4F9FD]">
+        <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-xl border border-[#7DA0CA]/30 shadow-sm flex-shrink-0">
+                <i class="fa-solid fa-keyboard"></i>
+            </div>
+            <div>
+                <span class="text-[9px] font-black uppercase tracking-wider text-[#7DA0CA] block">দৈনিক টার্গেট ১০টি</span>
+                <p class="text-xs font-extrabold text-[#021024]">সঠিক কোড লিখে ১ টাকা নিন</p>
+            </div>
         </div>
         <div class="text-right">
-            <p class="text-2xl font-black font-mono text-white leading-none">{{ count }}<span class="text-sm text-[#444444]">/10</span></p>
+            <span class="text-2xl font-black font-mono text-[#052659] leading-none">{{ count }}<span class="text-xs text-[#7DA0CA]">/10</span></span>
         </div>
     </div>
 
-    <!-- Captcha Form -->
-    <form method="POST" class="bg-[#0A0A0A] p-6 sm:p-8 rounded-3xl border border-[#1C1C1E]" onsubmit="return showSubmitLoader()">
+    <!-- ===================================================
+         3. MAIN CAPTCHA VERIFICATION CARD
+    =================================================== -->
+    <div class="captcha-surface-card">
         
-        <p class="text-center text-[10px] text-[#666666] font-bold uppercase tracking-widest mb-4">Captcha Code</p>
-        
-        <!-- Code Display -->
-        <div class="captcha-box rounded-2xl py-10 px-4 text-center mb-6 relative overflow-hidden">
-            <div class="absolute top-1/2 left-0 w-full h-0.5 bg-[#444444] transform -rotate-6 pointer-events-none"></div>
-            <h1 class="text-4xl font-black text-white tracking-[0.4em] font-mono italic mix-blend-screen drop-shadow-lg">
-                {{ captcha_text }}
-            </h1>
+        <div class="text-center mb-5">
+            <span class="text-[10px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-3 py-1 rounded-full border border-[#7DA0CA]/40 mb-2 inline-block">
+                Captcha Security Code
+            </span>
+            <p class="text-xs text-[#5483B3] font-medium leading-relaxed">
+                নিচের কোডটি হুবহু দেখে ইনপুট বক্সে টাইপ করুন।
+            </p>
         </div>
 
-        <!-- Input -->
-        <div class="mb-6">
-            <input type="text" name="captcha_input" id="captchaInput" required autocomplete="off" placeholder="CODE" class="dark-input">
-        </div>
+        <form method="POST" action="/captcha" onsubmit="return handleCaptchaSubmit()">
+            
+            <!-- Code Display Area -->
+            <div class="captcha-code-box mb-6">
+                <div class="captcha-line"></div>
+                <span class="captcha-code-text">{{ captcha_text }}</span>
+            </div>
 
-        <!-- Submit -->
-        <button type="submit" id="submitBtn" class="btn-white">
-            <span>Verify Code</span> <i class="fa-solid fa-arrow-right"></i>
-        </button>
-        
-        <p class="text-center text-[9px] text-[#444444] font-bold uppercase tracking-widest mt-6 font-mono">
-            Secured Validation
-        </p>
-    </form>
+            <!-- Border-Bottom Flat Input -->
+            <div class="mb-6 px-4">
+                <input type="text" name="captcha_input" id="captchaInput" autocomplete="off" required placeholder="কোডটি এখানে লিখুন" class="captcha-input uppercase">
+            </div>
+
+            <!-- Submit Button -->
+            {% if count < 10 %}
+                <button type="submit" id="verifyBtn" class="btn-verify-action">
+                    <span>ভেরিফাই করুন ও ৳১ নিন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            {% else %}
+                <button type="button" disabled class="btn-verify-action">
+                    <i class="fa-solid fa-check-double text-xs mr-1"></i> আজকের ১০টি ক্যাপচা সম্পন্ন!
+                </button>
+                <p class="text-xs text-[#7DA0CA] font-bold text-center mt-3">
+                    আগামীকাল আবার নতুন ১০টি ক্যাপচা পাবেন।
+                </p>
+            {% endif %}
+
+        </form>
+    </div>
+
+    <!-- ===================================================
+         4. BOTTOM REWARD / CONTAINER AD (বিজ্ঞাপন)
+    =================================================== -->
+    <div class="ad-banner-box">
+        <span class="text-[8px] font-black uppercase tracking-widest text-[#7DA0CA] block mb-1">
+            <i class="fa-solid fa-rectangle-ad text-amber-500 mr-1"></i> বিজ্ঞাপন
+        </span>
+        <div class="min-h-[50px] flex justify-center items-center overflow-hidden">
+            <!-- Provided 2nd Ad Script -->
+            <script async="async" data-cfasync="false" src="https://bauval.org/21/a5f8e93bb4382cac9093af57f6efd969"></script>
+            <div id="container-a5f8e93bb4382cac9093af57f6efd969"></div>
+        </div>
+    </div>
 
 </div>
 
+<!-- Scripts -->
 <script>
-    document.addEventListener("DOMContentLoaded", () => { setTimeout(() => { document.getElementById('captchaInput').focus(); }, 300); });
-    function showSubmitLoader() {
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-        btn.style.background = "#222222"; btn.style.color = "#ffffff";
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const input = document.getElementById('captchaInput');
+            if (input && !input.disabled) input.focus();
+        }, 300);
+    });
+
+    function handleCaptchaSubmit() {
+        const btn = document.getElementById('verifyBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">যাচাই হচ্ছে...</span>';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+        }
         return true;
     }
 </script>
