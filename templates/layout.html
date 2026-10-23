@@ -66,7 +66,6 @@
             background-attachment: fixed;
         }
 
-        /* Adjusted Main Content Spacing */
         main {
             padding-top: 76px !important;
             padding-bottom: 115px !important; 
@@ -95,15 +94,15 @@
         }
 
         /* ==========================================
-           2. UPGRADED NATIVE APP-LIKE BOTTOM NAV
+           2. GLOWING ANIMATED DOCK BOTTOM NAV
         ========================================== */
         .premium-bottom-nav {
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border-top: 1.5px solid #C1E8FF;
             border-radius: 28px 28px 0 0;
-            box-shadow: 0 -10px 35px -5px rgba(5, 38, 89, 0.08);
+            box-shadow: 0 -10px 30px -5px rgba(5, 38, 89, 0.08), 0 -2px 14px rgba(193, 232, 255, 0.45);
             padding-bottom: env(safe-area-inset-bottom);
             z-index: 50;
         }
@@ -111,30 +110,48 @@
         .nav-item {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: #7DA0CA; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; gap: 3px;
-            padding: 6px 10px; border-radius: 18px; text-decoration: none; position: relative;
+            padding: 8px 12px; border-radius: 20px; text-decoration: none; position: relative;
         }
         .nav-item i { font-size: 18px; transition: all 0.25s ease; color: #7DA0CA; }
         .nav-item span { font-size: 10px; font-weight: 800; letter-spacing: -0.2px; transition: color 0.2s ease; }
-        
-        /* Active Capsule Pill */
+
+        /* Glowing Animated Pill Active State */
         .nav-item.active {
             color: #052659;
-            background: #C1E8FF;
-            box-shadow: 0 4px 12px rgba(193, 232, 255, 0.8);
+            background: linear-gradient(135deg, #C1E8FF 0%, rgba(193, 232, 255, 0.6) 100%);
+            box-shadow: 0 0 16px rgba(193, 232, 255, 0.9), 0 4px 12px rgba(5, 38, 89, 0.08);
+            transform: translateY(-2px);
         }
         .nav-item.active i { 
-            transform: translateY(-1px) scale(1.1); 
+            animation: iconBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             color: #052659;
         }
         .nav-item.active span {
             color: #052659;
         }
 
+        /* Tiny Glow Indicator under Active Nav */
+        .nav-glow-dot {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #052659; opacity: 0;
+            box-shadow: 0 0 6px #052659;
+            margin-top: 1px; transition: all 0.3s ease;
+        }
+        .nav-item.active .nav-glow-dot {
+            opacity: 1; transform: scale(1.3);
+        }
+
+        @keyframes iconBounce {
+            0% { transform: scale(0.85); }
+            50% { transform: scale(1.22) translateY(-2px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
         /* ==========================================
-           3. MODERN SIDEBAR
+           3. LUXURY SIDEBAR & PROFILE CARD
         ========================================== */
         #sidebarOverlay {
-            position: fixed; inset: 0; background: rgba(2, 16, 36, 0.45);
+            position: fixed; inset: 0; background: rgba(2, 16, 36, 0.5);
             backdrop-filter: blur(8px); z-index: 60;
             opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
@@ -142,44 +159,73 @@
 
         #sidebar {
             position: fixed; top: 0; left: 0; height: 100vh;
-            width: 300px; max-width: 85vw;
+            width: 310px; max-width: 86vw;
             background: #FFFFFF;
-            border-right: 1px solid #C1E8FF;
+            border-right: 1.5px solid #C1E8FF;
             border-radius: 0 32px 32px 0;
             z-index: 70;
             transform: translateX(-100%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; flex-direction: column;
-            box-shadow: 25px 0 60px -15px rgba(2, 16, 36, 0.12);
+            box-shadow: 25px 0 60px -15px rgba(2, 16, 36, 0.15);
         }
         #sidebar.open { transform: translateX(0); }
 
-        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .sidebar-scroll::-webkit-scrollbar { width: 3px; }
         .sidebar-scroll::-webkit-scrollbar-thumb { background: #C1E8FF; border-radius: 10px; }
 
+        /* Sleek Card inside Sidebar */
+        .nav-profile-card {
+            background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
+            border-radius: 26px;
+            padding: 20px 18px;
+            color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px -8px rgba(5, 38, 89, 0.4);
+            border: 1px solid rgba(193, 232, 255, 0.3);
+        }
+        .nav-profile-card::before {
+            content: ''; position: absolute; top: -35%; right: -25%; width: 160px; height: 160px;
+            background: radial-gradient(circle, rgba(193, 232, 255, 0.25) 0%, transparent 65%);
+            border-radius: 50%; pointer-events: none;
+        }
+
+        /* Sidebar Menu Items */
+        .side-menu-label {
+            font-size: 10px; font-weight: 800; color: #7DA0CA;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin: 14px 8px 6px 8px; display: block;
+        }
+
         .side-menu-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 12px 18px; border-radius: 16px;
-            color: #052659; font-size: 13.5px; font-weight: 600;
-            transition: all 0.2s ease; margin-bottom: 3px;
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; border-radius: 16px;
+            color: #021024; font-size: 13px; font-weight: 700;
+            transition: all 0.22s ease; margin-bottom: 2px;
         }
-        .side-menu-item i { width: 22px; text-align: center; font-size: 16px; color: #7DA0CA; transition: color 0.2s; }
+        .side-menu-item i { 
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; background: #F4F9FD; color: #052659;
+            border: 1px solid #C1E8FF; transition: all 0.22s ease;
+            flex-shrink: 0;
+        }
         .side-menu-item:hover, .side-menu-item.active {
-            background: linear-gradient(135deg, #C1E8FF 0%, rgba(125, 160, 202, 0.25) 100%); 
+            background: #F4F9FD;
             color: #052659;
-            box-shadow: 0 4px 12px rgba(5, 38, 89, 0.06);
+            transform: translateX(3px);
         }
-        .side-menu-item:hover i, .side-menu-item.active i { color: #052659; }
+        .side-menu-item:hover i, .side-menu-item.active i {
+            background: #052659; color: #FFFFFF; border-color: #052659;
+            box-shadow: 0 4px 10px rgba(5, 38, 89, 0.2);
+        }
 
         /* ==========================================
-           4. FLOATING SUPPORT BUTTON & PRE-TEXT WIDGET
+           4. FLOATING SUPPORT WITH PRE-TEXT WIDGET
         ========================================== */
-        #support-widget { 
-            pointer-events: none; 
-            z-index: 40;
-        }
+        #support-widget { pointer-events: none; z-index: 40; }
 
-        /* Animated Pre-Text Speech Bubble */
         .support-speech-bubble {
             pointer-events: auto;
             background: #FFFFFF;
@@ -197,16 +243,11 @@
             border-color: #5483B3;
             background: #F4F9FD;
         }
-        .support-speech-bubble:active {
-            transform: scale(0.96);
-        }
+        .support-speech-bubble:active { transform: scale(0.96); }
         .bubble-arrow {
-            position: absolute;
-            right: -6px;
-            top: 50%;
+            position: absolute; right: -6px; top: 50%;
             transform: translateY(-50%) rotate(45deg);
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background: #FFFFFF;
             border-right: 1.5px solid #C1E8FF;
             border-top: 1.5px solid #C1E8FF;
@@ -216,7 +257,6 @@
             50% { transform: translateY(-4px); }
         }
 
-        /* Telegram Action Button */
         .support-fab {
             pointer-events: auto;
             height: 48px; width: 48px; border-radius: 50%;
@@ -246,14 +286,12 @@
             border: 1px solid #C1E8FF;
             border-left: 4px solid #052659;
             border-radius: 20px;
-            box-shadow: 0 15px 35px -5px rgba(2, 16, 36, 0.12), 0 0 1px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px -5px rgba(2, 16, 36, 0.12);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-        .toast-widget.toast-error {
-            border-left-color: #F43F5E;
-        }
+        .toast-widget.toast-error { border-left-color: #F43F5E; }
 
         .toast-progress {
             position: absolute; bottom: 0; left: 0; height: 3px; width: 100%;
@@ -284,7 +322,7 @@
         <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
             
             <!-- Left: Toggle Sidebar Button -->
-            <button onclick="toggleSidebar()" class="h-10 w-10 flex items-center justify-center text-[#052659] hover:text-[#5483B3] hover:bg-[#C1E8FF]/30 rounded-xl transition text-base active:scale-95 border border-[#C1E8FF] shadow-sm bg-white">
+            <button onclick="toggleSidebar()" class="h-10 w-10 flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 rounded-xl transition text-base active:scale-95 border border-[#C1E8FF] shadow-sm bg-white">
                 <i class="fa-solid fa-bars-staggered"></i>
             </button>
             
@@ -298,7 +336,7 @@
             <div class="flex items-center gap-2.5">
                 
                 <!-- Notification Bell -->
-                <a href="/notice" class="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-[#C1E8FF] hover:bg-[#C1E8FF]/30 text-[#052659] hover:text-[#5483B3] transition relative text-base shadow-sm">
+                <a href="/notice" class="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-[#C1E8FF] hover:bg-[#C1E8FF]/30 text-[#052659] transition relative text-base shadow-sm">
                     <i class="fa-regular fa-bell"></i>
                     {% if settings and settings.notice_text %}
                     <span class="absolute top-2.5 right-2.5 h-2 w-2 bg-[#5483B3] rounded-full border-2 border-white animate-pulse"></span>
@@ -322,76 +360,105 @@
     </nav>
 
     <!-- ==========================================
-         2. MODERN SIDEBAR
+         2. LUXURY SIDEBAR WITH UPGRADED PROFILE CARD
     ========================================== -->
     <div id="sidebarOverlay" onclick="toggleSidebar()"></div>
     
     <div id="sidebar">
-        <!-- Profile & Identity Card -->
-        <div class="p-5 relative pt-7 bg-gradient-to-br from-[#C1E8FF]/60 via-[#F4F9FD] to-transparent border-b border-[#C1E8FF]">
-            <button onclick="toggleSidebar()" class="absolute top-3.5 right-3.5 h-7 w-7 bg-white border border-[#C1E8FF] text-[#7DA0CA] hover:text-[#052659] rounded-full flex items-center justify-center text-xs shadow-sm transition">
+        <!-- Close Button & Padding -->
+        <div class="p-4 pb-2 relative">
+            <button onclick="toggleSidebar()" class="absolute top-4 right-4 h-8 w-8 bg-[#F4F9FD] border border-[#C1E8FF] text-[#7DA0CA] hover:text-[#052659] rounded-full flex items-center justify-center text-xs shadow-sm transition active:scale-90 z-20">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             
-            <div class="mt-1 flex flex-col">
+            <!-- Upgraded Luxury Profile Card -->
+            <div class="nav-profile-card mt-7">
                 {% if session.get('user_id') and user %}
-                    <div class="flex items-center gap-3 mb-2.5">
-                        {% if user.profile_pic %}
-                            <img src="{{ user.profile_pic }}" class="w-12 h-12 rounded-2xl object-cover border-2 border-white shadow-md shadow-[#052659]/15">
-                        {% else %}
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] border-2 border-white flex items-center justify-center text-lg font-black text-white shadow-md shadow-[#052659]/15">
-                                {{ user.email[0] | upper }}
-                            </div>
-                        {% endif %}
-                        <div>
-                            <span class="text-[9px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] border border-[#7DA0CA]/50 px-2 py-0.5 rounded">Verified User</span>
-                            <h2 class="text-sm font-extrabold text-[#021024] leading-tight mt-0.5">{{ user.full_name or user.email.split('@')[0] | title }}</h2>
+                    <div class="flex items-center gap-3.5 mb-3 relative z-10">
+                        <div class="relative">
+                            {% if user.profile_pic %}
+                                <img src="{{ user.profile_pic }}" class="w-13 h-13 rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-[0_0_15px_rgba(193,232,255,0.4)]">
+                            {% else %}
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] border-2 border-[#C1E8FF] flex items-center justify-center text-lg font-black text-white shadow-[0_0_15px_rgba(193,232,255,0.4)]">
+                                    {{ user.email[0] | upper }}
+                                </div>
+                            {% endif %}
+                            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#021024] rounded-full"></span>
+                        </div>
+                        
+                        <div class="overflow-hidden">
+                            <span class="inline-flex items-center gap-1 text-[8.5px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-full shadow-sm mb-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#052659] animate-ping"></span>
+                                {% if user.current_level > 0 %}VIP {{ user.current_level }}{% else %}Verified{% endif %}
+                            </span>
+                            <h2 class="text-sm font-black text-white leading-tight truncate">
+                                {{ user.full_name or user.email.split('@')[0] | title }}
+                            </h2>
+                            <p class="text-[10px] text-[#C1E8FF]/80 truncate font-mono mt-0.5">{{ user.email }}</p>
                         </div>
                     </div>
-                    <div class="bg-white/90 backdrop-blur-sm border border-[#C1E8FF] p-2 rounded-xl flex items-center justify-between shadow-sm">
-                        <span class="text-[10px] text-[#7DA0CA] font-medium">User ID (Ref)</span>
-                        <span class="text-xs font-mono font-bold text-[#052659] select-all">{{ user.referral_code or 'user' }}</span>
+
+                    <!-- Interactive UID Pill with Copy -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/20 p-2 px-3 rounded-xl flex items-center justify-between shadow-inner relative z-10">
+                        <div class="flex items-center gap-1.5 text-[10px] text-[#C1E8FF]">
+                            <i class="fa-solid fa-fingerprint text-[11px]"></i>
+                            <span class="font-bold">UID:</span>
+                            <span class="font-mono font-black text-white">{{ user.referral_code or 'User' }}</span>
+                        </div>
+                        <button onclick="copySidebarUID('{{ user.referral_code }}', this)" class="text-[9px] font-bold text-[#C1E8FF] hover:text-white bg-white/10 px-2 py-0.5 rounded border border-white/15 active:scale-90 transition">
+                            <i class="fa-regular fa-copy mr-0.5"></i> কপি
+                        </button>
                     </div>
+
                 {% else %}
-                    <div class="flex items-center gap-3 mb-1">
-                        <div class="w-12 h-12 rounded-2xl bg-[#C1E8FF]/50 flex items-center justify-center text-lg text-[#052659]"><i class="fa-solid fa-user"></i></div>
+                    <!-- Guest Card -->
+                    <div class="flex items-center gap-3.5 relative z-10">
+                        <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-xl text-[#C1E8FF]">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
                         <div>
-                            <h2 class="text-sm font-bold text-[#021024]">Guest User</h2>
-                            <a href="/login" class="text-xs text-[#052659] font-bold hover:underline">লগইন করুন</a>
+                            <h2 class="text-sm font-black text-white">Guest User</h2>
+                            <a href="/login" class="text-xs text-[#C1E8FF] font-bold hover:underline">লগইন করুন →</a>
                         </div>
                     </div>
                 {% endif %}
             </div>
         </div>
 
-        <!-- Scrollable Menu Links -->
-        <div class="flex-grow overflow-y-auto px-3 py-3 sidebar-scroll">
+        <!-- Categorized & Beautiful Sidebar Menu -->
+        <div class="flex-grow overflow-y-auto px-3 pb-6 sidebar-scroll">
+            
+            <span class="side-menu-label">মেইন আর্নিং হাব</span>
             <a href="/dashboard" class="side-menu-item {{ 'active' if request.endpoint == 'dashboard' }}">
-                <i class="fa-solid fa-house"></i> Dashboard
+                <i class="fa-solid fa-house"></i> <span>Dashboard</span>
             </a>
             <a href="/tasks" class="side-menu-item {{ 'active' if request.endpoint == 'tasks' }}">
-                <i class="fa-solid fa-list-check"></i> Task Board
+                <i class="fa-solid fa-list-check"></i> <span>টাস্ক বোর্ড</span>
             </a>
             <a href="/work" class="side-menu-item {{ 'active' if request.endpoint == 'work' }}">
-                <i class="fa-solid fa-briefcase"></i> সকল কাজ (Work Hub)
+                <i class="fa-solid fa-briefcase"></i> <span>সকল কাজ (Work Hub)</span>
             </a>
             <a href="/game/v2" class="side-menu-item {{ 'active' if request.endpoint == 'game_v2' or request.endpoint == 'game_page' }}">
-                <i class="fa-solid fa-gamepad"></i> কয়েন গেম জোন
+                <i class="fa-solid fa-gamepad text-amber-500"></i> <span>কয়েন গেম জোন</span>
             </a>
+
+            <span class="side-menu-label">ফাইন্যান্সিয়াল ও নেটওয়ার্ক</span>
             <a href="/withdraw" class="side-menu-item {{ 'active' if request.endpoint == 'withdraw' }}">
-                <i class="fa-solid fa-wallet"></i> উত্তোলন (Cashout)
+                <i class="fa-solid fa-wallet text-emerald-600"></i> <span>উত্তোলন (Cashout)</span>
             </a>
             <a href="/account" class="side-menu-item {{ 'active' if request.endpoint == 'account' }}">
-                <i class="fa-solid fa-user-gear"></i> একাউন্ট সেটিংস
+                <i class="fa-solid fa-user-gear"></i> <span>একাউন্ট সেটিংস</span>
             </a>
             <a href="/drive" class="side-menu-item {{ 'active' if request.endpoint == 'drive_store' }}">
-                <i class="fa-solid fa-wifi"></i> ড্রাইভ প্যাক
+                <i class="fa-solid fa-wifi text-sky-500"></i> <span>টেলিকম ড্রাইভ প্যাক</span>
             </a>
             <a href="/hire-us" class="side-menu-item {{ 'active' if request.endpoint == 'hire_us' }}">
-                <i class="fa-solid fa-bullhorn"></i> Promotion (B2B)
+                <i class="fa-solid fa-bullhorn text-purple-600"></i> <span>Promotion (B2B)</span>
             </a>
+
+            <span class="side-menu-label">কমিউনিটি ও সাহায্য</span>
             <a href="/notice" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
-                <i class="fa-regular fa-bell"></i> নোটিশ বোর্ড
+                <i class="fa-regular fa-bell text-rose-500"></i> <span>নোটিশ বোর্ড</span>
             </a>
 
             <!-- REVIEWS MENU LINK HIDDEN VIA COMMENT AS REQUESTED -->
@@ -402,27 +469,27 @@
             -->
 
             <a href="/menu" class="side-menu-item {{ 'active' if request.endpoint == 'menu' }}">
-                <i class="fa-solid fa-bars"></i> অল মেনু
+                <i class="fa-solid fa-bars"></i> <span>অল মেনু</span>
             </a>
             
             {% if user and user.role == 'admin' %}
-            <div class="border-t border-[#C1E8FF] my-2 mx-2"></div>
-            <a href="/admin" class="side-menu-item text-[#052659] hover:bg-[#C1E8FF]/30 font-bold">
-                <i class="fa-solid fa-shield-halved text-[#5483B3]"></i> Admin Panel
+            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
+            <a href="/admin" class="side-menu-item text-[#052659] hover:bg-[#C1E8FF]/40 font-bold">
+                <i class="fa-solid fa-shield-halved text-[#5483B3]"></i> <span>Admin Panel</span>
             </a>
             {% endif %}
 
             {% if session.get('user_id') %}
-            <div class="border-t border-[#C1E8FF] my-2 mx-2"></div>
+            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
             <a href="/logout" class="side-menu-item text-rose-500 hover:text-rose-600 hover:bg-rose-50 font-bold">
-                <i class="fa-solid fa-arrow-right-from-bracket text-rose-400"></i> Logout
+                <i class="fa-solid fa-arrow-right-from-bracket text-rose-500"></i> <span>Logout</span>
             </a>
             {% endif %}
         </div>
     </div>
 
     <!-- ===================================================
-         3. FLOATING TELEGRAM BUTTON WITH ANIMATED PRE-TEXT WIDGET
+         3. FLOATING TELEGRAM BUTTON WITH ANIMATED PRE-TEXT
     =================================================== -->
     <div id="support-widget" class="fixed right-3 bottom-[82px] z-40 flex items-center gap-2">
         
@@ -438,7 +505,7 @@
             <div class="bubble-arrow"></div>
         </div>
 
-        <!-- Floating Telegram Icon Button -->
+        <!-- Floating Telegram Action Icon -->
         <div onclick="goToTelegram()" class="support-fab" title="Telegram Support">
             <i class="fa-brands fa-telegram"></i>
         </div>
@@ -487,7 +554,7 @@
     </main>
 
     <!-- ===================================================
-         6. UPGRADED NATIVE APP-LIKE BOTTOM NAVIGATION
+         6. GLOWING ANIMATED DOCK BOTTOM NAVIGATION
     =================================================== -->
     {% if session.get('user_id') %}
     <div class="premium-bottom-nav fixed bottom-0 left-0 w-full">
@@ -497,30 +564,35 @@
             <a href="/dashboard" class="nav-item {{ 'active' if request.endpoint == 'dashboard' }}">
                 <i class="fa-solid fa-house"></i>
                 <span>হোম</span>
+                <div class="nav-glow-dot"></div>
             </a>
 
             <!-- 2. History -->
             <a href="/history" class="nav-item {{ 'active' if request.endpoint == 'history' }}">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 <span>হিস্টোরি</span>
+                <div class="nav-glow-dot"></div>
             </a>
 
             <!-- 3. Work -->
             <a href="/work" class="nav-item {{ 'active' if request.endpoint == 'work' or request.endpoint == 'tasks' }}">
                 <i class="fa-solid fa-briefcase"></i>
                 <span>কাজ</span>
+                <div class="nav-glow-dot"></div>
             </a>
 
             <!-- 4. Withdraw -->
             <a href="/withdraw" class="nav-item {{ 'active' if request.endpoint == 'withdraw' }}">
                 <i class="fa-solid fa-wallet"></i>
                 <span>উত্তোলন</span>
+                <div class="nav-glow-dot"></div>
             </a>
 
             <!-- 5. Menu -->
             <a href="/menu" class="nav-item {{ 'active' if request.endpoint == 'account' or request.endpoint == 'menu' }}">
                 <i class="fa-solid fa-bars"></i>
                 <span>মেনু</span>
+                <div class="nav-glow-dot"></div>
             </a>
 
         </div>
@@ -543,7 +615,16 @@
             }
         }
 
-        // --- 2. Direct Telegram Support (@takaearn_help) ---
+        // --- 2. Copy Sidebar UID ---
+        function copySidebarUID(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> কপিড';
+                setTimeout(() => { btn.innerHTML = orig; }, 1500);
+            });
+        }
+
+        // --- 3. Direct Telegram Support (@takaearn_help) ---
         function goToTelegram() {
             const uName = "{{ user.full_name or (user.email.split('@')[0] if user and user.email else 'Guest') }}";
             const uId = "{{ user.referral_code if user else 'N/A' }}";
@@ -554,7 +635,7 @@
             window.open(tgLink, '_blank');
         }
 
-        // --- 3. Toast Dismiss Logic ---
+        // --- 4. Toast Dismiss Logic ---
         function closeToast(btn) {
             const toast = btn.closest('.toast-widget');
             toast.classList.add('toast-leave');
