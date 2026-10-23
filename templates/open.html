@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grand Opening Ceremony | TakaEarn</title>
+
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+            background: radial-gradient(circle at 50% 30%, #052659 0%, #021024 100%);
+            color: #FFFFFF;
+            overflow: hidden;
+            height: 100dvh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            touch-action: none;
+        }
+
+        /* 1. RIBBON CONTAINER & ANIMATION */
+        .ribbon-stage {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        /* Left Half of Ribbon */
+        .ribbon-half-left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 50%;
+            height: 64px;
+            background: linear-gradient(180deg, #E11D48 0%, #BE123C 50%, #9F1239 100%);
+            box-shadow: 0 10px 25px rgba(225, 29, 72, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            transform-origin: left center;
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            border-top: 2px dashed rgba(255, 255, 255, 0.4);
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+        }
+
+        /* Right Half of Ribbon */
+        .ribbon-half-right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 50%;
+            height: 64px;
+            background: linear-gradient(180deg, #E11D48 0%, #BE123C 50%, #9F1239 100%);
+            box-shadow: 0 10px 25px rgba(225, 29, 72, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            transform-origin: right center;
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            border-top: 2px dashed rgba(255, 255, 255, 0.4);
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+        }
+
+        /* Ribbon Cut Effects (Snapping apart) */
+        .ribbon-cut .ribbon-half-left {
+            transform: translateY(120px) rotate(-35deg) scaleX(0.85);
+            opacity: 0;
+        }
+        .ribbon-cut .ribbon-half-right {
+            transform: translateY(120px) rotate(35deg) scaleX(0.85);
+            opacity: 0;
+        }
+
+        /* Golden Bow / Rosette Center */
+        .ribbon-knot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #FDE047 0%, #EAB308 60%, #CA8A04 100%);
+            border-radius: 50%;
+            border: 3px solid #FEF08A;
+            box-shadow: 0 0 35px rgba(234, 179, 8, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #021024;
+            font-size: 28px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 60;
+        }
+        .ribbon-cut .ribbon-knot {
+            transform: translate(-50%, -50%) scale(1.6);
+            opacity: 0;
+            filter: blur(10px);
+        }
+
+        /* 2. INTERACTIVE SCISSORS */
+        .scissors-btn-wrap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -150%);
+            z-index: 70;
+            pointer-events: auto;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.25s ease;
+        }
+        .scissors-btn-wrap:hover {
+            transform: translate(-50%, -155%) scale(1.08);
+        }
+        .scissors-btn-wrap:active {
+            transform: translate(-50%, -145%) scale(0.95);
+        }
+
+        .scissors-icon {
+            font-size: 48px;
+            color: #FEF08A;
+            filter: drop-shadow(0 6px 15px rgba(234, 179, 8, 0.6));
+            animation: scissorWiggle 2s infinite ease-in-out;
+            display: inline-block;
+        }
+        @keyframes scissorWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        /* 3. REVEAL MESSAGE CARD */
+        .celebration-card {
+            background: #FFFFFF;
+            border: 2.5px solid #C1E8FF;
+            border-radius: 36px;
+            padding: 35px 24px;
+            width: 100%;
+            max-width: 400px;
+            color: #021024;
+            text-align: center;
+            box-shadow: 0 30px 80px -15px rgba(5, 38, 89, 0.6), 0 0 50px rgba(193, 232, 255, 0.35);
+            transform: scale(0.8) translateY(40px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 10;
+        }
+        .celebration-card.show {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <!-- ===================================================
+         1. ANIMATED RIBBON & SCISSORS STAGE
+    =================================================== -->
+    <div id="ribbonStage" class="ribbon-stage">
+        
+        <!-- Left & Right Silk Ribbons -->
+        <div class="ribbon-half-left"></div>
+        <div class="ribbon-half-right"></div>
+
+        <!-- Center Knot -->
+        <div class="ribbon-knot">
+            <i class="fa-solid fa-award"></i>
+        </div>
+
+        <!-- Interactive Floating Scissors -->
+        <div class="scissors-btn-wrap" onclick="cutTheRibbon()">
+            <div class="scissors-icon">
+                <i class="fa-solid fa-scissors"></i>
+            </div>
+            <div class="mt-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-[#021024] font-black text-xs uppercase px-4 py-1.5 rounded-full shadow-lg border border-yellow-200 tracking-wider whitespace-nowrap animate-pulse">
+                ✂️ ফিতা কাটতে ট্যাপ করুন
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===================================================
+         2. REVEALED CELEBRATION & MESSAGE CARD
+    =================================================== -->
+    <div class="celebration-card" id="celebrationCard">
+        
+        <!-- Top Heart / Sparkle Icon -->
+        <div class="w-20 h-20 rounded-3xl bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-4xl mx-auto mb-4 border-2 border-white shadow-lg animate-bounce" style="animation-duration: 2.5s;">
+            <i class="fa-solid fa-champagne-glasses text-amber-500"></i>
+        </div>
+
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-3.5 py-1 rounded-full border border-[#7DA0CA]/50 inline-block mb-3">
+            Grand Opening • TakaEarn
+        </span>
+
+        <!-- The Exact Requested Message -->
+        <h2 class="text-2xl font-black text-[#021024] tracking-tight mb-2">
+            Dear Partner Tuba! 🎉
+        </h2>
+        
+        <div class="p-4 rounded-2xl bg-[#F4F9FD] border border-[#C1E8FF] mb-5 text-sm font-semibold text-[#052659] leading-relaxed">
+            "ধন্যবাদ আমার সাথে কাজ করার জন্য! শুভ উদ্বোধন আমাদের নতুন যাত্রার! <br>
+            <span class="text-rose-600 font-black text-base inline-block mt-2 font-mono">hate u 😜❤️</span>"
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2.5">
+            <a href="/dashboard" class="w-full bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] text-white py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider shadow-md hover:opacity-95 active:scale-95 transition flex items-center justify-center gap-2 text-decoration-none">
+                <span>ড্যাশবোর্ডে প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+            
+            <button type="button" onclick="celebrateMore()" class="w-full bg-[#F4F9FD] hover:bg-[#C1E8FF] text-[#052659] py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition border border-[#C1E8FF] flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> আরও কনফেটি উড়ান
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ===================================================
+         SCRIPTS: CUTTING PHYSICS, SOUND & CONFETTI
+    =================================================== -->
+    <script>
+        let hasCut = false;
+
+        // Synthetic Audio Generation (Web Audio API - Scissors Cut & Fanfare)
+        let audioCtx = null;
+        function playSnipSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // 1. Scissors Snip Sound (High frequency metallic friction)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = "triangle";
+                osc.frequency.setValueAtTime(1800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+
+                // 2. Celebratory Fanfare Chime
+                setTimeout(() => {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const chime = audioCtx.createOscillator();
+                        const chimeGain = audioCtx.createGain();
+                        chime.type = "sine";
+                        chime.frequency.value = freq;
+                        chimeGain.gain.setValueAtTime(0.15, audioCtx.currentTime + (idx * 0.1));
+                        chimeGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (idx * 0.1) + 0.4);
+                        chime.connect(chimeGain);
+                        chimeGain.connect(audioCtx.destination);
+                        chime.start(audioCtx.currentTime + (idx * 0.1));
+                        chime.stop(audioCtx.currentTime + (idx * 0.1) + 0.4);
+                    });
+                }, 180);
+
+            } catch (e) {}
+        }
+
+        // Full Screen Confetti Blast
+        function launchEpicConfetti() {
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.6 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#FFE600', '#FF0055', '#C1E8FF']
+            });
+            fire(0.2, {
+                spread: 60,
+                colors: ['#052659', '#5483B3', '#FFFFFF']
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                colors: ['#FFD700', '#E11D48', '#38BDF8']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        }
+
+        // Ribbon Cutting Trigger Function
+        function cutTheRibbon() {
+            if (hasCut) return;
+            hasCut = true;
+
+            playSnipSound();
+
+            const stage = document.getElementById('ribbonStage');
+            const card = document.getElementById('celebrationCard');
+
+            // 1. Trigger Ribbon Cut Physics Animation
+            stage.classList.add('ribbon-cut');
+
+            // 2. Launch Confetti Explosion
+            launchEpicConfetti();
+
+            // 3. Reveal Celebration Card with smooth scale
+            setTimeout(() => {
+                stage.style.display = 'none'; // remove ribbon from DOM touch flow
+                card.classList.add('show');
+            }, 600);
+        }
+
+        function celebrateMore() {
+            launchEpicConfetti();
+        }
+    </script>
+</body>
+  </html>
