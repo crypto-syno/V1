@@ -4272,10 +4272,10 @@ def admin_panel():
 # ==========================================
 @app.route('/manifest.json')
 def manifest():
-    app_icon = "https://i.ibb.co.com/dJww5SQv/file-00000000db808230b0dce4b43fb08a5d.png"
+    app_icon = "https://i.ibb.co/tTZ3xBHx/file-000000006760821198822c67095c0a12.png"
     return jsonify({
-        "name": "Earn Daily",
-        "short_name": "EarnDaily",
+        "name": "TakaEarn",
+        "short_name": "TakaEarn",
         "start_url": "/",
         "display": "standalone",
         "background_color": "#F8FAFC",
