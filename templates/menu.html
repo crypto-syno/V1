@@ -2,252 +2,458 @@
 {% block content %}
 
 <style>
-    /* ==========================================
-       EARN DAILY - MODERN MENU UI (SOFT LIGHT)
-    ========================================== */
-    .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(16px); }
+    /* ==========================================================
+       TAKAEARN - ALL-IN-ONE FLAT MENU UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Custom Search Box */
-    .search-box {
+    /* Modern Flat Search Bar */
+    .menu-search-wrapper {
         background: #FFFFFF; 
-        border: 1px solid #E2E8F0; 
+        border: 1.5px solid #C1E8FF; 
         border-radius: 20px;
-        padding: 14px 18px; 
+        padding: 12px 18px; 
         display: flex; 
         align-items: center; 
         gap: 12px;
         transition: all 0.25s ease;
-        box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.04);
     }
-    .search-box:focus-within { 
-        border-color: #10B981; 
-        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); 
+    .menu-search-wrapper:focus-within { 
+        border-color: #052659; 
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); 
+        background: #FFFFFF;
     }
-    .search-box input { 
+    .menu-search-wrapper input { 
         background: transparent; 
         border: none; 
         outline: none; 
-        color: #0F172A; 
+        color: #021024; 
         width: 100%; 
         font-size: 13.5px; 
-        font-weight: 500;
+        font-weight: 600;
     }
-    .search-box input::placeholder { color: #94A3B8; }
+    .menu-search-wrapper input::placeholder { color: #7DA0CA; font-weight: 500; }
 
-    /* Menu Group Titles */
-    .menu-group-title {
-        font-size: 11px; font-weight: 800; color: #64748B;
+    /* Category Section Labels */
+    .menu-category-label {
+        font-size: 11px; font-weight: 800; color: #5483B3;
         text-transform: uppercase; letter-spacing: 0.8px;
-        margin: 26px 0 12px 6px; display: flex; align-items: center; gap: 8px;
+        margin: 22px 0 10px 4px; display: flex; align-items: center; gap: 6px;
     }
 
     /* Modern Grid Menu Cards */
-    .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .menu-card {
+    .menu-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .menu-nav-card {
         background: #FFFFFF; 
-        border: 1px solid #E2E8F0; 
-        border-radius: 24px;
-        padding: 18px 16px; 
+        border: 1.5px solid #C1E8FF; 
+        border-radius: 22px;
+        padding: 16px 14px; 
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
         display: flex; 
         flex-direction: column; 
-        gap: 12px;
-        box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.02);
+        gap: 10px;
+        text-decoration: none;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.02);
+        position: relative;
     }
-    .menu-card:hover { 
-        border-color: #A7F3D0; 
-        background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%); 
+    .menu-nav-card:hover { 
+        border-color: #5483B3; 
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%); 
         transform: translateY(-3px); 
-        box-shadow: 0 10px 24px -5px rgba(16, 185, 129, 0.1);
+        box-shadow: 0 10px 22px -5px rgba(5, 38, 89, 0.1);
     }
+    .menu-nav-card:active { transform: scale(0.97); }
     
-    .menu-icon {
-        width: 44px; height: 44px; border-radius: 14px;
-        background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5;
+    .menu-icon-box {
+        width: 42px; height: 42px; border-radius: 14px;
+        background: #F4F9FD; color: #052659; border: 1px solid #C1E8FF;
         display: flex; align-items: center; justify-content: center; font-size: 18px;
-        transition: all 0.25s ease;
+        transition: all 0.25s ease; flex-shrink: 0;
     }
-    .menu-card:hover .menu-icon { 
-        background: #059669; 
+    .menu-nav-card:hover .menu-icon-box { 
+        background: #052659; 
         color: #FFFFFF; 
-        border-color: #059669;
+        border-color: #052659;
         transform: scale(1.06); 
+    }
+
+    /* Referral Quick Pill */
+    .ref-quick-banner {
+        background: linear-gradient(135deg, #021024 0%, #052659 60%, #5483B3 100%);
+        border-radius: 24px; padding: 18px 16px;
+        color: #FFFFFF; display: flex; align-items: center; justify-content: space-between;
+        border: 1.5px solid #C1E8FF; box-shadow: 0 12px 28px -8px rgba(5, 38, 89, 0.3);
     }
 </style>
 
-<div class="max-w-md mx-auto space-y-5 fade-in-up pb-10 px-1 mt-2">
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-14 px-2 mt-1">
 
-    <!-- 1. SEARCH BAR -->
-    <div class="search-box">
-        <i class="fa-solid fa-search text-slate-400"></i>
-        <input type="text" id="menuSearch" onkeyup="filterMenu()" placeholder="মেনু, টাস্ক বা সেটিং খুঁজুন...">
-    </div>
-
-    <!-- 2. QUICK REFERRAL LINK TICKET -->
-    <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-[26px] p-5 text-white shadow-lg shadow-emerald-600/20 flex items-center justify-between relative overflow-hidden">
-        <div class="relative z-10">
-            <h3 class="font-extrabold text-sm mb-0.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-link text-emerald-200"></i> রেফারেল লিংক
-            </h3>
-            <p class="text-[11px] text-emerald-100 font-medium">বন্ধুদের ইনভাইট করে কমিশন আয় করুন</p>
-        </div>
-        <input type="hidden" id="hiddenRefLink" value="">
-        <button onclick="copyMyRef(this)" class="relative z-10 bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider active:scale-95 transition shadow-sm flex-shrink-0">
-            কপি করুন
+    <!-- ===================================================
+         1. TOP SEARCH BAR (INSTANT FILTER)
+    =================================================== -->
+    <div class="menu-search-wrapper">
+        <i class="fa-solid fa-magnifying-glass text-[#7DA0CA] text-sm"></i>
+        <input type="text" id="menuSearchInput" onkeyup="filterAllMenuItems()" placeholder="মেনু, গেম, টাস্ক বা সেটিং খুঁজুন...">
+        <button id="clearSearchBtn" onclick="clearMenuSearch()" class="hidden text-[#7DA0CA] hover:text-[#052659]">
+            <i class="fa-solid fa-circle-xmark text-sm"></i>
         </button>
     </div>
 
-    <!-- 3. DYNAMIC MENU CONTAINER -->
-    <div id="menuContainer">
-
-        <!-- Category: Work Station -->
-        <div class="menu-category">
-            <h3 class="menu-group-title"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> ওয়ার্ক স্টেশন</h3>
-            <div class="menu-grid">
-                <a href="/tasks" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-list-check"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">মাইক্রো টাস্ক</span>
-                </a>
-                <a href="/gmail-tasks" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-brands fa-google"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">জিমেইল ফার্ম</span>
-                </a>
-                <a href="/play" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-brands fa-google-play"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">অ্যাপ রিভিউ</span>
-                </a>
-                <a href="/premium-tasks" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-gem"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">এলিট টাস্ক</span>
-                </a>
-            </div>
+    <!-- ===================================================
+         2. QUICK REFERRAL LINK TICKET
+    =================================================== -->
+    <div class="ref-quick-banner">
+        <div class="pr-2">
+            <h3 class="font-black text-sm flex items-center gap-1.5 text-white">
+                <i class="fa-solid fa-gift text-amber-300"></i> রেফারেল লিংক
+            </h3>
+            <p class="text-[10px] text-[#C1E8FF] mt-0.5 font-medium">বন্ধুদের ইনভাইট করে প্রতি রেফারে ৳১২ আয় করুন</p>
         </div>
-
-        <!-- Category: Financials -->
-        <div class="menu-category">
-            <h3 class="menu-group-title"><span class="w-2 h-2 rounded-full bg-teal-500"></span> ফাইন্যান্স ও ওয়ালেট</h3>
-            <div class="menu-grid">
-                <a href="/income" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">আয়ের হিসাব</span>
-                </a>
-                <a href="/withdraw" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-wallet"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">উত্তোলন (Cashout)</span>
-                </a>
-                <a href="/history" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">হিস্টোরি (Logs)</span>
-                </a>
-                <a href="/adm" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-building-columns"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">পেমেন্ট মেথড</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Category: Network & Community -->
-        <div class="menu-category">
-            <h3 class="menu-group-title"><span class="w-2 h-2 rounded-full bg-sky-500"></span> নেটওয়ার্ক ও সার্ভিস</h3>
-            <div class="menu-grid">
-                <a href="/referrals" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-users"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">আমার টিম (Team)</span>
-                </a>
-                <a href="/vip" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-crown"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">এলিট মেম্বারশিপ</span>
-                </a>
-                <a href="/drive" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-wifi"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">ড্রাইভ প্যাক</span>
-                </a>
-                <a href="/hire-us" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-bullhorn"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">প্রমোশন হাব (B2B)</span>
-                </a>
-                <a href="/notice" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-regular fa-bell"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">নোটিশ বোর্ড</span>
-                </a>
-                <a href="/reviews" class="menu-card menu-item-target">
-                    <div class="menu-icon"><i class="fa-solid fa-star"></i></div>
-                    <span class="font-extrabold text-slate-800 text-sm search-text">ইউজার রিভিউ</span>
-                </a>
-
-                <!-- AI Live Desk Special Button -->
-                <a href="https://t.me/earn_daily_on2" class="menu-card menu-item-target col-span-2 !bg-gradient-to-r !from-emerald-50 !to-teal-50/60 !border-emerald-200 !flex-row !items-center !gap-4">
-                    <div class="menu-icon !bg-emerald-600 !text-white !border-emerald-600 !m-0"><i class="fa-solid fa-headset"></i></div>
-                    <div>
-                        <span class="font-black text-emerald-900 text-sm search-text block leading-tight">AI Live Support Desk</span>
-                        <p class="text-[11px] text-emerald-700 font-medium mt-0.5"> সরাসরি লাইভ সহায়তা নিন</p>
-                    </div>
-                </a>
-
-                {% if user.role == 'admin' %}
-                <a href="/admin" class="menu-card menu-item-target col-span-2 !bg-indigo-50/60 !border-indigo-200 !flex-row !items-center !gap-4">
-                    <div class="menu-icon !bg-indigo-600 !text-white !border-indigo-600 !m-0"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div>
-                        <span class="font-black text-indigo-900 text-sm search-text block leading-tight">অ্যাডমিন কন্ট্রোল প্যানেল</span>
-                        <p class="text-[11px] text-indigo-600 font-medium mt-0.5">সাইট ম্যানেজমেন্ট সেটিংস</p>
-                    </div>
-                </a>
-                {% endif %}
-            </div>
-        </div>
+        <input type="hidden" id="hiddenRefLink" value="">
+        <button onclick="copyMyQuickRef(this)" class="bg-[#C1E8FF] text-[#052659] hover:bg-white px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition active:scale-95 flex-shrink-0 shadow-sm">
+            কপি
+        </button>
     </div>
+
+    <!-- ===================================================
+         3. DYNAMIC CATEGORIZED MENU ITEMS
+    =================================================== -->
+    <div id="allMenuSections">
+
+        <!-- GROUP 1: GAMES & DAILY REWARDS (Spin, Games, Captcha) -->
+        <div class="menu-group-section">
+            <h3 class="menu-category-label">
+                <span class="w-2 h-2 rounded-full bg-[#052659]"></span> গেমস ও ডেইলি রিওয়ার্ড
+            </h3>
+            <div class="menu-grid-container">
+                <!-- 1. Coin Game v2 -->
+                <a href="/game/v2" class="menu-nav-card target-menu-item" data-keywords="game coin rush play কয়েন গেম খেলা আয়">
+                    <div class="menu-icon-box !bg-amber-50 !text-amber-500 !border-amber-200">
+                        <i class="fa-solid fa-gamepad animate-pulse"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">কয়েন গেম জোন</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">খেলে সরাসরি টাকা আয়</span>
+                    </div>
+                </a>
+
+                <!-- 2. Lucky Spin -->
+                <a href="/spin" class="menu-nav-card target-menu-item" data-keywords="spin lucky wheel স্পিন ভাগ্যের চাকা বোনাস">
+                    <div class="menu-icon-box !bg-rose-50 !text-rose-500 !border-rose-200">
+                        <i class="fa-solid fa-dharmachakra"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">লাকি স্পিন হুইল</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">দৈনিক ফ্রি স্পিন</span>
+                    </div>
+                </a>
+
+                <!-- 3. Captcha Entry -->
+                <a href="/captcha" class="menu-nav-card target-menu-item col-span-2" data-keywords="captcha code entry ক্যাপচা টাইপিং কোড">
+                    <div class="flex items-center gap-3">
+                        <div class="menu-icon-box !bg-cyan-50 !text-cyan-600 !border-cyan-200">
+                            <i class="fa-solid fa-keyboard"></i>
+                        </div>
+                        <div>
+                            <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">ক্যাপচা এন্ট্রি (Daily 10)</span>
+                            <span class="text-[10px] text-[#5483B3] font-medium">সহজ কোড টাইপ করে প্রতিদিন ফ্রিতে টাকা</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- GROUP 2: WORK & EARNING HUB -->
+        <div class="menu-group-section">
+            <h3 class="menu-category-label">
+                <span class="w-2 h-2 rounded-full bg-[#5483B3]"></span> কাজের স্টেশন ও প্রজেক্ট
+            </h3>
+            <div class="menu-grid-container">
+                <!-- Micro Tasks -->
+                <a href="/tasks" class="menu-nav-card target-menu-item" data-keywords="task micro কাজ টাস্ক ইউটিউব ফেসবুক">
+                    <div class="menu-icon-box"><i class="fa-solid fa-list-check"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">মাইক্রো টাস্ক</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">সোশ্যাল মিডিয়া কাজ</span>
+                    </div>
+                </a>
+
+                <!-- Premium Tasks -->
+                <a href="/premium-tasks" class="menu-nav-card target-menu-item" data-keywords="premium task বেশি টাকা সহজ প্রজেক্ট">
+                    <div class="menu-icon-box !bg-amber-50 !text-amber-600 !border-amber-200"><i class="fa-solid fa-gem"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">প্রিমিয়াম টাস্ক</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">উচ্চ পারিশ্রমিক কাজ</span>
+                    </div>
+                </a>
+
+                <!-- Work Hub -->
+                <a href="/work" class="menu-nav-card target-menu-item" data-keywords="work hub সব কাজ স্টেশন">
+                    <div class="menu-icon-box"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">ওয়ার্ক হাব</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">সকল কাজের তালিকা</span>
+                    </div>
+                </a>
+
+                <!-- Agent Recruitment -->
+                <a href="/apply-leader" class="menu-nav-card target-menu-item" data-keywords="agent leader স্যালারি এজেন্ট আবেদন">
+                    <div class="menu-icon-box !bg-emerald-50 !text-emerald-600 !border-emerald-200"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">এজেন্ট প্রোগ্রাম</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">৬,০০০ ফিক্সড স্যালারি</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- GROUP 3: FINANCE & WALLET -->
+        <div class="menu-group-section">
+            <h3 class="menu-category-label">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span> ফাইন্যান্স ও ওয়ালেট
+            </h3>
+            <div class="menu-grid-container">
+                <!-- Withdraw -->
+                <a href="/withdraw" class="menu-nav-card target-menu-item" data-keywords="withdraw cashout টাকা তোলা উত্তোলন বিকাশ নগদ">
+                    <div class="menu-icon-box !bg-emerald-50 !text-emerald-600 !border-emerald-200"><i class="fa-solid fa-wallet"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">উত্তোলন (Cashout)</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">বিকাশ ও নগদে টাকা</span>
+                    </div>
+                </a>
+
+                <!-- History -->
+                <a href="/history" class="menu-nav-card target-menu-item" data-keywords="history হিস্টোরি লেনদেন রেকর্ড">
+                    <div class="menu-icon-box"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">লেনদেন হিস্টোরি</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">ক্যাশআউট ও টাস্ক লগ</span>
+                    </div>
+                </a>
+
+                <!-- Income Analytics -->
+                <a href="/income" class="menu-nav-card target-menu-item" data-keywords="income analytics হিসাব আয় রিপোর্ট">
+                    <div class="menu-icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">আয় ও হিসাব</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">ইনকাম অ্যানালিটিক্স</span>
+                    </div>
+                </a>
+
+                <!-- Payment Setup (ADM) -->
+                <a href="/adm" class="menu-nav-card target-menu-item" data-keywords="adm payment setup পেমেন্ট নম্বর মেথড বাইন্ডিং">
+                    <div class="menu-icon-box"><i class="fa-solid fa-building-columns"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">পেমেন্ট মেথড</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">নম্বর সেট ও বাইন্ডিং</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- GROUP 4: NETWORK & SERVICES -->
+        <div class="menu-group-section">
+            <h3 class="menu-category-label">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> নেটওয়ার্ক ও সার্ভিসেস
+            </h3>
+            <div class="menu-grid-container">
+                <!-- Referrals -->
+                <a href="/referrals" class="menu-nav-card target-menu-item" data-keywords="referral টিম রেফার বোনাস বাউন্টি">
+                    <div class="menu-icon-box !bg-indigo-50 !text-indigo-600 !border-indigo-200"><i class="fa-solid fa-users"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">আমার টিম (Refer)</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">প্রতি রেফারে ৳১২</span>
+                    </div>
+                </a>
+
+                <!-- TakaPass Plus (VIP) -->
+                <a href="/vip" class="menu-nav-card target-menu-item" data-keywords="vip plus takapass পাস এলিট মেম্বারশিপ">
+                    <div class="menu-icon-box !bg-amber-50 !text-amber-500 !border-amber-200"><i class="fa-solid fa-crown"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">TakaPass Plus</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">প্রিমিয়াম মেম্বারশিপ</span>
+                    </div>
+                </a>
+
+                <!-- Drive Store -->
+                <a href="/drive" class="menu-nav-card target-menu-item" data-keywords="drive telecom ইন্টারনেট মিনিট ড্রাইভ প্যাক">
+                    <div class="menu-icon-box !bg-sky-50 !text-sky-600 !border-sky-200"><i class="fa-solid fa-wifi"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">ড্রাইভ প্যাক স্টোর</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">৩০% ছাড় ডাটা ও মিনিট</span>
+                    </div>
+                </a>
+
+                <!-- Promotion B2B -->
+                <a href="/hire-us" class="menu-nav-card target-menu-item" data-keywords="hire us b2b promotion প্রমোশন বিজ্ঞাপন">
+                    <div class="menu-icon-box"><i class="fa-solid fa-bullhorn text-purple-600"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">Promotion Hub</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">ক্লায়েন্ট বিজ্ঞাপন দিন</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- GROUP 5: HELP & GUIDES -->
+        <div class="menu-group-section">
+            <h3 class="menu-category-label">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> সাহায্য, ইনফো ও সেটিংস
+            </h3>
+            <div class="menu-grid-container">
+                <!-- About & App -->
+                <a href="/app" class="menu-nav-card target-menu-item" data-keywords="about app info সম্পর্কে অ্যাপ গাইড">
+                    <div class="menu-icon-box"><i class="fa-solid fa-circle-info"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">আমাদের সম্পর্কে</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">অ্যাপ ও প্ল্যাটফর্ম তথ্য</span>
+                    </div>
+                </a>
+
+                <!-- Video Tutorial -->
+                <a href="/tutorial" class="menu-nav-card target-menu-item" data-keywords="tutorial video টিউটোরিয়াল ভিডিও গাইড">
+                    <div class="menu-icon-box !bg-rose-50 !text-rose-500 !border-rose-200"><i class="fa-brands fa-youtube"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">ভিডিও গাইড</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">কীভাবে কাজ করবেন</span>
+                    </div>
+                </a>
+
+                <!-- Notice Board -->
+                <a href="/notice" class="menu-nav-card target-menu-item" data-keywords="notice নোটিশ আপডেট ঘোষণা">
+                    <div class="menu-icon-box"><i class="fa-regular fa-bell"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">নোটিশ বোর্ড</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">অফিশিয়াল ঘোষণা</span>
+                    </div>
+                </a>
+
+                <!-- Account Settings -->
+                <a href="/account" class="menu-nav-card target-menu-item" data-keywords="account settings প্রোফাইল সেটিংস পাসওয়ার্ড">
+                    <div class="menu-icon-box"><i class="fa-solid fa-user-gear"></i></div>
+                    <div>
+                        <span class="font-extrabold text-[#021024] text-xs block leading-tight menu-title-text">প্রোফাইল সেটিংস</span>
+                        <span class="text-[10px] text-[#5483B3] font-medium">তথ্য ও পাসওয়ার্ড</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- No Search Results Found Notice -->
+    <div id="noSearchMessage" class="hidden text-center py-14 bg-white rounded-3xl border border-[#C1E8FF] p-6 shadow-sm">
+        <div class="w-12 h-12 rounded-2xl bg-[#F4F9FD] text-[#7DA0CA] flex items-center justify-center text-xl mx-auto mb-2 border border-[#C1E8FF]">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <h4 class="font-black text-[#021024] text-sm">কোনো মেনু পাওয়া যায়নি</h4>
+        <p class="text-xs text-[#5483B3] mt-0.5">অন্য কি-ওয়ার্ড লিখে পুনরায় চেষ্টা করুন।</p>
+    </div>
+
+    <!-- 24/7 Telegram Direct Support Button -->
+    <a href="https://t.me/takaearn_help" target="_blank" class="w-full bg-[#F4F9FD] hover:bg-[#C1E8FF] border border-[#C1E8FF] p-4 rounded-2xl flex items-center justify-between text-decoration-none transition active:scale-98 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#052659] text-white flex items-center justify-center text-base shadow-sm">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div class="text-left">
+                <h4 class="font-black text-xs text-[#021024] leading-tight">২৪/৭ লাইভ সাপোর্ট প্রয়োজন?</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">টেলিগ্রাম ডেস্কে সরাসরি মেসেজ দিন</p>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-right text-xs text-[#052659] mr-1"></i>
+    </a>
 
 </div>
 
-<!-- JavaScript for Search & Copy -->
+<!-- ===================================================
+     SCRIPTS: DYNAMIC SEARCH & QUICK REFERRAL
+=================================================== -->
 <script>
-    // Referral Link Generator
+    // 1. Referral Link Generator
     document.addEventListener('DOMContentLoaded', () => {
         const domain = window.location.origin;
         const uniqueCode = "{{ user.referral_code if user.referral_code else 'GenerateID' }}";
         document.getElementById("hiddenRefLink").value = `${domain}/register?ref=${uniqueCode}`;
     });
 
-    // Copy Link Logic
-    function copyMyRef(btn) {
+    function copyMyQuickRef(btn) {
         const copyText = document.getElementById("hiddenRefLink").value;
         navigator.clipboard.writeText(copyText).then(() => {
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> কপিড!';
-            btn.classList.add('bg-emerald-700', 'text-white');
-            btn.classList.remove('bg-white', 'text-emerald-800');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check mr-0.5"></i> কপিড';
+            btn.classList.add('bg-[#052659]', 'text-white');
             setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.classList.remove('bg-emerald-700', 'text-white');
-                btn.classList.add('bg-white', 'text-emerald-800');
-            }, 2000);
+                btn.innerHTML = orig;
+                btn.classList.remove('bg-[#052659]', 'text-white');
+            }, 1800);
         });
     }
 
-    // Real-time Search Filter Logic
-    function filterMenu() {
-        const input = document.getElementById('menuSearch').value.toLowerCase();
-        const items = document.querySelectorAll('.menu-item-target');
-        
-        items.forEach(item => {
-            const text = item.querySelector('.search-text').innerText.toLowerCase();
-            if (text.includes(input)) {
-                item.style.display = "flex";
+    // 2. Real-Time Menu Search & Filter
+    function filterAllMenuItems() {
+        const query = document.getElementById('menuSearchInput').value.trim().toLowerCase();
+        const clearBtn = document.getElementById('clearSearchBtn');
+        const sections = document.querySelectorAll('.menu-group-section');
+        const noResults = document.getElementById('noSearchMessage');
+        let totalVisible = 0;
+
+        // Toggle clear button
+        if (query.length > 0) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+
+        sections.forEach(section => {
+            const items = section.querySelectorAll('.target-menu-item');
+            let sectionHasMatch = false;
+
+            items.forEach(item => {
+                const title = item.querySelector('.menu-title-text').innerText.toLowerCase();
+                const keywords = (item.getAttribute('data-keywords') || '').toLowerCase();
+
+                if (title.includes(query) || keywords.includes(query)) {
+                    item.style.display = 'flex';
+                    sectionHasMatch = true;
+                    totalVisible++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Hide whole section header if no children matched
+            if (sectionHasMatch) {
+                section.style.display = 'block';
             } else {
-                item.style.display = "none";
+                section.style.display = 'none';
             }
         });
-        
-        // Hide empty category headings
-        document.querySelectorAll('.menu-category').forEach(cat => {
-            const visibleItems = cat.querySelectorAll('.menu-item-target[style="display: flex;"], .menu-item-target:not([style*="display: none"])');
-            if (visibleItems.length === 0) {
-                cat.style.display = "none";
-            } else {
-                cat.style.display = "block";
-            }
-        });
+
+        // Show/hide empty state
+        if (totalVisible === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+    }
+
+    function clearMenuSearch() {
+        const input = document.getElementById('menuSearchInput');
+        input.value = '';
+        filterAllMenuItems();
+        input.focus();
     }
 </script>
 
