@@ -446,4 +446,202 @@
             <a href="/withdraw" class="side-menu-item {{ 'active' if request.endpoint == 'withdraw' }}">
                 <i class="fa-solid fa-wallet text-emerald-600"></i> <span>উত্তোলন (Cashout)</span>
             </a>
-            <a href="/account" class="side-menu-item {{ 'active' if request.endpoint == 'acco
+            <a href="/account" class="side-menu-item {{ 'active' if request.endpoint == 'account' }}">
+                <i class="fa-solid fa-user-gear"></i> <span>একাউন্ট সেটিংস</span>
+            </a>
+            <a href="/drive" class="side-menu-item {{ 'active' if request.endpoint == 'drive_store' }}">
+                <i class="fa-solid fa-wifi text-sky-500"></i> <span>টেলিকম ড্রাইভ প্যাক</span>
+            </a>
+            <a href="/hire-us" class="side-menu-item {{ 'active' if request.endpoint == 'hire_us' }}">
+                <i class="fa-solid fa-bullhorn text-purple-600"></i> <span>Promotion (B2B)</span>
+            </a>
+
+            <span class="side-menu-label">কমিউনিটি ও সাহায্য</span>
+            <a href="/notice" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
+                <i class="fa-regular fa-bell text-rose-500"></i> <span>নোটিশ বোর্ড</span>
+            </a>
+
+            <!-- REVIEWS MENU LINK HIDDEN VIA COMMENT -->
+            <!-- 
+            <a href="/reviews" class="side-menu-item {{ 'active' if request.endpoint == 'reviews' }}">
+                <i class="fa-solid fa-star"></i> ইউজার রিভিউ
+            </a>
+            -->
+
+            <a href="/menu" class="side-menu-item {{ 'active' if request.endpoint == 'menu' }}">
+                <i class="fa-solid fa-bars"></i> <span>অল মেনু</span>
+            </a>
+            
+            {% if user and user.role == 'admin' %}
+            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
+            <a href="/admin" class="side-menu-item text-[#052659] hover:bg-[#C1E8FF]/40 font-bold">
+                <i class="fa-solid fa-shield-halved text-[#5483B3]"></i> <span>Admin Panel</span>
+            </a>
+            {% endif %}
+
+            {% if session.get('user_id') %}
+            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
+            <a href="/logout" class="side-menu-item text-rose-500 hover:text-rose-600 hover:bg-rose-50 font-bold">
+                <i class="fa-solid fa-arrow-right-from-bracket text-rose-500"></i> <span>Logout</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- =========================================================
+         3. FLOATING TELEGRAM BUTTON WITH REQUESTED BUBBLE TEXT
+    ========================================================= -->
+    <div id="support-widget" class="fixed right-3 bottom-[82px] z-40 flex items-center gap-2">
+        
+        <!-- Requested Speech Bubble Text: লাইভ সাহায্য লাগবে? মেসেজ দিন -->
+        <div onclick="goToTelegram()" class="support-speech-bubble flex items-center gap-2">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="text-[11px] font-black tracking-tight text-[#052659] whitespace-nowrap">
+                লাইভ সাহায্য লাগবে? মেসেজ দিন
+            </span>
+            <div class="bubble-arrow"></div>
+        </div>
+
+        <!-- Floating Telegram Action Button -->
+        <div onclick="goToTelegram()" class="support-fab" title="লাইভ সাহায্য লাগবে? মেসেজ দিন">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         4. TOP-RIGHT NOTIFICATION WIDGET
+    ========================================== -->
+    <div class="fixed top-5 right-4 z-[9999] flex flex-col gap-3 pointer-events-none max-w-sm w-[90vw]" id="toastWidgetContainer">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="toast-widget p-4 pointer-events-auto flex items-start gap-3.5 {{ 'toast-error' if category == 'error' else '' }}">
+                
+                <!-- Icon -->
+                <div class="h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 {{ 'bg-rose-50 text-rose-500 border border-rose-100' if category == 'error' else 'bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40' }}">
+                    <i class="fa-solid {{ 'fa-circle-xmark' if category == 'error' else 'fa-circle-check' }} text-base"></i>
+                </div>
+                
+                <!-- Content -->
+                <div class="flex-grow pr-2">
+                    <p class="text-[10px] font-extrabold uppercase tracking-wider {{ 'text-rose-500' if category == 'error' else 'text-[#052659]' }}">
+                        {{ 'Alert Notice' if category == 'error' else 'Notification' }}
+                    </p>
+                    <p class="text-xs font-bold text-[#021024] leading-snug mt-0.5">{{ message }}</p>
+                </div>
+
+                <!-- Close Button -->
+                <button onclick="closeToast(this)" class="h-6 w-6 text-[#7DA0CA] hover:text-[#021024] rounded-md flex items-center justify-center transition flex-shrink-0">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+
+                <div class="toast-progress"></div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- ==========================================
+         5. MAIN CONTENT AREA
+    ========================================== -->
+    <main class="flex-grow w-full max-w-2xl mx-auto px-3 relative z-10">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ===================================================
+         6. GLOWING ANIMATED DOCK BOTTOM NAVIGATION
+    =================================================== -->
+    {% if session.get('user_id') %}
+    <div class="premium-bottom-nav fixed bottom-0 left-0 w-full">
+        <div class="max-w-md mx-auto flex justify-around items-center h-[68px] px-2">
+            
+            <!-- 1. Dashboard -->
+            <a href="/dashboard" class="nav-item {{ 'active' if request.endpoint == 'dashboard' }}">
+                <i class="fa-solid fa-house"></i>
+                <span>হোম</span>
+                <div class="nav-glow-dot"></div>
+            </a>
+
+            <!-- 2. History -->
+            <a href="/history" class="nav-item {{ 'active' if request.endpoint == 'history' }}">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>হিস্টোরি</span>
+                <div class="nav-glow-dot"></div>
+            </a>
+
+            <!-- 3. Work -->
+            <a href="/work" class="nav-item {{ 'active' if request.endpoint == 'work' or request.endpoint == 'tasks' }}">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>কাজ</span>
+                <div class="nav-glow-dot"></div>
+            </a>
+
+            <!-- 4. Withdraw -->
+            <a href="/withdraw" class="nav-item {{ 'active' if request.endpoint == 'withdraw' }}">
+                <i class="fa-solid fa-wallet"></i>
+                <span>উত্তোলন</span>
+                <div class="nav-glow-dot"></div>
+            </a>
+
+            <!-- 5. Menu -->
+            <a href="/menu" class="nav-item {{ 'active' if request.endpoint == 'account' or request.endpoint == 'menu' }}">
+                <i class="fa-solid fa-bars"></i>
+                <span>মেনু</span>
+                <div class="nav-glow-dot"></div>
+            </a>
+
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // --- 1. Sidebar Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        
+        function toggleSidebar() {
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('show');
+            }
+        }
+
+        // --- 2. Copy Sidebar UID ---
+        function copySidebarUID(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> কপিড';
+                setTimeout(() => { btn.innerHTML = orig; }, 1500);
+            });
+        }
+
+        // --- 3. Direct Telegram Chat (NO PRE-FILLED TEXT) ---
+        function goToTelegram() {
+            // সরাসরি চ্যাট ওপেন হবে, ইউজার নিজের ইচ্ছামতো মেসেজ লিখবে
+            window.open('https://t.me/takaearn_help', '_blank');
+        }
+
+        // --- 4. Toast Dismiss Logic ---
+        function closeToast(btn) {
+            const toast = btn.closest('.toast-widget');
+            toast.classList.add('toast-leave');
+            setTimeout(() => toast.remove(), 350);
+        }
+
+        setTimeout(() => {
+            document.querySelectorAll('.toast-widget').forEach(toast => {
+                toast.classList.add('toast-leave');
+                setTimeout(() => toast.remove(), 350);
+            });
+        }, 4000);
+    </script>
+</body>
+</html>
