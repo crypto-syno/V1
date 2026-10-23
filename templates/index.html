@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - PREMIUM GLOWING DASHBOARD UI (V3)
+       TAKAEARN - PREMIUM GLOWING DASHBOARD UI (V4 - GLITCH FIXED)
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -12,7 +12,7 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Remove dark borders, use soft shadows & glows */
+    /* Clean Card Layout */
     .glowing-card {
         background: #FFFFFF;
         border: 1px solid #C1E8FF;
@@ -43,7 +43,6 @@
     }
     @keyframes pulseGlow { 100% { transform: scale(1.15) rotate(5deg); opacity: 0.9; } }
 
-    /* Cute Smaller Action Buttons inside Wallet */
     .wallet-quick-btn {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -71,7 +70,7 @@
         background: #FFFFFF;
         border: 1px solid #C1E8FF;
         border-radius: 20px;
-        padding: 14px 10px;
+        padding: 16px 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -86,7 +85,7 @@
         border-color: #5483B3;
         background: #F4F9FD;
         transform: translateY(-4px);
-        box-shadow: 0 10px 20px rgba(5, 38, 89, 0.08);
+        box-shadow: 0 10px 20px rgba(5, 38, 89, 0.1);
     }
 
     .app-icon-circle {
@@ -95,23 +94,24 @@
         font-size: 18px; transition: all 0.25s ease;
     }
 
-    /* 3. CTA Banners */
+    /* 3. Fixed Responsive CTA Banners (No Overflow) */
     .cta-banner {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         border-radius: 24px;
-        padding: 16px;
+        padding: 16px 18px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        box-shadow: 0 6px 20px -6px rgba(84, 131, 179, 0.12);
+        box-shadow: 0 8px 25px -8px rgba(84, 131, 179, 0.12);
         transition: all 0.3s ease;
         text-decoration: none;
         position: relative;
         overflow: hidden;
+        width: 100%;
     }
-    .cta-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 25px -8px rgba(5, 38, 89, 0.18); }
+    .cta-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(5, 38, 89, 0.2); }
 
     /* 4. Global Notice Popup Modal */
     .v2-modal-overlay {
@@ -122,7 +122,7 @@
     .v2-modal-overlay.show { display: flex !important; opacity: 1; }
     
     .gorgeous-modal-box {
-        background: #FFFFFF; border: 2px solid #C1E8FF; border-radius: 36px;
+        background: #FFFFFF; border: 1.5px solid #C1E8FF; border-radius: 36px;
         padding: 28px 22px; width: 100%; max-width: 380px; text-align: center;
         box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.4);
         transform: scale(0.92) translateY(10px); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -164,10 +164,28 @@
 </div>
 {% endif %}
 
-<div class="max-w-md mx-auto space-y-5 fade-in-up pb-10 px-2 mt-1">
+<div class="max-w-md mx-auto space-y-4 fade-in-up pb-12 px-2 mt-1">
 
     <!-- ===================================================
-         1. APP HEADER & USER GREETING
+         1. APP INSTALL CTA (Fixed: Auto-hides if standalone app installed)
+    =================================================== -->
+    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden">
+        <div class="flex items-center gap-3 min-w-0 pr-2">
+            <div class="w-11 h-11 rounded-[14px] bg-[#052659] text-white flex items-center justify-center text-lg shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
+                <i class="fa-brands fa-google-play"></i>
+            </div>
+            <div class="min-w-0">
+                <h4 class="font-black text-[#021024] text-xs truncate">TakaEarn অ্যাপ ইন্সটল করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5 truncate">হোমস্ক্রিনে অ্যাড করুন</p>
+            </div>
+        </div>
+        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3 rounded-[10px] text-[11px] font-bold shadow-sm uppercase tracking-wider flex-shrink-0 active:scale-95 transition">
+            Install
+        </button>
+    </div>
+
+    <!-- ===================================================
+         2. APP HEADER & USER GREETING
     =================================================== -->
     <div class="flex items-center justify-between pt-1">
         <div class="flex items-center gap-3">
@@ -197,10 +215,10 @@
     </div>
 
     <!-- ===================================================
-         2. NATIVE FINTECH WALLET CARD (Redesigned)
+         3. NATIVE FINTECH WALLET CARD
     =================================================== -->
     <div class="app-wallet-card">
-        <div class="flex items-center justify-between mb-3 relative z-10">
+        <div class="flex items-center justify-between mb-4 relative z-10">
             <div class="flex items-center gap-2 cursor-pointer bg-white/10 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-sm" onclick="toggleBalance()">
                 <span class="text-[10px] font-bold text-white uppercase tracking-wider">মেইন ব্যালেন্স</span>
                 <i id="eyeIcon" class="fa-regular fa-eye-slash text-xs text-white"></i>
@@ -238,17 +256,17 @@
     </div>
 
     <!-- ===================================================
-         3. VIDEO TUTORIAL CTA (Moved Up)
+         4. VIDEO TUTORIAL CTA
     =================================================== -->
     <a href="/tutorial" class="cta-banner bg-gradient-to-r from-rose-50 to-white border-rose-100">
-        <div class="flex items-center gap-3.5">
+        <div class="flex items-center gap-3.5 min-w-0 pr-2">
             <div class="w-11 h-11 rounded-[14px] bg-rose-500 text-white flex items-center justify-center text-lg shadow-md shadow-rose-500/20 flex-shrink-0">
                 <i class="fa-brands fa-youtube"></i>
             </div>
-            <div>
+            <div class="min-w-0">
                 <span class="text-[8px] font-black uppercase text-rose-500 tracking-widest block mb-0.5">নতুনদের জন্য</span>
-                <h4 class="font-black text-[#021024] text-[13px]">কীভাবে কাজ করবেন?</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">সঠিক নিয়মে কাজ করতে ভিডিও দেখুন</p>
+                <h4 class="font-black text-[#021024] text-[13px] truncate">কীভাবে কাজ করবেন?</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5 truncate">সঠিক নিয়মে কাজ করতে ভিডিও দেখুন</p>
             </div>
         </div>
         <div class="h-8 w-8 bg-white border border-rose-200 text-rose-500 rounded-full flex items-center justify-center text-xs shadow-sm flex-shrink-0">
@@ -257,7 +275,7 @@
     </a>
 
     <!-- ===================================================
-         4. APP-LIKE EARNING GRID (3 Columns, No Gmail)
+         5. APP-LIKE EARNING GRID (3 Columns, Clean layout)
     =================================================== -->
     <div class="pt-1">
         <div class="flex items-center justify-between px-1 mb-2">
@@ -319,35 +337,17 @@
     </div>
 
     <!-- ===================================================
-         5. APP INSTALL CTA (Moved Below Grid)
-    =================================================== -->
-    <div id="installAppCta" class="cta-banner bg-gradient-to-r from-[#F4F9FD] to-white hidden cursor-pointer">
-        <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-[14px] bg-[#052659] text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 animate-bounce" style="animation-duration: 3s;">
-                <i class="fa-brands fa-google-play"></i>
-            </div>
-            <div>
-                <h4 class="font-black text-[#021024] text-[13px]">TakaEarn অ্যাপ ইন্সটল করুন</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">১ ক্লিকে অ্যাপে প্রবেশ করতে স্ক্রিনে অ্যাড করুন</p>
-            </div>
-        </div>
-        <button onclick="installApp()" class="bg-[#052659] text-white h-8 px-3.5 rounded-[10px] text-[11px] font-bold shadow-sm uppercase tracking-wider flex-shrink-0">
-            Install
-        </button>
-    </div>
-
-    <!-- ===================================================
          6. QUICK GAME V2 / SPECIAL REWARD BANNER
     =================================================== -->
     <a href="/game/v2" class="glowing-card p-4 flex items-center justify-between bg-gradient-to-r from-white via-white to-[#F4F9FD] border-[#C1E8FF]">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 min-w-0 pr-2">
             <div class="w-12 h-12 rounded-[14px] bg-gradient-to-tr from-[#021024] to-[#052659] text-amber-300 flex items-center justify-center text-2xl shadow-sm flex-shrink-0 border border-[#C1E8FF]">
                 <i class="fa-solid fa-coins animate-pulse"></i>
             </div>
-            <div>
+            <div class="min-w-0">
                 <span class="bg-[#C1E8FF] text-[#052659] text-[8px] font-black px-2 py-0.5 rounded border border-[#7DA0CA]/30 uppercase">Play & Earn</span>
-                <h4 class="font-black text-[13px] text-[#021024] mt-0.5">কয়েন গেম খেলে আয় করুন</h4>
-                <p class="text-[10px] text-[#5483B3] font-semibold">১০০ কয়েন = ৳১.০০ (সরাসরি ব্যালেন্সে)</p>
+                <h4 class="font-black text-[13px] text-[#021024] mt-0.5 truncate">কয়েন গেম খেলে আয় করুন</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold truncate">১০০ কয়েন = ৳১.০০ (সরাসরি ব্যালেন্সে)</p>
             </div>
         </div>
         <div class="h-8 w-8 rounded-full bg-[#F4F9FD] border border-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs flex-shrink-0">
@@ -359,25 +359,25 @@
          7. SUPPORT QUICK TILES
     =================================================== -->
     <div class="grid grid-cols-2 gap-2.5">
-        <a href="https://t.me/takaearn_help" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3]">
+        <a href="https://t.me/takaearn_help" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3] text-decoration-none">
             <div class="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
                 <i class="fa-solid fa-headset"></i>
             </div>
             <div class="text-left overflow-hidden">
                 <h5 class="font-extrabold text-[11px] text-[#021024] truncate">লাইভ সাপোর্ট</h5>
-                <p class="text-[9px] text-[#5483B3] font-bold">@takaearn_help</p>
+                <p class="text-[9px] text-[#5483B3] font-bold truncate">@takaearn_help</p>
             </div>
         </a>
 
-        <a href="https://t.me/takaearn_site" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3]">
+        <a href="https://t.me/takaearn_site" target="_blank" class="glowing-card p-3.5 flex items-center gap-2.5 bg-[#F4F9FD] hover:border-[#5483B3] text-decoration-none">
             <div class="w-9 h-9 rounded-xl bg-[#052659] text-white flex items-center justify-center text-base flex-shrink-0 shadow-sm">
                 <i class="fa-brands fa-telegram"></i>
             </div>
             <div class="text-left overflow-hidden">
                 <h5 class="font-extrabold text-[11px] text-[#021024] truncate">অফিশিয়াল চ্যানেল</h5>
-                <p class="text-[9px] text-[#5483B3] font-bold">পেমেন্ট প্রুফ ও আপডেট</p>
+                <p class="text-[9px] text-[#5483B3] font-bold truncate">পেমেন্ট প্রুফ ও আপডেট</p>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- ===================================================
@@ -425,17 +425,17 @@
     </div>
 
     <!-- ===================================================
-         9. DRIVE PACK CTA (MOVED TO BOTTOM)
+         9. DRIVE PACK CTA (BOTTOM)
     =================================================== -->
-    <a href="/drive" class="cta-banner bg-gradient-to-r from-sky-50 to-white border-sky-200 mt-5">
-        <div class="flex items-center gap-3.5">
+    <a href="/drive" class="cta-banner bg-gradient-to-r from-sky-50 to-white border-sky-200 mt-5 text-decoration-none">
+        <div class="flex items-center gap-3.5 min-w-0 pr-2">
             <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center text-xl shadow-md shadow-sky-500/20 flex-shrink-0">
                 <i class="fa-solid fa-wifi"></i>
             </div>
-            <div>
+            <div class="min-w-0">
                 <span class="text-[8px] font-black uppercase text-sky-600 tracking-widest block mb-0.5">৩০% পর্যন্ত ছাড়</span>
-                <h4 class="font-black text-[#021024] text-sm">টেলিকম ড্রাইভ প্যাক</h4>
-                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5">সকল সিমে কম দামে ইন্টারনেট ও মিনিট</p>
+                <h4 class="font-black text-[#021024] text-sm truncate">টেলিকম ড্রাইভ প্যাক</h4>
+                <p class="text-[10px] text-[#5483B3] font-bold mt-0.5 truncate">সকল সিমে কম দামে ইন্টারনেট ও মিনিট</p>
             </div>
         </div>
         <div class="h-8 w-8 bg-white border border-sky-200 text-sky-500 rounded-full flex items-center justify-center text-xs shadow-sm flex-shrink-0">
@@ -484,13 +484,24 @@
         sessionStorage.setItem('takaearn_notice_seen', 'true');
     }
 
-    // 3. App Install PWA Prompt
+    // 3. App Install PWA Prompt (Auto-Hide if standalone mode)
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        if (!window.matchMedia('(display-mode: standalone)').matches) {
+        if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
             document.getElementById('installAppCta').style.display = 'flex';
+        }
+    });
+
+    // Also check on load if already in browser mode and not standalone
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+            // Show after slight delay if deferredPrompt is pending or fallback
+            setTimeout(() => {
+                const cta = document.getElementById('installAppCta');
+                if(cta) cta.style.display = 'flex';
+            }, 1000);
         }
     });
 
@@ -504,7 +515,7 @@
                 deferredPrompt = null;
             });
         } else {
-            alert("অ্যাপটি ইনস্টল করতে ব্রাউজারের Menu (৩ ডট) থেকে 'Add to Home screen' অথবা 'Install app' এ ক্লিক করুন।");
+            alert("📱 অ্যাপটি ইনস্টল করতে ব্রাউজারের Menu (৩ ডট) থেকে 'Add to Home screen' অথবা 'Install app' এ ক্লিক করুন।");
         }
     }
 
@@ -514,7 +525,7 @@
 
         function updateSiteAge() {
             const now = new Date();
-            if (now < startDate) return; // Show zeros if before start date
+            if (now < startDate) return;
 
             let months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
             let tempDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, startDate.getDate());
