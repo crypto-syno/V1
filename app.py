@@ -822,6 +822,15 @@ def update_profile():
         
     return redirect(url_for('account'))
 
+
+# ==========================================
+# ✂️ GRAND OPENING / RIBBON CUTTING ROUTE
+# ==========================================
+@app.route('/open')
+def grand_opening():
+    return render_template('open.html', user=g.user if 'user' in g else None)
+    
+
 # ==========================================
 # 🎮 COIN CATCHER GAME & CONVERT SYSTEM
 # ==========================================
