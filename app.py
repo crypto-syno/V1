@@ -2270,11 +2270,11 @@ def withdraw():
                 if ref_count < 3:
                     flash("❌ ফ্রি ইউজারদের 3টি রেফার প্রয়োজন।", "error")
                     return redirect(url_for('withdraw'))
-                if account_hours < 24:
+                if account_hours < 0:
                     flash("❌ একাউন্ট খোলার পর ২৪ ঘণ্টা অপেক্ষা করতে হবে।", "error")
                     return redirect(url_for('withdraw'))
-                if amount < 300:
-                    flash("❌ ফ্রি ইউজারদের সর্বনিম্ন উইথড্র 300 টাকা।", "error")
+                if amount < 400:
+                    flash("❌ ফ্রি ইউজারদের সর্বনিম্ন উইথড্র 400 টাকা।", "error")
                     return redirect(url_for('withdraw'))
             else:
                 # 🟢 VIP ইউজারদের শর্ত (শুধু ২০ টাকা)
@@ -2350,6 +2350,7 @@ def aw_result():
         final_data = []
 
     return render_template('aw_result.html', submissions=final_data)
+    
     # --- VIP PAGE (TAKAEARN PLUS CLAIM & STORE) ---
 @app.route('/vip', methods=['GET', 'POST'])
 @login_required
