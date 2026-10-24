@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- Google Font for Official Signature in Invoice -->
+<!-- Google Font for Official Signature -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
     /* ==========================================================
-       TAKAEARN - MODERN FINTECH HISTORY & VOUCHER UI
+       TAKAEARN - PREMIUM TRANSACTION & VOUCHER HISTORY UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -15,125 +15,214 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Modern Segmented Tab Switcher */
-    .tab-container {
+    /* Segmented Tab Switcher */
+    .tab-switch-dock {
         display: flex; gap: 4px;
         background: #F4F9FD; padding: 4px; border-radius: 20px;
         border: 1.5px solid #C1E8FF; margin-bottom: 18px;
     }
-    .tab-btn {
+    .tab-switch-btn {
         flex: 1; text-align: center; padding: 11px 0;
         font-size: 12.5px; font-weight: 800; color: #5483B3;
         border-radius: 16px; transition: all 0.25s ease; cursor: pointer; border: none; background: transparent;
     }
-    .tab-btn.active { 
+    .tab-switch-btn.active { 
         background: #FFFFFF; color: #052659; 
         box-shadow: 0 4px 15px rgba(5, 38, 89, 0.08); 
         border: 1px solid #C1E8FF;
     }
 
-    /* Minimal Transaction Row */
-    .txn-row {
+    /* Distinct Gateway Rows with Theme Accent Lines */
+    .txn-modern-card {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 16px; background: #FFFFFF; border: 1px solid #E2E8F0;
-        border-radius: 22px; margin-bottom: 10px; transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
-        cursor: pointer;
+        padding: 15px 16px; background: #FFFFFF; border: 1.5px solid #C1E8FF;
+        border-radius: 22px; margin-bottom: 10px; transition: all 0.25s ease;
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
+        cursor: pointer; position: relative; overflow: hidden;
     }
-    .txn-row:hover { border-color: #5483B3; background: #F4F9FD; transform: translateY(-1px); }
+    .txn-modern-card:hover { 
+        border-color: #5483B3; background: #F4F9FD; transform: translateY(-2px); 
+        box-shadow: 0 10px 24px -5px rgba(5, 38, 89, 0.1);
+    }
+    .txn-modern-card.theme-bKash { border-left: 4px solid #E2136E; }
+    .txn-modern-card.theme-Nagad { border-left: 4px solid #F97316; }
+    .txn-modern-card.theme-Rocket { border-left: 4px solid #8B5CF6; }
 
-    .txn-icon {
+    /* Gateway Logo Image */
+    .mfs-logo-box {
         width: 44px; height: 44px; border-radius: 14px;
-        background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF;
+        overflow: hidden; flex-shrink: 0;
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         display: flex; align-items: center; justify-content: center;
-        font-size: 18px; flex-shrink: 0;
+        background: #FFFFFF;
+    }
+    .mfs-logo-box img {
+        width: 100%; height: 100%; object-fit: cover;
     }
 
     /* Status Badges */
-    .status-badge {
+    .status-badge-chip {
         padding: 4px 10px; border-radius: 8px; font-size: 9.5px; font-weight: 800;
-        text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;
+        text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px;
     }
-    .status-success { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
-    .status-pending { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
-    .status-failed { background: #FFF1F2; color: #E11D48; border: 1px solid #FECDD3; }
+    .status-chip-success { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+    .status-chip-pending { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
+    .status-chip-failed { background: #FFF1F2; color: #E11D48; border: 1px solid #FECDD3; }
 
     /* Tab Panes */
-    .tab-pane { display: none; opacity: 0; }
-    .tab-pane.active { display: block; animation: tabFadeIn 0.3s ease forwards; }
-    @keyframes tabFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: tabFade 0.3s ease forwards; }
+    @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ==========================================
-       GORGEOUS DETAILS POPUP MODAL
-    ========================================== */
+    /* ==========================================================
+       GORGEOUS POPUP MODAL WITH GATEWAY BACKGROUND PATTERNS
+    ========================================================== */
     #detailsModal {
         position: fixed; inset: 0; z-index: 9999;
-        background: rgba(2, 16, 36, 0.85); backdrop-filter: blur(12px);
-        display: flex; align-items: center; justify-content: center; padding: 16px;
-        opacity: 0; pointer-events: none; transition: all 0.3s ease;
+        background: rgba(2, 16, 36, 0.88); backdrop-filter: blur(12px);
+        display: none; align-items: center; justify-content: center; padding: 16px;
     }
-    #detailsModal.show { opacity: 1; pointer-events: auto; }
+    #detailsModal.show { display: flex !important; }
     
-    .modal-sheet-card {
+    .modal-fintech-sheet {
         background: #FFFFFF; border: 2px solid #C1E8FF; border-radius: 36px;
-        width: 100%; max-width: 410px; padding: 28px 22px;
-        transform: scale(0.92) translateY(12px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        width: 100%; max-width: 410px; overflow: hidden;
         box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.5);
         max-height: 94vh; overflow-y: auto; position: relative;
+        animation: popUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    #detailsModal.show .modal-sheet-card { transform: scale(1) translateY(0); }
+    @keyframes popUpModal {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+    }
 
-    /* Print Invoice */
+    /* Modal Gateway Pattern Header */
+    .modal-gateway-header {
+        padding: 28px 20px 22px 20px;
+        text-align: center;
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s ease;
+    }
+    /* Subtle geometric mesh pattern overlay */
+    .modal-gateway-header::before {
+        content: ''; position: absolute; inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+        background-size: 14px 14px;
+        opacity: 0.6; pointer-events: none;
+    }
+
+    /* Gateway Logo Frame in Modal */
+    .modal-logo-frame {
+        width: 60px; height: 60px; border-radius: 20px;
+        background: #FFFFFF; border: 3px solid #FFFFFF;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        margin: 0 auto 12px auto;
+        overflow: hidden; display: flex; align-items: center; justify-content: center;
+        position: relative; z-index: 10;
+    }
+    .modal-logo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Timeline Stepper */
+    .timeline-node {
+        display: flex; align-items: center; gap: 10px;
+        font-size: 11px; font-weight: 700; color: #5483B3;
+        position: relative;
+    }
+    .timeline-dot {
+        width: 16px; height: 16px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 8px; color: white; flex-shrink: 0;
+    }
+
+    /* ==========================================================
+       REDESIGNED PRINTABLE DIGITAL CASH SLIP (VOUCHER)
+    ========================================================== */
     #printableInvoice { display: none; }
     @media print {
         body * { visibility: hidden !important; }
         #printableInvoice, #printableInvoice * { visibility: visible !important; }
         #printableInvoice {
             display: block !important; position: absolute !important; left: 0 !important; top: 0 !important;
-            width: 100% !important; margin: 0 !important; padding: 25px !important; background: #FFFFFF !important; color: #000000 !important;
+            width: 100% !important; margin: 0 !important; padding: 20px !important; background: #FFFFFF !important; color: #000000 !important;
         }
         .no-print { display: none !important; }
-        @page { size: A4 portrait; margin: 15mm; }
+        @page { size: A4 portrait; margin: 12mm; }
+    }
+
+    .slip-voucher-wrapper {
+        border: 2px dashed #052659;
+        border-radius: 24px;
+        padding: 30px 24px;
+        max-width: 520px;
+        margin: auto;
+        background: #FFFFFF;
+        font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+        position: relative;
+        box-shadow: none;
     }
 </style>
 
 <div class="max-w-md mx-auto fade-in-up pb-12 px-2 mt-1">
 
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80 mb-4">
+        <div class="flex items-center gap-3">
+            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
+            <div>
+                <h1 class="text-base font-black text-[#021024] leading-tight">লেনদেন ও কাজের হিস্টোরি</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Transaction & Earning Logs</p>
+            </div>
+        </div>
+    </div>
 
-
-    <!-- Total Net Worth / Balance Hero Box -->
-    <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-3xl p-6 text-white shadow-lg mb-6 flex justify-between items-center relative overflow-hidden">
+    <!-- Total Net Worth Card -->
+    <div class="bg-gradient-to-r from-[#021024] via-[#052659] to-[#5483B3] rounded-3xl p-5 text-white shadow-lg mb-5 flex justify-between items-center relative overflow-hidden">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-widest text-[#C1E8FF] block mb-1">মোট এভেইলেবল ব্যালেন্স</span>
+            <span class="text-[9px] font-black uppercase tracking-widest text-[#C1E8FF] block mb-1">মোট এভেইলেবল ব্যালেন্স</span>
             <h2 class="text-3xl font-black font-mono tracking-tight text-white">৳{{ user.balance }}</h2>
         </div>
-        <div class="h-12 w-12 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-amber-300 text-xl">
+        <div class="h-12 w-12 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-amber-300 text-xl shadow-inner">
             <i class="fa-solid fa-wallet"></i>
         </div>
     </div>
 
-    <!-- Tab Switcher -->
-    <div class="tab-container">
-        <button onclick="switchTab('withdrawals')" id="btn-withdrawals" class="tab-btn active">
+    <!-- Segmented Tab Switcher -->
+    <div class="tab-switch-dock">
+        <button onclick="switchHistoryTab('withdrawals')" id="btn-withdrawals" class="tab-switch-btn active">
             <i class="fa-solid fa-arrow-down-long mr-1"></i> উত্তোলন (Cashout)
         </button>
-        <button onclick="switchTab('tasks')" id="btn-tasks" class="tab-btn">
+        <button onclick="switchHistoryTab('tasks')" id="btn-tasks" class="tab-switch-btn">
             <i class="fa-solid fa-list-check mr-1"></i> টাস্ক (Tasks)
         </button>
     </div>
 
     <!-- ===================================================
-         1. WITHDRAWALS PANE
+         1. WITHDRAWALS PANE (BRANDED ROWS)
     =================================================== -->
-    <div id="pane-withdrawals" class="tab-pane active space-y-3">
+    <div id="pane-withdrawals" class="tab-pane active space-y-2.5">
         <div class="flex justify-between items-center px-1 mb-1">
-            <span class="text-[11px] font-black uppercase text-[#5483B3] tracking-wider">ক্যাশআউট হিস্টোরি (ভিউ করতে ক্লিক করুন)</span>
+            <span class="text-[11px] font-black uppercase text-[#5483B3] tracking-wider">ক্যাশআউট হিস্টোরি (বিস্তারিত দেখতে ট্যাপ করুন)</span>
             <span class="text-[11px] font-bold text-[#7DA0CA]">Total: {{ withdrawals|length }}</span>
         </div>
 
         {% if withdrawals %}
             {% for item in withdrawals %}
-            <div class="txn-row" onclick="openDetailsModal(
+            
+            {% set mfs_logo = 'https://i.ibb.co/Nd7D48N4/7526.jpg' %}
+            {% if item.method == 'bKash' %}
+                {% set mfs_logo = 'https://media.licdn.com/dms/image/v2/C510BAQFYQ12drExNfw/company-logo_200_200/company-logo_200_200/0/1630630387614/bkash_limited_logo?e=2147483647&v=beta&t=_Js1e5ohbiSDQCHc8H7HjjHMejD_AwwKO5ThmmxH1ow' %}
+            {% elif item.method == 'Nagad' %}
+                {% set mfs_logo = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPjWfnY18KJaVHEPjH_yiVByx3tIOxmOMWkME8GZ7BSGFIGXU_i6R0eUyl&s=10' %}
+            {% elif item.method == 'Rocket' %}
+                {% set mfs_logo = 'https://banglatech24.com/wp-content/uploads/2021/08/rocket-dbbl.jpg' %}
+            {% endif %}
+
+            <div class="txn-modern-card theme-{{ item.method }}" onclick="openDetailsModal(
                 '{{ item.id }}',
                 '{{ item.method }}',
                 '{{ item.number }}',
@@ -142,15 +231,17 @@
                 '{{ item.wallet_type or 'main' }}',
                 '{{ item.created_at }}'
             )">
-                <div class="flex items-center gap-3.5">
-                    <div class="txn-icon">
-                        {% if item.method == 'bKash' %} <i class="fa-solid fa-bolt text-[#E2136E]"></i>
-                        {% elif item.method == 'Nagad' %} <i class="fa-solid fa-fire-flame-curved text-[#F97316]"></i>
-                        {% else %} <i class="fa-solid fa-building-columns text-[#0284C7]"></i> {% endif %}
+                <div class="flex items-center gap-3">
+                    <div class="mfs-logo-box">
+                        <img src="{{ mfs_logo }}" alt="{{ item.method }}">
                     </div>
                     <div>
-                        <h4 class="font-extrabold text-[#021024] text-sm leading-tight">{{ item.method }} Transfer</h4>
-                        <p class="text-[10px] text-[#7DA0CA] font-mono mt-0.5">{{ item.created_at[:10] }} • <span class="text-[#021024] font-bold">...{{ item.number[-4:] if item.number else '0000' }}</span></p>
+                        <h4 class="font-extrabold text-[#021024] text-sm leading-tight flex items-center gap-1.5">
+                            {{ item.method }} Payout
+                        </h4>
+                        <p class="text-[10px] text-[#7DA0CA] font-mono mt-0.5">
+                            {{ item.created_at[:10] }} • <span class="text-[#052659] font-bold font-mono">{{ item.number[:3] }}****{{ item.number[-3:] if item.number else '000' }}</span>
+                        </p>
                     </div>
                 </div>
                 
@@ -158,11 +249,11 @@
                     <span class="font-black text-[#021024] text-base font-mono">-৳{{ item.amount }}</span>
                     
                     {% if item.status == 'approved' %}
-                        <span class="status-badge status-success">Success</span>
+                        <span class="status-badge-chip status-chip-success"><i class="fa-solid fa-check text-[8px]"></i> Success</span>
                     {% elif item.status == 'rejected' %}
-                        <span class="status-badge status-failed">Refunded</span>
+                        <span class="status-badge-chip status-chip-failed"><i class="fa-solid fa-xmark text-[8px]"></i> Refunded</span>
                     {% else %}
-                        <span class="status-badge status-pending">Processing</span>
+                        <span class="status-badge-chip status-chip-pending"><i class="fa-solid fa-hourglass-half text-[8px]"></i> Pending</span>
                     {% endif %}
                 </div>
             </div>
@@ -180,7 +271,7 @@
     <!-- ===================================================
          2. TASKS PANE
     =================================================== -->
-    <div id="pane-tasks" class="tab-pane space-y-3">
+    <div id="pane-tasks" class="tab-pane space-y-2.5">
         <div class="flex justify-between items-center px-1 mb-1">
             <span class="text-[11px] font-black uppercase text-[#5483B3] tracking-wider">টাস্ক সাবমিশন হিস্টোরি</span>
             <span class="text-[11px] font-bold text-[#7DA0CA]">Total: {{ tasks|length }}</span>
@@ -188,26 +279,26 @@
 
         {% if tasks %}
             {% for task in tasks %}
-            <div class="txn-row !cursor-default">
-                <div class="flex items-center gap-3.5 w-full overflow-hidden">
-                    <div class="txn-icon">
-                        <i class="fa-solid fa-check text-emerald-600"></i>
+            <div class="txn-modern-card !cursor-default">
+                <div class="flex items-center gap-3 w-full overflow-hidden">
+                    <div class="w-11 h-11 rounded-2xl bg-[#C1E8FF]/60 text-[#052659] flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-check"></i>
                     </div>
                     <div class="flex-grow pr-2 min-w-0">
-                        <h4 class="font-extrabold text-[#021024] text-sm truncate">{{ task.title }}</h4>
+                        <h4 class="font-extrabold text-[#021024] text-xs truncate">{{ task.title }}</h4>
                         <p class="text-[10px] text-[#7DA0CA] font-mono mt-0.5">{{ task.created_at[:10] }}</p>
                     </div>
                 </div>
 
                 <div class="text-right flex flex-col items-end gap-1 flex-shrink-0">
-                    <span class="font-black text-emerald-600 text-base font-mono">+৳{{ task.reward }}</span>
+                    <span class="font-black text-emerald-600 text-sm font-mono">+৳{{ task.reward }}</span>
                     
                     {% if task.status == 'approved' %}
-                        <span class="status-badge status-success">Approved</span>
+                        <span class="status-badge-chip status-chip-success">Approved</span>
                     {% elif task.status == 'rejected' %}
-                        <span class="status-badge status-failed">Rejected</span>
+                        <span class="status-badge-chip status-chip-failed">Rejected</span>
                     {% else %}
-                        <span class="status-badge status-pending">In Review</span>
+                        <span class="status-badge-chip status-chip-pending">In Review</span>
                     {% endif %}
                 </div>
             </div>
@@ -225,116 +316,168 @@
 </div>
 
 <!-- ===================================================
-     GORGEOUS DETAILS MODAL (POPUP)
+     GORGEOUS DETAILS MODAL WITH GATEWAY THEMES & PATTERNS
 =================================================== -->
 <div id="detailsModal">
-    <div class="modal-sheet-card">
+    <div class="modal-fintech-sheet">
         
-        <!-- Close Button -->
-        <button onclick="closeDetailsModal()" class="absolute top-5 right-5 h-8 w-8 bg-[#F4F9FD] hover:bg-[#C1E8FF] text-[#052659] rounded-full flex items-center justify-center transition text-xs border border-[#C1E8FF]">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+        <!-- Header with Gateway Background Pattern -->
+        <div id="modalThemeHeader" class="modal-gateway-header">
+            <!-- Close Button -->
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 h-8 w-8 bg-black/20 hover:bg-black/30 text-white rounded-full flex items-center justify-center transition text-xs border border-white/20 z-20">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-        <div class="text-center mb-5">
-            <div id="modalGatewayIcon" class="h-16 w-16 mx-auto rounded-3xl flex items-center justify-center text-3xl mb-3 shadow-md bg-[#F4F9FD] border border-[#C1E8FF]">
-                <!-- Dynamic Gateway Icon -->
+            <!-- Dynamic Gateway Logo -->
+            <div class="modal-logo-frame">
+                <img id="modalLogoImg" src="" alt="Gateway">
             </div>
-            <span class="text-[10px] font-black text-[#7DA0CA] uppercase tracking-widest block mb-1">উত্তোলিত পরিমাণ</span>
-            <h3 class="text-3xl font-black font-mono text-[#021024] tracking-tight" id="modalAmount">৳0.00</h3>
-            <div class="mt-2" id="modalStatusBadge"></div>
+
+            <span class="text-[10px] font-black uppercase tracking-widest text-white/80 block mb-0.5" id="modalMethodTitle">bKash Payout</span>
+            <h3 class="text-3xl font-black font-mono tracking-tight text-white mb-1" id="modalAmount">৳0.00</h3>
+            <div class="inline-block" id="modalStatusBadge"></div>
         </div>
 
-        <!-- Details Box -->
-        <div class="bg-[#F4F9FD] rounded-2xl p-4 border border-[#C1E8FF] space-y-3.5 mb-6 text-xs text-left">
-            <div class="flex justify-between items-center">
-                <span class="text-[#7DA0CA] font-bold uppercase">পেমেন্ট মাধ্যম</span>
-                <span class="font-extrabold text-[#021024] uppercase" id="modalMethod">-</span>
-            </div>
-            <div class="flex justify-between items-center">
-                <span class="text-[#7DA0CA] font-bold uppercase">প্রেরিত নম্বর (Masked)</span>
-                <span class="font-extrabold text-[#021024] font-mono tracking-wider" id="modalMaskedNumber">-</span>
-            </div>
-            <div class="flex justify-between items-center">
-                <span class="text-[#7DA0CA] font-bold uppercase">ওয়ালেট টাইপ</span>
-                <span class="font-extrabold text-[#021024] uppercase" id="modalWalletType">-</span>
-            </div>
-            <div class="flex justify-between items-center">
-                <span class="text-[#7DA0CA] font-bold uppercase">ট্রানজেকশন আইডি</span>
-                <div class="flex items-center gap-1.5 font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                    <span id="modalTrxId">-</span>
-                    <button onclick="copyTrxId()" class="hover:text-emerald-900 text-xs" title="Copy"><i class="fa-regular fa-copy"></i></button>
+        <div class="p-5">
+            <!-- 3-Step Timeline Tracker -->
+            <div class="bg-[#F4F9FD] border border-[#C1E8FF] rounded-2xl p-3.5 mb-4 space-y-2">
+                <div class="timeline-node">
+                    <span class="timeline-dot bg-emerald-500"><i class="fa-solid fa-check"></i></span>
+                    <span class="text-[#021024]">উইথড্র রিকোয়েস্ট গৃহীত হয়েছে</span>
+                </div>
+                <div class="timeline-node">
+                    <span class="timeline-dot bg-emerald-500"><i class="fa-solid fa-check"></i></span>
+                    <span class="text-[#021024]">অটোমেটেড সিকিউরিটি ক্লিয়ারেন্স</span>
+                </div>
+                <div class="timeline-node">
+                    <span class="timeline-dot" id="timelineStep3Dot"><i class="fa-solid fa-check"></i></span>
+                    <span id="timelineStep3Text" class="font-bold">সফলভাবে প্রেরিত</span>
                 </div>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="text-[#7DA0CA] font-bold uppercase">তারিখ ও সময়</span>
-                <span class="font-semibold text-[#5483B3] font-mono" id="modalDateTime">-</span>
-            </div>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="space-y-2">
-            <button onclick="printOfficialInvoice()" class="w-full bg-gradient-to-r from-[#021024] to-[#052659] text-white py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider shadow-md hover:opacity-95 active:scale-95 transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-print"></i> <span>রিসিপ্ট ডাউনলোড / প্রিন্ট (PDF)</span>
-            </button>
-            <button onclick="closeDetailsModal()" class="w-full bg-[#F4F9FD] hover:bg-[#C1E8FF] text-[#052659] py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition border border-[#C1E8FF]">
-                বন্ধ করুন
-            </button>
+            <!-- Transaction Data Grid -->
+            <div class="bg-white rounded-2xl border border-[#C1E8FF] p-3.5 space-y-2.5 text-xs text-left mb-5">
+                <div class="flex justify-between items-center">
+                    <span class="text-[#7DA0CA] font-bold">পেমেন্ট মেথড</span>
+                    <span class="font-black text-[#021024]" id="modalMethod">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[#7DA0CA] font-bold">প্রেরিত নম্বর (Masked)</span>
+                    <span class="font-black text-[#021024] font-mono tracking-wider" id="modalMaskedNumber">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[#7DA0CA] font-bold">ওয়ালেট টাইপ</span>
+                    <span class="font-black text-[#021024] uppercase" id="modalWalletType">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[#7DA0CA] font-bold">ট্রানজেকশন আইডি</span>
+                    <div class="flex items-center gap-1.5 font-mono font-black text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-lg border border-[#7DA0CA]/40">
+                        <span id="modalTrxId">-</span>
+                        <button onclick="copyTrxId()" class="hover:opacity-80 text-xs" title="Copy"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[#7DA0CA] font-bold">তারিখ ও সময়</span>
+                    <span class="font-bold text-[#5483B3] font-mono" id="modalDateTime">-</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-2">
+                <button onclick="printOfficialInvoice()" class="w-full bg-gradient-to-r from-[#021024] to-[#052659] text-white py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider shadow-md hover:opacity-95 active:scale-95 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-receipt text-amber-300"></i> <span>ডিজিটাল ভাউচার / স্লিপ প্রিন্ট (PDF)</span>
+                </button>
+                <button onclick="closeDetailsModal()" class="w-full bg-[#F4F9FD] hover:bg-[#C1E8FF] text-[#052659] py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider transition border border-[#C1E8FF]">
+                    বন্ধ করুন
+                </button>
+            </div>
         </div>
 
     </div>
 </div>
 
-<!-- ==========================================
-     PRINT VOUCHER TEMPLATE
-========================================== -->
+<!-- ==========================================================
+     REDESIGNED DIGITAL CASHOUT SLIP VOUCHER (PRINTABLE)
+========================================================== -->
 <div id="printableInvoice">
-    <div style="border: 1.5px solid #C1E8FF; padding: 35px 30px; border-radius: 16px; max-width: 650px; margin: auto; font-family: 'Plus Jakarta Sans', Arial, sans-serif; position: relative;">
-        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.03; pointer-events: none; font-size: 110px; font-weight: 900; transform: rotate(-30deg);">PAID</div>
+    <div class="slip-voucher-wrapper">
         
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #052659; padding-bottom: 18px; margin-bottom: 24px;">
-            <div>
-                <h1 style="font-size: 26px; font-weight: 900; color: #021024; margin: 0;">Taka<span style="color: #052659;">Earn</span></h1>
-                <p style="font-size: 11px; font-weight: 700; color: #5483B3; margin: 3px 0 0 0; text-transform: uppercase;">Official Electronic Settlement Voucher</p>
-            </div>
-            <div style="text-align: right;">
-                <span style="background: #ECFDF5; color: #059669; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 900; border: 1px solid #A7F3D0; text-transform: uppercase;" id="invStatus">DISBURSED</span>
-                <p style="font-size: 11px; font-family: monospace; color: #5483B3; margin: 6px 0 0 0;" id="invDate">Date: 2026-01-01</p>
-            </div>
+        <!-- Voucher Header -->
+        <div style="text-align: center; border-bottom: 2px dashed #052659; padding-bottom: 18px; margin-bottom: 20px;">
+            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="Logo" style="width: 50px; height: 50px; border-radius: 14px; object-fit: cover; margin: 0 auto 8px auto; border: 2px solid #C1E8FF;">
+            <h2 style="font-size: 20px; font-weight: 900; color: #021024; margin: 0;">Taka<span style="color: #052659;">Earn</span></h2>
+            <p style="font-size: 10px; font-weight: 800; color: #5483B3; text-transform: uppercase; margin: 2px 0 0 0; letter-spacing: 1px;">Official Electronic Fund Transfer Slip</p>
+            <p style="font-size: 9px; color: #7DA0CA; margin: 2px 0 0 0;">Automated Clearing House • MFS Gateway Bangladesh</p>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 26px; font-size: 13px;">
-            <tr style="border-bottom: 1px solid #F1F5F9;">
-                <td style="padding: 10px 0; color: #7DA0CA; font-weight: 600;">Account Holder:</td>
-                <td style="padding: 10px 0; text-align: right; font-weight: 800; color: #021024;">{{ user.full_name or user.email }}</td>
+        <!-- Voucher Status & Date -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 11px;">
+            <div>
+                <span style="color: #7DA0CA; font-weight: bold;">Status:</span> 
+                <span style="font-weight: 900; color: #059669; text-transform: uppercase;" id="invStatus">SUCCESS</span>
+            </div>
+            <div style="font-family: monospace; font-weight: bold; color: #021024;" id="invDate">2026-01-01</div>
+        </div>
+
+        <!-- Ledger Table -->
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 22px;">
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 8px 0; color: #7DA0CA; font-weight: 600;">Account Holder:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: 800; color: #021024;">{{ user.full_name or user.email }}</td>
             </tr>
-            <tr style="border-bottom: 1px solid #F1F5F9;">
-                <td style="padding: 10px 0; color: #7DA0CA; font-weight: 600;">Gateway:</td>
-                <td style="padding: 10px 0; text-align: right; font-weight: 800; color: #021024;" id="invMethod">bKash</td>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 8px 0; color: #7DA0CA; font-weight: 600;">Gateway Channel:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: 900; color: #052659;" id="invMethod">bKash</td>
             </tr>
-            <tr style="border-bottom: 1px solid #F1F5F9;">
-                <td style="padding: 10px 0; color: #7DA0CA; font-weight: 600;">Receiver Number:</td>
-                <td style="padding: 10px 0; text-align: right; font-weight: 800; font-family: monospace;" id="invNumber">017****0000</td>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 8px 0; color: #7DA0CA; font-weight: 600;">Receiver Mobile (Masked):</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: 800; font-family: monospace;" id="invNumber">017****0000</td>
             </tr>
-            <tr style="border-bottom: 1px solid #F1F5F9;">
-                <td style="padding: 10px 0; color: #7DA0CA; font-weight: 600;">Transaction ID:</td>
-                <td style="padding: 10px 0; text-align: right; font-weight: 900; font-family: monospace; color: #052659;" id="invTrx">BK9A8F2K4X</td>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 8px 0; color: #7DA0CA; font-weight: 600;">Gateway Transaction ID:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: 900; font-family: monospace; color: #052659;" id="invTrx">BK9A8F2K4X</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+                <td style="padding: 8px 0; color: #7DA0CA; font-weight: 600;">Wallet Origin:</td>
+                <td style="padding: 8px 0; text-align: right; font-weight: 800; text-transform: uppercase;" id="invWallet">MAIN ACCOUNT</td>
             </tr>
         </table>
 
-        <div style="background: #F4F9FD; border: 1.5px dashed #7DA0CA; padding: 18px 22px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <div>
-                <span style="font-size: 13px; font-weight: 800; color: #5483B3; display: block;">Net Amount Disbursed</span>
-            </div>
-            <span style="font-size: 28px; font-weight: 900; font-family: monospace; color: #021024;" id="invAmount">৳0.00</span>
+        <!-- Amount Box -->
+        <div style="background: #F4F9FD; border: 1.5px solid #C1E8FF; padding: 14px 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+            <span style="font-size: 12px; font-weight: 800; color: #052659;">Total Disbursed Amount:</span>
+            <span style="font-size: 24px; font-weight: 900; font-family: monospace; color: #021024;" id="invAmount">৳0.00</span>
         </div>
+
+        <!-- Fake Barcode Strip -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="letter-spacing: 5px; font-family: monospace; font-size: 20px; font-weight: 900; color: #021024;">||| | |||| | ||| |||| | ||</div>
+            <span style="font-size: 8px; color: #7DA0CA; font-family: monospace; text-transform: uppercase;">SECURE AUTH TOKEN: TE-FIN-VERIFIED</span>
+        </div>
+
+        <!-- Seal & Signature -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 10px; border-top: 2px dashed #052659;">
+            <div style="text-align: center; width: 140px;">
+                <div style="border: 1.5px dashed #052659; color: #052659; border-radius: 8px; padding: 3px 6px; font-size: 8px; font-weight: 900; text-transform: uppercase;">
+                    SETTLED VIA BOT
+                </div>
+                <p style="font-size: 8px; color: #7DA0CA; margin: 3px 0 0 0;">Instant Clearing Protocol</p>
+            </div>
+
+            <div style="text-align: center; width: 160px;">
+                <p style="font-family: 'Great Vibes', cursive; font-size: 22px; margin: 0; line-height: 1; color: #052659;">Managing Director</p>
+                <p style="font-size: 9px; font-weight: 800; color: #021024; margin: 2px 0 0 0;">TakaEarn Network BD</p>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <!-- ===================================================
-     SCRIPTS
+     SCRIPTS & THEME DYNAMICS
 =================================================== -->
 <script>
-    function switchTab(tabName) {
+    function switchHistoryTab(tabName) {
         document.getElementById('btn-withdrawals').classList.remove('active');
         document.getElementById('btn-tasks').classList.remove('active');
         document.getElementById('pane-withdrawals').classList.remove('active');
@@ -364,28 +507,43 @@
         return prefix + randomPart;
     }
 
+    const gatewayLogos = {
+        'bKash': 'https://media.licdn.com/dms/image/v2/C510BAQFYQ12drExNfw/company-logo_200_200/company-logo_200_200/0/1630630387614/bkash_limited_logo?e=2147483647&v=beta&t=_Js1e5ohbiSDQCHc8H7HjjHMejD_AwwKO5ThmmxH1ow',
+        'Nagad': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPjWfnY18KJaVHEPjH_yiVByx3tIOxmOMWkME8GZ7BSGFIGXU_i6R0eUyl&s=10',
+        'Rocket': 'https://banglatech24.com/wp-content/uploads/2021/08/rocket-dbbl.jpg'
+    };
+
     let currentRecord = {};
 
     function openDetailsModal(id, method, number, amount, status, walletType, createdAt) {
         let maskedNumber = number;
         if(number && number.length >= 10) {
-            maskedNumber = number.slice(0, 3) + '****' + number.slice(-4);
+            maskedNumber = number.slice(0, 3) + '****' + number.slice(-3);
         }
 
         const realTrxId = generateRealTrxId(method, id);
-        const formattedDate = createdAt ? createdAt.replace('T', ' ').slice(0, 19) : 'N/A';
+        const formattedDate = createdAt ? createdAt.replace('T', ' ').slice(0, 16) : 'N/A';
 
         currentRecord = { id, method, maskedNumber, amount, status, walletType, formattedDate, realTrxId };
 
-        const iconContainer = document.getElementById('modalGatewayIcon');
-        if(method === 'bKash') {
-            iconContainer.innerHTML = '<i class="fa-solid fa-bolt text-[#E2136E]"></i>';
-        } else if(method === 'Nagad') {
-            iconContainer.innerHTML = '<i class="fa-solid fa-fire-flame-curved text-[#F97316]"></i>';
+        // 1. Dynamic Gateway Logo & Theme Header Colors
+        const modalHeader = document.getElementById('modalThemeHeader');
+        const modalLogo = document.getElementById('modalLogoImg');
+        
+        modalLogo.src = gatewayLogos[method] || 'https://i.ibb.co/Nd7D48N4/7526.jpg';
+        document.getElementById('modalMethodTitle').innerText = method + ' Payout';
+
+        if (method === 'bKash') {
+            modalHeader.style.background = 'linear-gradient(135deg, #A8004B 0%, #E2136E 100%)';
+        } else if (method === 'Nagad') {
+            modalHeader.style.background = 'linear-gradient(135deg, #C2410C 0%, #F97316 100%)';
+        } else if (method === 'Rocket') {
+            modalHeader.style.background = 'linear-gradient(135deg, #6D28D9 0%, #8B5CF6 100%)';
         } else {
-            iconContainer.innerHTML = '<i class="fa-solid fa-building-columns text-[#0284C7]"></i>';
+            modalHeader.style.background = 'linear-gradient(135deg, #021024 0%, #052659 100%)';
         }
 
+        // 2. Values
         document.getElementById('modalAmount').innerText = '৳' + parseFloat(amount).toFixed(2);
         document.getElementById('modalMethod').innerText = method;
         document.getElementById('modalMaskedNumber').innerText = maskedNumber;
@@ -393,13 +551,29 @@
         document.getElementById('modalTrxId').innerText = realTrxId;
         document.getElementById('modalDateTime').innerText = formattedDate;
 
+        // 3. Status Badge & Timeline Stepper
         const statusBadgeContainer = document.getElementById('modalStatusBadge');
+        const step3Dot = document.getElementById('timelineStep3Dot');
+        const step3Text = document.getElementById('timelineStep3Text');
+
         if(status === 'approved') {
-            statusBadgeContainer.innerHTML = '<span class="status-badge status-success text-xs px-3 py-1">Success & Paid</span>';
+            statusBadgeContainer.innerHTML = '<span class="status-badge-chip status-chip-success">Success & Paid</span>';
+            step3Dot.className = "timeline-dot bg-emerald-500";
+            step3Dot.innerHTML = '<i class="fa-solid fa-check"></i>';
+            step3Text.className = "text-emerald-600 font-bold";
+            step3Text.innerText = "টাকা সফলভাবে নম্বরে পৌঁছেছে";
         } else if(status === 'rejected') {
-            statusBadgeContainer.innerHTML = '<span class="status-badge status-failed text-xs px-3 py-1">Cancelled & Refunded</span>';
+            statusBadgeContainer.innerHTML = '<span class="status-badge-chip status-chip-failed">Refunded</span>';
+            step3Dot.className = "timeline-dot bg-rose-500";
+            step3Dot.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            step3Text.className = "text-rose-600 font-bold";
+            step3Text.innerText = "বাতিল ও টাকা রিফান্ড";
         } else {
-            statusBadgeContainer.innerHTML = '<span class="status-badge status-pending text-xs px-3 py-1">Under Verification</span>';
+            statusBadgeContainer.innerHTML = '<span class="status-badge-chip status-chip-pending">Processing</span>';
+            step3Dot.className = "timeline-dot bg-amber-500";
+            step3Dot.innerHTML = '<i class="fa-solid fa-hourglass-half text-[7px]"></i>';
+            step3Text.className = "text-amber-600 font-bold";
+            step3Text.innerText = "গেটওয়েতে প্রক্রিয়াধীন";
         }
 
         document.getElementById('detailsModal').classList.add('show');
@@ -414,13 +588,15 @@
         navigator.clipboard.writeText(trx).then(() => alert("TrxID Copied: " + trx));
     }
 
+    // Print Re-designed Digital Voucher Slip
     function printOfficialInvoice() {
         if(!currentRecord.id) return;
-        document.getElementById('invStatus').innerText = currentRecord.status === 'approved' ? 'DISBURSED' : currentRecord.status.toUpperCase();
-        document.getElementById('invDate').innerText = "Issue Date: " + currentRecord.formattedDate;
+        document.getElementById('invStatus').innerText = currentRecord.status === 'approved' ? 'SUCCESS' : currentRecord.status.toUpperCase();
+        document.getElementById('invDate').innerText = currentRecord.formattedDate;
         document.getElementById('invMethod').innerText = currentRecord.method;
         document.getElementById('invNumber').innerText = currentRecord.maskedNumber;
         document.getElementById('invTrx').innerText = currentRecord.realTrxId;
+        document.getElementById('invWallet').innerText = currentRecord.walletType.toUpperCase() + " WALLET";
         document.getElementById('invAmount').innerText = "৳" + parseFloat(currentRecord.amount).toFixed(2);
         window.print();
     }
