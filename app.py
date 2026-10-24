@@ -3733,8 +3733,8 @@ def register():
                     referrer = supabase.table('profiles').select('*').eq('referral_code', used_ref_code).single().execute().data
                     if referrer:
                         supabase.table('profiles').update({'referred_by': referrer['id']}).eq('id', new_user_id).execute()
-                        supabase.table('profiles').update({'balance': float(referrer['balance']) + 10.0}).eq('id', referrer['id']).execute()
-                        supabase.table('profiles').update({'balance': 10.0}).eq('id', new_user_id).execute()
+                        supabase.table('profiles').update({'balance': float(referrer['balance']) + 12.0}).eq('id', referrer['id']).execute()
+                        supabase.table('profiles').update({'balance': 50.0}).eq('id', new_user_id).execute()
                 except: pass
 
             flash("✅ একাউন্ট তৈরি হয়েছে! ইমেইল ভেরিফাই করে লগিন করুন।", "success")
