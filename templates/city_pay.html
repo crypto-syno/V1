@@ -1,277 +1,394 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- Google Fonts for Realistic Signatures & Clean Typography -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+<!-- Futuristic & Hand Signature Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
 
 <style>
     /* ==========================================================
-       TAKAEARN - TAKAPAY CORPORATE SETTLEMENT PANEL
-       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+       TAKAPAY - NEXT-GEN CYBER FINTECH SETTLEMENT COCKPIT
+       Deep Space Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
-    .fade-in-up { 
-        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        opacity: 0; transform: translateY(14px); 
-    }
-    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-    /* Surface Cards */
-    .tp-card {
-        background: #FFFFFF;
-        border: 1.5px solid #C1E8FF;
-        border-radius: 26px;
-        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
-        position: relative;
+    :root {
+        --c-void: #021024;
+        --c-navy: #052659;
+        --c-steel: #5483B3;
+        --c-soft: #7DA0CA;
+        --c-ice: #C1E8FF;
     }
 
-    /* Corporate Hero Header Gradient */
-    .tp-header-gradient {
-        background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
-        border-radius: 32px;
-        border: 2px solid #C1E8FF;
-        box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.35);
+    body {
+        background-color: var(--c-void) !important;
+        color: #F8FAFC !important;
+    }
+
+    .cockpit-container {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* 1. Neon Glowing Terminal Card */
+    .terminal-card {
+        background: linear-gradient(145deg, rgba(5, 38, 89, 0.45) 0%, rgba(2, 16, 36, 0.85) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1.5px solid rgba(193, 232, 255, 0.2);
+        border-radius: 28px;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(193, 232, 255, 0.2);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .tp-header-gradient::before {
-        content: ''; position: absolute; top: -40%; right: -20%; width: 280px; height: 280px;
-        background: radial-gradient(circle, rgba(193, 232, 255, 0.2) 0%, transparent 65%);
-        border-radius: 50%; pointer-events: none;
+    .terminal-card:hover {
+        border-color: rgba(193, 232, 255, 0.45);
+        box-shadow: 0 25px 60px rgba(5, 38, 89, 0.5), inset 0 0 20px rgba(193, 232, 255, 0.1);
     }
 
-    /* Flat Input Box */
-    .tp-flat-input {
-        width: 100%;
-        background: #F4F9FD;
-        border: 1.5px solid #C1E8FF;
+    /* Ambient Pulsing Radar Aura */
+    .radar-glow {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(84, 131, 179, 0.25) 0%, transparent 70%);
+        filter: blur(60px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Neon Metric Gauges */
+    .gauge-card {
+        background: rgba(2, 16, 36, 0.65);
+        border: 1.5px solid rgba(193, 232, 255, 0.18);
+        border-radius: 22px;
+        padding: 18px 16px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.25s ease;
+    }
+    .gauge-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 3px;
+        background: linear-gradient(90deg, transparent, var(--c-ice), transparent);
+    }
+    .gauge-card:hover {
+        border-color: var(--c-ice);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(5, 38, 89, 0.4);
+    }
+
+    /* Modern Cyber Button */
+    .btn-cyber-primary {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 50%, #C1E8FF 100%);
         color: #021024;
-        padding: 14px 16px 14px 44px;
+        font-weight: 900;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        border: none;
         border-radius: 18px;
-        outline: none;
-        font-size: 14px;
-        font-weight: 700;
-        transition: all 0.25s ease;
-    }
-    .tp-flat-input:focus {
-        border-color: #052659;
-        background: #FFFFFF;
-        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35);
-    }
-
-    /* Buttons */
-    .btn-tp-primary {
-        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
-        color: #FFFFFF;
-        padding: 15px 26px;
-        border-radius: 18px;
-        font-weight: 800;
-        font-size: 13.5px;
-        letter-spacing: 0.4px;
-        transition: all 0.25s ease;
+        padding: 16px 28px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
-        border: none;
+        gap: 10px;
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.25s ease;
+        box-shadow: 0 10px 30px rgba(84, 131, 179, 0.4);
     }
-    .btn-tp-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); color: #FFFFFF; }
-    .btn-tp-primary:active { transform: scale(0.97); }
+    .btn-cyber-primary:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(193, 232, 255, 0.6);
+        color: #021024;
+    }
+    .btn-cyber-primary:active { transform: scale(0.97); }
 
-    .btn-tp-outline {
-        background: #F4F9FD;
-        color: #052659;
-        border: 1.5px solid #C1E8FF;
-        padding: 10px 16px;
-        border-radius: 14px;
+    .btn-cyber-outline {
+        background: rgba(193, 232, 255, 0.08);
+        color: var(--c-ice);
+        border: 1.5px solid rgba(193, 232, 255, 0.3);
+        border-radius: 16px;
+        padding: 12px 20px;
         font-weight: 800;
         font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        cursor: pointer;
+        gap: 8px;
     }
-    .btn-tp-outline:hover { background: #C1E8FF; border-color: #5483B3; }
+    .btn-cyber-outline:hover {
+        background: rgba(193, 232, 255, 0.2);
+        border-color: var(--c-ice);
+        color: #FFFFFF;
+    }
 
-    /* Custom Scrollbar */
-    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #C1E8FF; border-radius: 10px; }
+    /* Live Ledger Grid */
+    .ledger-row {
+        background: rgba(5, 38, 89, 0.2);
+        border: 1px solid rgba(193, 232, 255, 0.12);
+        border-radius: 18px;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        transition: all 0.2s ease;
+        margin-bottom: 8px;
+    }
+    .ledger-row:hover {
+        background: rgba(84, 131, 179, 0.25);
+        border-color: rgba(193, 232, 255, 0.4);
+        transform: translateX(4px);
+    }
 
-    /* Hand Signatures Typography */
+    /* Distinct Gateway Glow Chips */
+    .gw-pill-bkash {
+        background: rgba(226, 19, 110, 0.18);
+        border: 1px solid #E2136E;
+        color: #FF5A9E;
+    }
+    .gw-pill-nagad {
+        background: rgba(249, 115, 22, 0.18);
+        border: 1px solid #F97316;
+        color: #FDBA74;
+    }
+    .gw-pill-rocket {
+        background: rgba(139, 92, 246, 0.18);
+        border: 1px solid #8B5CF6;
+        color: #C4B5FD;
+    }
+
+    /* Custom Terminal Scrollbar */
+    .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #5483B3; border-radius: 10px; }
+
+    /* Hand Signature Typography */
     .sign-tuba {
         font-family: 'Great Vibes', cursive !important;
-        font-size: 28px !important;
+        font-size: 32px !important;
         color: #052659 !important;
-        letter-spacing: 1px;
+        line-height: 1;
     }
     .sign-gateway {
         font-family: 'Dancing Script', cursive !important;
-        font-size: 24px !important;
+        font-size: 26px !important;
         color: #021024 !important;
+        line-height: 1;
     }
 
-    /* Print Slip Media Query */
+    /* Printable Slip Overlay (Hidden in App View) */
     #printOnlySection { display: none; }
     @media print {
         body * { visibility: hidden !important; }
         #printOnlySection, #printOnlySection * { visibility: visible !important; }
         #printOnlySection {
-            display: block !important; position: absolute !important;
-            left: 0 !important; top: 0 !important; width: 100% !important; margin: 0 !important;
-            padding: 20px !important; background: #FFFFFF !important; color: #000000 !important;
+            display: block !important;
+            position: absolute !important;
+            left: 0 !important; top: 0 !important;
+            width: 100% !important; margin: 0 !important;
+            padding: 25px !important; background: #FFFFFF !important; color: #000000 !important;
         }
         .no-print { display: none !important; }
         @page { size: A4 portrait; margin: 12mm; }
     }
 </style>
 
-<div class="max-w-5xl mx-auto space-y-6 fade-in-up pb-16 px-2 mt-1">
+<div class="cockpit-container max-w-6xl mx-auto px-2 pt-2 pb-20 relative">
+    
+    <!-- Background Futuristic Ambience -->
+    <div class="radar-glow top-0 left-[-50px]"></div>
+    <div class="radar-glow bottom-0 right-[-50px]"></div>
 
     <!-- ===================================================
-         1. CORPORATE SETTLEMENT HEADER
+         1. TOP TERMINAL STATUS HUD
     =================================================== -->
-    <div class="tp-header-gradient p-6 sm:p-8 text-white relative no-print">
-        <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div class="terminal-card p-5 sm:p-7 mb-6 no-print">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
             
             <div class="flex items-center gap-4">
-                <div class="h-14 w-14 bg-white rounded-2xl flex items-center justify-center text-3xl font-black text-[#052659] shadow-md border-2 border-[#C1E8FF] flex-shrink-0">
-                    TP
-                </div>
-                <div>
-                    <div class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest text-[#C1E8FF] border border-white/20 mb-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Settlement Engine
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#052659] to-[#C1E8FF] p-0.5 flex-shrink-0 shadow-[0_0_25px_rgba(193,232,255,0.4)]">
+                    <div class="w-full h-full bg-[#021024] rounded-[14px] flex items-center justify-center text-xl font-black text-[#C1E8FF]">
+                        TP
                     </div>
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight leading-tight">TakaPay Corporate Gateway</h1>
-                    <p class="text-xs text-[#C1E8FF] font-medium mt-0.5">Automated Electronic Fund Distribution & Liquidity Clearing</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span class="text-[10px] font-mono font-bold tracking-widest text-[#C1E8FF] uppercase">Node: Live Clearing Server</span>
+                        <span class="text-[9px] font-mono bg-white/10 px-2 py-0.5 rounded text-[#7DA0CA]">v2.6.4</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white leading-none">
+                        TakaPay Corporate Gateway
+                    </h1>
+                    <p class="text-xs text-[#7DA0CA] mt-1 font-medium">
+                        Real-time MFS Bulk Settlement • Client: <b class="text-[#C1E8FF]">TakaEarn Technologies Ltd.</b>
+                    </p>
                 </div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/20 text-left sm:text-right">
-                <span class="text-[9px] font-black uppercase tracking-widest text-[#C1E8FF] block mb-0.5">Protocols Active</span>
-                <span class="text-sm font-black font-mono tracking-wide text-white">NPSB / BEFTN / MFS Direct API</span>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ===================================================
-         2. BATCH GENERATOR CONTROLLER
-    =================================================== -->
-    <div id="controllerCard" class="tp-card p-6 no-print">
-        <div class="flex items-center justify-between border-b border-[#C1E8FF] pb-3 mb-5">
-            <h3 class="font-black text-[#021024] text-sm uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-sliders text-[#052659]"></i> ব্যাচ ডিস্ট্রিবিউশন কন্ট্রোলার
-            </h3>
-            <span class="text-xs font-bold text-[#5483B3]">TP-CSN v2.5 Engine</span>
-        </div>
-
-        <div class="grid sm:grid-cols-3 gap-4 items-end">
-            <div class="sm:col-span-2">
-                <label class="block text-xs font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1">
-                    কতজন ইউজারের পেমেন্ট জেনারেট করবেন? (User Count)
-                </label>
-                <div class="relative">
-                    <input type="number" id="userCountInput" min="5" max="500" value="45" placeholder="যেমন: ৫০, ১০০, ২৫০..." class="tp-flat-input font-mono text-base">
-                    <i class="fa-solid fa-users absolute left-4 top-1/2 -translate-y-1/2 text-[#7DA0CA]"></i>
+            <!-- Protocol Status -->
+            <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-white/10">
+                <div class="text-left md:text-right">
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-[#7DA0CA] block">Active Protocols</span>
+                    <span class="text-xs font-mono font-black text-emerald-400">NPSB / BEFTN / API</span>
                 </div>
+                <div class="h-9 w-px bg-white/15 hidden md:block"></div>
+                <a href="/admin" class="btn-cyber-outline !py-2.5 !px-4 text-[11px]">
+                    <i class="fa-solid fa-arrow-left"></i> প্যানেল
+                </a>
             </div>
 
-            <div>
-                <button type="button" onclick="generateDistributionList()" class="btn-tp-primary w-full">
-                    <i class="fa-solid fa-bolt-lightning text-amber-300"></i> জেনারেট করুন
-                </button>
-            </div>
         </div>
     </div>
 
     <!-- ===================================================
-         3. STATS BOARD (Shows after generation)
+         2. INTERACTIVE SETTLEMENT ENGINE CONSOLE
     =================================================== -->
-    <div id="summaryBar" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3.5 no-print">
-        <div class="tp-card p-4 border-l-4 border-l-[#052659]">
-            <p class="text-[10px] text-[#7DA0CA] font-extrabold uppercase tracking-wider mb-1">মোট বিতরণকৃত অর্থ</p>
-            <h3 class="text-2xl font-black text-[#021024] font-mono" id="sumAmount">৳0.00</h3>
-        </div>
-        <div class="tp-card p-4 border-l-4 border-l-emerald-500">
-            <p class="text-[10px] text-[#7DA0CA] font-extrabold uppercase tracking-wider mb-1">সফল লেনদেন (Success)</p>
-            <h3 class="text-2xl font-black text-emerald-600 font-mono" id="sumSuccess">0</h3>
-        </div>
-        <div class="tp-card p-4 border-l-4 border-l-rose-500">
-            <p class="text-[10px] text-[#7DA0CA] font-extrabold uppercase tracking-wider mb-1">ব্যর্থ লেনদেন (Failed)</p>
-            <h3 class="text-2xl font-black text-rose-600 font-mono" id="sumFailed">0</h3>
-        </div>
-        <div class="tp-card p-4 border-l-4 border-l-[#5483B3]">
-            <p class="text-[10px] text-[#7DA0CA] font-extrabold uppercase tracking-wider mb-1">সাকসেস রেট (Ratio)</p>
-            <h3 class="text-2xl font-black text-[#052659] font-mono" id="sumRatio">98.5%</h3>
-        </div>
-    </div>
-
-    <!-- ===================================================
-         4. GENERATED DISTRIBUTION TABLE
-    =================================================== -->
-    <div id="tableWrapper" class="tp-card overflow-hidden no-print">
-        
-        <!-- Table Action Bar -->
-        <div class="p-4 bg-[#F4F9FD] border-b border-[#C1E8FF] flex flex-wrap justify-between items-center gap-3">
-            <div>
-                <h3 class="font-black text-[#021024] text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-file-invoice-dollar text-[#052659]"></i> TakaPay Settlement Sheet
+    <div id="controllerCard" class="terminal-card p-6 sm:p-8 mb-6 no-print">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+            <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-bolt-lightning text-amber-300 text-lg"></i>
+                <h3 class="font-black text-white text-base uppercase tracking-wider">
+                    লিকুইডিটি ডিস্ট্রিবিউশন ডেক
                 </h3>
-                <p class="text-[10px] text-[#5483B3] font-mono mt-0.5" id="genBatchId">Batch ID: TP-DISB-XXXXXX</p>
+            </div>
+            <span class="text-xs font-mono font-bold text-[#7DA0CA]">Engine: AUTO-MATCHED</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+            
+            <!-- Dial Input Box -->
+            <div class="md:col-span-8">
+                <label class="block text-xs font-mono font-bold uppercase tracking-wider text-[#7DA0CA] mb-2.5">
+                    বিতরণ লক্ষ্যমাত্রা নির্বাচন করুন (Accounts to Settle)
+                </label>
+                
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-[#C1E8FF] font-mono font-black">#</span>
+                    <input type="number" id="userCountInput" min="5" max="500" value="50" 
+                           class="w-full bg-[#021024]/90 border-2 border-[#5483B3] rounded-2xl py-4 pl-10 pr-4 text-white text-xl font-mono font-black focus:border-[#C1E8FF] focus:shadow-[0_0_20px_rgba(193,232,255,0.4)] outline-none transition">
+                </div>
+
+                <!-- Quick Selection Tags -->
+                <div class="flex items-center gap-2 mt-3 flex-wrap">
+                    <span class="text-[10px] font-mono text-[#7DA0CA]">Quick Select:</span>
+                    <button type="button" onclick="setCount(25)" class="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-white/5 border border-white/10 hover:border-[#C1E8FF] hover:text-[#C1E8FF] transition">25</button>
+                    <button type="button" onclick="setCount(50)" class="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-white/5 border border-white/10 hover:border-[#C1E8FF] hover:text-[#C1E8FF] transition">50</button>
+                    <button type="button" onclick="setCount(100)" class="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-white/5 border border-white/10 hover:border-[#C1E8FF] hover:text-[#C1E8FF] transition">100</button>
+                    <button type="button" onclick="setCount(200)" class="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-white/5 border border-white/10 hover:border-[#C1E8FF] hover:text-[#C1E8FF] transition">200</button>
+                </div>
             </div>
 
+            <!-- Trigger Action Button -->
+            <div class="md:col-span-4 flex items-end">
+                <button type="button" onclick="generateDistributionList()" class="btn-cyber-primary w-full py-5 text-sm">
+                    <i class="fa-solid fa-microchip text-base"></i> 
+                    <span>ডিসবার্সমেন্ট চালান</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================================================
+         3. REALTIME TELEMETRY METRIC GAUGES
+    =================================================== -->
+    <div id="summaryBar" class="hidden grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6 no-print">
+        
+        <!-- Total Amount -->
+        <div class="gauge-card">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-[#7DA0CA] block mb-1">মোট সেটেলমেন্ট</span>
+            <h3 class="text-2xl sm:text-3xl font-black font-mono text-[#C1E8FF] tracking-tight" id="sumAmount">৳0.00</h3>
+            <span class="text-[9px] font-mono text-emerald-400 mt-1 block">● Liquidity Released</span>
+        </div>
+
+        <!-- Success Count -->
+        <div class="gauge-card">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-[#7DA0CA] block mb-1">সফল লেনদেন</span>
+            <h3 class="text-2xl sm:text-3xl font-black font-mono text-emerald-400 tracking-tight" id="sumSuccess">0</h3>
+            <span class="text-[9px] font-mono text-[#7DA0CA] mt-1 block">Cleared Instantly</span>
+        </div>
+
+        <!-- Failed Count -->
+        <div class="gauge-card">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-[#7DA0CA] block mb-1">ব্যর্থ বা বাতিল</span>
+            <h3 class="text-2xl sm:text-3xl font-black font-mono text-rose-400 tracking-tight" id="sumFailed">0</h3>
+            <span class="text-[9px] font-mono text-rose-300 mt-1 block">Account Reverted</span>
+        </div>
+
+        <!-- Ratio -->
+        <div class="gauge-card">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-[#7DA0CA] block mb-1">সাকসেস রেশিও</span>
+            <h3 class="text-2xl sm:text-3xl font-black font-mono text-amber-300 tracking-tight" id="sumRatio">98.5%</h3>
+            <span class="text-[9px] font-mono text-amber-200 mt-1 block">High Precision</span>
+        </div>
+
+    </div>
+
+    <!-- ===================================================
+         4. LIVE TRANSACTION STREAM LEDGER
+    =================================================== -->
+    <div id="tableWrapper" class="terminal-card overflow-hidden no-print">
+        
+        <!-- Top Command Strip -->
+        <div class="p-4 sm:p-5 border-b border-white/10 flex flex-wrap items-center justify-between gap-3 bg-[#021024]/60">
+            <div>
+                <h3 class="font-black text-white text-sm flex items-center gap-2 font-mono">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                    TAKAPAY STREAM LEDGER
+                </h3>
+                <p class="text-[10px] text-[#7DA0CA] font-mono mt-0.5" id="genBatchId">BATCH: TP-ACTIVE-DISB</p>
+            </div>
+
+            <!-- Controls -->
             <div class="flex items-center gap-2">
-                <button onclick="resetBatchGenerator()" id="resetBtn" class="hidden btn-tp-outline">
-                    <i class="fa-solid fa-rotate-left"></i> New Batch
+                <button onclick="resetBatchGenerator()" id="resetBtn" class="hidden btn-cyber-outline !py-2 !px-3 text-[11px]">
+                    <i class="fa-solid fa-rotate-left"></i> New
                 </button>
-                <button onclick="triggerPrint()" class="btn-tp-primary !py-2.5 !px-4 text-xs">
-                    <i class="fa-solid fa-print"></i> প্রিন্ট ভাউচার / PDF
+                <button onclick="triggerPrint()" class="btn-cyber-primary !py-2.5 !px-4 text-xs">
+                    <i class="fa-solid fa-print"></i> ভাউচার স্লিপ (PDF)
                 </button>
-                <button onclick="exportCSV()" class="btn-tp-outline bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100">
-                    <i class="fa-solid fa-file-excel"></i> Export CSV
+                <button onclick="exportCSV()" class="btn-cyber-outline !py-2.5 !px-3 text-xs text-emerald-400 border-emerald-400/40">
+                    <i class="fa-solid fa-file-excel"></i> CSV
                 </button>
             </div>
         </div>
 
-        <!-- Table Element -->
-        <div class="overflow-x-auto custom-scroll max-h-[550px]">
-            <table class="w-full text-left text-xs whitespace-nowrap">
-                <thead class="bg-[#F4F9FD] text-[#5483B3] uppercase font-black tracking-wider text-[10px] border-b border-[#C1E8FF] sticky top-0 z-10">
-                    <tr>
-                        <th class="p-3.5 text-center">SL</th>
-                        <th class="p-3.5">Gateway</th>
-                        <th class="p-3.5">Masked Number</th>
-                        <th class="p-3.5">Amount (BDT)</th>
-                        <th class="p-3.5">Transaction ID (TrxID)</th>
-                        <th class="p-3.5 text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="distributionTbody" class="divide-y divide-[#E2E8F0] font-medium">
-                    <tr>
-                        <td colspan="6" class="p-14 text-center text-[#7DA0CA]">
-                            <i class="fa-solid fa-calculator text-4xl mb-3 text-[#C1E8FF]"></i>
-                            <p class="text-sm font-bold text-[#021024]">ইউজার সংখ্যা লিখে 'জেনারেট করুন' বাটনে চাপ দিন।</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Scrollable Feed Display -->
+        <div class="p-4 overflow-y-auto custom-scroll max-h-[580px]" id="ledgerFeedContainer">
+            
+            <!-- Default Idle State -->
+            <div id="idleState" class="py-20 text-center text-[#7DA0CA]">
+                <div class="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-3 text-2xl text-[#C1E8FF]">
+                    <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                </div>
+                <h4 class="text-sm font-mono font-bold text-white">টার্মিনাল অপেক্ষারত</h4>
+                <p class="text-xs text-[#7DA0CA] mt-1 font-mono">ইউজার সংখ্যা দিয়ে 'ডিসবার্সমেন্ট চালান' চাপুন</p>
+            </div>
+
+            <!-- Dynamic Stream Rendered here -->
+            <div id="dynamicLedgerList" class="space-y-2"></div>
+
         </div>
     </div>
 
 </div>
 
 <!-- ===================================================
-     5. REDESIGNED DIGITAL SETTLEMENT VOUCHER (PRINT)
+     5. DIGITAL HOLOGRAPHIC CASHOUT VOUCHER (PRINT VIEW)
 =================================================== -->
 <div id="printOnlySection">
-    <div style="border: 2px dashed #052659; border-radius: 20px; padding: 25px; max-width: 650px; margin: auto; font-family: 'Plus Jakarta Sans', Arial, sans-serif;">
+    <div style="border: 2px dashed #052659; border-radius: 20px; padding: 25px; max-width: 650px; margin: auto; font-family: 'Plus Jakarta Sans', Arial, sans-serif; background: #FFFFFF;">
         
         <!-- Voucher Header -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #052659; padding-bottom: 15px; margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #052659; padding-bottom: 14px; margin-bottom: 16px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 48px; height: 48px; background: #052659; color: #FFFFFF; font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 2px solid #C1E8FF;">
+                <div style="width: 46px; height: 46px; background: #052659; color: #FFFFFF; font-size: 20px; font-weight: 900; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 2px solid #052659;">
                     TP
                 </div>
                 <div>
@@ -296,7 +413,7 @@
         </div>
 
         <!-- Ledger Table -->
-        <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 30px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 25px;">
             <thead>
                 <tr style="background: #F4F9FD; border-bottom: 1.5px solid #C1E8FF; text-align: left;">
                     <th style="padding: 6px 8px; text-align: center;">SL</th>
@@ -310,14 +427,10 @@
             <tbody id="printTbody" style="font-family: monospace;"></tbody>
         </table>
 
-        <!-- ===================================================
-             NEW OFFICIAL SIGNATURES & CORPORATE SEALS
-        =================================================== -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0 15px; margin-top: 40px;">
-            
-            <!-- Gateway Signatory (A. R. Siddique) -->
-            <div style="text-align: center; width: 200px;">
-                <div style="border-bottom: 1.5px solid #052659; padding-bottom: 4px; margin-bottom: 4px;">
+        <!-- Signatures & Seals -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0 15px; margin-top: 35px;">
+            <div style="text-align: center; width: 190px;">
+                <div style="border-bottom: 1.5px solid #052659; padding-bottom: 3px; margin-bottom: 4px;">
                     <p class="sign-gateway" style="margin: 0; line-height: 1;">A. R. Siddique</p>
                 </div>
                 <p style="font-size: 10px; font-weight: 800; margin: 0; color: #021024;">Authorized Signatory</p>
@@ -327,9 +440,8 @@
                 </div>
             </div>
 
-            <!-- TakaEarn Corporate Authority (Tuba Moni) -->
-            <div style="text-align: center; width: 200px;">
-                <div style="border-bottom: 1.5px solid #052659; padding-bottom: 2px; margin-bottom: 4px;">
+            <div style="text-align: center; width: 190px;">
+                <div style="border-bottom: 1.5px solid #052659; padding-bottom: 3px; margin-bottom: 4px;">
                     <p class="sign-tuba" style="margin: 0; line-height: 1;">Tuba Moni</p>
                 </div>
                 <p style="font-size: 10px; font-weight: 800; margin: 0; color: #021024;">Corporate Approval</p>
@@ -338,10 +450,9 @@
                     TAKAEARN OFFICIAL SEAL
                 </div>
             </div>
-
         </div>
 
-        <div style="text-align: center; margin-top: 30px; border-top: 1px solid #E2E8F0; padding-top: 8px; font-size: 8px; color: #7DA0CA;">
+        <div style="text-align: center; margin-top: 25px; border-top: 1px solid #E2E8F0; padding-top: 8px; font-size: 8px; color: #7DA0CA;">
             This electronic settlement record is generated via TakaPay Gateway in direct integration with TakaEarn Network. Certified & Audited.
         </div>
 
@@ -349,18 +460,22 @@
 </div>
 
 <!-- ===================================================
-     DATA GENERATOR SCRIPT
+     TERMINAL LOGIC & FAST DATA GENERATOR
 =================================================== -->
 <script>
     let generatedRecords = [];
     let currentBatchInfo = {};
 
+    function setCount(num) {
+        document.getElementById('userCountInput').value = num;
+    }
+
     function generateDistributionList() {
         const count = parseInt(document.getElementById('userCountInput').value) || 20;
-        const tbody = document.getElementById('distributionTbody');
+        const feedList = document.getElementById('dynamicLedgerList');
         const printTbody = document.getElementById('printTbody');
         
-        tbody.innerHTML = '';
+        feedList.innerHTML = '';
         printTbody.innerHTML = '';
         generatedRecords = [];
 
@@ -375,24 +490,32 @@
         const tt = ['015'];
 
         // Batch Metadata
-        const batchId = "TP-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+        const batchId = "TP-CSN-" + Math.random().toString(36).substring(2, 8).toUpperCase();
         const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
         currentBatchInfo = { batchId, dateStr, count };
-        document.getElementById('genBatchId').innerText = `Batch ID: ${batchId} | Settlement: ${dateStr}`;
+        document.getElementById('genBatchId').innerText = `BATCH ID: ${batchId}`;
         document.getElementById('voucherBatchId').innerText = `BATCH: ${batchId}`;
         document.getElementById('voucherDate').innerText = `Issue Date: ${dateStr}`;
 
         for (let i = 1; i <= count; i++) {
             
-            // Gateway Selection
+            // Gateway Selection (bKash 65%, Nagad 23%, Rocket 12%)
             let gateway = 'bKash';
+            let pillClass = 'gw-pill-bkash';
             const gwRand = Math.random() * 100;
-            if (gwRand < 65) gateway = 'bKash';
-            else if (gwRand < 88) gateway = 'Nagad';
-            else gateway = 'Rocket';
+            if (gwRand < 65) {
+                gateway = 'bKash';
+                pillClass = 'gw-pill-bkash';
+            } else if (gwRand < 88) {
+                gateway = 'Nagad';
+                pillClass = 'gw-pill-nagad';
+            } else {
+                gateway = 'Rocket';
+                pillClass = 'gw-pill-rocket';
+            }
 
-            // Mobile Masked
+            // Mobile Masking
             let prefix;
             const opRand = Math.random() * 100;
             if (opRand < 38) prefix = gp[Math.floor(Math.random() * gp.length)];
@@ -404,7 +527,7 @@
             const lastDigits = Math.floor(1000 + Math.random() * 9000);
             const maskedNumber = `${prefix}****${lastDigits}`;
 
-            // Amount (Based on realistic cashout criteria ৳370-৳1200)
+            // Payout calculation (৳370, ৳500, ৳1000+ realistic amounts)
             let amount = 370;
             const amtRand = Math.random() * 100;
             if (amtRand < 60) {
@@ -416,7 +539,7 @@
             }
             totalAmount += amount;
 
-            const isSuccess = (Math.random() * 100) >= 2.5;
+            const isSuccess = (Math.random() * 100) >= 2.0;
             const status = isSuccess ? 'Success' : 'Failed';
             if (isSuccess) successCount++; else failedCount++;
 
@@ -428,28 +551,34 @@
 
             generatedRecords.push({ sl: i, gateway, maskedNumber, amount, trxId, status });
 
-            // UI Table Row
-            const tr = document.createElement('tr');
-            tr.className = "hover:bg-[#F4F9FD] transition";
-            tr.innerHTML = `
-                <td class="p-3.5 text-center font-mono text-[#7DA0CA] font-bold">${i}</td>
-                <td class="p-3.5 font-bold">
-                    ${gateway === 'bKash' ? '<span class="text-[#E2136E] bg-pink-50 px-2 py-0.5 rounded-md font-black">bKash</span>' : 
-                      gateway === 'Nagad' ? '<span class="text-[#F97316] bg-orange-50 px-2 py-0.5 rounded-md font-black">Nagad</span>' : 
-                      '<span class="text-[#8B5CF6] bg-purple-50 px-2 py-0.5 rounded-md font-black">Rocket</span>'}
-                </td>
-                <td class="p-3.5 font-mono font-bold text-[#021024] tracking-wider">${maskedNumber}</td>
-                <td class="p-3.5 font-mono font-black text-[#052659] text-sm">৳${amount.toLocaleString()}</td>
-                <td class="p-3.5 font-mono text-xs font-bold text-[#5483B3] select-all">${trxId}</td>
-                <td class="p-3.5 text-center">
-                    ${status === 'Success' ? 
-                      '<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase"><i class="fa-solid fa-check mr-1"></i>Success</span>' : 
-                      '<span class="bg-rose-50 text-rose-700 border border-rose-200 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase"><i class="fa-solid fa-xmark mr-1"></i>Failed</span>'}
-                </td>
-            `;
-            tbody.appendChild(tr);
+            // 1. Futuristic Terminal Row Render
+            const row = document.createElement('div');
+            row.className = "ledger-row";
+            row.innerHTML = `
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-xs font-mono font-bold text-[#7DA0CA] w-6 text-center">#${i}</span>
+                    <span class="text-[10px] font-mono font-black uppercase px-2.5 py-0.5 rounded-lg ${pillClass}">
+                        ${gateway}
+                    </span>
+                    <div class="min-w-0">
+                        <span class="text-xs font-mono font-bold text-white tracking-wider block">${maskedNumber}</span>
+                        <span class="text-[9px] font-mono text-[#7DA0CA] select-all">${trxId}</span>
+                    </div>
+                </div>
 
-            // Print Row
+                <div class="flex items-center gap-4 flex-shrink-0 text-right">
+                    <div>
+                        <span class="text-sm font-black font-mono text-[#C1E8FF] block">৳${amount.toLocaleString()}</span>
+                        <span class="text-[8px] font-mono uppercase text-[#7DA0CA]">Cleared</span>
+                    </div>
+                    <span class="text-[9px] font-mono font-black uppercase px-2 py-0.5 rounded-full ${status === 'Success' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}">
+                        ${status}
+                    </span>
+                </div>
+            `;
+            feedList.appendChild(row);
+
+            // 2. Print Voucher Row Render
             const printTr = document.createElement('tr');
             printTr.style.borderBottom = "1px solid #E2E8F0";
             printTr.innerHTML = `
@@ -463,7 +592,7 @@
             printTbody.appendChild(printTr);
         }
 
-        // Summary Calculations
+        // Summary Gauges Update
         const ratio = ((successCount / count) * 100).toFixed(1) + "%";
         document.getElementById('sumAmount').innerText = "৳" + totalAmount.toLocaleString();
         document.getElementById('sumSuccess').innerText = successCount;
@@ -475,6 +604,8 @@
         document.getElementById('vouchRatio').innerText = ratio;
         document.getElementById('vouchFailed').innerText = failedCount + " Cases";
 
+        // View Toggles
+        document.getElementById('idleState').classList.add('hidden');
         document.getElementById('controllerCard').classList.add('hidden');
         document.getElementById('summaryBar').classList.remove('hidden');
         document.getElementById('resetBtn').classList.remove('hidden');
@@ -487,7 +618,7 @@
 
     function triggerPrint() {
         if (!generatedRecords.length) {
-            alert("আগে ডাটা জেনারেট করুন!");
+            alert("টার্মিনালে আগে ডিসবার্সমেন্ট জেনারেট করুন!");
             return;
         }
         window.print();
@@ -495,7 +626,7 @@
 
     function exportCSV() {
         if (!generatedRecords.length) {
-            alert("আগে ডাটা জেনারেট করুন!");
+            alert("টার্মিনালে কোনো ডাটা নেই!");
             return;
         }
         let csv = "data:text/csv;charset=utf-8,SL,Gateway,Receiver_Number,Amount_BDT,TrxID,Status\n";
