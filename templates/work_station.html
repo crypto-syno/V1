@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - SOFT & MINIMAL WORK STATION UI
+       TAKAEARN - USER FRIENDLY WORK HUB UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -12,58 +12,58 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Soft Minimal Work Card */
-    .soft-work-card {
+    /* Friendly Soft Work Card */
+    .friendly-work-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         border-radius: 22px;
-        padding: 16px 18px;
+        padding: 16px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
         text-decoration: none;
         transition: all 0.25s ease;
-        box-shadow: 0 4px 15px -4px rgba(5, 38, 89, 0.03);
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
-    .soft-work-card:hover {
+    .friendly-work-card:hover {
         border-color: #5483B3;
         background: #F4F9FD;
         transform: translateY(-2px);
         box-shadow: 0 8px 22px -6px rgba(5, 38, 89, 0.08);
     }
-    .soft-work-card:active { transform: scale(0.98); }
+    .friendly-work-card:active { transform: scale(0.98); }
 
-    /* Soft Icon Box */
-    .soft-icon-box {
-        width: 44px;
-        height: 44px;
-        border-radius: 14px;
+    /* Friendly Icon Box */
+    .friendly-icon-box {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
+        font-size: 19px;
         flex-shrink: 0;
     }
 
-    /* Section Category Title */
-    .soft-section-title {
-        font-size: 10.5px;
+    /* Category Section Title */
+    .section-friendly-title {
+        font-size: 11px;
         font-weight: 800;
-        color: #7DA0CA;
+        color: #5483B3;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        margin: 20px 0 10px 4px;
+        margin: 22px 0 10px 4px;
         display: flex;
         align-items: center;
         gap: 6px;
     }
 
-    /* Featured Hero Banner */
-    .soft-hero-banner {
-        background: linear-gradient(135deg, #021024 0%, #052659 60%, #5483B3 100%);
-        border-radius: 26px;
-        padding: 22px 20px;
+    /* Featured Micro Task Hero */
+    .friendly-hero-banner {
+        background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
+        border-radius: 28px;
+        padding: 22px 18px;
         color: #FFFFFF;
         display: flex;
         align-items: center;
@@ -74,8 +74,18 @@
         box-shadow: 0 12px 30px -8px rgba(5, 38, 89, 0.25);
         transition: all 0.25s ease;
     }
-    .soft-hero-banner:hover { transform: translateY(-2px); opacity: 0.95; }
-    .soft-hero-banner:active { transform: scale(0.98); }
+    .friendly-hero-banner:hover { transform: translateY(-2px); opacity: 0.95; }
+    .friendly-hero-banner:active { transform: scale(0.98); }
+
+    /* Reward Tag */
+    .reward-pill {
+        font-size: 10px;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
 </style>
 
 <div class="max-w-md mx-auto fade-in-up pb-14 mt-1 px-2">
@@ -83,28 +93,39 @@
     <!-- ===================================================
          1. TOP NAVIGATION
     =================================================== -->
-    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80 mb-4">
-        <div>
-            <h1 class="text-lg font-black text-[#021024] tracking-tight leading-none">ওয়ার্ক হাব</h1>
-            <p class="text-[10px] text-[#5483B3] font-bold mt-1">Earning Station & Tasks</p>
-        </div>
+    <div class="flex items-center justify-between pb-2 border-b border-[#C1E8FF]/80 mb-3">
         <a href="/dashboard" class="h-9 w-9 bg-white rounded-xl flex items-center justify-center text-[#052659] border border-[#C1E8FF] hover:bg-[#C1E8FF]/30 transition shadow-sm active:scale-95">
-            <i class="fa-solid fa-xmark text-sm"></i>
+            <i class="fa-solid fa-arrow-left text-xs"></i>
         </a>
+        <span class="text-[10px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-3 py-1 rounded-full border border-[#7DA0CA]/30">
+            TakaEarn Work Hub
+        </span>
     </div>
 
     <!-- ===================================================
-         2. HERO CARD: MICRO TASKS
+         2. REQUESTED FRIENDLY HEADING
     =================================================== -->
-    <a href="/tasks" class="soft-hero-banner">
+    <div class="mb-4 pt-1">
+        <h1 class="text-xl sm:text-2xl font-black text-[#021024] tracking-tight leading-snug">
+            আপনার পছন্দ মতো কাজ বেছে নিন,
+        </h1>
+        <p class="text-xs text-[#5483B3] font-semibold mt-1">
+            সহজ কাজগুলো সম্পন্ন করে সরাসরি বিকাশ ও নগদে টাকা বুঝে নিন।
+        </p>
+    </div>
+
+    <!-- ===================================================
+         3. FEATURED HERO: MICRO TASKS
+    =================================================== -->
+    <a href="/tasks" class="friendly-hero-banner mb-2">
         <div class="flex items-center gap-3.5 min-w-0 pr-2">
-            <div class="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-content:center text-2xl text-emerald-300 border border-white/20 flex-shrink-0">
+            <div class="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-2xl text-emerald-300 border border-white/20 flex-shrink-0">
                 <i class="fa-solid fa-list-check"></i>
             </div>
             <div class="min-w-0">
-                <span class="text-[8px] font-black uppercase text-emerald-300 tracking-widest block mb-0.5">ফিচার্ড কাজ</span>
+                <span class="text-[8px] font-black uppercase text-emerald-300 tracking-widest block mb-0.5">সবচেয়ে জনপ্রিয়</span>
                 <h3 class="font-black text-white text-base truncate">মাইক্রো টাস্ক বোর্ড</h3>
-                <p class="text-[10px] text-[#C1E8FF] font-medium mt-0.5 truncate">সোশ্যাল মিডিয়া কাজ করে সহজে আয় করুন</p>
+                <p class="text-[10px] text-[#C1E8FF] font-medium mt-0.5 truncate">ইউটিউব ও সোশ্যাল মিডিয়া কাজ করে সহজ আয়</p>
             </div>
         </div>
         <div class="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center text-xs text-white flex-shrink-0">
@@ -113,16 +134,18 @@
     </a>
 
     <!-- ===================================================
-         3. DAILY EARNINGS & GAMES (Spin, Captcha, Game V2)
+         4. SECTION 1: POPULAR & DAILY QUICK TASKS
     =================================================== -->
-    <div class="soft-section-title"><span class="w-1.5 h-1.5 rounded-full bg-[#052659]"></span> গেমস ও কুইক আর্নিং</div>
+    <div class="section-friendly-title">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#052659]"></span> জনপ্রিয় ও দ্রুত আয়ের কাজ
+    </div>
 
     <div class="space-y-2.5">
         
-        <!-- Coin Game v2 -->
-        <a href="/game/v2" class="soft-work-card">
+        <!-- 1. Coin Game v2 -->
+        <a href="/game/v2" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-amber-50 text-amber-500 border border-amber-200">
+                <div class="friendly-icon-box bg-amber-50 text-amber-500 border border-amber-200">
                     <i class="fa-solid fa-gamepad animate-pulse"></i>
                 </div>
                 <div>
@@ -130,106 +153,122 @@
                     <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">গেম খেলে কয়েন জমিয়ে টাকায় কনভার্ট করুন</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-amber-700 bg-amber-100 px-2.5 py-1 rounded-lg">খেলুন</span>
+            <span class="reward-pill bg-amber-100 text-amber-800">খেলুন 🎮</span>
         </a>
 
-        <!-- Captcha Entry (NEWLY ADDED) -->
-        <a href="/captcha" class="soft-work-card">
+        <!-- 2. Captcha Entry -->
+        <a href="/captcha" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-cyan-50 text-cyan-600 border border-cyan-200">
+                <div class="friendly-icon-box bg-cyan-50 text-cyan-600 border border-cyan-200">
                     <i class="fa-solid fa-keyboard"></i>
                 </div>
                 <div>
                     <h4 class="font-extrabold text-[#021024] text-xs leading-tight">ক্যাপচা এন্ট্রি (Daily 10)</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">সহজ কোড টাইপ করে দৈনিক ফ্রি ইনকাম</p>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">সহজ কোড দেখে টাইপ করে ফ্রিতে টাকা নিন</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-cyan-800 bg-cyan-100 px-2.5 py-1 rounded-lg">৳১/ক্যাপচা</span>
+            <span class="reward-pill bg-cyan-100 text-cyan-800">৳১ / ক্যাপচা</span>
         </a>
 
-        <!-- Lucky Spin -->
-        <a href="/spin" class="soft-work-card">
+        <!-- 3. Lucky Spin -->
+        <a href="/spin" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-rose-50 text-rose-500 border border-rose-200">
+                <div class="friendly-icon-box bg-rose-50 text-rose-500 border border-rose-200">
                     <i class="fa-solid fa-dharmachakra"></i>
                 </div>
                 <div>
                     <h4 class="font-extrabold text-[#021024] text-xs leading-tight">লাকি স্পিন হুইল</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">প্রতিদিন ১ বার ফ্রিতে ভাগ্যের চাকা ঘুরিয়ে আয়</p>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">প্রতিদিন ১ বার সম্পূর্ণ ফ্রিতে ভাগ্যের চাকা ঘুরান</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-rose-700 bg-rose-100 px-2.5 py-1 rounded-lg">ফ্রি স্পিন</span>
+            <span class="reward-pill bg-rose-100 text-rose-800">ফ্রি স্পিন 🎡</span>
         </a>
 
     </div>
 
     <!-- ===================================================
-         4. HIGH PAYING & PROMO TASKS
+         5. SECTION 2: HIGH PAYING & SPECIAL ZONE
     =================================================== -->
-    <div class="soft-section-title"><span class="w-1.5 h-1.5 rounded-full bg-[#5483B3]"></span> স্পেশাল ও অফার জোন</div>
+    <div class="section-friendly-title">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#5483B3]"></span> স্পেশাল ও উচ্চ আয়ের কাজ
+    </div>
 
     <div class="space-y-2.5">
         
         <!-- Premium Tasks -->
-        <a href="/premium-tasks" class="soft-work-card">
+        <a href="/premium-tasks" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-indigo-50 text-indigo-600 border border-indigo-200">
+                <div class="friendly-icon-box bg-indigo-50 text-indigo-600 border border-indigo-200">
                     <i class="fa-solid fa-gem"></i>
                 </div>
                 <div>
                     <h4 class="font-extrabold text-[#021024] text-xs leading-tight">প্রিমিয়াম টাস্ক করুন</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">উচ্চ পারিশ্রমিকের এন্টারপ্রাইজ প্রজেক্ট</p>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">সহজ কাজ ও দ্বিগুণ বেশি টাকা পাওয়ার সুযোগ</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-indigo-700 bg-indigo-100 px-2.5 py-1 rounded-lg">উচ্চ আয়</span>
+            <span class="reward-pill bg-indigo-100 text-indigo-700">উচ্চ আয় 💎</span>
         </a>
 
         <!-- Special Bounty Task -->
-        <a href="/special-task" class="soft-work-card">
+        <a href="/special-task" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-teal-50 text-teal-600 border border-teal-200">
+                <div class="friendly-icon-box bg-teal-50 text-teal-600 border border-teal-200">
                     <i class="fa-solid fa-star"></i>
                 </div>
                 <div>
                     <h4 class="font-extrabold text-[#021024] text-xs leading-tight">স্পেশাল বাউন্টি টাস্ক</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">বিশেষ হাই-পেইং ৯০ টাকার নিশ্চিত বোনাস</p>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">বিশেষ কাজের মাধ্যমে নিশ্চিত ৯০ টাকা বোনাস</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-teal-800 bg-teal-100 px-2.5 py-1 rounded-lg">৳৯০</span>
-        </a>
-
-        <!-- Telecom Drive Store -->
-        <a href="/drive" class="soft-work-card">
-            <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-sky-50 text-sky-600 border border-sky-200">
-                    <i class="fa-solid fa-wifi"></i>
-                </div>
-                <div>
-                    <h4 class="font-extrabold text-[#021024] text-xs leading-tight">টেলিকম ড্রাইভ প্যাক</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">৩০% ডিসকাউন্টে ইন্টারনেট ও মিনিট কিনুন</p>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right text-xs text-[#7DA0CA]"></i>
+            <span class="reward-pill bg-teal-100 text-teal-800">৳৯০ বোনাস ⭐</span>
         </a>
 
         <!-- Referral Program -->
-        <a href="/referrals" class="soft-work-card">
+        <a href="/referrals" class="friendly-work-card">
             <div class="flex items-center gap-3.5">
-                <div class="soft-icon-box bg-purple-50 text-purple-600 border border-purple-200">
+                <div class="friendly-icon-box bg-purple-50 text-purple-600 border border-purple-200">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div>
                     <h4 class="font-extrabold text-[#021024] text-xs leading-tight">রেফারেল বাউন্টি প্রোগ্রাম</h4>
-                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">প্রতি রেফারে ১২ টাকা ও মেগা বোনাস</p>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">প্রতি রেফারে ১২ টাকা ও মেগা ক্যাশ বোনাস</p>
                 </div>
             </div>
-            <span class="text-[10px] font-black text-purple-700 bg-purple-100 px-2.5 py-1 rounded-lg">৳১২/রেফার</span>
+            <span class="reward-pill bg-[#C1E8FF] text-[#052659]">৳১২ / রেফার 🎁</span>
+        </a>
+
+        <!-- Telecom Drive Store -->
+        <a href="/drive" class="friendly-work-card">
+            <div class="flex items-center gap-3.5">
+                <div class="friendly-icon-box bg-sky-50 text-sky-600 border border-sky-200">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <div>
+                    <h4 class="font-extrabold text-[#021024] text-xs leading-tight">টেলিকম ড্রাইভ প্যাক</h4>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">সকল সিমে ৩০% ছাড়ে ইন্টারনেট ও মিনিট কিনুন</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right text-xs text-[#7DA0CA] pr-1"></i>
+        </a>
+
+        <!-- About Us Guide -->
+        <a href="/app" class="friendly-work-card">
+            <div class="flex items-center gap-3.5">
+                <div class="friendly-icon-box bg-[#F4F9FD] text-[#052659] border border-[#C1E8FF]">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div>
+                    <h4 class="font-extrabold text-[#021024] text-xs leading-tight">আমাদের সম্পর্কে</h4>
+                    <p class="text-[10px] text-[#5483B3] font-medium mt-0.5">TakaEarn প্ল্যাটফর্ম ও কাজের পূর্ণ গাইডলাইন</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-xs text-[#7DA0CA] pr-1"></i>
         </a>
 
     </div>
 
     <!-- ===================================================
-         5. OFFICIAL AGENT PROGRAM CARD
+         6. OFFICIAL AGENT PROGRAM (SOFT BANNER)
     =================================================== -->
     <div class="mt-6">
         <a href="/apply-leader" class="block bg-gradient-to-r from-[#021024] to-[#052659] p-5 rounded-[24px] text-center text-white shadow-md hover:opacity-95 transition border border-[#C1E8FF] text-decoration-none">
@@ -238,7 +277,7 @@
             </div>
             <h3 class="font-black text-sm mb-1 text-white">TakaEarn এজেন্ট (Agent) হোন!</h3>
             <p class="text-[10px] text-[#C1E8FF] font-medium leading-relaxed mb-3 max-w-xs mx-auto">
-                অফিসিয়াল এজেন্ট হিসেবে যোগ দিয়ে প্রতি ১৫ দিনে <b>৬,০০০ টাকা ফিক্সড স্যালারি + কমিশন</b> আয় করুন।
+                অফিসিয়াল এজেন্ট হিসেবে কাজ করুন এবং প্রতি ১৫ দিনে <b>৬,০০০ টাকা ফিক্সড স্যালারি + কমিশন</b> বুঝে নিন।
             </p>
             <span class="bg-white text-[#052659] px-5 py-2 rounded-xl text-[11px] font-black uppercase tracking-wider inline-block shadow-sm">
                 আবেদন করুন <i class="fa-solid fa-arrow-right text-[9px] ml-1"></i>
