@@ -3,7 +3,7 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - MINIMAL TUTORIAL & FULLSCREEN VIDEO UI
+       TAKAEARN - TUTORIAL & VIDEO UNDER PRODUCTION UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -12,17 +12,44 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Surface Card */
+    /* Clean Surface Card */
     .te-surface {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         border-radius: 26px;
-        padding: 22px 18px;
+        padding: 24px 20px;
         box-shadow: 0 6px 25px -8px rgba(5, 38, 89, 0.05);
         position: relative;
     }
 
-    /* 4-Step Card */
+    /* Video Under Production Notice Hero Card */
+    .video-production-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 60%, #5483B3 100%);
+        border: 2px solid #C1E8FF;
+        border-radius: 30px;
+        padding: 32px 22px;
+        color: #FFFFFF;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 35px -8px rgba(5, 38, 89, 0.35);
+    }
+    .video-production-card::before {
+        content: ''; position: absolute; top: -40%; right: -20%; width: 220px; height: 220px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.22) 0%, transparent 65%);
+        border-radius: 50%; pointer-events: none;
+    }
+
+    /* Production Clapperboard Animation */
+    .production-icon-pulse {
+        animation: pulseIcon 2.5s infinite ease-in-out;
+    }
+    @keyframes pulseIcon {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(193, 232, 255, 0.3)); }
+        50% { transform: scale(1.08); filter: drop-shadow(0 0 20px rgba(193, 232, 255, 0.6)); }
+    }
+
+    /* 4-Step Cards */
     .step-item-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
@@ -49,78 +76,10 @@
         align-items: center;
         justify-content: center;
         font-size: 15px;
-        font-black: 900;
+        font-weight: 900;
         font-family: 'Plus Jakarta Sans', monospace;
         flex-shrink: 0;
         box-shadow: 0 4px 12px rgba(5, 38, 89, 0.25);
-    }
-
-    /* Fullscreen Auto Video Overlay */
-    .fullscreen-video-modal {
-        position: fixed;
-        inset: 0;
-        background: #021024;
-        z-index: 99999;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        touch-action: none;
-    }
-    .fullscreen-video-modal.active {
-        display: flex !important;
-    }
-
-    /* Fixed Top Right 'X' Close Button */
-    .fixed-close-btn {
-        position: fixed;
-        top: 18px;
-        right: 18px;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(12px);
-        color: #FFFFFF;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        border: 1.5px solid rgba(255, 255, 255, 0.35);
-        cursor: pointer;
-        z-index: 100000;
-        transition: all 0.2s ease;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    }
-    .fixed-close-btn:hover {
-        background: #F43F5E;
-        border-color: #F43F5E;
-        transform: scale(1.08);
-    }
-    .fixed-close-btn:active { transform: scale(0.92); }
-
-    /* Video Frame: Masking FB Page Name */
-    .video-frame-container {
-        position: relative;
-        width: 100%;
-        max-width: 420px;
-        height: 100dvh;
-        max-height: 820px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #000000;
-    }
-    /* Top Masking Strip: Hides FB Avatar & Page Name */
-    .fb-header-mask {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 65px;
-        background: linear-gradient(180deg, #000000 70%, transparent 100%);
-        z-index: 20;
-        pointer-events: none;
     }
 
     /* Ad Container */
@@ -133,75 +92,13 @@
         overflow-x: auto;
         box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
-
-    /* Buttons */
-    .btn-gradient-play {
-        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
-        color: #FFFFFF;
-        width: 100%;
-        padding: 16px;
-        border-radius: 18px;
-        font-weight: 800;
-        font-size: 14px;
-        letter-spacing: 0.4px;
-        transition: all 0.25s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
-        border: none;
-        cursor: pointer;
-    }
-    .btn-gradient-play:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
-    .btn-gradient-play:active { transform: scale(0.97); }
 </style>
-
-<!-- ===================================================
-     1. FULLSCREEN VIDEO MODAL WITH FIXED 'X' BUTTON
-=================================================== -->
-<div id="fullscreenVideoModal" class="fullscreen-video-modal">
-    <!-- Fixed 'X' Icon Button on Top-Right -->
-    <button type="button" onclick="closeFullscreenVideo()" class="fixed-close-btn" title="ভিডিও বন্ধ করুন">
-        <i class="fa-solid fa-xmark"></i>
-    </button>
-
-    <div class="video-frame-container">
-        <!-- Masking Layer to Hide FB Page Header / Name -->
-        <div class="fb-header-mask"></div>
-
-        <!-- Video Loading Spinner -->
-        <div id="videoLoader" class="absolute inset-0 flex flex-col items-center justify-center bg-[#021024] z-0">
-            <i class="fa-solid fa-circle-notch fa-spin text-[#C1E8FF] text-3xl mb-3"></i>
-            <span class="text-xs text-[#7DA0CA] font-bold">ভিডিও লোড হচ্ছে...</span>
-        </div>
-
-        <!-- Video Iframe -->
-        <iframe 
-            id="tutorialIframe"
-            src="" 
-            data-src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1000980702734268%2F%3Fapp%3Dfbl&width=500&show_text=false&height=700&appId" 
-            class="w-full h-full border-none relative z-10" 
-            scrolling="no" 
-            frameborder="0" 
-            allowfullscreen="true" 
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-        </iframe>
-
-        <!-- Video Error Fallback Notice -->
-        <div id="videoErrorNotice" class="hidden absolute inset-0 bg-[#021024] flex-col items-center justify-center p-6 text-center z-30">
-            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-3 border border-amber-500/30">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-            </div>
-            <h4 class="text-white font-black text-base mb-1">ভিডিওটি তৈরি হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন</h4>
-            <p class="text-xs text-[#C1E8FF] max-w-xs">খুব শীঘ্রই সম্পূর্ণ নতুন আপডেটেড ভিডিও এখানে যুক্ত করা হবে।</p>
-        </div>
-    </div>
-</div>
 
 <div class="max-w-md mx-auto space-y-5 fade-in-up pb-14 px-2 mt-1">
 
-    <!-- Top Navigation -->
+    <!-- ===================================================
+         1. TOP NAVIGATION
+    =================================================== -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
             <i class="fa-solid fa-arrow-left text-sm"></i>
@@ -234,24 +131,39 @@
     </div>
 
     <!-- ===================================================
-         3. "ভিডিও দেখুন" (WATCH VIDEO) ACTION BUTTON
+         3. VIDEO UNDER PRODUCTION NOTICE (ভিডিও তৈরি হচ্ছে)
     =================================================== -->
-    <div class="te-surface text-center">
-        <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mx-auto mb-3 border border-rose-100 shadow-sm animate-bounce" style="animation-duration: 3s;">
-            <i class="fa-brands fa-youtube"></i>
-        </div>
-        <h3 class="text-lg font-black text-[#021024] mb-1">সঠিক নিয়মে কাজ শিখুন</h3>
-        <p class="text-xs text-[#5483B3] font-medium leading-relaxed max-w-xs mx-auto mb-5">
-            কাজ শুরু করার আগে নিচের বাটনে চাপ দিয়ে ১ মিনিটের ফুল-স্ক্রিন ভিডিওটি দেখে নিন।
-        </p>
+    <div class="video-production-card">
+        <div class="relative z-10">
+            
+            <!-- Animated Clapperboard / Video Icon -->
+            <div class="w-16 h-16 rounded-3xl bg-white/10 backdrop-blur-md text-amber-300 border border-white/20 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg production-icon-pulse">
+                <i class="fa-solid fa-clapperboard"></i>
+            </div>
 
-        <button type="button" onclick="openFullscreenVideo()" class="btn-gradient-play">
-            <i class="fa-solid fa-circle-play text-lg"></i> <span>ভিডিও দেখুন</span>
-        </button>
+            <!-- In Production Badge -->
+            <div class="inline-flex items-center gap-1.5 bg-amber-400 text-[#021024] px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-3 shadow-md">
+                <span class="w-2 h-2 rounded-full bg-[#021024] animate-ping"></span> কাজ চলছে
+            </div>
+
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight mb-2">
+                ভিডিও তৈরি করা হচ্ছে
+            </h2>
+
+            <p class="text-xs text-[#C1E8FF] font-medium leading-relaxed max-w-xs mx-auto mb-5">
+                আমাদের সম্পূর্ণ নতুন টিউটোরিয়াল ভিডিওর কাজ চলছে। খুব শীঘ্রই এইচডি কোয়ালিটিতে নতুন ভিডিও এখানে যুক্ত করা হবে।
+            </p>
+
+            <div class="p-3 rounded-2xl bg-white/10 border border-white/15 text-[11px] font-bold text-white max-w-xs mx-auto flex items-center justify-center gap-2">
+                <i class="fa-solid fa-hourglass-half text-amber-300 animate-spin" style="animation-duration: 4s;"></i>
+                <span>অনুগ্রহ করে অপেক্ষা করুন...</span>
+            </div>
+
+        </div>
     </div>
 
     <!-- ===================================================
-         4. ৪টি সহজ কাজের ধাপ (4 STEPS TO WORK WITH US)
+         4. ৪টি সহজ কাজের ধাপ (4 STEPS TO WORK)
     =================================================== -->
     <div class="space-y-2.5">
         <div class="flex items-center justify-between px-1 mb-1">
@@ -336,75 +248,5 @@
     </div>
 
 </div>
-
-<!-- ===================================================
-     SCRIPTS: AUTO-OPEN LOGIC & ERROR HANDLING
-=================================================== -->
-<script>
-    const modal = document.getElementById('fullscreenVideoModal');
-    const iframe = document.getElementById('tutorialIframe');
-    const errorNotice = document.getElementById('videoErrorNotice');
-    const loader = document.getElementById('videoLoader');
-
-    function openFullscreenVideo() {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        // Lazy load iframe source
-        if (!iframe.src || iframe.src === "about:blank" || iframe.src === window.location.href) {
-            iframe.src = iframe.getAttribute('data-src');
-        }
-
-        // 7-second timeout for video error fallback
-        const loadTimer = setTimeout(() => {
-            try {
-                // If iframe contentWindow didn't load properly
-                if (!iframe.complete && !iframe.contentDocument) {
-                    showVideoError();
-                }
-            } catch (e) {
-                // Cross-origin load usually fires here if loaded
-            }
-        }, 7000);
-
-        iframe.onload = () => {
-            clearTimeout(loadTimer);
-            if (loader) loader.style.display = 'none';
-        };
-
-        iframe.onerror = () => {
-            showVideoError();
-        };
-    }
-
-    function showVideoError() {
-        if (loader) loader.style.display = 'none';
-        if (errorNotice) errorNotice.classList.remove('hidden');
-    }
-
-    function closeFullscreenVideo() {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        // Reset iframe to stop video audio
-        iframe.src = "about:blank";
-    }
-
-    // Auto-detect redirect from /login, /signup, /telegram, /dashboard
-    document.addEventListener("DOMContentLoaded", () => {
-        const referrer = document.referrer.toLowerCase();
-        const urlParams = new URLSearchParams(window.location.search);
-        const fromParam = (urlParams.get('from') || urlParams.get('src') || '').toLowerCase();
-
-        const triggerSources = ['login', 'signup', 'register', 'telegram', 'dashboard'];
-        const shouldAutoPlay = triggerSources.some(source => referrer.includes(source) || fromParam.includes(source));
-
-        if (shouldAutoPlay) {
-            // Small 300ms delay for smooth DOM render
-            setTimeout(() => {
-                openFullscreenVideo();
-            }, 300);
-        }
-    });
-</script>
 
 {% endblock %}
