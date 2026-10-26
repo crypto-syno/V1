@@ -6,111 +6,98 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - ULTRA-MINIMAL FLAT REGISTER UI
-       Palette:
-       --c-dark    : #021024
-       --c-navy    : #052659
-       --c-steel   : #5483B3
-       --c-soft    : #7DA0CA
-       --c-ice     : #C1E8FF
+       TAKAEARN - USER FRIENDLY CLEAR INPUT REGISTER UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
         animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        opacity: 0; 
-        transform: translateY(14px); 
+        opacity: 0; transform: translateY(14px); 
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Gorgeous Underline Input Fields */
-    .field-group {
+    /* Clear, Obvious & Easy Input Fields (সবার বোধগম্য বক্স) */
+    .input-field-wrap {
         position: relative;
-        margin-bottom: 22px;
+        margin-bottom: 18px;
     }
 
-    .clean-border-input {
+    .field-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 800;
+        color: #021024;
+        margin-bottom: 7px;
+        margin-left: 2px;
+    }
+
+    .clear-box-input {
         width: 100%;
-        background: transparent;
-        border: none;
-        border-bottom: 1.5px solid #C1E8FF;
-        border-radius: 0;
-        padding: 12px 38px 10px 32px;
-        font-size: 14.5px;
+        background: #FFFFFF;
+        border: 2px solid #C1E8FF;
+        border-radius: 18px;
+        padding: 14px 16px 14px 44px;
+        font-size: 15px;
         font-weight: 600;
         color: #021024;
         outline: none;
         transition: all 0.25s ease;
+        box-shadow: 0 2px 6px rgba(5, 38, 89, 0.02);
     }
 
-    .clean-border-input::placeholder {
+    /* Focus State: স্পষ্ট ডিপ নেভি বর্ডার ও সফট আইস-ব্লু রিং */
+    .clear-box-input:focus {
+        border-color: #052659;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.45);
+    }
+
+    .clear-box-input::placeholder {
         color: #7DA0CA;
+        font-size: 13.5px;
         font-weight: 500;
-        font-size: 13px;
     }
 
-    /* Animated expanding underline accent on focus */
-    .field-accent-line {
+    .clear-box-input.error-box {
+        border-color: #F43F5E !important;
+        background: #FFF1F2 !important;
+    }
+
+    .box-left-icon {
         position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0%;
-        height: 2.5px;
-        background: linear-gradient(90deg, #052659, #5483B3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translateX(-50%);
-        border-radius: 2px;
+        left: 16px;
+        top: 40px;
+        color: #7DA0CA;
+        font-size: 16px;
+        transition: color 0.25s ease;
         pointer-events: none;
     }
-
-    .clean-border-input:focus ~ .field-accent-line {
-        width: 100%;
-    }
-
-    .clean-border-input:focus {
-        background: linear-gradient(180deg, transparent 75%, rgba(193, 232, 255, 0.25) 100%);
-    }
-
-    .field-icon-left {
-        position: absolute;
-        left: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #7DA0CA;
-        font-size: 14px;
-        transition: color 0.25s ease;
-    }
-
-    .clean-border-input:focus ~ .field-icon-left {
+    .clear-box-input:focus ~ .box-left-icon {
         color: #052659;
     }
 
-    /* Error line indicator */
-    .clean-border-input.error-line {
-        border-bottom-color: #F43F5E !important;
-    }
-
-    /* Primary Submit Button */
+    /* Primary Action Button */
     .btn-register-submit {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF;
         width: 100%;
-        padding: 15px;
-        border-radius: 16px;
+        padding: 16px;
+        border-radius: 18px;
         font-weight: 800;
-        font-size: 13.5px;
+        font-size: 14.5px;
         letter-spacing: 0.4px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        box-shadow: 0 8px 22px -4px rgba(5, 38, 89, 0.35);
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
         border: none;
         cursor: pointer;
-        margin-top: 26px;
+        margin-top: 24px;
     }
     .btn-register-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 28px -4px rgba(5, 38, 89, 0.45);
+        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45);
     }
     .btn-register-submit:active { transform: scale(0.97); }
 
@@ -123,7 +110,7 @@
     <!-- ===================================================
          1. TOP BAR: [Logo (LEFT)] — [লগইন করুন (RIGHT)]
     =================================================== -->
-    <div class="flex items-center justify-between pb-4 border-b border-[#C1E8FF]/70">
+    <div class="flex items-center justify-between pb-4 border-b border-[#C1E8FF]/80">
         
         <!-- LEFT: Logo & Brand Name -->
         <a href="/" class="flex items-center gap-2.5 group">
@@ -142,8 +129,8 @@
     <!-- ===================================================
          2. VIDEO GUIDE & SECURITY PILL
     =================================================== -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 my-4" style="padding: 14px">
-        <a href="/tutorial" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[#C1E8FF] hover:border-[#5483B3] text-[11px] font-bold text-[#052659] shadow-sm transition group backdrop-blur-sm">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 my-4">
+        <a href="/tutorial" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#C1E8FF] hover:border-[#5483B3] text-[11px] font-bold text-[#052659] shadow-sm transition group">
             <span class="w-4 h-4 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-[8px] group-hover:scale-110 transition flex-shrink-0">
                 <i class="fa-solid fa-play"></i>
             </span>
@@ -151,23 +138,25 @@
             <i class="fa-solid fa-arrow-right text-[7px] text-[#7DA0CA] group-hover:translate-x-0.5 transition"></i>
         </a>
 
-      
+        <span class="text-[10px] font-bold text-[#052659] bg-[#C1E8FF]/60 px-2.5 py-1 rounded-md border border-[#7DA0CA]/30">
+            <i class="fa-solid fa-shield-halved text-[9px] mr-1"></i> ১টি ডিভাইসে ১টি একাউন্ট
+        </span>
     </div>
 
     <!-- ===================================================
-         3. MINIMAL TITLE
+         3. HEADING
     =================================================== -->
-    <div class="mb-6">
+    <div class="mb-5">
         <h1 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight leading-tight mb-1">
             একাউন্ট তৈরি করুন
         </h1>
         <p class="text-xs font-semibold text-[#5483B3]">
-            সঠিক তথ্য দিয়ে রেজিস্ট্রেশন সম্পন্ন করুন
+            সঠিক তথ্য দিয়ে ফর্মটি পূরণ করুন
         </p>
     </div>
 
     <!-- ===================================================
-         4. GORGEOUS UNDERLINE FORM
+         4. CLEAR & INTUITIVE REGISTER FORM (সবাই সহজে বুঝবে)
     =================================================== -->
     <form id="registerForm" method="POST" action="/register">
         
@@ -176,49 +165,57 @@
         <input type="hidden" name="device_id" id="deviceIdInput" value="">
 
         <!-- Full Name Field -->
-        <div class="field-group">
-            <input type="text" name="name" required placeholder="আপনার পুরো নাম " class="clean-border-input">
-            <i class="fa-regular fa-user field-icon-left"></i>
-            <div class="field-accent-line"></div>
+        <div class="input-field-wrap">
+            <label class="field-label" for="nameField">
+                <i class="fa-regular fa-user text-[#052659] mr-1"></i> আপনার পুরো নাম
+            </label>
+            <input type="text" name="name" id="nameField" required placeholder="আপনার পুরো নাম লিখুন (Full Name)" class="clear-box-input">
+            <i class="fa-solid fa-user-pen box-left-icon"></i>
         </div>
 
         <!-- Phone Number Field -->
-        <div class="field-group">
-            <input type="tel" name="phone" id="phoneInput" required placeholder="১১ ডিজিটের মোবাইল নম্বর " class="clean-border-input font-mono tracking-wider">
-            <i class="fa-solid fa-mobile-screen field-icon-left"></i>
-            <div class="field-accent-line"></div>
-            <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="phoneError">
+        <div class="input-field-wrap">
+            <label class="field-label" for="phoneInput">
+                <i class="fa-solid fa-mobile-screen-button text-[#052659] mr-1"></i> মোবাইল নম্বর (১১ ডিজিট)
+            </label>
+            <input type="tel" name="phone" id="phoneInput" required placeholder="017XXXXXXXX" class="clear-box-input font-mono tracking-wider">
+            <i class="fa-solid fa-phone box-left-icon"></i>
+            <p class="text-[10px] font-bold text-rose-500 mt-1.5 hidden ml-1" id="phoneError">
                 <i class="fa-solid fa-circle-exclamation mr-0.5"></i> সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন
             </p>
         </div>
 
         <!-- Gmail Field -->
-        <div class="field-group">
-            <input type="email" name="email" id="emailInput" required placeholder="জিমেইল এড্রেস (yourmail@gmail.com)" class="clean-border-input font-mono">
-            <i class="fa-brands fa-google field-icon-left"></i>
-            <div class="field-accent-line"></div>
-            <p class="text-[10px] font-bold text-rose-500 mt-1 hidden" id="emailError">
+        <div class="input-field-wrap">
+            <label class="field-label" for="emailInput">
+                <i class="fa-brands fa-google text-[#052659] mr-1"></i> জিমেইল অ্যাড্রেস
+            </label>
+            <input type="email" name="email" id="emailInput" required placeholder="example@gmail.com" class="clear-box-input font-mono">
+            <i class="fa-solid fa-at box-left-icon"></i>
+            <p class="text-[10px] font-bold text-rose-500 mt-1.5 hidden ml-1" id="emailError">
                 <i class="fa-solid fa-circle-exclamation mr-0.5"></i> শুধুমাত্র @gmail.com একাউন্ট গ্রহণযোগ্য
             </p>
         </div>
 
         <!-- Password Field -->
-        <div class="field-group">
-            <input type="password" name="password" id="passInput" required minlength="6" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)" class="clean-border-input font-mono tracking-wider">
-            <i class="fa-solid fa-lock field-icon-left"></i>
+        <div class="input-field-wrap">
+            <label class="field-label" for="passInput">
+                <i class="fa-solid fa-lock text-[#052659] mr-1"></i> একাউন্ট পাসওয়ার্ড
+            </label>
+            <input type="password" name="password" id="passInput" required minlength="6" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড..." class="clear-box-input font-mono tracking-wider">
+            <i class="fa-solid fa-key box-left-icon"></i>
             
             <!-- Eye Toggle Button -->
-            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2 top-1/2 -translate-y-1/2 text-[#7DA0CA] hover:text-[#052659] transition p-1">
-                <i id="eyeToggleIcon" class="fa-regular fa-eye-slash text-sm"></i>
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-[39px] text-[#7DA0CA] hover:text-[#052659] transition p-1" title="পাসওয়ার্ড দেখুন">
+                <i id="eyeToggleIcon" class="fa-regular fa-eye-slash text-base"></i>
             </button>
-            <div class="field-accent-line"></div>
         </div>
 
         <!-- Referral Code Indicator (If available) -->
         {% if ref_code %}
-        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#C1E8FF]/40 border border-[#C1E8FF] text-xs font-bold text-[#052659] mb-4">
-            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gift text-amber-500"></i> রেফার কোড যুক্ত আছে:</span>
-            <span class="font-mono bg-white px-2 py-0.5 rounded border border-[#7DA0CA]/30">{{ ref_code }}</span>
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-[#C1E8FF]/40 border border-[#C1E8FF] text-xs font-bold text-[#052659] mb-3">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gift text-amber-500 text-sm"></i> রেফার কোড যুক্ত আছে:</span>
+            <span class="font-mono bg-white px-2.5 py-0.5 rounded-lg border border-[#7DA0CA]/30 font-black">{{ ref_code }}</span>
         </div>
         {% endif %}
 
@@ -230,9 +227,9 @@
     </form>
 
     <!-- ===================================================
-         5. MINIMAL FOOTER
+         5. FOOTER HELPER
     =================================================== -->
-    <div class="mt-8 pt-5 border-t border-[#C1E8FF]/60 text-center space-y-2.5">
+    <div class="mt-8 pt-5 border-t border-[#C1E8FF]/80 text-center space-y-2.5">
         <p class="text-xs font-medium text-[#5483B3]">
             ইতিমধ্যে একটি একাউন্ট আছে? 
             <a href="/login" class="text-[#052659] font-black hover:underline ml-1">লগইন করুন</a>
@@ -254,10 +251,10 @@
     emailInput.addEventListener('input', function() {
         if(this.value.length > 0 && !this.value.toLowerCase().endsWith('@gmail.com')) {
             emailError.classList.remove('hidden');
-            this.classList.add('error-line');
+            this.classList.add('error-box');
         } else {
             emailError.classList.add('hidden');
-            this.classList.remove('error-line');
+            this.classList.remove('error-box');
         }
     });
 
@@ -267,10 +264,10 @@
         const regex = /^01[3-9][0-9]{8}$/;
         if(this.value.length > 0 && !regex.test(this.value)) {
             phoneError.classList.remove('hidden');
-            this.classList.add('error-line');
+            this.classList.add('error-box');
         } else {
             phoneError.classList.add('hidden');
-            this.classList.remove('error-line');
+            this.classList.remove('error-box');
         }
     });
 
@@ -294,7 +291,6 @@
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Extra client-side sanity check
         const email = emailInput.value.trim().toLowerCase();
         const phone = phoneInput.value.trim();
         const phoneRegex = /^01[3-9][0-9]{8}$/;
