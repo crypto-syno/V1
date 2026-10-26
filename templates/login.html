@@ -3,80 +3,67 @@
 
 <style>
     /* ==========================================================
-       TAKAEARN - ULTRA-MINIMAL FLAT LOGIN UI
-       Palette:
-       --c-dark    : #021024
-       --c-navy    : #052659
-       --c-steel   : #5483B3
-       --c-soft    : #7DA0CA
-       --c-ice     : #C1E8FF
+       TAKAEARN - USER FRIENDLY CLEAR INPUT LOGIN UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
         animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        opacity: 0; 
-        transform: translateY(14px); 
+        opacity: 0; transform: translateY(14px); 
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Gorgeous Underline Input Fields */
-    .field-group {
+    /* Clear, Obvious & Easy Input Fields (সবার বোধগম্য বক্স) */
+    .input-field-wrap {
         position: relative;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
 
-    .clean-border-input {
+    .field-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 800;
+        color: #021024;
+        margin-bottom: 7px;
+        margin-left: 2px;
+    }
+
+    .clear-box-input {
         width: 100%;
-        background: transparent;
-        border: none;
-        border-bottom: 1.5px solid #C1E8FF;
-        border-radius: 0;
-        padding: 12px 38px 10px 32px;
-        font-size: 14.5px;
+        background: #FFFFFF;
+        border: 2px solid #C1E8FF;
+        border-radius: 18px;
+        padding: 14px 44px 14px 44px;
+        font-size: 15px;
         font-weight: 600;
         color: #021024;
         outline: none;
         transition: all 0.25s ease;
+        box-shadow: 0 2px 6px rgba(5, 38, 89, 0.02);
     }
 
-    .clean-border-input::placeholder {
+    /* Focus State: স্পষ্ট ডিপ নেভি বর্ডার ও সফট আইস-ব্লু রিং */
+    .clear-box-input:focus {
+        border-color: #052659;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.45);
+    }
+
+    .clear-box-input::placeholder {
         color: #7DA0CA;
-        font-weight: 500;
         font-size: 13.5px;
+        font-weight: 500;
     }
 
-    /* Animated expanding underline accent on focus */
-    .field-accent-line {
+    .box-left-icon {
         position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0%;
-        height: 2.5px;
-        background: linear-gradient(90deg, #052659, #5483B3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translateX(-50%);
-        border-radius: 2px;
+        left: 16px;
+        top: 40px;
+        color: #7DA0CA;
+        font-size: 16px;
+        transition: color 0.25s ease;
         pointer-events: none;
     }
-
-    .clean-border-input:focus ~ .field-accent-line {
-        width: 100%;
-    }
-
-    .clean-border-input:focus {
-        background: linear-gradient(180deg, transparent 75%, rgba(193, 232, 255, 0.25) 100%);
-    }
-
-    .field-icon-left {
-        position: absolute;
-        left: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #7DA0CA;
-        font-size: 14px;
-        transition: color 0.25s ease;
-    }
-
-    .clean-border-input:focus ~ .field-icon-left {
+    .clear-box-input:focus ~ .box-left-icon {
         color: #052659;
     }
 
@@ -85,23 +72,23 @@
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF;
         width: 100%;
-        padding: 15px;
-        border-radius: 16px;
+        padding: 16px;
+        border-radius: 18px;
         font-weight: 800;
-        font-size: 13.5px;
+        font-size: 14.5px;
         letter-spacing: 0.4px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        box-shadow: 0 8px 22px -4px rgba(5, 38, 89, 0.35);
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
         border: none;
         cursor: pointer;
     }
     .btn-login-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 28px -4px rgba(5, 38, 89, 0.45);
+        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45);
     }
     .btn-login-submit:active { transform: scale(0.97); }
 
@@ -114,7 +101,7 @@
     <!-- ===================================================
          1. TOP BAR: [Logo (LEFT)] — [একাউন্ট খুলুন (RIGHT)]
     =================================================== -->
-    <div class="flex items-center justify-between pb-4 border-b border-[#C1E8FF]/70">
+    <div class="flex items-center justify-between pb-4 border-b border-[#C1E8FF]/80">
         
         <!-- LEFT: Logo & Brand Name -->
         <a href="/" class="flex items-center gap-2.5 group">
@@ -134,56 +121,65 @@
          2. VIDEO GUIDE: কীভাবে কাজ করবেন? ভিডিও দেখুন
     =================================================== -->
     <div class="my-5">
-        <a href="/tutorial" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#C1E8FF] hover:border-[#5483B3] text-[11px] font-bold text-[#052659] shadow-sm transition group backdrop-blur-sm">
-            <span class="w-5 h-5 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-[9px] group-hover:scale-110 transition flex-shrink-0">
-                <i class="fa-solid fa-play"></i>
-            </span>
-            <span>কীভাবে কাজ করবেন? <span class="underline decoration-[#7DA0CA] underline-offset-2">ভিডিও দেখুন</span></span>
-            <i class="fa-solid fa-arrow-right text-[8px] text-[#7DA0CA] group-hover:translate-x-0.5 transition"></i>
+        <a href="/tutorial" class="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white border border-[#C1E8FF] shadow-sm hover:border-[#7DA0CA] transition group">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-base border border-rose-100 group-hover:scale-110 transition flex-shrink-0">
+                    <i class="fa-brands fa-youtube"></i>
+                </div>
+                <div class="text-left">
+                    <span class="text-xs font-black text-[#021024] block leading-tight">কীভাবে কাজ করবেন? <span class="text-[#052659] underline">ভিডিও দেখুন</span></span>
+                    <span class="text-[10px] text-[#7DA0CA] font-medium">সহজ নিয়মে ১ মিনিটে কাজ শিখুন</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-xs text-[#7DA0CA] group-hover:text-[#052659] group-hover:translate-x-1 transition mr-1"></i>
         </a>
     </div>
 
     <!-- ===================================================
-         3. MINIMAL TITLE
+         3. HEADING
     =================================================== -->
-    <div class="mb-7">
+    <div class="mb-6">
         <h1 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight leading-tight mb-1">
-            লগইন
+            লগইন করুন
         </h1>
         <p class="text-xs font-semibold text-[#5483B3]">
-            আপনার একাউন্টের তথ্য দিয়ে প্রবেশ করুন
+            আপনার একাউন্টের ইমেইল ও পাসওয়ার্ড দিয়ে প্রবেশ করুন
         </p>
     </div>
 
     <!-- ===================================================
-         4. GORGEOUS UNDERLINE FORM (ONLY BORDER-BOTTOM)
+         4. CLEAR & INTUITIVE LOGIN FORM (সবাই সহজে বুঝবে)
     =================================================== -->
     <form method="POST" action="/login" id="loginForm" onsubmit="return handleLoginSubmit()">
 
         <!-- Email Field -->
-        <div class="field-group">
-            <input type="email" name="email" required placeholder="ইমেইল" class="clean-border-input font-mono">
-            <i class="fa-regular fa-envelope field-icon-left"></i>
-            <div class="field-accent-line"></div>
+        <div class="input-field-wrap">
+            <label class="field-label" for="emailField">
+                <i class="fa-regular fa-envelope text-[#052659] mr-1"></i> আপনার ইমেইল অ্যাড্রেস
+            </label>
+            <input type="email" name="email" id="emailField" required placeholder="example@gmail.com" class="clear-box-input font-mono">
+            <i class="fa-solid fa-at box-left-icon"></i>
         </div>
 
         <!-- Password Field -->
-        <div class="field-group">
-            <input type="password" name="password" id="passInput" required placeholder="পাসওয়ার্ড " class="clean-border-input font-mono tracking-wider">
-            <i class="fa-solid fa-lock field-icon-left"></i>
+        <div class="input-field-wrap">
+            <label class="field-label" for="passInput">
+                <i class="fa-solid fa-lock text-[#052659] mr-1"></i> একাউন্ট পাসওয়ার্ড
+            </label>
+            <input type="password" name="password" id="passInput" required placeholder="পাসওয়ার্ড লিখুন..." class="clear-box-input font-mono tracking-wider">
+            <i class="fa-solid fa-key box-left-icon"></i>
             
             <!-- Eye Toggle Button -->
-            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2 top-1/2 -translate-y-1/2 text-[#7DA0CA] hover:text-[#052659] transition p-1">
-                <i id="eyeToggleIcon" class="fa-regular fa-eye-slash text-sm"></i>
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-[39px] text-[#7DA0CA] hover:text-[#052659] transition p-1" title="পাসওয়ার্ড দেখুন">
+                <i id="eyeToggleIcon" class="fa-regular fa-eye-slash text-base"></i>
             </button>
-            <div class="field-accent-line"></div>
         </div>
 
         <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between mt-1 mb-7 px-0.5">
+        <div class="flex items-center justify-between mt-1 mb-7 px-1">
             <label class="flex items-center gap-2 cursor-pointer select-none">
-                <input type="checkbox" id="rememberMe" class="accent-[#052659] h-3.5 w-3.5 cursor-pointer rounded border-[#C1E8FF]">
-                <span class="text-xs font-semibold text-[#5483B3] hover:text-[#021024] transition">সেভ করে রাখুন</span>
+                <input type="checkbox" id="rememberMe" class="accent-[#052659] h-4 w-4 cursor-pointer rounded border-[#C1E8FF]">
+                <span class="text-xs font-bold text-[#5483B3] hover:text-[#021024] transition">মনে রাখুন (Remember)</span>
             </label>
             <a href="https://t.me/takaearn_help" target="_blank" class="text-xs font-bold text-[#052659] hover:underline transition">
                 পাসওয়ার্ড ভুলে গেছেন?
@@ -198,9 +194,9 @@
     </form>
 
     <!-- ===================================================
-         5. MINIMAL FOOTER
+         5. FOOTER HELPER
     =================================================== -->
-    <div class="mt-8 pt-5 border-t border-[#C1E8FF]/60 text-center space-y-2.5">
+    <div class="mt-8 pt-5 border-t border-[#C1E8FF]/80 text-center space-y-2.5">
         <p class="text-xs font-medium text-[#5483B3]">
             একাউন্ট তৈরি করা নেই? 
             <a href="/register" class="text-[#052659] font-black hover:underline ml-1">নতুন একাউন্ট খুলুন</a>
