@@ -164,6 +164,8 @@
         </a>
     </div>
 
+    <p>টাকা তুলতে মিনুমাম 400 টাকা বয়ালেন্স হতে হবে এবং 5 টা রেফার থাকতে হবে। </p>
+
     <!-- 2. COMPACT WALLET & NUMBER CARD (সব তথ্য এক বক্সে) -->
     <div class="mini-card bg-gradient-to-br from-white to-[#F4F9FD]">
         
@@ -225,7 +227,7 @@
                     <button type="button" class="mini-chip" onclick="setAmount(20)">৳২০</button>
                     <button type="button" class="mini-chip" onclick="setAmount(100)">৳১০০</button>
                 {% else %}
-                    <button type="button" class="mini-chip" onclick="setAmount(370)">৳৩৭০</button>
+                    <button type="button" class="mini-chip" onclick="setAmount(400)">৳400</button>
                     <button type="button" class="mini-chip" onclick="setAmount(500)">৳৫০০</button>
                 {% endif %}
                 <button type="button" class="mini-chip !bg-[#C1E8FF]" onclick="setAmount('all')">সব টাকা</button>
@@ -249,7 +251,7 @@
                     </p>
                     <div class="flex justify-between items-center text-[11px] font-semibold text-slate-700 pt-0.5">
                         <span>সক্রিয় রেফারেল: <b class="{{ 'text-emerald-700' if ref_count >= 5 else 'text-rose-600' }}">{{ ref_count }}/৫ জন</b></span>
-                        <span>মিনিমাম ব্যালেন্স: <b class="{{ 'text-emerald-700' if current_bal >= 370 else 'text-rose-600' }}">৳{{ current_bal }}/৳৩৭০</b></span>
+                        <span>মিনিমাম ব্যালেন্স: <b class="{{ 'text-emerald-700' if current_bal >= 400 else 'text-rose-600' }}">৳{{ current_bal }}/৳400</b></span>
                     </div>
                 </div>
             {% endif %}
