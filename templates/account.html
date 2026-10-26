@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- html2canvas Library -->
+<!-- High-Performance html2canvas Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
     /* ==========================================================
-       TAKAEARN - ACCOUNT & SHAREABLE CARD UI
+       TAKAEARN - HD PROFILE & ANIMATED GRID NAV UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
@@ -15,49 +15,91 @@
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Surface Cards */
+    /* Clean Surface Card */
     .acc-surface {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
-        border-radius: 28px;
-        padding: 24px 20px;
+        border-radius: 26px;
+        padding: 22px 18px;
         box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
         position: relative;
     }
 
-    /* Menu Group List */
-    .acc-menu-group {
+    /* ==========================================
+       ANIMATED GRID NAVIGATION CARDS
+    ========================================== */
+    .nav-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .nav-grid-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
-        border-radius: 24px;
+        border-radius: 22px;
+        padding: 16px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.02);
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
     }
-    .acc-menu-item {
-        display: flex; align-items: center; padding: 16px 18px;
-        text-decoration: none; transition: all 0.2s ease;
+    .nav-grid-card:hover {
+        border-color: #5483B3;
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px -5px rgba(5, 38, 89, 0.1);
     }
-    .acc-menu-item:hover { background: #F4F9FD; padding-left: 22px; }
-    .acc-menu-item:not(:last-child) { border-bottom: 1px solid #E2E8F0; }
+    .nav-grid-card:active { transform: scale(0.97); }
 
-    .acc-menu-icon { width: 26px; font-size: 16px; color: #052659; margin-right: 14px; text-align: center; }
-    .acc-menu-text { flex-grow: 1; font-size: 13.5px; font-weight: 700; color: #021024; }
-    .acc-menu-chevron { color: #7DA0CA; font-size: 12px; transition: transform 0.2s; }
-    .acc-menu-item:hover .acc-menu-chevron { transform: translateX(3px); color: #052659; }
-
-    .acc-menu-danger .acc-menu-icon, .acc-menu-danger .acc-menu-text { color: #E11D48; }
-    .acc-menu-danger:hover { background: #FFF1F2; }
+    .nav-grid-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: #F4F9FD;
+        color: #052659;
+        border: 1px solid #C1E8FF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+    .nav-grid-card:hover .nav-grid-icon-box {
+        background: #052659;
+        color: #FFFFFF;
+        border-color: #052659;
+        transform: scale(1.08) rotate(3deg);
+    }
 
     /* Flat Input */
     .acc-flat-input {
-        width: 100%; background: #F4F9FD; border: 1.5px solid #C1E8FF; color: #021024;
-        padding: 14px 16px; border-radius: 16px; outline: none; font-size: 13.5px; font-weight: 600; transition: all 0.25s;
+        width: 100%; 
+        background: #F4F9FD; 
+        border: 1.5px solid #C1E8FF; 
+        color: #021024;
+        padding: 14px 16px; 
+        border-radius: 16px; 
+        outline: none; 
+        font-size: 14px; 
+        font-weight: 600; 
+        transition: all 0.25s;
     }
-    .acc-flat-input:focus { border-color: #052659; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); }
+    .acc-flat-input:focus { 
+        border-color: #052659; 
+        background: #FFFFFF; 
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); 
+    }
 
     .btn-acc-primary {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
-        color: #FFFFFF; width: 100%; padding: 16px;
+        color: #FFFFFF; width: 100%; padding: 15px;
         border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
         letter-spacing: 0.4px; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
         box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4); border: none; cursor: pointer;
@@ -65,35 +107,57 @@
     .btn-acc-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
     .btn-acc-primary:active { transform: scale(0.97); }
 
-    /* ==========================================
-       SHAREABLE PROFILE CARD DESIGN (FIXED CSS)
-    ========================================== */
-    #downloadableCardWrapper {
-        position: fixed; left: -9999px; top: -9999px; z-index: -1000;
+    /* Category Section Label */
+    .acc-section-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: #5483B3;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 22px 0 10px 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
-    .share-card-canvas {
-        width: 360px; /* Fixed width to prevent wrapping */
-        height: 480px; /* Fixed height */
-        background: linear-gradient(145deg, #021024 0%, #052659 60%, #5483B3 100%);
+
+    /* ==========================================================
+       HD SHAREABLE DIGITAL PROFILE CARD (RENDERED AT 3X DPI)
+    ========================================================== */
+    #downloadableCardWrapper {
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        z-index: -9999;
+        visibility: hidden;
+    }
+    
+    .share-card-hd-canvas {
+        width: 380px;
+        height: 520px;
+        background: linear-gradient(145deg, #021024 0%, #052659 55%, #5483B3 100%);
         border-radius: 36px;
-        padding: 40px 24px;
+        padding: 36px 24px;
         color: #FFFFFF;
         text-align: center;
         position: relative;
         overflow: hidden;
-        border: 3px solid #C1E8FF;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        border: 2px solid rgba(193, 232, 255, 0.4);
+        box-shadow: 0 25px 60px rgba(2, 16, 36, 0.6);
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
     }
-    .card-watermark {
-        position: absolute; top: -30px; right: -30px; 
-        width: 150px; height: 150px; 
-        background: rgba(193,232,255,0.1); 
-        border-radius: 50%; filter: blur(15px);
+    .card-hd-glow {
+        position: absolute; top: -50px; right: -50px; 
+        width: 180px; height: 180px; 
+        background: radial-gradient(circle, rgba(193,232,255,0.25) 0%, transparent 70%); 
+        border-radius: 50%; pointer-events: none;
     }
 </style>
 
-<div class="max-w-md mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-14 px-2 mt-1">
 
     <!-- Top Navigation -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
@@ -109,12 +173,17 @@
     </div>
 
     <!-- ===================================================
-         1. DIRECT EDIT FORM
+         1. DIRECT EDIT FORM (CLEAN, COMPACT, NO UI BREAK)
     =================================================== -->
     <div class="acc-surface">
-        <div class="flex items-center gap-2 mb-4 pb-2 border-b border-[#C1E8FF]">
-            <i class="fa-solid fa-user-pen text-[#052659]"></i>
-            <h3 class="font-black text-sm text-[#021024] uppercase tracking-wider">প্রোফাইল তথ্য আপডেট করুন</h3>
+        <div class="flex items-center justify-between mb-4 pb-2.5 border-b border-[#C1E8FF]">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user-pen text-[#052659] text-base"></i>
+                <h3 class="font-black text-sm text-[#021024] uppercase tracking-wider">প্রোফাইল তথ্য আপডেট</h3>
+            </div>
+            <span class="text-[9px] font-black uppercase text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-md">
+                Settings
+            </span>
         </div>
 
         <div id="timeWarning" class="hidden bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold p-3 rounded-2xl mb-4 leading-relaxed"></div>
@@ -123,8 +192,8 @@
             
             <div class="flex flex-col items-center">
                 <label class="cursor-pointer group relative">
-                    <div class="h-20 w-20 rounded-3xl bg-[#F4F9FD] border-2 border-[#C1E8FF] flex items-center justify-center overflow-hidden transition group-hover:border-[#052659] shadow-sm">
-                        <img id="profilePreview" src="{{ user.profile_pic or '' }}" class="w-full h-full object-cover {{ 'hidden' if not user.profile_pic }}" crossorigin="anonymous">
+                    <div class="w-20 h-20 rounded-3xl bg-[#F4F9FD] border-2 border-[#C1E8FF] flex items-center justify-center overflow-hidden transition group-hover:border-[#052659] shadow-sm">
+                        <img id="profilePreview" src="{{ user.profile_pic or '' }}" class="w-full h-full object-cover {{ 'hidden' if not user.profile_pic }}">
                         <i id="uploadIcon" class="fa-solid fa-camera text-xl text-[#7DA0CA] group-hover:text-[#052659] transition {{ '' if not user.profile_pic else 'hidden' }}"></i>
                     </div>
                     <div class="absolute -bottom-1 -right-1 h-7 w-7 bg-[#052659] rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white">
@@ -140,142 +209,221 @@
                 <input type="text" name="full_name" value="{{ user.full_name }}" placeholder="Your Full Name" class="acc-flat-input" required>
             </div>
 
-            <button type="submit" id="saveProfileBtn" class="btn-acc-primary mt-2">
+            <button type="submit" id="saveProfileBtn" class="btn-acc-primary">
                 <span>পরিবর্তন সেভ করুন</span> <i class="fa-solid fa-check text-xs"></i>
             </button>
         </form>
     </div>
 
     <!-- ===================================================
-         2. SHARE PROFILE CARD TRIGGER
+         2. SHARE PROFILE CARD TRIGGER TILE (HD READY)
     =================================================== -->
     <div class="acc-surface bg-gradient-to-r from-[#021024] to-[#052659] text-white flex items-center justify-between cursor-pointer hover:opacity-95 transition" onclick="generateAndDownloadCard()">
         <div class="flex items-center gap-3.5">
-            <div class="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-xl text-amber-300 border border-white/20">
+            <div class="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-xl text-amber-300 border border-white/20 flex-shrink-0">
                 <i class="fa-solid fa-id-card"></i>
             </div>
             <div>
-                <h4 class="font-black text-sm leading-tight">শেয়ার প্রোফাইল কার্ড</h4>
-                <p class="text-[10px] text-[#C1E8FF] font-medium mt-0.5">ডিজিটাল ভিজিটিং কার্ড ডাউনলোড করুন</p>
+                <h4 class="font-black text-sm leading-tight text-white">শেয়ার প্রোফাইল কার্ড</h4>
+                <p class="text-[10px] text-[#C1E8FF] font-medium mt-0.5">ডিজিটাল এইচডি কার্ড ডাউনলোড করুন</p>
             </div>
         </div>
-        <div class="h-9 w-9 rounded-xl bg-white text-[#052659] flex items-center justify-center text-xs shadow-sm">
+        <div class="h-9 w-9 rounded-xl bg-white text-[#052659] flex items-center justify-center text-xs shadow-sm flex-shrink-0">
             <i class="fa-solid fa-download"></i>
         </div>
     </div>
 
+    <!-- Quick Referral Copy Box -->
+    <button onclick="copyText('{{ user.referral_code }}')" class="acc-surface !p-3.5 flex items-center justify-between w-full cursor-pointer bg-[#F4F9FD] border-[#C1E8FF]">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs">
+                <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <div class="text-left">
+                <span class="text-[9px] font-black text-[#7DA0CA] uppercase tracking-wider block">রেফারেল কোড (UID)</span>
+                <span class="text-xs font-mono font-black text-[#052659]">{{ user.referral_code or 'User' }}</span>
+            </div>
+        </div>
+        <span class="text-xs font-bold text-[#052659] bg-white border border-[#C1E8FF] px-3 py-1 rounded-lg">
+            কপি <i class="fa-regular fa-copy ml-1"></i>
+        </span>
+    </button>
+
     <!-- ===================================================
-         3. MENU GROUPS
-    ========================================== -->
-    <div class="acc-menu-group">
-        <a href="/income" class="acc-menu-item">
-            <i class="fa-solid fa-chart-pie acc-menu-icon"></i>
-            <span class="acc-menu-text">আয় ও হিসাব (Analytics)</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
-        <a href="/withdraw" class="acc-menu-item">
-            <i class="fa-solid fa-wallet acc-menu-icon"></i>
-            <span class="acc-menu-text">উত্তোলন করুন (Cashout)</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
-        <a href="/adm" class="acc-menu-item">
-            <i class="fa-solid fa-building-columns acc-menu-icon"></i>
-            <span class="acc-menu-text">পেমেন্ট মেথড (Payment Setup)</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
+         3. ANIMATED 2-COLUMN GRID NAVIGATION
+    =================================================== -->
+    
+    <!-- Section A: Finance & Earning Grid -->
+    <div class="acc-section-label">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#052659]"></span> আয়, উইথড্র ও অ্যাকাউন্ট
     </div>
 
-    <div class="acc-menu-group">
-        <button onclick="copyText('{{ user.referral_code }}')" class="acc-menu-item w-full text-left bg-transparent border-none outline-none cursor-pointer">
-            <i class="fa-solid fa-fingerprint acc-menu-icon"></i>
-            <span class="acc-menu-text flex justify-between items-center pr-2">
-                রেফারেল কোড (UID)
-                <span class="text-[#052659] text-xs font-mono font-bold bg-[#C1E8FF] px-2.5 py-0.5 rounded border border-[#7DA0CA]/40">{{ user.referral_code }}</span>
-            </span>
-            <i class="fa-regular fa-copy acc-menu-chevron"></i>
-        </button>
-
-        <a href="/referrals" class="acc-menu-item">
-            <i class="fa-solid fa-users acc-menu-icon"></i>
-            <span class="acc-menu-text">আমার টিম (My Network)</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
-        <a href="/vip" class="acc-menu-item">
-            <i class="fa-solid fa-crown acc-menu-icon text-amber-500"></i>
-            <span class="acc-menu-text">TakaEarn Plus পাস</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
-    </div>
-
-    <div class="acc-menu-group">
-        <a href="https://t.me/takaearn_help" target="_blank" class="acc-menu-item bg-[#F4F9FD]">
-            <i class="fa-solid fa-headset acc-menu-icon text-emerald-600"></i>
-            <span class="acc-menu-text text-[#021024]">Live Support Desk</span>
-            <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded font-black mr-2 uppercase">Fast</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron text-emerald-600"></i>
-        </a>
-        <a href="/notice" class="acc-menu-item">
-            <i class="fa-regular fa-bell acc-menu-icon"></i>
-            <span class="acc-menu-text">নোটিশ বোর্ড (Notices)</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
-        <a href="https://t.me/takaearn_site" target="_blank" class="acc-menu-item">
-            <i class="fa-brands fa-telegram acc-menu-icon text-sky-500"></i>
-            <span class="acc-menu-text">অফিশিয়াল টেলিগ্রাম চ্যানেল</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron"></i>
-        </a>
+    <div class="nav-grid-container">
         
+        <!-- 1. Income Analytics -->
+        <a href="/income" class="nav-grid-card">
+            <div class="nav-grid-icon-box">
+                <i class="fa-solid fa-chart-pie text-[#052659]"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">আয় ও হিসাব</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">ইনকাম অ্যানালিটিক্স</p>
+            </div>
+        </a>
+
+        <!-- 2. Withdraw -->
+        <a href="/withdraw" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-emerald-50 !text-emerald-600 !border-emerald-200">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">উত্তোলন করুন</h4>
+                <p class="text-[10px] text-emerald-700 font-semibold mt-0.5">বিকাশ/নগদ ক্যাশআউট</p>
+            </div>
+        </a>
+
+        <!-- 3. Payment Method (ADM) -->
+        <a href="/adm" class="nav-grid-card">
+            <div class="nav-grid-icon-box">
+                <i class="fa-solid fa-building-columns text-[#052659]"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">পেমেন্ট মেথড</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">নম্বর বাইন্ডিং ও সেটআপ</p>
+            </div>
+        </a>
+
+        <!-- 4. TakaPass Plus (VIP) -->
+        <a href="/vip" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-amber-50 !text-amber-500 !border-amber-200">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">TakaPass Plus</h4>
+                <p class="text-[10px] text-amber-700 font-semibold mt-0.5">এলিট মেম্বারশিপ পাস</p>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Section B: Community & Support Grid -->
+    <div class="acc-section-label">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#5483B3]"></span> টিম, নোটিশ ও সাপোর্ট
+    </div>
+
+    <div class="nav-grid-container">
+
+        <!-- 5. Referrals / Team -->
+        <a href="/referrals" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-indigo-50 !text-indigo-600 !border-indigo-200">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">আমার টিম</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">রেফারেল বাউন্টি</p>
+            </div>
+        </a>
+
+        <!-- 6. Notice Board -->
+        <a href="/notice" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-rose-50 !text-rose-500 !border-rose-200">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">নোটিশ বোর্ড</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">অফিশিয়াল ঘোষণা</p>
+            </div>
+        </a>
+
+        <!-- 7. Live Support Desk -->
+        <a href="https://t.me/takaearn_help" target="_blank" class="nav-grid-card !bg-gradient-to-br !from-white !to-[#F4F9FD]">
+            <div class="nav-grid-icon-box !bg-emerald-500 !text-white !border-emerald-600">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">লাইভ সাপোর্ট</h4>
+                <p class="text-[10px] text-emerald-700 font-semibold mt-0.5">@takaearn_help</p>
+            </div>
+        </a>
+
+        <!-- 8. Telegram Channel -->
+        <a href="https://t.me/takaearn_site" target="_blank" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-sky-50 !text-sky-500 !border-sky-200">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">টেলিগ্রাম চ্যানেল</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">পেমেন্ট প্রুফ ও আপডেট</p>
+            </div>
+        </a>
+
+        <!-- Admin Panel (Conditional) -->
         {% if user.role == 'admin' %}
-        <a href="/admin" class="acc-menu-item bg-indigo-50/50">
-            <i class="fa-solid fa-shield-halved acc-menu-icon text-indigo-600"></i>
-            <span class="acc-menu-text text-indigo-900">অ্যাডমিন প্যানেল</span>
-            <i class="fa-solid fa-chevron-right acc-menu-chevron text-indigo-500"></i>
+        <a href="/admin" class="nav-grid-card col-span-2 !bg-indigo-50/70 !border-indigo-200">
+            <div class="flex items-center gap-3">
+                <div class="nav-grid-icon-box !bg-indigo-600 !text-white !border-indigo-600">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h4 class="font-black text-xs text-indigo-950">অ্যাডমিন কন্ট্রোল প্যানেল</h4>
+                    <p class="text-[10px] text-indigo-700 font-medium mt-0.5">সিস্টেম সেটিংস ও ডাটাবেস পরিচালনা</p>
+                </div>
+            </div>
         </a>
         {% endif %}
+
     </div>
 
-    <div class="acc-menu-group">
-        <a href="/logout" class="acc-menu-item acc-menu-danger">
-            <i class="fa-solid fa-arrow-right-from-bracket acc-menu-icon"></i>
-            <span class="acc-menu-text">লগআউট (Logout)</span>
+    <!-- 4. LOGOUT ACTION BUTTON -->
+    <div class="pt-2">
+        <a href="/logout" class="w-full bg-[#FFF1F2] hover:bg-[#FFE4E6] text-rose-600 border border-rose-200 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition active:scale-98">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>লগআউট (Logout)</span>
         </a>
     </div>
 
 </div>
 
 <!-- ===================================================
-     HIDDEN PROFILE CARD (STRUCTURE FIXED FOR HTML2CANVAS)
+     HD SHAREABLE PROFILE CARD (OFF-SCREEN CLEAN RENDER)
 =================================================== -->
 <div id="downloadableCardWrapper">
-    <div id="profileShareCard" class="share-card-canvas">
-        <div class="card-watermark"></div>
+    <div id="profileShareCard" class="share-card-hd-canvas">
+        <div class="card-hd-glow"></div>
         
-        <div style="margin-bottom: 25px; display: flex; flex-direction: column; items-center; justify-content: center;">
-            <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" crossorigin="anonymous" style="width: 56px; height: 56px; border-radius: 16px; object-fit: cover; border: 2px solid #C1E8FF; margin: 0 auto 12px auto;">
-            <span style="font-size: 12px; font-weight: 900; color: #C1E8FF; text-transform: uppercase; letter-spacing: 2px; background: rgba(255,255,255,0.12); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); display: inline-block; margin: 0 auto;">
-                TakaEarn Verified Partner
+        <!-- Header Brand -->
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <div style="width: 32px; height: 32px; border-radius: 10px; background: #C1E8FF; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #052659; font-size: 14px;">
+                    TE
+                </div>
+                <h1 style="font-size: 18px; font-weight: 900; margin: 0; color: #FFFFFF; letter-spacing: -0.5px;">Taka<span style="color: #C1E8FF;">Earn</span></h1>
+            </div>
+            <span style="font-size: 10px; font-weight: 900; color: #C1E8FF; text-transform: uppercase; letter-spacing: 1.5px; background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25);">
+                Official Verified Member
             </span>
         </div>
 
-        <div style="width: 96px; height: 96px; margin: 0 auto 18px auto; border-radius: 30px; overflow: hidden; border: 4px solid #C1E8FF; background: #052659; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-            {% if user.profile_pic %}
-                <img src="{{ user.profile_pic }}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover;">
-            {% else %}
-                <span style="font-size: 36px; font-weight: 900; color: #FFFFFF;">{{ user.email[0] | upper }}</span>
-            {% endif %}
+        <!-- Center Avatar Container (Fallback Safe) -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+            <div id="cardAvatarBox" style="width: 90px; height: 90px; border-radius: 30px; overflow: hidden; border: 3px solid #C1E8FF; background: #021024; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(0,0,0,0.4); margin-bottom: 12px;">
+                <!-- Will be dynamically populated via JS to avoid CORS breaks -->
+                <span style="font-size: 34px; font-weight: 900; color: #C1E8FF;">{{ user.full_name[0] | upper if user.full_name else (user.email[0] | upper if user.email else 'U') }}</span>
+            </div>
+
+            <h2 style="font-size: 22px; font-weight: 900; margin: 0 0 4px 0; color: #FFFFFF; letter-spacing: -0.5px;">{{ user.full_name or user.email.split('@')[0] | title }}</h2>
+            <p style="font-size: 12px; color: #C1E8FF; margin: 0; font-family: monospace; font-weight: bold;">UID: {{ user.referral_code or 'User' }}</p>
         </div>
 
-        <h3 style="font-size: 24px; font-weight: 900; margin: 0 0 6px 0; color: #FFFFFF; letter-spacing: -0.5px;">{{ user.full_name or user.email.split('@')[0] | title }}</h3>
-        <p style="font-size: 13px; color: #C1E8FF; margin: 0 0 25px 0; font-family: monospace; font-weight: bold;">UID: {{ user.referral_code or 'N/A' }}</p>
-
-        <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 14px; font-size: 12px; font-weight: 700; color: #FFFFFF;">
-            <span>Official Earning Community • Secure Pass</span>
+        <!-- Card Footer -->
+        <div style="width: 100%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 12px; font-size: 11px; font-weight: 700; color: #FFFFFF; box-sizing: border-box;">
+            <p style="margin: 0; line-height: 1.4;">Official Earning Partner • Instant Cashout</p>
+            <p style="margin: 3px 0 0 0; font-size: 9px; color: #C1E8FF; opacity: 0.85;">Certified Member of TakaEarn Network</p>
         </div>
     </div>
 </div>
 
 <!-- ===================================================
-     SCRIPTS
+     SCRIPTS (HD EXPORT & RESTRICTIONS)
 =================================================== -->
 <script>
     function copyText(text) {
@@ -283,6 +431,7 @@
         alert("আইডি কপি করা হয়েছে: " + text);
     }
 
+    // 24 Hour Restriction Check
     document.addEventListener("DOMContentLoaded", () => {
         const lastUpdateStr = "{{ user.last_profile_update or '' }}";
         const submitBtn = document.getElementById('saveProfileBtn');
@@ -317,19 +466,41 @@
         }
     }
 
-    // Fixed Image Generation Logic
+    // Helper to safely load image as Base64 to bypass CORS in canvas
+    function preloadImageAsBase64(url, callback) {
+        if (!url) {
+            callback(null);
+            return;
+        }
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            try {
+                const dataURL = canvas.toDataURL('image/png');
+                callback(dataURL);
+            } catch (e) {
+                callback(null);
+            }
+        };
+        img.onerror = function () {
+            callback(null);
+        };
+        img.src = url;
+    }
+
+    // Ultra HD Profile Card Generation & Download
     function generateAndDownloadCard() {
         const cardWrapper = document.getElementById('downloadableCardWrapper');
         const cardElement = document.getElementById('profileShareCard');
-        
-        // Ensure wrapper is placed at top 0 left 0 but hidden beneath everything
-        cardWrapper.style.position = 'fixed';
-        cardWrapper.style.left = '0';
-        cardWrapper.style.top = '0';
-        cardWrapper.style.zIndex = '-1000';
-        cardWrapper.style.opacity = '1';
+        const userPicUrl = "{{ user.profile_pic or '' }}";
+        const avatarBox = document.getElementById('cardAvatarBox');
 
-        // Add a beautiful loading backdrop to user screen
+        // Loading Overlay
         const backdrop = document.createElement('div');
         backdrop.style.position = 'fixed';
         backdrop.style.inset = '0';
@@ -337,36 +508,51 @@
         backdrop.style.backdropFilter = 'blur(10px)';
         backdrop.style.zIndex = '99998';
         backdrop.id = 'renderBackdrop';
-        backdrop.innerHTML = '<div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C1E8FF;"><i class="fa-solid fa-circle-notch fa-spin text-4xl mb-3"></i><p class="font-bold text-sm">প্রোফাইল কার্ড তৈরি হচ্ছে...</p></div>';
+        backdrop.innerHTML = '<div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C1E8FF;"><i class="fa-solid fa-circle-notch fa-spin text-4xl mb-3"></i><p class="font-bold text-sm">এইচডি প্রোফাইল কার্ড তৈরি হচ্ছে...</p></div>';
         document.body.appendChild(backdrop);
 
-        setTimeout(() => {
-            // Scroll to top is crucial for html2canvas to not crop
-            window.scrollTo(0, 0); 
+        preloadImageAsBase64(userPicUrl, function(base64Image) {
+            if (base64Image) {
+                avatarBox.innerHTML = `<img src="${base64Image}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
 
-            html2canvas(cardElement, { 
-                scale: 3, // High Quality Export
-                useCORS: true, 
-                allowTaint: true, 
-                backgroundColor: null 
-            }).then(canvas => {
-                // Reset wrapper position
-                cardWrapper.style.left = '-9999px';
-                cardWrapper.style.top = '-9999px';
-                document.getElementById('renderBackdrop').remove();
+            // Position card directly in view for crystal clear capture
+            cardWrapper.style.visibility = 'visible';
+            cardWrapper.style.zIndex = '99999';
+            cardWrapper.style.left = '50%';
+            cardWrapper.style.top = '50%';
+            cardWrapper.style.transform = 'translate(-50%, -50%)';
 
-                // Trigger Download
-                const link = document.createElement('a');
-                link.download = 'TakaEarn_Profile_Card.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            }).catch(err => {
-                alert("কার্ড তৈরি করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।");
-                cardWrapper.style.left = '-9999px';
-                cardWrapper.style.top = '-9999px';
-                if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
-            });
-        }, 600);
+            setTimeout(() => {
+                html2canvas(cardElement, { 
+                    scale: 3, // 3X High-Definition rendering
+                    useCORS: true, 
+                    allowTaint: true, 
+                    backgroundColor: null,
+                    logging: false
+                }).then(canvas => {
+                    // Reset positions
+                    cardWrapper.style.visibility = 'hidden';
+                    cardWrapper.style.left = '-9999px';
+                    cardWrapper.style.top = '0';
+                    cardWrapper.style.transform = 'none';
+                    if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
+
+                    // Trigger Download
+                    const link = document.createElement('a');
+                    link.download = 'TakaEarn_HD_Profile_Card.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
+                }).catch(err => {
+                    alert("কার্ড ডাউনলোড করতে সমস্যা হয়েছে!");
+                    cardWrapper.style.visibility = 'hidden';
+                    cardWrapper.style.left = '-9999px';
+                    cardWrapper.style.top = '0';
+                    cardWrapper.style.transform = 'none';
+                    if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
+                });
+            }, 500);
+        });
     }
 </script>
 
