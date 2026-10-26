@@ -1,689 +1,559 @@
-{% set user = user | default(g.user) %}
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#F4F9FD">
-    <title>TakaEarn | ফ্রিতে কাজ করে অনলাইনে আয় করুন</title>
+{% extends "layout.html" %}
+{% block content %}
 
-    <!-- SEO & Social Meta Tags -->
-    <meta name="description" content="ফ্রিতে কাজ করে অনলাইনে আয় করুন TakaEarn-এ। সহজ কাজ সম্পন্ন করে দ্রুত পেমেন্ট তুলুন বিকাশ ও নগদে। 🚀💙">
+<!-- High-Performance html2canvas Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+    /* ==========================================================
+       TAKAEARN - HD PROFILE & ANIMATED GRID NAV UI
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* Clean Surface Card */
+    .acc-surface {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 26px;
+        padding: 22px 18px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
+    }
+
+    /* ==========================================
+       ANIMATED GRID NAVIGATION CARDS
+    ========================================== */
+    .nav-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .nav-grid-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 22px;
+        padding: 16px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.02);
+        position: relative;
+        overflow: hidden;
+    }
+    .nav-grid-card:hover {
+        border-color: #5483B3;
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F9FD 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px -5px rgba(5, 38, 89, 0.1);
+    }
+    .nav-grid-card:active { transform: scale(0.97); }
+
+    .nav-grid-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: #F4F9FD;
+        color: #052659;
+        border: 1px solid #C1E8FF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+    .nav-grid-card:hover .nav-grid-icon-box {
+        background: #052659;
+        color: #FFFFFF;
+        border-color: #052659;
+        transform: scale(1.08) rotate(3deg);
+    }
+
+    /* Flat Input */
+    .acc-flat-input {
+        width: 100%; 
+        background: #F4F9FD; 
+        border: 1.5px solid #C1E8FF; 
+        color: #021024;
+        padding: 14px 16px; 
+        border-radius: 16px; 
+        outline: none; 
+        font-size: 14px; 
+        font-weight: 600; 
+        transition: all 0.25s;
+    }
+    .acc-flat-input:focus { 
+        border-color: #052659; 
+        background: #FFFFFF; 
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35); 
+    }
+
+    .btn-acc-primary {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF; width: 100%; padding: 15px;
+        border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
+        letter-spacing: 0.4px; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4); border: none; cursor: pointer;
+    }
+    .btn-acc-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
+    .btn-acc-primary:active { transform: scale(0.97); }
+
+    /* Category Section Label */
+    .acc-section-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: #5483B3;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 22px 0 10px 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* ==========================================================
+       HD SHAREABLE DIGITAL PROFILE CARD (RENDERED AT 3X DPI)
+    ========================================================== */
+    #downloadableCardWrapper {
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        z-index: -9999;
+        visibility: hidden;
+    }
     
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://takaearn.com/">
-    <meta property="og:title" content="TakaEarn | প্রিমিয়াম অনলাইন আর্নিং প্ল্যাটফর্ম">
-    <meta property="og:description" content="ফ্রিতে কাজ করে অনলাইনে আয় করুন TakaEarn-এ। সহজ কাজ সম্পন্ন করে দ্রুত পেমেন্ট তুলুন বিকাশ ও নগদে। 🚀💙">
-    <meta property="og:image" content="https://i.ibb.co/Nd7D48N4/7526.jpg">
+    .share-card-hd-canvas {
+        width: 380px;
+        height: 520px;
+        background: linear-gradient(145deg, #021024 0%, #052659 55%, #5483B3 100%);
+        border-radius: 36px;
+        padding: 36px 24px;
+        color: #FFFFFF;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(193, 232, 255, 0.4);
+        box-shadow: 0 25px 60px rgba(2, 16, 36, 0.6);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card-hd-glow {
+        position: absolute; top: -50px; right: -50px; 
+        width: 180px; height: 180px; 
+        background: radial-gradient(circle, rgba(193,232,255,0.25) 0%, transparent 70%); 
+        border-radius: 50%; pointer-events: none;
+    }
+</style>
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="TakaEarn | প্রিমিয়াম অনলাইন আর্নিং প্ল্যাটফর্ম">
-    <meta property="twitter:description" content="ফ্রিতে কাজ করে অনলাইনে আয় করুন TakaEarn-এ। সহজ কাজ সম্পন্ন করে দ্রুত পেমেন্ট তুলুন বিকাশ ও নগদে। 🚀💙">
-    <meta property="twitter:image" content="https://i.ibb.co/Nd7D48N4/7526.jpg">
-    
-    <!-- PWA & Favicon Icons -->
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Nd7D48N4/7526.jpg">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/Nd7D48N4/7526.jpg">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ==========================================================
-           TAKAEARN - MODERN FINTECH LIGHT BLUE PALETTE THEME
-           Palette:
-           --c-deepest : #021024
-           --c-navy    : #052659
-           --c-steel   : #5483B3
-           --c-soft    : #7DA0CA
-           --c-ice     : #C1E8FF
-        ========================================================== */
-        :root {
-            --bg-base: #F4F9FD;
-            --c-deepest: #021024;
-            --c-navy: #052659;
-            --c-steel: #5483B3;
-            --c-soft: #7DA0CA;
-            --c-ice: #C1E8FF;
-        }
+<div class="max-w-md mx-auto space-y-5 fade-in-up pb-14 px-2 mt-1">
 
-        body { 
-            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; 
-            background-color: var(--bg-base);
-            color: var(--c-deepest);
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(193, 232, 255, 0.45) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 55%),
-                radial-gradient(at 50% 50%, rgba(84, 131, 179, 0.05) 0px, transparent 65%);
-            background-attachment: fixed;
-        }
-
-        main {
-            padding-top: 76px !important;
-            padding-bottom: 115px !important; 
-        }
-
-        /* ==========================================
-           1. MODERN FROSTED HEADER (64px)
-        ========================================== */
-        .top-header {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(193, 232, 255, 0.75);
-            box-shadow: 0 4px 20px -5px rgba(5, 38, 89, 0.05);
-            z-index: 50;
-            height: 64px !important;
-        }
-
-        .avatar-mini {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: linear-gradient(135deg, #C1E8FF 0%, #7DA0CA 100%);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; font-weight: 800; color: #052659; object-fit: cover;
-            border: 2px solid #FFFFFF;
-            box-shadow: 0 4px 10px rgba(5, 38, 89, 0.12);
-        }
-
-        /* ==========================================
-           2. GLOWING ANIMATED DOCK BOTTOM NAV
-        ========================================== */
-        .premium-bottom-nav {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-top: 1.5px solid #C1E8FF;
-            border-radius: 28px 28px 0 0;
-            box-shadow: 0 -10px 30px -5px rgba(5, 38, 89, 0.08), 0 -2px 14px rgba(193, 232, 255, 0.45);
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 50;
-        }
-        
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #7DA0CA; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; gap: 3px;
-            padding: 8px 12px; border-radius: 20px; text-decoration: none; position: relative;
-        }
-        .nav-item i { font-size: 18px; transition: all 0.25s ease; color: #7DA0CA; }
-        .nav-item span { font-size: 10px; font-weight: 800; letter-spacing: -0.2px; transition: color 0.2s ease; }
-
-        /* Glowing Animated Pill Active State */
-        .nav-item.active {
-            color: #052659;
-            background: linear-gradient(135deg, #C1E8FF 0%, rgba(193, 232, 255, 0.6) 100%);
-            box-shadow: 0 0 16px rgba(193, 232, 255, 0.9), 0 4px 12px rgba(5, 38, 89, 0.08);
-            transform: translateY(-2px);
-        }
-        .nav-item.active i { 
-            animation: iconBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            color: #052659;
-        }
-        .nav-item.active span {
-            color: #052659;
-        }
-
-        .nav-glow-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: #052659; opacity: 0;
-            box-shadow: 0 0 6px #052659;
-            margin-top: 1px; transition: all 0.3s ease;
-        }
-        .nav-item.active .nav-glow-dot {
-            opacity: 1; transform: scale(1.3);
-        }
-
-        @keyframes iconBounce {
-            0% { transform: scale(0.85); }
-            50% { transform: scale(1.22) translateY(-2px); }
-            100% { transform: scale(1) translateY(0); }
-        }
-
-        /* ==========================================
-           3. FULLY RESPONSIVE LUXURY SIDEBAR
-        ========================================== */
-        #sidebarOverlay {
-            position: fixed; inset: 0; background: rgba(2, 16, 36, 0.5);
-            backdrop-filter: blur(8px); z-index: 60;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
-        #sidebarOverlay.show { opacity: 1; pointer-events: auto; }
-
-        #sidebar {
-            position: fixed; top: 0; left: 0; height: 100vh;
-            width: 320px; max-width: 86vw;
-            background: #FFFFFF;
-            border-right: 1.5px solid #C1E8FF;
-            border-radius: 0 32px 32px 0;
-            z-index: 70;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column;
-            box-shadow: 25px 0 60px -15px rgba(2, 16, 36, 0.15);
-        }
-        #sidebar.open { transform: translateX(0); }
-
-        .sidebar-scroll::-webkit-scrollbar { width: 3px; }
-        .sidebar-scroll::-webkit-scrollbar-thumb { background: #C1E8FF; border-radius: 10px; }
-
-        /* FIXED PROFILE CARD */
-        .nav-profile-card {
-            background: linear-gradient(135deg, #021024 0%, #052659 55%, #5483B3 100%);
-            border-radius: 26px;
-            padding: 18px 16px;
-            color: #FFFFFF;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 35px -8px rgba(5, 38, 89, 0.4);
-            border: 1px solid rgba(193, 232, 255, 0.3);
-        }
-        .nav-profile-card::before {
-            content: ''; position: absolute; top: -35%; right: -25%; width: 160px; height: 160px;
-            background: radial-gradient(circle, rgba(193, 232, 255, 0.25) 0%, transparent 65%);
-            border-radius: 50%; pointer-events: none;
-        }
-
-        /* Sidebar Menu Items */
-        .side-menu-label {
-            font-size: 10px; font-weight: 800; color: #7DA0CA;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            margin: 14px 8px 6px 8px; display: block;
-        }
-
-        .side-menu-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 14px; border-radius: 16px;
-            color: #021024; font-size: 13px; font-weight: 700;
-            transition: all 0.22s ease; margin-bottom: 2px;
-        }
-        .side-menu-item i { 
-            width: 32px; height: 32px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; background: #F4F9FD; color: #052659;
-            border: 1px solid #C1E8FF; transition: all 0.22s ease;
-            flex-shrink: 0;
-        }
-        .side-menu-item:hover, .side-menu-item.active {
-            background: #F4F9FD;
-            color: #052659;
-            transform: translateX(3px);
-        }
-        .side-menu-item:hover i, .side-menu-item.active i {
-            background: #052659; color: #FFFFFF; border-color: #052659;
-            box-shadow: 0 4px 10px rgba(5, 38, 89, 0.2);
-        }
-
-        /* ==========================================
-           4. FLOATING SUPPORT WITH DIRECT CHAT
-        ========================================== */
-        #support-widget { pointer-events: none; z-index: 40; }
-
-        .support-speech-bubble {
-            pointer-events: auto;
-            background: #FFFFFF;
-            border: 1.5px solid #C1E8FF;
-            border-radius: 20px;
-            padding: 8px 14px;
-            box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.15);
-            animation: bubbleFloat 3s infinite ease-in-out;
-            position: relative;
-            transition: all 0.25s ease;
-            cursor: pointer;
-        }
-        .support-speech-bubble:hover {
-            transform: scale(1.05);
-            border-color: #5483B3;
-            background: #F4F9FD;
-        }
-        .support-speech-bubble:active { transform: scale(0.96); }
-        .bubble-arrow {
-            position: absolute; right: -6px; top: 50%;
-            transform: translateY(-50%) rotate(45deg);
-            width: 10px; height: 10px;
-            background: #FFFFFF;
-            border-right: 1.5px solid #C1E8FF;
-            border-top: 1.5px solid #C1E8FF;
-        }
-        @keyframes bubbleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-
-        .support-fab {
-            pointer-events: auto;
-            height: 48px; width: 48px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 22px; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2.5px solid #FFFFFF;
-            animation: floatGlow 3s infinite alternate ease-in-out;
-            background: linear-gradient(135deg, #052659 0%, #5483B3 100%); 
-            box-shadow: 0 8px 25px rgba(5, 38, 89, 0.35); 
-            flex-shrink: 0;
-        }
-        .support-fab:hover { transform: scale(1.1) translateY(-3px); }
-        .support-fab:active { transform: scale(0.92); }
-
-        @keyframes floatGlow {
-            0% { transform: translateY(0); filter: drop-shadow(0 4px 8px rgba(5, 38, 89, 0.2)); }
-            100% { transform: translateY(-5px); filter: drop-shadow(0 10px 18px rgba(84, 131, 179, 0.35)); }
-        }
-
-        /* ==========================================================
-           5. NEW TOP-LEFT ANIMATED NOTIFICATION TOAST (BAME UPORE)
-        ========================================================== */
-        @keyframes slideInLeftSpring {
-            0% {
-                opacity: 0;
-                transform: translateX(-140px) scale(0.85);
-            }
-            65% {
-                opacity: 1;
-                transform: translateX(12px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        .toast-widget {
-            animation: slideInLeftSpring 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid #C1E8FF;
-            border-left: 4.5px solid #052659;
-            border-radius: 22px;
-            box-shadow: 0 16px 40px -8px rgba(5, 38, 89, 0.18), 0 0 20px rgba(193, 232, 255, 0.5);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        /* Error variation */
-        .toast-widget.toast-error { 
-            border-left-color: #F43F5E; 
-            box-shadow: 0 16px 40px -8px rgba(244, 63, 94, 0.18), 0 0 18px rgba(254, 205, 211, 0.4);
-        }
-
-        /* Pulsing indicator ring for notifications */
-        .toast-icon-box {
-            position: relative;
-        }
-        .toast-icon-box::after {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 16px;
-            border: 1.5px solid currentColor;
-            opacity: 0.3;
-            animation: pingPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-        }
-        @keyframes pingPulse {
-            75%, 100% { transform: scale(1.3); opacity: 0; }
-        }
-
-        /* Bottom Shrinking Progress Timer */
-        .toast-progress {
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            height: 3px; 
-            width: 100%;
-            background: linear-gradient(90deg, #052659, #5483B3);
-            animation: toastCountdown 4s linear forwards;
-        }
-        .toast-error .toast-progress { 
-            background: linear-gradient(90deg, #E11D48, #FB7185); 
-        }
-
-        @keyframes toastCountdown { 
-            from { width: 100%; } 
-            to { width: 0%; } 
-        }
-
-        /* Dismiss Slide Out Left */
-        .toast-leave {
-            opacity: 0 !important;
-            transform: translateX(-160px) scale(0.85) !important;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- ==========================================
-         1. SLIM CLEAN HEADER (64px)
-    ========================================== -->
-    <nav class="top-header fixed top-0 w-full flex items-center">
-        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
-            
-            <!-- Left: Toggle Sidebar Button -->
-            <button onclick="toggleSidebar()" class="h-10 w-10 flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 rounded-xl transition text-base active:scale-95 border border-[#C1E8FF] shadow-sm bg-white">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
-            
-            <!-- Middle: Brand Logo & Name (TakaEarn) -->
-            <a href="/" class="flex items-center gap-2.5 text-[#021024] font-black text-lg tracking-tight absolute left-1/2 transform -translate-x-1/2">
-                <img src="https://i.ibb.co/Nd7D48N4/7526.jpg" alt="TakaEarn Logo" class="h-9 w-9 rounded-xl object-cover shadow-sm border border-[#C1E8FF]">
-                <span>Taka<span class="text-[#052659]">Earn</span></span>
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
+        <div class="flex items-center gap-3">
+            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
-
-            <!-- Right: Notification & Avatar -->
-            <div class="flex items-center gap-2.5">
-                
-                <!-- Notification Bell -->
-                <a href="/notice" class="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-[#C1E8FF] hover:bg-[#C1E8FF]/30 text-[#052659] transition relative text-base shadow-sm">
-                    <i class="fa-regular fa-bell"></i>
-                    {% if settings and settings.notice_text %}
-                    <span class="absolute top-2.5 right-2.5 h-2 w-2 bg-[#5483B3] rounded-full border-2 border-white animate-pulse"></span>
-                    {% endif %}
-                </a>
-                
-                <!-- Profile Avatar -->
-                <a href="/account" class="transition active:scale-95">
-                    {% if session.get('user_id') and user %}
-                        {% if user.profile_pic %}
-                            <img src="{{ user.profile_pic }}" class="avatar-mini">
-                        {% else %}
-                            <div class="avatar-mini">{{ user.email[0] | upper }}</div>
-                        {% endif %}
-                    {% else %}
-                        <div class="avatar-mini"><i class="fa-solid fa-user text-xs text-[#052659]"></i></div>
-                    {% endif %}
-                </a>
+            <div>
+                <h1 class="text-base font-black text-[#021024] leading-tight">প্রোফাইল ও সেটিংস</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">Account Management</p>
             </div>
         </div>
-    </nav>
-
-    <!-- =========================================================
-         2. RESPONSIVE SIDEBAR WITH PERFECT PROFILE CARD
-    ========================================================= -->
-    <div id="sidebarOverlay" onclick="toggleSidebar()"></div>
-    
-    <div id="sidebar">
-        <!-- Close Button & Top Bar -->
-        <div class="p-4 pb-2 relative">
-            <button onclick="toggleSidebar()" class="absolute top-4 right-4 h-8 w-8 bg-[#F4F9FD] border border-[#C1E8FF] text-[#7DA0CA] hover:text-[#052659] rounded-full flex items-center justify-center text-xs shadow-sm transition active:scale-90 z-20">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
-            <!-- FIXED RESPONSIVE PROFILE CARD -->
-            <div class="nav-profile-card mt-7">
-                {% if session.get('user_id') and user %}
-                    <div class="flex items-center gap-3.5 mb-3 relative z-10">
-                        
-                        <!-- Fixed Sized Avatar -->
-                        <div class="relative flex-shrink-0" style="width: 50px; height: 50px;">
-                            {% if user.profile_pic %}
-                                <img src="{{ user.profile_pic }}" class="w-[50px] h-[50px] rounded-2xl object-cover border-2 border-[#C1E8FF] shadow-[0_0_15px_rgba(193,232,255,0.4)]">
-                            {% else %}
-                                <div class="w-[50px] h-[50px] rounded-2xl bg-gradient-to-tr from-[#052659] to-[#5483B3] border-2 border-[#C1E8FF] flex items-center justify-center text-lg font-black text-white shadow-[0_0_15px_rgba(193,232,255,0.4)]">
-                                    {{ user.email[0] | upper }}
-                                </div>
-                            {% endif %}
-                            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#021024] rounded-full"></span>
-                        </div>
-                        
-                        <!-- User Meta -->
-                        <div class="flex-1 min-w-0 pr-1">
-                            <span class="inline-flex items-center gap-1 text-[8.5px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-full shadow-sm mb-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-[#052659] animate-ping"></span>
-                                {% if user.current_level > 0 %}VIP {{ user.current_level }}{% else %}Verified{% endif %}
-                            </span>
-                            <h2 class="text-sm font-black text-white leading-tight truncate">
-                                {{ user.full_name or user.email.split('@')[0] | title }}
-                            </h2>
-                            <p class="text-[10px] text-[#C1E8FF]/80 truncate font-mono mt-0.5">{{ user.email }}</p>
-                        </div>
-                    </div>
-
-                    <!-- Interactive UID Pill with Copy -->
-                    <div class="bg-white/10 backdrop-blur-md border border-white/20 p-2 px-3 rounded-xl flex items-center justify-between shadow-inner relative z-10">
-                        <div class="flex items-center gap-1.5 text-[10px] text-[#C1E8FF]">
-                            <i class="fa-solid fa-fingerprint text-[11px]"></i>
-                            <span class="font-bold">UID:</span>
-                            <span class="font-mono font-black text-white">{{ user.referral_code or 'User' }}</span>
-                        </div>
-                        <button onclick="copySidebarUID('{{ user.referral_code }}', this)" class="text-[9px] font-bold text-[#C1E8FF] hover:text-white bg-white/10 px-2 py-0.5 rounded border border-white/15 active:scale-90 transition">
-                            <i class="fa-regular fa-copy mr-0.5"></i> কপি
-                        </button>
-                    </div>
-
-                {% else %}
-                    <!-- Guest Card -->
-                    <div class="flex items-center gap-3.5 relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-xl text-[#C1E8FF] flex-shrink-0">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-sm font-black text-white">Guest User</h2>
-                            <a href="/login" class="text-xs text-[#C1E8FF] font-bold hover:underline">লগইন করুন →</a>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- Categorized & Clean Sidebar Menu -->
-        <div class="flex-grow overflow-y-auto px-3 pb-6 sidebar-scroll">
-            
-            <span class="side-menu-label">মেইন আর্নিং হাব</span>
-            <a href="/dashboard" class="side-menu-item {{ 'active' if request.endpoint == 'dashboard' }}">
-                <i class="fa-solid fa-house"></i> <span>Dashboard</span>
-            </a>
-            <a href="/tasks" class="side-menu-item {{ 'active' if request.endpoint == 'tasks' }}">
-                <i class="fa-solid fa-list-check"></i> <span>টাস্ক বোর্ড</span>
-            </a>
-            <a href="/work" class="side-menu-item {{ 'active' if request.endpoint == 'work' }}">
-                <i class="fa-solid fa-briefcase"></i> <span>সকল কাজ (Work Hub)</span>
-            </a>
-            <a href="/game/v2" class="side-menu-item {{ 'active' if request.endpoint == 'game_v2' or request.endpoint == 'game_page' }}">
-                <i class="fa-solid fa-gamepad text-amber-500"></i> <span>কয়েন গেম জোন</span>
-            </a>
-
-            <span class="side-menu-label">ফাইন্যান্সিয়াল ও নেটওয়ার্ক</span>
-            <a href="/withdraw" class="side-menu-item {{ 'active' if request.endpoint == 'withdraw' }}">
-                <i class="fa-solid fa-wallet text-emerald-600"></i> <span>উত্তোলন (Cashout)</span>
-            </a>
-            <a href="/account" class="side-menu-item {{ 'active' if request.endpoint == 'account' }}">
-                <i class="fa-solid fa-user-gear"></i> <span>একাউন্ট সেটিংস</span>
-            </a>
-            <a href="/drive" class="side-menu-item {{ 'active' if request.endpoint == 'drive_store' }}">
-                <i class="fa-solid fa-wifi text-sky-500"></i> <span>টেলিকম ড্রাইভ প্যাক</span>
-            </a>
-            <a href="/hire-us" class="side-menu-item {{ 'active' if request.endpoint == 'hire_us' }}">
-                <i class="fa-solid fa-bullhorn text-purple-600"></i> <span>Promotion (B2B)</span>
-            </a>
-
-            <span class="side-menu-label">কমিউনিটি ও সাহায্য</span>
-            <a href="/notice" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
-                <i class="fa-regular fa-bell text-rose-500"></i> <span>নোটিশ বোর্ড</span>
-            </a>
-
-            <!-- REVIEWS MENU LINK HIDDEN VIA COMMENT -->
-            <!-- 
-            <a href="/reviews" class="side-menu-item {{ 'active' if request.endpoint == 'reviews' }}">
-                <i class="fa-solid fa-star"></i> ইউজার রিভিউ
-            </a>
-            -->
-
-            <a href="/menu" class="side-menu-item {{ 'active' if request.endpoint == 'menu' }}">
-                <i class="fa-solid fa-bars"></i> <span>অল মেনু</span>
-            </a>
-            
-            {% if user and user.role == 'admin' %}
-            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
-            <a href="/admin" class="side-menu-item text-[#052659] hover:bg-[#C1E8FF]/40 font-bold">
-                <i class="fa-solid fa-shield-halved text-[#5483B3]"></i> <span>Admin Panel</span>
-            </a>
-            {% endif %}
-
-            {% if session.get('user_id') %}
-            <div class="border-t border-[#C1E8FF] my-2 mx-1"></div>
-            <a href="/logout" class="side-menu-item text-rose-500 hover:text-rose-600 hover:bg-rose-50 font-bold">
-                <i class="fa-solid fa-arrow-right-from-bracket text-rose-500"></i> <span>Logout</span>
-            </a>
-            {% endif %}
-        </div>
     </div>
-
-    <!-- =========================================================
-         3. FLOATING TELEGRAM BUTTON WITH PRE-TEXT BUBBLE
-    ========================================================= -->
-    <div id="support-widget" class="fixed right-3 bottom-[82px] z-40 flex items-center gap-2">
-        
-        <!-- Speech Bubble Text -->
-        <div onclick="goToTelegram()" class="support-speech-bubble flex items-center gap-2">
-        
-        </div>
-
-        <!-- Floating Action Button -->
-        <div onclick="goToTelegram()" class="support-fab" title="লাইভ সাহায্য লাগবে? মেসেজ দিন">
-            <i class="fa-brands fa-telegram"></i>
-        </div>
-    </div>
-
-    <!-- ==========================================================
-         4. NEW TOP-LEFT NOTIFICATION WIDGET (BAME UPORE)
-    ========================================================== -->
-    <div class="fixed top-5 left-4 z-[9999] flex flex-col gap-3 pointer-events-none max-w-sm w-[90vw] sm:w-[360px]" id="toastWidgetContainer">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="toast-widget p-4 pointer-events-auto flex items-start gap-3.5 {{ 'toast-error' if category == 'error' else '' }}">
-                
-                <!-- Animated Icon Box -->
-                <div class="toast-icon-box h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 {{ 'bg-rose-50 text-rose-500 border border-rose-200' if category == 'error' else 'bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40' }}">
-                    <i class="fa-solid {{ 'fa-circle-xmark' if category == 'error' else 'fa-circle-check' }} text-base"></i>
-                </div>
-                
-                <!-- Text Content -->
-                <div class="flex-grow pr-1">
-                    <span class="text-[9.5px] font-black uppercase tracking-wider {{ 'text-rose-600 bg-rose-50 border border-rose-200' if category == 'error' else 'text-[#052659] bg-[#C1E8FF] border border-[#7DA0CA]/30' }} px-2 py-0.5 rounded-md inline-block mb-1">
-                        {{ 'Alert Notice' if category == 'error' else 'Notification' }}
-                    </span>
-                    <p class="text-xs font-bold text-[#021024] leading-snug">{{ message }}</p>
-                </div>
-
-                <!-- Close Button -->
-                <button onclick="closeToast(this)" class="h-6 w-6 text-[#7DA0CA] hover:text-[#021024] rounded-md flex items-center justify-center transition flex-shrink-0" title="বন্ধ করুন">
-                    <i class="fa-solid fa-xmark text-xs"></i>
-                </button>
-
-                <!-- Animated Countdown Progress Line -->
-                <div class="toast-progress"></div>
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-    </div>
-
-    <!-- ==========================================
-         5. MAIN CONTENT AREA
-    ========================================== -->
-    <main class="flex-grow w-full max-w-2xl mx-auto px-3 relative z-10">
-        {% block content %}{% endblock %}
-    </main>
 
     <!-- ===================================================
-         6. GLOWING ANIMATED DOCK BOTTOM NAVIGATION
+         1. DIRECT EDIT FORM (CLEAN, COMPACT, NO UI BREAK)
     =================================================== -->
-    {% if session.get('user_id') %}
-    <div class="premium-bottom-nav fixed bottom-0 left-0 w-full">
-        <div class="max-w-md mx-auto flex justify-around items-center h-[68px] px-2">
+    <div class="acc-surface">
+        <div class="flex items-center justify-between mb-4 pb-2.5 border-b border-[#C1E8FF]">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user-pen text-[#052659] text-base"></i>
+                <h3 class="font-black text-sm text-[#021024] uppercase tracking-wider">প্রোফাইল তথ্য আপডেট</h3>
+            </div>
+            <span class="text-[9px] font-black uppercase text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-md">
+                Settings
+            </span>
+        </div>
+
+        <div id="timeWarning" class="hidden bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold p-3 rounded-2xl mb-4 leading-relaxed"></div>
+
+        <form method="POST" action="/update-profile" enctype="multipart/form-data" class="space-y-4">
             
-            <!-- 1. Dashboard -->
-            <a href="/dashboard" class="nav-item {{ 'active' if request.endpoint == 'dashboard' }}">
-                <i class="fa-solid fa-house"></i>
-                <span>হোম</span>
-                <div class="nav-glow-dot"></div>
-            </a>
+            <div class="flex flex-col items-center">
+                <label class="cursor-pointer group relative">
+                    <div class="w-20 h-20 rounded-3xl bg-[#F4F9FD] border-2 border-[#C1E8FF] flex items-center justify-center overflow-hidden transition group-hover:border-[#052659] shadow-sm">
+                        <img id="profilePreview" src="{{ user.profile_pic or '' }}" class="w-full h-full object-cover {{ 'hidden' if not user.profile_pic }}">
+                        <i id="uploadIcon" class="fa-solid fa-camera text-xl text-[#7DA0CA] group-hover:text-[#052659] transition {{ '' if not user.profile_pic else 'hidden' }}"></i>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 h-7 w-7 bg-[#052659] rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white">
+                        <i class="fa-solid fa-plus text-[10px] font-bold"></i>
+                    </div>
+                    <input type="file" name="profile_image" accept="image/*" class="hidden" onchange="previewProfilePic(this)">
+                </label>
+                <span class="text-[10px] font-bold text-[#5483B3] mt-2">ছবি পরিবর্তন করতে আইকনে ট্যাপ করুন</span>
+            </div>
 
-            <!-- 2. History -->
-            <a href="/history" class="nav-item {{ 'active' if request.endpoint == 'history' }}">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                <span>হিস্টোরি</span>
-                <div class="nav-glow-dot"></div>
-            </a>
+            <div>
+                <label class="block text-[11px] font-extrabold text-[#5483B3] uppercase tracking-wider mb-1.5 ml-1">আপনার নাম</label>
+                <input type="text" name="full_name" value="{{ user.full_name }}" placeholder="Your Full Name" class="acc-flat-input" required>
+            </div>
 
-            <!-- 3. Work -->
-            <a href="/work" class="nav-item {{ 'active' if request.endpoint == 'work' or request.endpoint == 'tasks' }}">
-                <i class="fa-solid fa-briefcase"></i>
-                <span>কাজ</span>
-                <div class="nav-glow-dot"></div>
-            </a>
+            <button type="submit" id="saveProfileBtn" class="btn-acc-primary">
+                <span>পরিবর্তন সেভ করুন</span> <i class="fa-solid fa-check text-xs"></i>
+            </button>
+        </form>
+    </div>
 
-            <!-- 4. Withdraw -->
-            <a href="/withdraw" class="nav-item {{ 'active' if request.endpoint == 'withdraw' }}">
-                <i class="fa-solid fa-wallet"></i>
-                <span>উত্তোলন</span>
-                <div class="nav-glow-dot"></div>
-            </a>
-
-            <!-- 5. Menu -->
-            <a href="/menu" class="nav-item {{ 'active' if request.endpoint == 'account' or request.endpoint == 'menu' }}">
-                <i class="fa-solid fa-bars"></i>
-                <span>মেনু</span>
-                <div class="nav-glow-dot"></div>
-            </a>
-
+    <!-- ===================================================
+         2. SHARE PROFILE CARD TRIGGER TILE (HD READY)
+    =================================================== -->
+    <div class="acc-surface bg-gradient-to-r from-[#021024] to-[#052659] text-white flex items-center justify-between cursor-pointer hover:opacity-95 transition" onclick="generateAndDownloadCard()">
+        <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-xl text-amber-300 border border-white/20 flex-shrink-0">
+                <i class="fa-solid fa-id-card"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-sm leading-tight text-white">শেয়ার প্রোফাইল কার্ড</h4>
+                <p class="text-[10px] text-[#C1E8FF] font-medium mt-0.5">ডিজিটাল এইচডি কার্ড ডাউনলোড করুন</p>
+            </div>
+        </div>
+        <div class="h-9 w-9 rounded-xl bg-white text-[#052659] flex items-center justify-center text-xs shadow-sm flex-shrink-0">
+            <i class="fa-solid fa-download"></i>
         </div>
     </div>
-    {% endif %}
 
-    <!-- ================= SCRIPTS ================= -->
-    <script>
-        // --- 1. Sidebar Logic ---
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
+    <!-- Quick Referral Copy Box -->
+    <button onclick="copyText('{{ user.referral_code }}')" class="acc-surface !p-3.5 flex items-center justify-between w-full cursor-pointer bg-[#F4F9FD] border-[#C1E8FF]">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-[#C1E8FF] text-[#052659] flex items-center justify-center text-xs">
+                <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <div class="text-left">
+                <span class="text-[9px] font-black text-[#7DA0CA] uppercase tracking-wider block">রেফারেল কোড (UID)</span>
+                <span class="text-xs font-mono font-black text-[#052659]">{{ user.referral_code or 'User' }}</span>
+            </div>
+        </div>
+        <span class="text-xs font-bold text-[#052659] bg-white border border-[#C1E8FF] px-3 py-1 rounded-lg">
+            কপি <i class="fa-regular fa-copy ml-1"></i>
+        </span>
+    </button>
+
+    <!-- ===================================================
+         3. ANIMATED 2-COLUMN GRID NAVIGATION
+    =================================================== -->
+    
+    <!-- Section A: Finance & Earning Grid -->
+    <div class="acc-section-label">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#052659]"></span> আয়, উইথড্র ও অ্যাকাউন্ট
+    </div>
+
+    <div class="nav-grid-container">
         
-        function toggleSidebar() {
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('show');
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.add('show');
+        <!-- 1. Income Analytics -->
+        <a href="/income" class="nav-grid-card">
+            <div class="nav-grid-icon-box">
+                <i class="fa-solid fa-chart-pie text-[#052659]"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">আয় ও হিসাব</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">ইনকাম অ্যানালিটিক্স</p>
+            </div>
+        </a>
+
+        <!-- 2. Withdraw -->
+        <a href="/withdraw" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-emerald-50 !text-emerald-600 !border-emerald-200">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">উত্তোলন করুন</h4>
+                <p class="text-[10px] text-emerald-700 font-semibold mt-0.5">বিকাশ/নগদ ক্যাশআউট</p>
+            </div>
+        </a>
+
+        <!-- 3. Payment Method (ADM) -->
+        <a href="/adm" class="nav-grid-card">
+            <div class="nav-grid-icon-box">
+                <i class="fa-solid fa-building-columns text-[#052659]"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">পেমেন্ট মেথড</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">নম্বর বাইন্ডিং ও সেটআপ</p>
+            </div>
+        </a>
+
+        <!-- 4. TakaPass Plus (VIP) -->
+        <a href="/vip" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-amber-50 !text-amber-500 !border-amber-200">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">TakaPass Plus</h4>
+                <p class="text-[10px] text-amber-700 font-semibold mt-0.5">এলিট মেম্বারশিপ পাস</p>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Section B: Community & Support Grid -->
+    <div class="acc-section-label">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#5483B3]"></span> টিম, নোটিশ ও সাপোর্ট
+    </div>
+
+    <div class="nav-grid-container">
+
+        <!-- 5. Referrals / Team -->
+        <a href="/referrals" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-indigo-50 !text-indigo-600 !border-indigo-200">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">আমার টিম</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">রেফারেল বাউন্টি</p>
+            </div>
+        </a>
+
+        <!-- 6. Notice Board -->
+        <a href="/notice" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-rose-50 !text-rose-500 !border-rose-200">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">নোটিশ বোর্ড</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">অফিশিয়াল ঘোষণা</p>
+            </div>
+        </a>
+
+        <!-- 7. Live Support Desk -->
+        <a href="https://t.me/takaearn_help" target="_blank" class="nav-grid-card !bg-gradient-to-br !from-white !to-[#F4F9FD]">
+            <div class="nav-grid-icon-box !bg-emerald-500 !text-white !border-emerald-600">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">লাইভ সাপোর্ট</h4>
+                <p class="text-[10px] text-emerald-700 font-semibold mt-0.5">@takaearn_help</p>
+            </div>
+        </a>
+
+        <!-- 8. Telegram Channel -->
+        <a href="https://t.me/takaearn_site" target="_blank" class="nav-grid-card">
+            <div class="nav-grid-icon-box !bg-sky-50 !text-sky-500 !border-sky-200">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div>
+                <h4 class="font-black text-xs text-[#021024] leading-tight">টেলিগ্রাম চ্যানেল</h4>
+                <p class="text-[10px] text-[#5483B3] font-semibold mt-0.5">পেমেন্ট প্রুফ ও আপডেট</p>
+            </div>
+        </a>
+
+        <!-- Admin Panel (Conditional) -->
+        {% if user.role == 'admin' %}
+        <a href="/admin" class="nav-grid-card col-span-2 !bg-indigo-50/70 !border-indigo-200">
+            <div class="flex items-center gap-3">
+                <div class="nav-grid-icon-box !bg-indigo-600 !text-white !border-indigo-600">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h4 class="font-black text-xs text-indigo-950">অ্যাডমিন কন্ট্রোল প্যানেল</h4>
+                    <p class="text-[10px] text-indigo-700 font-medium mt-0.5">সিস্টেম সেটিংস ও ডাটাবেস পরিচালনা</p>
+                </div>
+            </div>
+        </a>
+        {% endif %}
+
+    </div>
+
+    <!-- 4. LOGOUT ACTION BUTTON -->
+    <div class="pt-2">
+        <a href="/logout" class="w-full bg-[#FFF1F2] hover:bg-[#FFE4E6] text-rose-600 border border-rose-200 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition active:scale-98">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>লগআউট (Logout)</span>
+        </a>
+    </div>
+
+</div>
+
+<!-- ===================================================
+     HD SHAREABLE PROFILE CARD (OFF-SCREEN CLEAN RENDER)
+=================================================== -->
+<div id="downloadableCardWrapper">
+    <div id="profileShareCard" class="share-card-hd-canvas">
+        <div class="card-hd-glow"></div>
+        
+        <!-- Header Brand -->
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <div style="width: 32px; height: 32px; border-radius: 10px; background: #C1E8FF; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #052659; font-size: 14px;">
+                    TE
+                </div>
+                <h1 style="font-size: 18px; font-weight: 900; margin: 0; color: #FFFFFF; letter-spacing: -0.5px;">Taka<span style="color: #C1E8FF;">Earn</span></h1>
+            </div>
+            <span style="font-size: 10px; font-weight: 900; color: #C1E8FF; text-transform: uppercase; letter-spacing: 1.5px; background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25);">
+                Official Verified Member
+            </span>
+        </div>
+
+        <!-- Center Avatar Container (Fallback Safe) -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+            <div id="cardAvatarBox" style="width: 90px; height: 90px; border-radius: 30px; overflow: hidden; border: 3px solid #C1E8FF; background: #021024; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(0,0,0,0.4); margin-bottom: 12px;">
+                <!-- Will be dynamically populated via JS to avoid CORS breaks -->
+                <span style="font-size: 34px; font-weight: 900; color: #C1E8FF;">{{ user.full_name[0] | upper if user.full_name else (user.email[0] | upper if user.email else 'U') }}</span>
+            </div>
+
+            <h2 style="font-size: 22px; font-weight: 900; margin: 0 0 4px 0; color: #FFFFFF; letter-spacing: -0.5px;">{{ user.full_name or user.email.split('@')[0] | title }}</h2>
+            <p style="font-size: 12px; color: #C1E8FF; margin: 0; font-family: monospace; font-weight: bold;">UID: {{ user.referral_code or 'User' }}</p>
+        </div>
+
+        <!-- Card Footer -->
+        <div style="width: 100%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 12px; font-size: 11px; font-weight: 700; color: #FFFFFF; box-sizing: border-box;">
+            <p style="margin: 0; line-height: 1.4;">Official Earning Partner • Instant Cashout</p>
+            <p style="margin: 3px 0 0 0; font-size: 9px; color: #C1E8FF; opacity: 0.85;">Certified Member of TakaEarn Network</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================
+     SCRIPTS (HD EXPORT & RESTRICTIONS)
+=================================================== -->
+<script>
+    function copyText(text) {
+        navigator.clipboard.writeText(text);
+        alert("আইডি কপি করা হয়েছে: " + text);
+    }
+
+    // 24 Hour Restriction Check
+    document.addEventListener("DOMContentLoaded", () => {
+        const lastUpdateStr = "{{ user.last_profile_update or '' }}";
+        const submitBtn = document.getElementById('saveProfileBtn');
+        const timeWarning = document.getElementById('timeWarning');
+
+        if (lastUpdateStr) {
+            const lastUpdateDate = new Date(lastUpdateStr.endsWith('Z') ? lastUpdateStr : lastUpdateStr + 'Z');
+            const now = new Date();
+            const diffHours = Math.abs(now - lastUpdateDate) / 36e5;
+            
+            if (diffHours < 24) {
+                const remainingHours = Math.ceil(24 - diffHours);
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                timeWarning.classList.remove('hidden');
+                timeWarning.innerHTML = `<i class="fa-solid fa-clock mr-1"></i> আপনি আরও <b>${remainingHours} ঘণ্টা</b> পর প্রোফাইল আপডেট করতে পারবেন।`;
             }
         }
+    });
 
-        // --- 2. Copy Sidebar UID ---
-        function copySidebarUID(text, btn) {
-            navigator.clipboard.writeText(text).then(() => {
-                const orig = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> কপিড';
-                setTimeout(() => { btn.innerHTML = orig; }, 1500);
-            });
+    function previewProfilePic(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('profilePreview');
+                const icon = document.getElementById('uploadIcon');
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                icon.classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
         }
+    }
 
-        // --- 3. Direct Telegram Chat ---
-        function goToTelegram() {
-            window.open('https://t.me/takaearn_help', '_blank');
+    // Helper to safely load image as Base64 to bypass CORS in canvas
+    function preloadImageAsBase64(url, callback) {
+        if (!url) {
+            callback(null);
+            return;
         }
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            try {
+                const dataURL = canvas.toDataURL('image/png');
+                callback(dataURL);
+            } catch (e) {
+                callback(null);
+            }
+        };
+        img.onerror = function () {
+            callback(null);
+        };
+        img.src = url;
+    }
 
-        // --- 4. Top-Left Toast Dismiss Logic ---
-        function closeToast(btn) {
-            const toast = btn.closest('.toast-widget');
-            toast.classList.add('toast-leave');
-            setTimeout(() => toast.remove(), 350);
-        }
+    // Ultra HD Profile Card Generation & Download
+    function generateAndDownloadCard() {
+        const cardWrapper = document.getElementById('downloadableCardWrapper');
+        const cardElement = document.getElementById('profileShareCard');
+        const userPicUrl = "{{ user.profile_pic or '' }}";
+        const avatarBox = document.getElementById('cardAvatarBox');
 
-        // Auto Dismiss after 4 seconds
-        setTimeout(() => {
-            document.querySelectorAll('.toast-widget').forEach(toast => {
-                toast.classList.add('toast-leave');
-                setTimeout(() => toast.remove(), 350);
-            });
-        }, 4000);
-    </script>
-</body>
-</html>
+        // Loading Overlay
+        const backdrop = document.createElement('div');
+        backdrop.style.position = 'fixed';
+        backdrop.style.inset = '0';
+        backdrop.style.background = 'rgba(2, 16, 36, 0.9)';
+        backdrop.style.backdropFilter = 'blur(10px)';
+        backdrop.style.zIndex = '99998';
+        backdrop.id = 'renderBackdrop';
+        backdrop.innerHTML = '<div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C1E8FF;"><i class="fa-solid fa-circle-notch fa-spin text-4xl mb-3"></i><p class="font-bold text-sm">এইচডি প্রোফাইল কার্ড তৈরি হচ্ছে...</p></div>';
+        document.body.appendChild(backdrop);
+
+        preloadImageAsBase64(userPicUrl, function(base64Image) {
+            if (base64Image) {
+                avatarBox.innerHTML = `<img src="${base64Image}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
+
+            // Position card directly in view for crystal clear capture
+            cardWrapper.style.visibility = 'visible';
+            cardWrapper.style.zIndex = '99999';
+            cardWrapper.style.left = '50%';
+            cardWrapper.style.top = '50%';
+            cardWrapper.style.transform = 'translate(-50%, -50%)';
+
+            setTimeout(() => {
+                html2canvas(cardElement, { 
+                    scale: 3, // 3X High-Definition rendering
+                    useCORS: true, 
+                    allowTaint: true, 
+                    backgroundColor: null,
+                    logging: false
+                }).then(canvas => {
+                    // Reset positions
+                    cardWrapper.style.visibility = 'hidden';
+                    cardWrapper.style.left = '-9999px';
+                    cardWrapper.style.top = '0';
+                    cardWrapper.style.transform = 'none';
+                    if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
+
+                    // Trigger Download
+                    const link = document.createElement('a');
+                    link.download = 'TakaEarn_HD_Profile_Card.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
+                }).catch(err => {
+                    alert("কার্ড ডাউনলোড করতে সমস্যা হয়েছে!");
+                    cardWrapper.style.visibility = 'hidden';
+                    cardWrapper.style.left = '-9999px';
+                    cardWrapper.style.top = '0';
+                    cardWrapper.style.transform = 'none';
+                    if(document.getElementById('renderBackdrop')) document.getElementById('renderBackdrop').remove();
+                });
+            }, 500);
+        });
+    }
+</script>
+
+{% endblock %}
