@@ -11,157 +11,107 @@
     {% set mfs_logo = 'https://banglatech24.com/wp-content/uploads/2021/08/rocket-dbbl.jpg' %}
 {% endif %}
 
+{% set is_vip = (user.current_level > 0) %}
+{% set current_bal = user.balance | float %}
+{% set min_limit = 20 if is_vip else 370 %}
+{% set can_submit = (is_vip and current_bal >= 20) or (ref_count >= 5 and current_bal >= 370) %}
+
 <style>
     /* ==========================================================
-       TAKAEARN - NEXT-GEN FLAT CASHOUT UI
+       TAKAEARN - MINIMAL & CLEAN CASHOUT UI
        Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
     ========================================================== */
     .fade-in-up { 
-        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        opacity: 0; transform: translateY(14px); 
+        animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(12px); 
     }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Surface Card */
-    .cashout-surface {
+    /* Minimal Card */
+    .mini-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
-        border-radius: 28px;
-        padding: 24px 20px;
-        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
-        position: relative;
+        border-radius: 24px;
+        padding: 18px 16px;
+        box-shadow: 0 4px 18px -4px rgba(5, 38, 89, 0.04);
     }
 
-    /* MFS Logo Image Box */
-    .mfs-ticket-logo {
+    /* MFS Logo */
+    .mfs-icon-logo {
         width: 44px;
         height: 44px;
         border-radius: 14px;
         object-fit: cover;
         border: 1px solid #E2E8F0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         flex-shrink: 0;
     }
 
-    /* Segmented Wallet Switcher */
-    .segmented-switch-wrap {
-        display: flex;
+    /* Clear Amount Input Box */
+    .amount-input-box {
+        width: 100%;
         background: #F4F9FD;
-        border: 1.5px solid #C1E8FF;
+        border: 2px solid #C1E8FF;
         border-radius: 20px;
-        padding: 4px;
-        gap: 4px;
-    }
-    .segmented-btn {
-        flex: 1;
-        padding: 12px 10px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 800;
-        text-align: center;
-        color: #5483B3;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-        border: none;
-        background: transparent;
-        text-decoration: none;
-    }
-    .segmented-btn.active {
-        background: #FFFFFF;
-        color: #052659;
-        box-shadow: 0 4px 15px rgba(5, 38, 89, 0.08);
-        border: 1px solid #C1E8FF;
-    }
-
-    /* Flat Amount Input */
-    .flat-amount-group {
-        position: relative;
-        background: #F4F9FD;
-        border: 1.5px solid #C1E8FF;
-        border-radius: 24px;
-        padding: 18px;
+        padding: 14px 16px;
         text-align: center;
         transition: all 0.25s ease;
     }
-    .flat-amount-group:focus-within {
+    .amount-input-box:focus-within {
         border-color: #052659;
         background: #FFFFFF;
-        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.35);
+        box-shadow: 0 0 0 4px rgba(193, 232, 255, 0.4);
     }
-    .amount-numeric-input {
+    .amount-input-field {
         background: transparent;
         border: none;
-        border-bottom: 2px solid #C1E8FF;
         outline: none;
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 900;
         font-family: 'Plus Jakarta Sans', monospace;
         color: #021024;
         text-align: center;
         width: 100%;
-        padding-bottom: 5px;
-        letter-spacing: -1px;
     }
-    .amount-numeric-input:focus {
-        border-bottom-color: #052659;
-    }
-    .amount-numeric-input::placeholder { color: #7DA0CA; opacity: 0.6; }
+    .amount-input-field::placeholder { color: #7DA0CA; opacity: 0.6; }
 
-    /* Quick Preset Chips */
-    .amount-chip {
+    /* Quick Amount Chips */
+    .mini-chip {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
         color: #052659;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 800;
         font-family: 'Plus Jakarta Sans', monospace;
-        padding: 8px 14px;
-        border-radius: 14px;
-        transition: all 0.2s ease;
+        padding: 7px 12px;
+        border-radius: 12px;
         cursor: pointer;
+        transition: all 0.2s ease;
     }
-    .amount-chip:hover { background: #C1E8FF; border-color: #5483B3; }
-    .amount-chip:active { transform: scale(0.95); }
+    .mini-chip:hover { background: #C1E8FF; }
+    .mini-chip:active { transform: scale(0.95); }
 
-    /* Clearance Condition Item */
-    .condition-tile {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 14px;
-        border-radius: 18px;
-        border: 1.5px solid #E2E8F0;
-        background: #FFFFFF;
-    }
-    .condition-tile.passed { background: #ECFDF5; border-color: #A7F3D0; }
-    .condition-tile.pending { background: #FFF1F2; border-color: #FECDD3; }
-
-    /* Main Submit Button */
-    .btn-cashout-submit {
+    /* Submit Button */
+    .btn-submit-withdraw {
         background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
         color: #FFFFFF;
         width: 100%;
-        padding: 17px;
-        border-radius: 20px;
+        padding: 16px;
+        border-radius: 18px;
         font-weight: 800;
         font-size: 14px;
-        letter-spacing: 0.4px;
+        letter-spacing: 0.3px;
         transition: all 0.25s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        box-shadow: 0 8px 22px -4px rgba(5, 38, 89, 0.35);
         border: none;
         cursor: pointer;
     }
-    .btn-cashout-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.5); }
-    .btn-cashout-submit:active { transform: scale(0.97); }
-    .btn-cashout-submit:disabled {
+    .btn-submit-withdraw:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -4px rgba(5, 38, 89, 0.45); }
+    .btn-submit-withdraw:active { transform: scale(0.97); }
+    .btn-submit-withdraw:disabled {
         background: #E2E8F0 !important; color: #94A3B8 !important; box-shadow: none !important; cursor: not-allowed;
     }
 
@@ -170,7 +120,7 @@
         position: fixed;
         inset: 0;
         background: rgba(2, 16, 36, 0.85);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(10px);
         display: none;
         align-items: center;
         justify-content: center;
@@ -189,179 +139,136 @@
     .success-sheet-card {
         background: #FFFFFF;
         border: 1.5px solid #C1E8FF;
-        border-radius: 32px;
-        padding: 26px 20px;
+        border-radius: 28px;
+        padding: 24px 20px;
         width: 100%;
-        max-width: 360px;
+        max-width: 340px;
         text-align: center;
         box-shadow: 0 25px 70px -10px rgba(5, 38, 89, 0.45);
     }
 </style>
 
-<div class="max-w-md mx-auto space-y-5 fade-in-up pb-12 px-2 mt-1">
+<div class="max-w-md mx-auto space-y-4 fade-in-up pb-12 px-2 mt-1">
 
-    <!-- Top Navigation -->
+    <!-- 1. TOP HEADER -->
     <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
         <div class="flex items-center gap-3">
-            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
-                <i class="fa-solid fa-arrow-left text-sm"></i>
+            <a href="/dashboard" class="h-9 w-9 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
             </a>
-            <div>
-                <h1 class="text-base font-black text-[#021024] leading-tight">উত্তোলন (Cashout)</h1>
-                <p class="text-[10px] text-[#5483B3] font-bold">Fast MFS Settlement</p>
-            </div>
+            <h1 class="text-base font-black text-[#021024]">উত্তোলন (Cashout)</h1>
         </div>
 
         <a href="/history" class="text-xs font-bold text-[#052659] bg-[#C1E8FF] px-3 py-1.5 rounded-xl border border-[#7DA0CA]/40 hover:bg-[#052659] hover:text-white transition">
-            <i class="fa-solid fa-clock-rotate-left mr-1"></i> হিস্টোরি
+            <i class="fa-solid fa-clock-rotate-left mr-0.5"></i> হিস্টোরি
         </a>
     </div>
 
-    <!-- Payout Destination Ticket (With Real MFS Logo) -->
-    <div class="cashout-surface !p-4 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <img src="{{ mfs_logo }}" alt="{{ user.wallet_method or 'MFS' }}" class="mfs-ticket-logo">
+    <!-- 2. COMPACT WALLET & NUMBER CARD (সব তথ্য এক বক্সে) -->
+    <div class="mini-card bg-gradient-to-br from-white to-[#F4F9FD]">
+        
+        <!-- Balance Row -->
+        <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/60 mb-3">
             <div>
-                <span class="text-[9px] font-black uppercase tracking-wider text-[#7DA0CA] block">টাকা প্রাপ্তির নম্বর</span>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm font-black font-mono text-[#021024]">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#7DA0CA] block">বর্তমান ব্যালেন্স</span>
+                <span class="text-2xl font-black font-mono text-[#021024]">৳{{ user.balance }}</span>
+            </div>
+            {% if is_vip %}
+                <span class="text-[9px] font-black uppercase text-amber-800 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-md flex items-center gap-1">
+                    <i class="fa-solid fa-crown text-[8px]"></i> Plus
+                </span>
+            {% else %}
+                <a href="/vip" class="text-[10px] font-bold text-[#052659] bg-[#C1E8FF]/60 px-2 py-1 rounded-lg border border-[#7DA0CA]/30 hover:bg-[#C1E8FF]">
+                    TakaPass Plus <i class="fa-solid fa-arrow-right text-[8px] ml-0.5"></i>
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Receiver Mobile & Method -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3 min-w-0">
+                <img src="{{ mfs_logo }}" alt="{{ user.wallet_method or 'MFS' }}" class="mfs-icon-logo">
+                <div class="min-w-0">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-[#7DA0CA] block">প্রেরিত নম্বর</span>
+                    <span class="text-sm font-black font-mono text-[#021024] truncate block">
                         {{ user.wallet_number or 'নম্বর সেট নেই' }}
                     </span>
-                    <span class="text-[9px] font-black uppercase text-[#052659] bg-[#C1E8FF] px-2 py-0.5 rounded-md">
-                        {{ user.wallet_method or 'None' }}
-                    </span>
                 </div>
             </div>
+            <a href="/adm" class="text-xs font-bold text-[#052659] hover:underline flex-shrink-0 ml-2">
+                পরিবর্তন
+            </a>
         </div>
-
-        <a href="/adm" class="h-9 px-3 rounded-xl bg-[#F4F9FD] border border-[#C1E8FF] text-[#052659] hover:bg-[#C1E8FF] text-xs font-bold flex items-center gap-1 transition active:scale-95">
-            <i class="fa-solid fa-pen text-[10px]"></i> পরিবর্তন
-        </a>
     </div>
 
-    <!-- ===================================================
-         CASHOUT FORM
-    =================================================== -->
-    <form method="POST" action="/withdraw" id="withdrawForm" onsubmit="return handleWithdrawSubmit(event)">
+    <!-- 3. SIMPLE CASHOUT FORM -->
+    <form method="POST" action="/withdraw" id="withdrawForm" onsubmit="return handleWithdrawSubmit(event)" class="space-y-4">
         
-        <input type="hidden" name="wallet_type" id="walletTypeInput" value="main">
+        <input type="hidden" name="wallet_type" value="main">
 
-        <!-- Wallet Switcher: TakaPass Plus -->
-        <div class="mb-4">
-            <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1">
-                ওয়ালেট নির্বাচন করুন
+        <!-- Amount Box -->
+        <div class="mini-card text-center space-y-2">
+            <label class="block text-xs font-bold text-[#5483B3] mb-1">
+                কত টাকা তুলতে চান?
             </label>
 
-            <div class="segmented-switch-wrap">
-                <!-- Main Wallet -->
-                <button type="button" class="segmented-btn active" id="btnTabMain" onclick="selectWalletType('main')">
-                    <span class="text-[10px] uppercase font-bold tracking-wider">মেইন ব্যালেন্স</span>
-                    <span class="text-base font-black font-mono">৳{{ user.balance }}</span>
-                </button>
-
-                <!-- TakaPass Plus Wallet (Redirects to /vip) -->
-                <a href="/vip" class="segmented-btn justify-center">
-                    <span class="text-[10px] uppercase font-black tracking-wider flex items-center gap-1 text-amber-600">
-                        <i class="fa-solid fa-crown"></i> TakaPass Plus
-                    </span>
-                    <span class="text-base font-black font-mono">৳{{ user.vip_balance or 0 }}</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Flat Amount Input Box -->
-        <div class="mb-4">
-            <label class="block text-[11px] font-black text-[#5483B3] uppercase tracking-wider mb-2 ml-1 text-center">
-                উত্তোলনের পরিমাণ লিখুন
-            </label>
-
-            <div class="flat-amount-group">
-                <input type="number" name="amount" id="amountField" required placeholder="0" class="amount-numeric-input">
+            <div class="amount-input-box">
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl font-black text-[#5483B3] mr-1">৳</span>
+                    <input type="number" name="amount" id="amountField" required placeholder="0" class="amount-input-field">
+                </div>
             </div>
 
-            <!-- Quick Preset Chips -->
-            <div class="flex items-center justify-center gap-2 mt-2.5 flex-wrap" id="presetChipsWrap">
-                <button type="button" class="amount-chip" onclick="setPresetAmount(370)">৳৩৭০</button>
-                <button type="button" class="amount-chip" onclick="setPresetAmount(500)">৳৫০০</button>
-                <button type="button" class="amount-chip" onclick="setPresetAmount(1000)">৳১০০০</button>
-                <button type="button" class="amount-chip !bg-[#C1E8FF]" onclick="setPresetAmount('all')">সব ব্যালেন্স</button>
-            </div>
-        </div>
-
-        <!-- Clearance Conditions (Only 5 Referrals & 370 Taka - 1 Day Wait Removed!) -->
-        {% set is_vip = (user.current_level > 0) %}
-        {% set current_bal = user.balance | float %}
-        
-        <div class="cashout-surface mb-5">
-            <div class="flex items-center justify-between mb-3 border-b border-[#C1E8FF] pb-2">
-                <span class="text-[11px] font-black uppercase text-[#021024] tracking-wider flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-check text-[#052659]"></i> ক্লিয়ারেন্স শর্তাবলী
-                </span>
+            <!-- Quick Chips -->
+            <div class="flex items-center justify-center gap-2 pt-1 flex-wrap">
                 {% if is_vip %}
-                    <span class="text-[9px] font-black bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full uppercase">Plus Active</span>
+                    <button type="button" class="mini-chip" onclick="setAmount(20)">৳২০</button>
+                    <button type="button" class="mini-chip" onclick="setAmount(100)">৳১০০</button>
                 {% else %}
-                    <span class="text-[9px] font-black bg-[#C1E8FF] text-[#052659] px-2 py-0.5 rounded-full uppercase">Free Member</span>
+                    <button type="button" class="mini-chip" onclick="setAmount(370)">৳৩৭০</button>
+                    <button type="button" class="mini-chip" onclick="setAmount(500)">৳৫০০</button>
                 {% endif %}
+                <button type="button" class="mini-chip !bg-[#C1E8FF]" onclick="setAmount('all')">সব টাকা</button>
             </div>
+        </div>
 
+        <!-- 4. SIMPLE STATUS CONDITION (১টি মাত্র সাধারণ বক্সে ক্লিয়ার তথ্য) -->
+        <div class="p-3.5 rounded-2xl {{ 'bg-emerald-50 border border-emerald-200' if can_submit else 'bg-amber-50 border border-amber-200' }} text-xs">
             {% if is_vip %}
-                <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs">
-                    <p class="font-extrabold text-amber-950 flex items-center gap-1.5 mb-1">
-                        <i class="fa-solid fa-crown text-amber-500"></i> TakaPass Plus সুবিধা সক্রিয়!
-                    </p>
-                    <p class="text-[#5483B3] leading-relaxed">
-                        আপনার কোনো রেফার শর্ত নেই এবং মাত্র <b>৳২০</b> হলেই ক্যাশআউট করতে পারবেন।
-                    </p>
-                </div>
-                {% set can_submit = (current_bal >= 20) %}
+                <p class="font-bold text-amber-950 flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown text-amber-500"></i> আপনার কোনো রেফার লাগবে না। মিনিমাম ৳২০ হলেই উইথড্র!
+                </p>
+            {% elif can_submit %}
+                <p class="font-bold text-emerald-800 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i> আপনি টাকা তোলার জন্য উপযুক্ত!
+                </p>
             {% else %}
-                <div class="space-y-2 text-xs">
-                    <!-- Condition 1: 5 Referrals -->
-                    <div class="condition-tile {{ 'passed' if ref_count >= 5 else 'pending' }}">
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid {{ 'fa-circle-check text-emerald-600' if ref_count >= 5 else 'fa-circle-xmark text-rose-500' }} text-base"></i>
-                            <div>
-                                <span class="font-extrabold text-[#021024] block">৫টি সক্রিয় রেফারেল</span>
-                                <span class="text-[10px] text-[#5483B3]">মেম্বার যুক্ত করেছেন</span>
-                            </div>
-                        </div>
-                        <span class="font-mono font-black text-sm {{ 'text-emerald-700' if ref_count >= 5 else 'text-rose-600' }}">
-                            {{ ref_count }} / 5 জন
-                        </span>
-                    </div>
-
-                    <!-- Condition 2: Minimum 370 Balance -->
-                    <div class="condition-tile {{ 'passed' if current_bal >= 370 else 'pending' }}">
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid {{ 'fa-circle-check text-emerald-600' if current_bal >= 370 else 'fa-circle-xmark text-rose-500' }} text-base"></i>
-                            <div>
-                                <span class="font-extrabold text-[#021024] block">সর্বনিম্ন ব্যালেন্স ৩৭০ টাকা</span>
-                                <span class="text-[10px] text-[#5483B3]">বর্তমান একাউন্ট ব্যালেন্স</span>
-                            </div>
-                        </div>
-                        <span class="font-mono font-black text-sm {{ 'text-emerald-700' if current_bal >= 370 else 'text-rose-600' }}">
-                            ৳{{ current_bal }} / 370
-                        </span>
+                <div class="space-y-1">
+                    <p class="font-bold text-amber-900 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-amber-600"></i> উইথড্র করার শর্ত:
+                    </p>
+                    <div class="flex justify-between items-center text-[11px] font-semibold text-slate-700 pt-0.5">
+                        <span>সক্রিয় রেফারেল: <b class="{{ 'text-emerald-700' if ref_count >= 5 else 'text-rose-600' }}">{{ ref_count }}/৫ জন</b></span>
+                        <span>মিনিমাম ব্যালেন্স: <b class="{{ 'text-emerald-700' if current_bal >= 370 else 'text-rose-600' }}">৳{{ current_bal }}/৳৩৭০</b></span>
                     </div>
                 </div>
-                {% set can_submit = (ref_count >= 5 and current_bal >= 370) %}
             {% endif %}
         </div>
 
-        <!-- Submit Button -->
+        <!-- 5. SUBMIT BUTTON -->
         <div>
-            {% if is_vip or can_submit %}
-                <button type="submit" id="submitBtn" class="btn-cashout-submit">
-                    <span>ক্যাশআউট রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            {% if can_submit %}
+                <button type="submit" id="submitBtn" class="btn-submit-withdraw">
+                    <span>উইথড্র রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
             {% else %}
-                <button type="button" disabled class="btn-cashout-submit">
-                    <i class="fa-solid fa-lock text-xs"></i> <span>শর্তগুলো পূরণ করুন</span>
+                <button type="button" disabled class="btn-submit-withdraw">
+                    <i class="fa-solid fa-lock text-xs mr-1"></i> শর্ত পূরণ করুন
                 </button>
             {% endif %}
 
-            <p class="text-center text-[10px] font-bold text-[#7DA0CA] mt-3 flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-bolt text-amber-500"></i> অটোমেটেড পেমেন্ট বট দ্বারা দ্রুত ক্যাশআউট সম্পন্ন হয়
+            <p class="text-center text-[10px] font-semibold text-[#7DA0CA] mt-2.5">
+                বিকাশ/নগদ স্বয়ংক্রিয় বট দ্বারা ৫-৩০ মিনিটে পেমেন্ট সম্পন্ন হয়
             </p>
         </div>
 
@@ -369,7 +276,7 @@
 </div>
 
 <!-- ===================================================
-     REQUESTED MINIMAL SUCCESS POPUP (EXACTLY AS SPECIFIED)
+     MINIMAL SUCCESS POPUP (শুধুমাত্র আপনার চাওয়া তথ্য)
 =================================================== -->
 <div class="success-popup-overlay" id="successPopupModal">
     <div class="success-sheet-card">
@@ -380,33 +287,33 @@
         </span>
 
         <!-- MFS Logo -->
-        <div class="w-14 h-14 rounded-2xl mx-auto mb-2 overflow-hidden border border-[#C1E8FF] shadow-sm flex items-center justify-center bg-white p-1">
-            <img id="popupMfsLogo" src="{{ mfs_logo }}" alt="MFS Logo" class="w-full h-full object-cover rounded-xl">
+        <div class="w-12 h-12 rounded-xl mx-auto mb-2 overflow-hidden border border-[#C1E8FF] shadow-sm flex items-center justify-center bg-white p-0.5">
+            <img src="{{ mfs_logo }}" alt="MFS Logo" class="w-full h-full object-cover rounded-lg">
         </div>
 
         <!-- আপনার Withdraw সফল -->
-        <h3 class="text-lg font-black text-[#021024] tracking-tight mb-0.5">
+        <h3 class="text-base font-black text-[#021024] tracking-tight mb-0.5">
             আপনার Withdraw সফল
         </h3>
 
         <!-- Amount -->
-        <h1 class="text-3xl font-black font-mono text-[#052659] mb-3" id="popupAmountDisplay">
+        <h1 class="text-2xl font-black font-mono text-[#052659] mb-3" id="popupAmountDisplay">
             ৳0.00
         </h1>
 
         <!-- Masked Number & Date -->
-        <div class="bg-[#F4F9FD] border border-[#C1E8FF] rounded-2xl p-3 text-xs space-y-1 mb-4 text-left font-mono">
+        <div class="bg-[#F4F9FD] border border-[#C1E8FF] rounded-xl p-2.5 text-xs space-y-1 mb-4 text-left font-mono">
             <div class="flex justify-between items-center">
                 <span class="text-[#7DA0CA] font-sans text-[11px]">নম্বর:</span>
                 <span class="font-bold text-[#021024]" id="popupMaskedNum">017****0000</span>
             </div>
             <div class="flex justify-between items-center">
                 <span class="text-[#7DA0CA] font-sans text-[11px]">তারিখ:</span>
-                <span class="font-bold text-[#5483B3]" id="popupDateDisplay">2026-10-24</span>
+                <span class="font-bold text-[#5483B3]" id="popupDateDisplay">2026-10-26</span>
             </div>
         </div>
 
-        <button onclick="closeSuccessAndRedirect()" class="btn-cashout-submit py-3 text-xs font-black">
+        <button onclick="closeSuccessAndRedirect()" class="btn-submit-withdraw py-2.5 text-xs font-black">
             ঠিক আছে
         </button>
 
@@ -414,13 +321,14 @@
 </div>
 
 <!-- ===================================================
-     FRONTEND JAVASCRIPT LOGIC
+     SCRIPTS
 =================================================== -->
 <script>
-    const mainBalance = {{ user.balance | float }};
+    const mainBalance = {{ current_bal }};
+    const minLimit = {{ min_limit }};
     const userWalletNumber = "{{ user.wallet_number or '' }}";
 
-    function setPresetAmount(val) {
+    function setAmount(val) {
         const input = document.getElementById('amountField');
         if (val === 'all') {
             input.value = Math.floor(mainBalance);
@@ -429,32 +337,29 @@
         }
     }
 
-    // Mask phone number (e.g. 01712345678 -> 017****5678)
     function getMaskedNumber(num) {
         if (!num || num.length < 10) return "017****0000";
         return num.slice(0, 3) + "****" + num.slice(-4);
     }
 
-    // Intercept form submit to show exact requested popup
     function handleWithdrawSubmit(event) {
         event.preventDefault();
 
-        const amountInput = document.getElementById('amountField').value;
-        const amount = parseFloat(amountInput);
+        const amount = parseFloat(document.getElementById('amountField').value);
 
-        if (!amount || amount <= 0) {
-            alert('সঠিক টাকার পরিমাণ লিখুন!');
+        if (!amount || amount < minLimit) {
+            alert(`সর্বনিম্ন উইথড্র ৳${minLimit}!`);
             return false;
         }
 
         if (amount > mainBalance) {
-            alert('আপনার মেইন ব্যালেন্সে পর্যাপ্ত টাকা নেই!');
+            alert('আপনার ব্যালেন্সে পর্যাপ্ত টাকা নেই!');
             return false;
         }
 
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-base"></i> <span class="ml-2">প্রসেসিং...</span>';
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-sm"></i> <span class="ml-1">প্রসেসিং...</span>';
 
         const form = document.getElementById('withdrawForm');
         const formData = new FormData(form);
@@ -465,26 +370,20 @@
         })
         .then(res => {
             if (res.ok || res.redirected) {
-                // Populate exact requested popup data
                 document.getElementById('popupAmountDisplay').innerText = '৳' + amount.toFixed(2);
                 document.getElementById('popupMaskedNum').innerText = getMaskedNumber(userWalletNumber);
-                
-                // Realtime current date
-                const today = new Date().toISOString().slice(0, 10);
-                document.getElementById('popupDateDisplay').innerText = today;
-
-                // Show Minimal Popup
+                document.getElementById('popupDateDisplay').innerText = new Date().toISOString().slice(0, 10);
                 document.getElementById('successPopupModal').classList.add('show');
             } else {
-                alert('উইথড্র রিকোয়েস্ট সাবমিট করতে সমস্যা হয়েছে।');
+                alert('রিকোয়েস্ট পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
                 btn.disabled = false;
-                btn.innerHTML = '<span>ক্যাশআউট রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
+                btn.innerHTML = '<span>উইথড্র রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
             }
         })
         .catch(() => {
             alert('নেটওয়ার্ক সমস্যা! আবার চেষ্টা করুন।');
             btn.disabled = false;
-            btn.innerHTML = '<span>ক্যাশআউট রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
+            btn.innerHTML = '<span>উইথড্র রিকোয়েস্ট পাঠান</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
         });
 
         return false;
