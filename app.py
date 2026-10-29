@@ -216,36 +216,7 @@ def auto_review_user_tasks(user_id):
 
     except Exception as e:
         print(f"Auto-Bot Error: {e}")
-        
-
-# --- HELPER: GMAIL TASK TIMEOUT PENALTY ---
-def check_gmail_timeouts():
-    from datetime import datetime, timedelta, timezone
-    try:
-        # ১ ঘণ্টার বেশি সময় ধরে locked থাকা টাস্কগুলো আনো
-        one_hour_ago = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
-        
-        expired_tasks = supabase.table('gmail_tasks').select('*').eq('status', 'locked').lt('locked_at', one_hour_ago).execute().data
-        
-        for task in expired_tasks:
-            uid = task['assigned_to']
-            
-            # ১. ইউজারের ব্যালেন্স থেকে ২০ টাকা কাটা
-            user_data = supabase.table('profiles').select('balance').eq('id', uid).single().execute().data
-            if user_data:
-                new_bal = float(user_data['balance']) - 20.00
-                supabase.table('profiles').update({'balance': new_bal}).eq('id', uid).execute()
-            
-            # ২. টাস্কটিকে আবার available করে দেওয়া (যাতে অন্য কেউ করতে পারে)
-            supabase.table('gmail_tasks').update({
-                'status': 'available',
-                'assigned_to': None,
-                'locked_at': None
-            }).eq('id', task['id']).execute()
-            
-    except Exception as e:
-        print(f"Gmail Timeout Error: {e}")
-        
+    
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
