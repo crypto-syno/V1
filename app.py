@@ -268,8 +268,7 @@ def fatema_admin_required(f):
 # ==========================================
 @app.before_request
 def before_request_checks():
-    # ১. পেনাল্টি বট ও ডোমেন রিডাইরেক্ট লজিক
-    check_gmail_timeouts()
+
     
     if request.host == 'taskking.vercel.app':
         return redirect('https://kaikor.vercel.app/', code=301)
