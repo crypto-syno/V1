@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#F4F9FD">
-    <title>500 - সার্ভার সমস্যা | TakaEarn</title>
+    <title>সার্ভারে সাময়িক সমস্যা | TakaEarn</title>
 
     <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Nd7D48N4/7526.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +13,7 @@
     
     <style>
         /* ==========================================================
-           TAKAEARN - 500 SERVER ERROR LIGHT THEME
+           TAKAEARN - SEAMLESS FLAT SERVER ISSUE UI (NO CARDS, NO NUMBERS)
            Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
         ========================================================== */
         body { 
@@ -25,113 +25,119 @@
             justify-content: center; 
             min-height: 100vh;
             margin: 0;
-            padding: 16px;
+            padding: 20px;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(193, 232, 255, 0.45) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 55%);
+                radial-gradient(at 50% 20%, rgba(193, 232, 255, 0.6) 0px, transparent 60%),
+                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
         }
 
         .fade-in-up { 
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            opacity: 0; transform: translateY(20px); 
+            animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; transform: translateY(16px); 
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Floating 500 Watermark */
-        .watermark-500 { 
-            font-size: 140px; font-weight: 900; line-height: 1; 
-            color: rgba(193, 232, 255, 0.55); 
-            position: absolute; z-index: 0; 
-            user-select: none; pointer-events: none;
-            letter-spacing: -6px;
-            font-family: 'Plus Jakarta Sans', monospace;
+        /* Icon Glow Halo */
+        .icon-aura-server {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            margin: 0 auto 20px auto;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FFFFFF 100%);
+            border: 2px solid #FDE68A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #D97706;
+            box-shadow: 0 12px 30px rgba(217, 119, 6, 0.1);
         }
-
-        /* Surface Card */
-        .error-card { 
-            background: #FFFFFF; 
-            border-radius: 36px; 
-            border: 1.5px solid #C1E8FF; 
-            box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.08), 0 4px 15px rgba(15, 23, 42, 0.02); 
-            position: relative; 
-            z-index: 10; 
-            padding: 38px 26px; 
-            text-align: center; 
-            max-width: 420px; 
-            width: 100%; 
+        .icon-aura-server::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 36px;
+            background: radial-gradient(circle, rgba(254, 240, 138, 0.6) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseServer 2.5s infinite ease-in-out;
         }
-
-        /* Pulsing Alert Icon */
-        .pulse-warn {
-            animation: pulseWarning 2s infinite ease-in-out;
-        }
-        @keyframes pulseWarning {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+        @keyframes pulseServer {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 0.8; }
         }
 
         /* Buttons */
-        .btn-gradient {
+        .btn-flat-gradient {
             background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
             color: #FFFFFF; width: 100%; padding: 16px;
-            border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
+            border-radius: 18px; font-weight: 800; font-size: 14px; text-transform: uppercase;
             letter-spacing: 0.4px; transition: all 0.25s ease; 
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
             border: none; cursor: pointer; text-decoration: none;
         }
-        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
-        .btn-gradient:active { transform: scale(0.97); }
+        .btn-flat-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
+        .btn-flat-gradient:active { transform: scale(0.97); }
 
-        .btn-light-outline {
-            background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF; width: 100%; padding: 15px;
-            border-radius: 18px; font-weight: 800; font-size: 13px; text-transform: uppercase;
+        .btn-flat-soft {
+            background: #FFFFFF; color: #052659; border: 1.5px solid #C1E8FF; width: 100%; padding: 15px;
+            border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
             letter-spacing: 0.4px; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none;
+            box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
         }
-        .btn-light-outline:hover { background: #C1E8FF; border-color: #7DA0CA; }
-        .btn-light-outline:active { transform: scale(0.97); }
+        .btn-flat-soft:hover { background: #C1E8FF; border-color: #7DA0CA; color: #021024; }
+        .btn-flat-soft:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
-    <div class="watermark-500">500</div>
-
-    <div class="error-card fade-in-up">
+    <!-- Seamless Flat Container -->
+    <div class="max-w-sm w-full text-center fade-in-up">
         
-        <!-- Animated Server Icon -->
-        <div class="h-20 w-20 bg-amber-50 text-amber-500 border border-amber-200 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm pulse-warn">
+        <!-- Pulsing Server Icon -->
+        <div class="icon-aura-server">
             <i class="fa-solid fa-server"></i>
         </div>
         
-        <span class="text-[10px] font-black uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3.5 py-1 rounded-full mb-3 inline-block border border-amber-200">
-            Error 500 • Server Issue
-        </span>
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-3 border border-amber-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+            <span>সার্ভার রক্ষণাবেক্ষণ • সাময়িক বিঘ্ন</span>
+        </div>
 
-        <h1 class="text-2xl font-black text-[#021024] tracking-tight mb-2">সার্ভারে সাময়িক সমস্যা!</h1>
-        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-7 max-w-xs mx-auto">
-            অতিরিক্ত ট্রাফিকের কারণে সংযোগে সাময়িক বিঘ্ন ঘটেছে। পেজটি রিফ্রেশ করুন অথবা কিছুক্ষণ পর আবার চেষ্টা করুন।
+        <h1 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight mb-2">
+            সংযোগ বিঘ্নিত হয়েছে
+        </h1>
+        
+        <p class="text-xs sm:text-[13px] text-[#5483B3] font-semibold leading-relaxed mb-8 max-w-xs mx-auto">
+            অতিরিক্ত ট্রাফিকের কারণে সার্ভারে সাময়িক সমস্যা হচ্ছে। আমাদের ব্যাকএন্ড সিস্টেম স্বয়ংক্রিয়ভাবে এটি রিকভার করছে। দয়া করে পেজটি রিফ্রেশ করুন।
         </p>
         
-        <div class="flex flex-col gap-2.5">
-            <button onclick="location.reload()" class="btn-gradient">
+        <!-- Actions -->
+        <div class="flex flex-col gap-3">
+            <button onclick="location.reload()" class="btn-flat-gradient">
                 <i class="fa-solid fa-rotate-right text-xs"></i> <span>পেজ রিফ্রেশ করুন</span>
             </button>
-            <a href="/" class="btn-light-outline">
-                <i class="fa-solid fa-house text-xs"></i> <span>হোমপেজে ফিরে যান</span>
+            <a href="/" class="btn-flat-soft">
+                <i class="fa-solid fa-house text-xs"></i> <span>হোমপেজে যান</span>
             </a>
             <a href="https://t.me/takaearn_help" target="_blank" class="text-xs font-bold text-[#052659] hover:underline flex items-center justify-center gap-1.5 mt-2">
                 <i class="fa-brands fa-telegram text-sky-500"></i> হেল্প ডেস্কে রিপোর্ট করুন
             </a>
         </div>
 
-        <div class="mt-7 pt-4 border-t border-[#C1E8FF]/80 text-center">
+        <!-- Footer Brand -->
+        <div class="mt-10 pt-4 border-t border-[#C1E8FF]/60 text-center">
             <p class="text-[10px] font-bold text-[#7DA0CA] uppercase tracking-wider flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-shield-check text-[#052659]"></i> TakaEarn Automatic Recovery Active
+                <i class="fa-solid fa-shield-halved text-[#052659]"></i> TakaEarn Automated Engine
             </p>
         </div>
+
     </div>
 
 </body>
