@@ -388,6 +388,61 @@ def support_redirect():
 
 
 # ==========================================
+# 🔑 ADMIN: USER PASSWORD RESET BY EMAIL
+# ==========================================
+@app.route('/admin/pass', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def admin_reset_password():
+    target_user = None
+    search_email = ""
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        # ১. ইমেইল দিয়ে ইউজার খোঁজা
+        if action == 'search':
+            search_email = request.form.get('email', '').strip().lower()
+            try:
+                res = supabase.table('profiles').select('*').ilike('email', search_email).execute()
+                if res.data and len(res.data) > 0:
+                    target_user = res.data[0]
+                else:
+                    flash("❌ এই ইমেইলে কোনো ইউজার অ্যাকাউন্ট পাওয়া যায়নি!", "error")
+            except Exception as e:
+                print(f"User Search Error: {e}")
+                flash("❌ ইউজার ডাটা খুঁজতে সমস্যা হয়েছে।", "error")
+
+        # ২. নতুন পাসওয়ার্ড সেট করা
+        elif action == 'update_pass':
+            target_uid = request.form.get('user_id')
+            new_password = request.form.get('new_password', '').strip()
+            target_email = request.form.get('target_email', '').strip()
+
+            if len(new_password) < 6:
+                flash("❌ পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে!", "error")
+            else:
+                try:
+                    # Supabase Auth Admin API দিয়ে ইউজারের পাসওয়ার্ড আপডেট
+                    supabase.auth.admin.update_user_by_id(
+                        target_uid,
+                        {"password": new_password}
+                    )
+                    flash(f"✅ {target_email} এর পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!", "success")
+                except Exception as e:
+                    print(f"Password Update Error: {e}")
+                    flash("❌ পাসওয়ার্ড আপডেট ব্যর্থ হয়েছে! নিশ্চিত করুন .env ফাইলে Supabase service_role কি ব্যবহার করা আছে।", "error")
+
+            # সাবমিটের পর ওই ইউজারের তথ্য যেন স্ক্রিনে থাকে
+            if target_uid:
+                u_res = supabase.table('profiles').select('*').eq('id', target_uid).execute()
+                if u_res.data:
+                    target_user = u_res.data[0]
+                    search_email = target_user.get('email', '')
+
+    return render_template('admin_pass.html', target_user=target_user, search_email=search_email)
+    
+# ==========================================
 # 📡 WEBHOOK: RECEIVE SUPPORT REPLIES FROM HELP DESK
 # ==========================================
 @app.route('/api/webhook/support-reply', methods=['POST'])
