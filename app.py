@@ -3493,7 +3493,7 @@ def submit_task(task_id):
     # ৩. ফর্ম সাবমিট (POST Request)
     if request.method == 'POST':
         
-        # ফাইল আছে কিনা চেক
+        # ফাইল সিলেক্ট করা আছে কিনা চেক
         if 'screenshot' not in request.files:
             flash("❌ ছবি আপলোড করুন!", "error")
             return redirect(request.url)
@@ -3504,25 +3504,22 @@ def submit_task(task_id):
             return redirect(request.url)
 
         try:
-            # --- 🚀 NEW: SMART UPLOAD LOGIC ---
-            # smart_imgbb_upload ফাংশনটি ২টা জিনিস রিটার্ন করবে: URL এবং Error Message
-            img_url, error_msg = smart_imgbb_upload(file)
+            # ==========================================================
+            # 🚀 IMGBB BYPASS LOGIC:
+            # ImgBB-তে আপলোড হবে না, সরাসরি স্ক্রিনশটের নাম proof_link এ সেভ হবে
+            # ==========================================================
+            uploaded_filename = file.filename or "screenshot.jpg"
             
-            if img_url:
-                # 🟢 আপলোড সফল হলে ডাটাবেসে সেভ করো
-                supabase.table('submissions').insert({
-                    'user_id': session['user_id'],
-                    'task_id': task_id,
-                    'proof_link': img_url,
-                    'status': 'pending'
-                }).execute()
-                
-                flash("আপনার টাস্কটি সাবমিট হয়েছে, ১-৩ ঘন্টার মধ্যে টাস্কটি এপ্রুব হয়ে যাবে 🎉🔥", "success")
-                return redirect(url_for('tasks'))
-            else:
-                # 🔴 আপলোড ফেইল হলে
-                flash(f"❌ {error_msg}", "error")
-                return redirect(request.url)
+            # ডাটাবেসে সেভ করা
+            supabase.table('submissions').insert({
+                'user_id': session['user_id'],
+                'task_id': task_id,
+                'proof_link': uploaded_filename, # শুধুই স্ক্রিনশট ফাইলের নাম
+                'status': 'pending'
+            }).execute()
+            
+            flash("আপনার টাস্কটি সাবমিট হয়েছে, ১-৩ ঘন্টার মধ্যে টাস্কটি এপ্রুব হয়ে যাবে 🎉🔥", "success")
+            return redirect(url_for('tasks'))
                 
         except Exception as e:
             print(f"Submission Error: {e}")
@@ -3530,6 +3527,7 @@ def submit_task(task_id):
 
     # ৪. পেজ রেন্ডার (GET Request)
     return render_template('submit_task.html', task=task, user=g.user)
+    
     # --- ADMIN: MANAGE IMGBB API KEYS ---
 @app.route('/admin/api-keys', methods=['GET', 'POST'])
 @login_required
