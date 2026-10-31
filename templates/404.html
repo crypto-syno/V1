@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#F4F9FD">
-    <title>404 - পেজ পাওয়া যায়নি | TakaEarn</title>
+    <title>পেজটি পাওয়া যায়নি | TakaEarn</title>
 
     <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Nd7D48N4/7526.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +13,7 @@
     
     <style>
         /* ==========================================================
-           TAKAEARN - 404 LIGHT THEME
+           TAKAEARN - SEAMLESS FLAT NOT-FOUND UI (NO CARDS, NO NUMBERS)
            Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
         ========================================================== */
         body { 
@@ -25,101 +25,116 @@
             justify-content: center; 
             min-height: 100vh;
             margin: 0;
-            padding: 16px;
+            padding: 20px;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(193, 232, 255, 0.45) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 55%);
+                radial-gradient(at 50% 20%, rgba(193, 232, 255, 0.6) 0px, transparent 60%),
+                radial-gradient(at 100% 100%, rgba(125, 160, 202, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
         }
 
         .fade-in-up { 
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            opacity: 0; transform: translateY(20px); 
+            animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; transform: translateY(16px); 
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Floating 404 Watermark */
-        .watermark-404 { 
-            font-size: 140px; font-weight: 900; line-height: 1; 
-            color: rgba(193, 232, 255, 0.55); 
-            position: absolute; z-index: 0; 
-            user-select: none; pointer-events: none;
-            letter-spacing: -6px;
-            font-family: 'Plus Jakarta Sans', monospace;
+        /* Icon Glow Halo */
+        .icon-aura {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            margin: 0 auto 20px auto;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #C1E8FF 0%, #FFFFFF 100%);
+            border: 2px solid #C1E8FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #052659;
+            box-shadow: 0 12px 30px rgba(5, 38, 89, 0.08);
         }
-
-        /* Surface Card */
-        .error-card { 
-            background: #FFFFFF; 
-            border-radius: 36px; 
-            border: 1.5px solid #C1E8FF; 
-            box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.08), 0 4px 15px rgba(15, 23, 42, 0.02); 
-            position: relative; 
-            z-index: 10; 
-            padding: 38px 26px; 
-            text-align: center; 
-            max-width: 420px; 
-            width: 100%; 
+        .icon-aura::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 36px;
+            background: radial-gradient(circle, rgba(193, 232, 255, 0.8) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseAura 3s infinite ease-in-out;
+        }
+        @keyframes pulseAura {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 0.9; }
         }
 
         /* Buttons */
-        .btn-gradient {
+        .btn-flat-gradient {
             background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
             color: #FFFFFF; width: 100%; padding: 16px;
-            border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
+            border-radius: 18px; font-weight: 800; font-size: 14px; text-transform: uppercase;
             letter-spacing: 0.4px; transition: all 0.25s ease; 
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.35);
             text-decoration: none;
         }
-        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); }
-        .btn-gradient:active { transform: scale(0.97); }
+        .btn-flat-gradient:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.45); color: #FFFFFF; }
+        .btn-flat-gradient:active { transform: scale(0.97); }
 
-        .btn-light-outline {
-            background: #F4F9FD; color: #052659; border: 1.5px solid #C1E8FF; width: 100%; padding: 15px;
-            border-radius: 18px; font-weight: 800; font-size: 13px; text-transform: uppercase;
+        .btn-flat-soft {
+            background: #FFFFFF; color: #052659; border: 1.5px solid #C1E8FF; width: 100%; padding: 15px;
+            border-radius: 18px; font-weight: 800; font-size: 13.5px; text-transform: uppercase;
             letter-spacing: 0.4px; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none;
+            box-shadow: 0 4px 15px -3px rgba(5, 38, 89, 0.03);
         }
-        .btn-light-outline:hover { background: #C1E8FF; border-color: #7DA0CA; }
-        .btn-light-outline:active { transform: scale(0.97); }
+        .btn-flat-soft:hover { background: #C1E8FF; border-color: #7DA0CA; color: #021024; }
+        .btn-flat-soft:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
-    <div class="watermark-404">404</div>
-
-    <div class="error-card fade-in-up">
+    <!-- Seamless Flat Container (No Hard Card Box) -->
+    <div class="max-w-sm w-full text-center fade-in-up">
         
-        <!-- Icon -->
-        <div class="h-20 w-20 bg-[#F4F9FD] text-[#052659] border border-[#C1E8FF] rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm">
+        <!-- Animated Icon with Soft Aura -->
+        <div class="icon-aura">
             <i class="fa-solid fa-compass-drafting"></i>
         </div>
         
-        <span class="text-[10px] font-black uppercase tracking-widest text-[#052659] bg-[#C1E8FF] px-3.5 py-1 rounded-full mb-3 inline-block border border-[#7DA0CA]/40">
-            Error 404 • Page Missing
-        </span>
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-1.5 bg-[#C1E8FF] text-[#052659] px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-3 border border-[#7DA0CA]/30">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#052659] animate-ping"></span>
+            <span>সংযোগ বিচ্ছিন্ন • পেজ অনুপস্থিত</span>
+        </div>
 
-        <h1 class="text-2xl font-black text-[#021024] tracking-tight mb-2">পেজটি খুঁজে পাওয়া যায়নি!</h1>
-        <p class="text-xs text-[#5483B3] font-medium leading-relaxed mb-7 max-w-xs mx-auto">
-            আপনি যে লিংকটিতে প্রবেশ করতে চাচ্ছেন সেটি হয়তো পরিবর্তিত হয়েছে বা মুছে ফেলা হয়েছে।
+        <h1 class="text-2xl sm:text-3xl font-black text-[#021024] tracking-tight mb-2">
+            পেজটি খুঁজে পাওয়া যায়নি!
+        </h1>
+        
+        <p class="text-xs sm:text-[13px] text-[#5483B3] font-semibold leading-relaxed mb-8 max-w-xs mx-auto">
+            আপনি যে লিংকটিতে প্রবেশ করতে চেয়েছেন সেটি পরিবর্তিত হয়েছে অথবা মুছে ফেলা হয়েছে। অনুগ্রহ করে হোমপেজে ফিরে যান।
         </p>
         
-        <div class="flex flex-col gap-2.5">
-            <a href="/" class="btn-gradient">
+        <!-- Flat Action Buttons -->
+        <div class="flex flex-col gap-3">
+            <a href="/" class="btn-flat-gradient">
                 <i class="fa-solid fa-house text-xs"></i> <span>হোমপেজে ফিরে যান</span>
             </a>
-            <a href="javascript:history.back()" class="btn-light-outline">
+            <a href="javascript:history.back()" class="btn-flat-soft">
                 <i class="fa-solid fa-arrow-left text-xs"></i> <span>পূর্বের পেজে যান</span>
             </a>
         </div>
 
-        <div class="mt-7 pt-4 border-t border-[#C1E8FF]/80 text-center">
+        <!-- Footer Brand -->
+        <div class="mt-10 pt-4 border-t border-[#C1E8FF]/60 text-center">
             <p class="text-[10px] font-bold text-[#7DA0CA] uppercase tracking-wider flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-shield-check text-[#052659]"></i> TakaEarn Platform Security
+                <i class="fa-solid fa-shield-halved text-[#052659]"></i> TakaEarn Platform Navigation
             </p>
         </div>
+
     </div>
 
 </body>
