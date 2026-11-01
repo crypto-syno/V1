@@ -82,8 +82,8 @@ TAKAEARN_PLUS_PLAN = {
     'name': 'TakaEarn Plus',
     'badge_image': 'https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png',
     'regular_price': 400,
-    'price': 100,  # 75% OFF
-    'discount_text': '৭৫% ছাড় (৭৫% OFF)',
+    'price': 120,  # 75% OFF
+    'discount_text': '70% ছাড় (৭০% OFF)',
     'daily_profit': 25,
     'days': 30,
     'min_withdraw': 20,
