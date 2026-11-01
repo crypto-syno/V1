@@ -497,6 +497,9 @@
             <a href="/account" class="side-menu-item {{ 'active' if request.endpoint == 'account' }}">
                 <i class="fa-solid fa-user-gear"></i> <span>একাউন্ট সেটিংস</span>
             </a>
+             <a href="https://www.takaearn.site/vip" class="side-menu-item {{ 'active' if request.endpoint == 'account' }}">
+                <i class="fa-solid fa-crown"></i> <span>TakaEarn Plus +</span>
+            </a>
             <a href="/drive" class="side-menu-item {{ 'active' if request.endpoint == 'drive_store' }}">
                 <i class="fa-solid fa-wifi text-sky-500"></i> <span>টেলিকম ড্রাইভ প্যাক</span>
             </a>
@@ -504,9 +507,16 @@
                 <i class="fa-solid fa-bullhorn text-purple-600"></i> <span>Promotion (B2B)</span>
             </a>
 
+            <a href="/refer" class="side-menu-item {{ 'active' if request.endpoint == 'hire_us' }}">
+                <i class="fa-solid fa-user-plus"></i> <span>Refer </span>
+            </a>
+
             <span class="side-menu-label">কমিউনিটি ও সাহায্য</span>
             <a href="/notice" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
                 <i class="fa-regular fa-bell text-rose-500"></i> <span>নোটিশ বোর্ড</span>
+            </a>
+             <a href="https://www.takaearn.site/app" class="side-menu-item {{ 'active' if request.endpoint == 'notice' }}">
+                <i class="fa-solid fa-download"></i> <span>এপস ডাউনলোড করুন</span>
             </a>
 
             <!-- REVIEWS MENU LINK HIDDEN VIA COMMENT -->
