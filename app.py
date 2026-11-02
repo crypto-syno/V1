@@ -351,6 +351,11 @@ def before_request_checks():
                 
 
 
+@app.route('/vip/v2')
+@login_required
+def vip_v2_page():
+    return render_template('vip_v2.html', user=g.user, plan=TAKAEARN_PLUS_PLAN)
+    
 
 # -------------------------------------------------------------------
 # 4. ROUTES
