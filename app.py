@@ -81,8 +81,8 @@ AD_LINKS = [
 TAKAEARN_PLUS_PLAN = {
     'name': 'TakaEarn Plus',
     'badge_image': 'https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png',
-    'regular_price': 45,
-    'price': 120,  # 75% OFF
+    'regular_price': 400,
+    'price': 45,  # 75% OFF
     'discount_text': '89% ছাড় (89% OFF)',
     'daily_profit': 25,
     'days': 30,
