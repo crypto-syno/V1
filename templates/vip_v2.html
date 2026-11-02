@@ -1,0 +1,327 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+    /* ==========================================================
+       TAKAEARN - VIP V2: ACTIVE MEMBER PROGRAM & PLUS+
+       Palette: #021024 | #052659 | #5483B3 | #7DA0CA | #C1E8FF
+    ========================================================== */
+    .fade-in-up { 
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        opacity: 0; transform: translateY(14px); 
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* Surface Card */
+    .v2-card {
+        background: #FFFFFF;
+        border: 1.5px solid #C1E8FF;
+        border-radius: 28px;
+        padding: 24px 20px;
+        box-shadow: 0 8px 30px -8px rgba(5, 38, 89, 0.05);
+        position: relative;
+    }
+
+    /* Executive Announcement Card */
+    .announcement-card {
+        background: linear-gradient(135deg, #021024 0%, #052659 60%, #5483B3 100%);
+        border: 2px solid #C1E8FF;
+        border-radius: 32px;
+        padding: 28px 22px;
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 45px -10px rgba(5, 38, 89, 0.35);
+    }
+    .announcement-card::before {
+        content: ''; position: absolute; top: -30%; right: -20%; width: 220px; height: 220px;
+        background: radial-gradient(circle, rgba(193, 232, 255, 0.22) 0%, transparent 65%);
+        border-radius: 50%; pointer-events: none;
+    }
+
+    /* Primary Action Button (এখুনি নিন) */
+    .btn-take-now {
+        background: linear-gradient(135deg, #052659 0%, #5483B3 100%);
+        color: #FFFFFF;
+        width: 100%;
+        padding: 17px;
+        border-radius: 20px;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 10px 25px -5px rgba(5, 38, 89, 0.4);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+    .btn-take-now:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 14px 30px -4px rgba(5, 38, 89, 0.55);
+        color: #FFFFFF;
+    }
+    .btn-take-now:active { transform: scale(0.97); }
+
+    /* Facility Item */
+    .facility-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        background: #F4F9FD;
+        border: 1px solid #C1E8FF;
+        transition: all 0.2s ease;
+    }
+    .facility-row:hover {
+        background: #FFFFFF;
+        border-color: #5483B3;
+        transform: translateX(3px);
+    }
+
+    .check-circle {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #C1E8FF;
+        color: #052659;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+</style>
+
+<div class="max-w-xl mx-auto space-y-6 fade-in-up pb-14 px-2 mt-1">
+
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#C1E8FF]/80">
+        <div class="flex items-center gap-3">
+            <a href="/dashboard" class="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#052659] hover:bg-[#C1E8FF]/30 transition border border-[#C1E8FF] shadow-sm active:scale-95">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
+            <div>
+                <h1 class="text-base font-black text-[#021024] leading-tight">Active Member Program</h1>
+                <p class="text-[10px] text-[#5483B3] font-bold">TakaEarn Official Announcement</p>
+            </div>
+        </div>
+        <span class="bg-[#C1E8FF] text-[#052659] border border-[#7DA0CA]/40 px-3 py-1 rounded-full text-xs font-black uppercase">
+            Notice
+        </span>
+    </div>
+
+    <!-- ===================================================
+         1. OFFICIAL ANNOUNCEMENT LETTER
+    =================================================== -->
+    <div class="announcement-card text-left">
+        <div class="relative z-10">
+            
+            <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-300 border border-white/20 mb-3 shadow-sm">
+                <i class="fa-solid fa-bullhorn animate-bounce"></i> Important Announcement
+            </div>
+
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug mb-3">
+                Active Member Program সংক্রান্ত জরুরি বিজ্ঞপ্তি
+            </h2>
+
+            <div class="space-y-3 text-xs sm:text-[13px] text-[#C1E8FF] leading-relaxed font-medium">
+                <p>
+                    <b class="text-white">প্রিয় TakaEarn সদস্যবৃন্দ,</b><br>
+                    সম্প্রতি আমাদের প্ল্যাটফর্মে অতিরিক্ত ভুয়া রেফারেল, নিষ্ক্রিয় অ্যাকাউন্ট এবং অসাধু কার্যক্রমের কারণে বিভিন্ন জটিলতা তৈরি হচ্ছে। এর ফলে প্ল্যাটফর্মের স্বাভাবিক কার্যক্রম ও সঠিক সদস্যদের সেবা প্রদান ব্যাহত হচ্ছে।
+                </p>
+
+                <p>
+                    এই সমস্যা সমাধান এবং একটি শক্তিশালী ও কার্যকর কমিউনিটি গড়ে তোলার লক্ষ্যে আমরা চালু করতে যাচ্ছি <b class="text-white underline">Active Member Program</b>।
+                </p>
+            </div>
+
+            <!-- Core Goals -->
+            <div class="my-4 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-2">
+                <span class="text-xs font-black text-amber-300 uppercase tracking-wider block mb-1">
+                    🎯 আমাদের মূল লক্ষ্য:
+                </span>
+                <div class="space-y-1.5 text-xs text-white font-semibold">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i> <span>প্রকৃত ও সক্রিয় সদস্য নিশ্চিত করা।</span></div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i> <span>ভুয়া রেফারেল কার্যক্রম নিয়ন্ত্রণ করা।</span></div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i> <span>নিষ্ক্রিয় ও অসাধু অ্যাকাউন্ট শনাক্ত করা।</span></div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i> <span>প্রকৃত সদস্যদের জন্য উন্নত সেবা নিশ্চিত করা।</span></div>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-xs sm:text-[13px] text-[#C1E8FF] leading-relaxed font-medium">
+                <p class="bg-rose-500/20 border border-rose-400/30 p-3 rounded-xl text-white">
+                    ⚠️ আমরা শুধু সদস্যসংখ্যা বাড়াতে চাই না, আমরা চাই এমন সদস্য যারা সত্যিকার অর্থে আমাদের সাথে কাজ করবেন। তাই <b>নতুন মেম্বার সাইন-আপ সাময়িক বন্ধ</b> রাখতে আমরা বাধ্য হচ্ছি।
+                </p>
+
+                <p>
+                    নতুন সিদ্ধান্ত অনুযায়ী প্ল্যাটফর্মে কাজ চালু রাখতে ও নিয়মিত টাকা তুলতে প্রত্যেক সক্রিয় ব্যবহারকারীকে <b>TakaEarn Plus+</b> প্যাকেজটি নিতে হবে।
+                </p>
+            </div>
+
+            <!-- Admin Quote Box -->
+            <div class="mt-4 p-3.5 rounded-xl bg-white/10 border-l-4 border-amber-400 text-xs italic text-slate-100">
+                "আমি একজন এডমিন হিসেবে সবসময় আমাদের সাইটটি ফ্রি ডিপোজিট সাইট রাখতে চেয়েছি, তবে যে অপব্যবহার হচ্ছে, তাতে রাখা সম্ভব না। আমাদের লক্ষ কোটি ভুয়া মেম্বার থেকে ১টি রিয়েল মেম্বার অনেক ভালো।"
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/15 flex justify-between items-center text-xs text-white">
+                <span class="font-bold">আপনাদের সহযোগিতাই আমাদের শক্তি ❤️</span>
+                <span class="font-black text-amber-300">— TakaEarn Team</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================================================
+         2. SPECIAL OFFER PRICING BOX & "এখুনি নিন" BUTTON
+    =================================================== -->
+    <div class="v2-card bg-gradient-to-br from-white to-[#F4F9FD] text-center">
+        
+        <div class="w-16 h-16 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-[#C1E8FF] shadow-md bg-white">
+            <img src="https://i.ibb.co/wFgYXRZR/file-00000000576c82119efe106b8382b669.png" alt="TakaEarn Plus+" class="w-full h-full object-cover">
+        </div>
+
+        <span class="text-[9px] font-black uppercase tracking-wider text-[#052659] bg-[#C1E8FF] px-3 py-0.5 rounded-full border border-[#7DA0CA]/30 inline-block mb-1">
+            Active Member Special
+        </span>
+
+        <h3 class="text-2xl font-black text-[#021024] tracking-tight">TakaEarn Plus+ প্যাকেজ</h3>
+        <p class="text-xs text-[#5483B3] font-semibold mt-0.5">রেফার ছাড়া সর্বনিম্ন ২০ টাকা উইথড্রসহ সকল সুযোগ-সুবিধা</p>
+
+        <!-- Pricing Tag -->
+        <div class="my-5 p-4 rounded-2xl bg-white border border-[#C1E8FF] shadow-sm flex items-center justify-around max-w-xs mx-auto">
+            <div class="text-center">
+                <span class="text-[9px] text-[#7DA0CA] font-extrabold uppercase tracking-widest block">মূল দাম</span>
+                <span class="text-base font-bold text-slate-400 line-through font-mono">৳৪০০</span>
+            </div>
+            <div class="w-px h-8 bg-[#C1E8FF]"></div>
+            <div class="text-center">
+                <span class="text-[9px] text-amber-600 font-extrabold uppercase tracking-widest block">অফার প্রাইজ</span>
+                <span class="text-3xl font-black text-emerald-600 font-mono">৳৪৫</span>
+            </div>
+            <div class="w-px h-8 bg-[#C1E8FF]"></div>
+            <div class="text-center">
+                <span class="text-[9px] text-emerald-600 font-extrabold uppercase tracking-widest block">ছাড়</span>
+                <span class="text-xs font-black text-emerald-600 uppercase">৮৯% অফ</span>
+            </div>
+        </div>
+
+        <!-- "এখুনি নিন" CTA Button -->
+        <a href="/vip/buy/1" class="btn-take-now">
+            <span>এখুনি নিন (৳৪৫)</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+    </div>
+
+    <!-- ===================================================
+         3. 15+ ALL FACILITIES OF TAKAPLUS
+    =================================================== -->
+    <div class="v2-card">
+        <div class="mb-4 pb-2 border-b border-[#C1E8FF] flex items-center justify-between">
+            <div>
+                <h3 class="font-black text-base text-[#021024] leading-tight">প্যাকেজের সকল সুযোগ-সুবিধা</h3>
+                <p class="text-[10px] text-[#5483B3] font-bold">TakaEarn Plus+ 15+ Core Facilities</p>
+            </div>
+            <span class="text-[10px] font-black uppercase text-[#052659] bg-[#C1E8FF] px-2.5 py-1 rounded-lg">
+                15+ Perks
+            </span>
+        </div>
+
+        <div class="space-y-2 text-xs font-bold text-[#021024]">
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>টাকা তোলার জন্য কোনো রেফারেল লাগবে না।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>মিনিমাম ক্যাশআউট মাত্র ৳২০ (বিকাশ ও নগদ)।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>উইথড্রতে ০% ট্রানজেকশন চার্জ (সম্পূর্ণ ফ্রি ক্যাশআউট)।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>Premium Work Board-এর বেশি টাকার কাজগুলো আনলক।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>অ্যাড-ফ্রি স্মুথ ব্রাউজিং অভিজ্ঞতা (No Ads)।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>প্রিমিয়াম লাইভ সাপোর্ট সুবিধা।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>উইথড্র রিকোয়েস্টে ৫-৩০ মিনিটে প্রায়োরিটি পেমেন্ট।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>লাকি স্পিন এবং গেমে ডাবল (2X) রিওয়ার্ড পয়েন্ট।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>২৪/৭ ডেডিকেটেড ভিআইপি সাপোর্ট এজেন্ট সুবিধা।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>টাস্কে সাময়িক ভুল হলেও জরিমানা মওকুফ প্রটেকশন।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>সিস্টেম অটো-ম্যাচিং থেকে ফ্রি টিম রেফারেল বোনাস।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>টেলিকম ড্রাইভ প্যাক ক্রয়ে অতিরিক্ত ১০% ডিসকাউন্ট।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>ব্যবসায়িক ক্লায়েন্ট অর্ডারে ৫০% ডাইরেক্ট এজেন্সি পার্টনারশিপ।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>প্রতিদিন নিশ্চিত ফিক্সড ডেইলি প্রফিট ক্লেইম করার সুযোগ।</span>
+            </div>
+
+            <div class="facility-row">
+                <div class="check-circle"><i class="fa-solid fa-check"></i></div>
+                <span>ভেরিফাইড মেম্বারশিপ ব্যাজ ও আজীবন অ্যাকাউন্ট সিকিউরিটি।</span>
+            </div>
+
+            <div class="facility-row !bg-gradient-to-r !from-emerald-50 !to-[#F4F9FD] !border-emerald-200">
+                <div class="check-circle !bg-emerald-600 !text-white"><i class="fa-solid fa-star"></i></div>
+                <span class="text-emerald-950 font-black">এবং ভবিষ্যতে যুক্ত হতে যাওয়া সমস্ত প্রিমিয়াম ফিচারে অগ্রাধিকার!</span>
+            </div>
+        </div>
+
+        <!-- Bottom Action Button -->
+        <div class="pt-5 mt-4 border-t border-[#C1E8FF]">
+            <a href="/vip/buy/1" class="btn-take-now">
+                <span>প্যাকেজটি একটিভ করুন (৳৪৫)</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
