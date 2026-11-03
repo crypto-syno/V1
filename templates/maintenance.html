@@ -1,351 +1,217 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - কারিগরি ত্রুটি</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --border: #e2e8f0;
-            --text-title: #0f172a;
-            --text-body: #64748b;
-            --accent-red: #ef4444;
-            --accent-blue: #0ea5e9;
-            --accent-orange: #f59e0b;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Status</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #030712;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      overflow: hidden;
+      color: #ffffff;
+      perspective: 1200px;
+    }
 
-        body {
-            background-color: var(--bg);
-            /* Minimalist Tech Dot Grid */
-            background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
-            background-size: 28px 28px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            color: var(--text-title);
-        }
+    /* Ambient Liquid Mesh Canvas */
+    .liquid-mesh {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 65% 55%, rgba(236, 72, 153, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 50% 60%, rgba(14, 165, 233, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.25) 0%, transparent 50%);
+      filter: blur(80px);
+      animation: rotateLiquid 24s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        /* Minimal Card Container */
-        .error-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 55px 45px;
-            max-width: 580px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(0,0,0,0.02);
-            position: relative;
-            overflow: hidden;
-            animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    /* Floating Liquid Drops */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        inset 0 -8px 12px rgba(0, 0, 0, 0.2),
+        inset 0 8px 16px rgba(255, 255, 255, 0.4),
+        0 15px 35px rgba(0, 0, 0, 0.4);
+      z-index: 1;
+      pointer-events: none;
+      animation: float 10s ease-in-out infinite alternate;
+    }
 
-        /* Top Status Indicator */
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: #fef2f2;
-            border: 1px solid #fee2e2;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent-red);
-            margin-bottom: 25px;
-            letter-spacing: 0.5px;
-        }
+    .blob-1 {
+      width: 140px;
+      height: 140px;
+      top: 18%;
+      left: 22%;
+      animation-duration: 9s;
+    }
 
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-red);
-            border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
-            animation: pulse-ring 1.8s infinite;
-        }
+    .blob-2 {
+      width: 90px;
+      height: 90px;
+      bottom: 22%;
+      right: 24%;
+      animation-duration: 12s;
+      animation-delay: -3s;
+    }
 
-        /* Glitch Effect on 404 */
-        .glitch-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
+    /* Liquid Glassmorphic Hub */
+    .liquid-card {
+      position: relative;
+      z-index: 2;
+      width: min(90vw, 560px);
+      padding: 3.5rem 3rem;
+      border-radius: 36px;
+      background: radial-gradient(
+        120% 120% at 20% 10%,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.03) 60%,
+        rgba(255, 255, 255, 0.01) 100%
+      );
+      backdrop-filter: blur(35px) saturate(190%);
+      -webkit-backdrop-filter: blur(35px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 30px 60px -12px rgba(0, 0, 0, 0.6),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -12px 24px rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        .glitch {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 96px;
-            font-weight: 700;
-            line-height: 1;
-            color: var(--text-title);
-            position: relative;
-            letter-spacing: -2px;
-        }
+    /* Infographic Liquid Pulse */
+    .infographic-indicator {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 2.5rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
+    .infographic-indicator .ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-top-color: #38bdf8;
+      border-right-color: #ec4899;
+      animation: spin 6s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--accent-red);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
-        }
+    .infographic-indicator .core {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #38bdf8 60%, #1e1b4b 100%);
+      box-shadow: 
+        0 0 24px #38bdf8,
+        inset 0 2px 4px rgba(255, 255, 255, 0.8);
+      animation: pulseCore 2.4s ease-in-out infinite;
+    }
 
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--accent-blue);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim-2 2s infinite linear alternate-reverse;
-        }
+    /* Typography */
+    h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.85rem;
+      background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.65) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+    }
 
-        /* Heading & Text */
-        .title {
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--text-title);
-            margin-bottom: 12px;
-        }
+    p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
 
-        .desc {
-            font-size: 16.5px;
-            line-height: 1.7;
-            color: var(--text-body);
-            margin-bottom: 35px;
-        }
+    /* Animations */
+    @keyframes rotateLiquid {
+      0% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.15) rotate(180deg); }
+      100% { transform: scale(1) rotate(360deg); }
+    }
 
-        /* Minimalist Infographic Elements */
-        .infographic-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 35px;
-            text-align: left;
-        }
+    @keyframes float {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-25px) scale(1.04); }
+    }
 
-        .info-pill {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            position: relative;
-        }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-        .info-pill-title {
-            font-size: 12.5px;
-            font-weight: 500;
-            color: var(--text-body);
-        }
-
-        .info-pill-val {
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .val-fixing {
-            color: var(--accent-orange);
-        }
-        
-        .val-pending {
-            color: var(--accent-blue);
-        }
-
-        .mini-spinner {
-            width: 12px;
-            height: 12px;
-            border: 2px solid #fed7aa;
-            border-top-color: var(--accent-orange);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        /* Progress Trace Line */
-        .progress-track {
-            height: 4px;
-            width: 100%;
-            background: #f1f5f9;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 35px;
-        }
-
-        .progress-bar {
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-orange), var(--accent-blue));
-            animation: flow 2s infinite ease-in-out;
-        }
-
-        /* Signature Section */
-        .signature-wrap {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 22px;
-        }
-
-        .sign-box {
-            text-align: right;
-        }
-
-        .sign-role {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #94a3b8;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .sign-name {
-            font-size: 21px;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.5px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .sign-name::after {
-            content: '';
-            position: absolute;
-            bottom: 0px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--text-title);
-            transform: scaleX(0.4);
-            transform-origin: right;
-            transition: transform 0.3s;
-        }
-
-        .error-card:hover .sign-name::after {
-            transform: scaleX(1);
-        }
-
-        /* Glitch Keyframes */
-        @keyframes glitch-anim-1 {
-            0% { clip: rect(20px, 9999px, 15px, 0); }
-            20% { clip: rect(60px, 9999px, 75px, 0); }
-            40% { clip: rect(10px, 9999px, 85px, 0); }
-            60% { clip: rect(40px, 9999px, 30px, 0); }
-            80% { clip: rect(70px, 9999px, 90px, 0); }
-            100% { clip: rect(25px, 9999px, 50px, 0); }
-        }
-
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(75px, 9999px, 95px, 0); }
-            25% { clip: rect(15px, 9999px, 40px, 0); }
-            50% { clip: rect(55px, 9999px, 20px, 0); }
-            75% { clip: rect(85px, 9999px, 60px, 0); }
-            100% { clip: rect(35px, 9999px, 70px, 0); }
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes flow {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200%); }
-        }
-
-        @keyframes cardEntrance {
-            from { opacity: 0; transform: translateY(15px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-    </style>
+    @keyframes pulseCore {
+      0%, 100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
+      }
+      50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 32px rgba(236, 72, 153, 0.8);
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <main class="error-card">
-        
-        <!-- Live Alert Badge -->
-        <div class="live-badge">
-            <span class="pulse-dot"></span>
-            সিস্টেম রক্ষণাবেক্ষণ সক্রিয়
-        </div>
+  <div class="liquid-mesh"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-        <!-- Glitch 404 -->
-        <div class="glitch-wrapper">
-            <div class="glitch" data-text="404">404</div>
-        </div>
+  <main class="liquid-card">
+    <div class="infographic-indicator">
+      <div class="ring"></div>
+      <div class="core"></div>
+    </div>
+    <h1>System Crashed,</h1>
+    <p>Our Engineer Team Fixing it, w8</p>
+  </main>
 
-        <!-- Main Heading -->
-        <h1 class="title">কারিগরি ত্রুটি</h1>
-
-        <!-- Problem Statement -->
-        <p class="desc">
-            অনেকের পেমেন্ট লেটে যাচ্ছে, এবং ভেরিফাইতে সমস্যা হচ্ছে। <br>
-            আমাদের টিম কাজ করছে, <strong>তাই এটি দ্রুত ঠিক করা হচ্ছে!</strong>
-        </p>
-
-        <!-- Infographic Tracking Cards -->
-        <div class="infographic-grid">
-            <div class="info-pill">
-                <span class="info-pill-title">পেমেন্ট সিস্টেম</span>
-                <span class="info-pill-val val-fixing">
-                    <span class="mini-spinner"></span> ফিক্সিং চলছে
-                </span>
-            </div>
-            <div class="info-pill">
-                <span class="info-pill-title">ভেরিফিকেশন গেটওয়ে</span>
-                <span class="info-pill-val val-pending">
-                    রি-সিঙ্ক করা হচ্ছে
-                </span>
-            </div>
-        </div>
-
-        <!-- Minimal Progress Bar Trace -->
-        <div class="progress-track">
-            <div class="progress-bar"></div>
-        </div>
-
-        <!-- Signature -->
-        <div class="signature-wrap">
-            <div class="sign-box">
-                <div class="sign-role">কর্তৃপক্ষ</div>
-                <div class="sign-name">দিগন্ত সাহেব</div>
-            </div>
-        </div>
-
-    </main>
-
+  <script>
+    const card = document.querySelector('.liquid-card');
+    
+    window.addEventListener('mousemove', (e) => {
+      const { innerWidth: width, innerHeight: height } = window;
+      const x = (e.clientX - width / 2) / 35;
+      const y = (e.clientY - height / 2) / 35;
+      card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    });
+  </script>
 </body>
 </html>
